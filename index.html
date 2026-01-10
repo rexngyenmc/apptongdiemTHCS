@@ -2,10 +2,80 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Web điểm THCS</title>
+  <title>Bảng điểm thi đua</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f6ff;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1a3cff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background: #1a3cff;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+  </style>
 </head>
 <body>
-  <h1>WEB ĐIỂM THI ĐUA</h1>
-  <p>Trang đã hoạt động thành công 🎉</p>
+
+  <h1>BẢNG XẾP HẠNG THI ĐUA TUẦN</h1>
+
+  <table>
+    <tr>
+      <th>Xếp hạng</th>
+      <th>Lớp</th>
+      <th>Điểm nền nếp</th>
+      <th>Điểm học tập</th>
+      <th>Tổng điểm</th>
+    </tr>
+
+    <tr>
+      <td>🥇 1</td>
+      <td>8A</td>
+      <td>95</td>
+      <td>98</td>
+      <td>193</td>
+    </tr>
+
+    <tr>
+      <td>🥈 2</td>
+      <td>8B</td>
+      <td>92</td>
+      <td>96</td>
+      <td>188</td>
+    </tr>
+
+    <tr>
+      <td>🥉 3</td>
+      <td>8C</td>
+      <td>90</td>
+      <td>94</td>
+      <td>184</td>
+    </tr>
+
+  </table>
+
 </body>
 </html>
