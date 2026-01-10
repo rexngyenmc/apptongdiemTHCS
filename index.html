@@ -2,178 +2,180 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUẢN LÝ THI ĐUA PHƯỚC AN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SAO ĐỎ PHƯỚC AN - 2026</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 10px; }
-        .header { text-align: center; padding: 10px; background: #0056b3; color: white; margin-bottom: 10px; border-radius: 5px; }
+        :root { --p: #4361ee; --s: #2ec4b6; --a: #e71d36; --bg: #f8f9fa; --txt: #2b2d42; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--txt); margin: 0; padding: 15px; }
         
-        .container { display: flex; gap: 10px; }
-        
-        /* BẢNG XẾP HẠNG BÊN TRÁI */
-        .left-panel { width: 35%; background: white; border: 1px solid #ccc; border-radius: 5px; padding: 10px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        th { background: #f2f2f2; font-size: 0.8rem; }
-        .row-lop { cursor: pointer; }
-        .row-lop:hover { background: #f9f9f9; }
-        .selected { background: #e3f2fd !important; font-weight: bold; border: 2px solid #2196F3; }
+        .header { text-align: center; padding: 20px 0; background: linear-gradient(135deg, var(--p), #7209b7); color: white; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2); }
+        .header h2 { margin: 0; letter-spacing: 1px; }
 
-        /* FORM CHẤM ĐIỂM BÊN PHẢI */
-        .right-panel { width: 65%; background: white; border: 1px solid #ccc; border-radius: 5px; padding: 10px; position: relative; }
-        .sticky-header { position: sticky; top: 0; background: white; padding-bottom: 10px; border-bottom: 2px solid #0056b3; z-index: 10; }
-        
-        .input-group { margin: 10px 0; }
-        input[type="text"] { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #0056b3; border-radius: 4px; font-size: 1rem; }
-        
-        .scroll-list { height: 450px; overflow-y: auto; margin-top: 10px; border: 1px solid #eee; }
-        .loi-item { display: flex; align-items: center; padding: 8px; border-bottom: 1px solid #eee; cursor: pointer; }
-        .loi-item:hover { background: #fdfdfd; }
-        .loi-name { flex: 1; font-size: 0.9rem; margin-left: 10px; }
-        .loi-score { font-weight: bold; width: 40px; text-align: right; }
-        
-        .btn-save { width: 100%; padding: 15px; background: #2e7d32; color: white; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; margin-top: 10px; }
-        .btn-zalo { width: 100%; padding: 10px; background: #0068ff; color: white; border: none; margin-top: 10px; cursor: pointer; border-radius: 4px; }
+        /* Danh sách lớp dạng ô vuông đẹp mắt */
+        .grid-lops { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .lop-card { background: white; padding: 15px 10px; border-radius: 15px; text-align: center; border: 2px solid transparent; transition: 0.3s; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .lop-card.active { border-color: var(--p); background: #edf2ff; transform: translateY(-5px); }
+        .lop-card b { display: block; font-size: 1.2rem; margin-bottom: 5px; }
+        .lop-card span { font-size: 0.9rem; font-weight: bold; color: var(--p); }
 
-        .group-tag { background: #eee; padding: 5px; font-size: 0.7rem; font-weight: bold; color: #555; margin-top: 10px; }
-        .red { color: red; } .green { color: green; }
-        .nhat-ky { margin-top: 10px; font-size: 0.75rem; color: #666; background: #fffde7; padding: 5px; border: 1px solid #ddd; }
+        /* Khu vực nhập điểm */
+        .main-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: none; }
+        .sticky-top { position: sticky; top: 10px; background: white; z-index: 100; padding-bottom: 15px; }
+        
+        input[type="text"] { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #e0e0e0; font-size: 1rem; box-sizing: border-box; transition: 0.3s; margin-top: 10px; }
+        input[type="text"]:focus { border-color: var(--p); outline: none; box-shadow: 0 0 10px rgba(67, 97, 238, 0.1); }
+
+        /* Danh sách lỗi trang trí đẹp */
+        .scroll-loi { max-height: 400px; overflow-y: auto; margin: 15px 0; padding-right: 5px; }
+        .nhom-loi { margin-top: 20px; }
+        .nhom-title { font-size: 0.8rem; font-weight: bold; color: #8d99ae; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; border-left: 4px solid var(--p); padding-left: 8px; }
+        
+        .loi-item { display: flex; align-items: center; background: #fdfdfd; padding: 12px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #f0f0f0; transition: 0.2s; cursor: pointer; }
+        .loi-item:active { background: #f0f0f0; }
+        .loi-item input { width: 22px; height: 22px; margin-right: 15px; accent-color: var(--p); }
+        .loi-item .ten { flex: 1; font-size: 0.95rem; font-weight: 500; }
+        .loi-item .diem { font-weight: bold; font-size: 0.9rem; }
+        .diem.tru { color: var(--a); }
+        .diem.cong { color: var(--s); }
+
+        /* Nút xác nhận */
+        .btn-xacnhan { width: 100%; padding: 18px; border-radius: 15px; border: none; background: var(--p); color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 8px 15px rgba(67, 97, 238, 0.3); transition: 0.3s; }
+        .btn-xacnhan:active { transform: scale(0.98); }
+
+        /* Nhật ký */
+        .log-box { margin-top: 20px; background: #fffcf2; border-radius: 12px; padding: 15px; border: 1px dashed #ccc; }
+        .log-item { font-size: 0.85rem; padding: 5px 0; border-bottom: 1px solid #eee; }
+        
+        .footer-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .btn-small { padding: 10px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h3 style="margin:0">THI ĐUA PHƯỚC AN 2025-2026</h3>
+    <h2>🌟 SAO ĐỎ PHƯỚC AN</h2>
+    <p style="margin:5px 0 0 0; opacity:0.8; font-size:0.8rem;">Hệ Thống Quản Lý Thi Đua Mới</p>
 </div>
 
-<div class="container">
-    <div class="left-panel">
-        <h4 style="margin:0 0 10px 0; text-align:center">BẢNG ĐIỂM</h4>
-        <table>
-            <thead>
-                <tr><th>XH</th><th>Lớp</th><th>Điểm</th></tr>
-            </thead>
-            <tbody id="ds-lop">
-                <script>
-                    const dsLop = ['6A','6B','6C','7A','7B','7C','8A','8B','8C','9A','9B'];
-                    dsLop.forEach(l => {
-                        document.write(`<tr class="row-lop" id="row-${l}" onclick="chonLop('${l}')">
-                            <td id="rank-${l}">-</td>
-                            <td style="text-align:left">${l}</td>
-                            <td id="diem-${l}" style="color:blue">100</td>
-                        </tr>`);
-                    });
-                </script>
-            </tbody>
-        </table>
-        <button class="btn-zalo" onclick="copyZalo()">COPY BÁO CÁO</button>
+<div class="grid-lops" id="ds-lop">
     </div>
 
-    <div id="form-panel" class="right-panel" style="display:none">
-        <div class="sticky-header">
-            <h4 id="lbl-lop" style="margin:0; color:#0056b3">CHỌN LỚP</h4>
-            <div class="input-group">
-                <input type="text" id="txt-ten" placeholder="Nhập tên HS vi phạm...">
-            </div>
-            <button class="btn-save" onclick="xacNhan()">LƯU ĐỢT NÀY</button>
+<div class="main-card" id="vung-cham">
+    <div class="sticky-top">
+        <h3 id="dang-cham-lop" style="margin:0; color:var(--p)">Lớp --</h3>
+        <input type="text" id="input-ten" placeholder="👤 Nhập tên học sinh (ví dụ: An, Bình)...">
+    </div>
+
+    <div class="scroll-loi">
+        <div class="nhom-loi">
+            <div class="nhom-title">Tác phong & Đồng phục</div>
+            <label class="loi-item"><input type="checkbox" class="ck" data-d="-5" data-n="Khăn quàng"> <span class="ten">Khăn quàng / Huy hiệu</span> <span class="diem tru">-5</span></label>
+            <label class="loi-item"><input type="checkbox" class="ck" data-d="-5" data-n="Bỏ áo ngoài"> <span class="ten">Không bỏ áo vào quần</span> <span class="diem tru">-5</span></label>
+            <label class="loi-item"><input type="checkbox" class="ck" data-d="-5" data-n="Tác phong"> <span class="ten">Mặc áo khoác sai quy định</span> <span class="diem tru">-5</span></label>
         </div>
 
-        <div class="scroll-list" id="list-loi">
-            <div class="group-tag">TÁC PHONG</div>
-            <div class="loi-item" onclick="tick('l1')"><input type="checkbox" id="l1" data-d="-5" data-n="Khăn quàng"> <span class="loi-name">Không khăn quàng/Huy hiệu</span> <span class="loi-score red">-5</span></div>
-            <div class="loi-item" onclick="tick('l2')"><input type="checkbox" id="l2" data-d="-5" data-n="Tác phong"> <span class="loi-name">Không bỏ áo vào quần</span> <span class="loi-score red">-5</span></div>
-            <div class="loi-item" onclick="tick('l3')"><input type="checkbox" id="l3" data-d="-5" data-n="Áo khoác"> <span class="loi-name">Mặc áo khoác sai quy định</span> <span class="loi-score red">-5</span></div>
-            
-            <div class="group-tag">KỶ LUẬT</div>
-            <div class="loi-item" onclick="tick('l4')"><input type="checkbox" id="l4" data-d="-10" data-n="Nói tục"> <span class="loi-name">Nói tục, chửi thề</span> <span class="loi-score red">-10</span></div>
-            <div class="loi-item" onclick="tick('l5')"><input type="checkbox" id="l5" data-d="-10" data-n="Đánh nhau"> <span class="loi-name">Đánh nhau</span> <span class="loi-score red">-10</span></div>
-            <div class="loi-item" onclick="tick('l6')"><input type="checkbox" id="l6" data-d="-2" data-n="Đi trễ"> <span class="loi-name">Đi trễ</span> <span class="loi-score red">-2</span></div>
-            
-            <div class="group-tag">HỌC TẬP & THƯỞNG</div>
-            <div class="loi-item" onclick="tick('l7')"><input type="checkbox" id="l7" data-d="10" data-n="Điểm 10"> <span class="loi-name">Đạt điểm 10</span> <span class="loi-score green">+10</span></div>
-            <div class="loi-item" onclick="tick('l8')"><input type="checkbox" id="l8" data-d="5" data-n="Việc tốt"> <span class="loi-name">Việc tốt/Của rơi</span> <span class="loi-score green">+5</span></div>
-            <div class="loi-item" onclick="tick('l9')"><input type="checkbox" id="l9" data-d="10" data-n="Tiết A" data-type="L"> <span class="loi-name">Tiết học loại A</span> <span class="loi-score green">+10</span></div>
+        <div class="nhom-loi">
+            <div class="nhom-title">Kỷ luật & Chuyên cần</div>
+            <label class="loi-item"><input type="checkbox" class="ck" data-d="-2" data-n="Đi trễ"> <span class="ten">Đi học trễ</span> <span class="diem tru">-2</span></label>
+            <label class="loi-item"><input type="checkbox" class="ck" data-d="-10" data-n="Nói tục"> <span class="ten">Nói tục, chửi thề</span> <span class="diem tru">-10</span></label>
+            <label class="loi-item"><input type="checkbox" class="ck" data-d="-10" data-n="Trốn tiết"> <span class="ten">Trốn tiết / Bỏ tiết</span> <span class="diem tru">-10</span></label>
         </div>
-        
-        <div id="log" class="nhat-ky"></div>
+
+        <div class="nhom-loi">
+            <div class="nhom-title">Học tập & Việc tốt</div>
+            <label class="loi-item"><input type="checkbox" class="ck" data-d="10" data-n="Điểm 10"> <span class="ten">Đạt điểm 10</span> <span class="diem cong">+10</span></label>
+            <label class="loi-item"><input type="checkbox" class="ck" data-d="5" data-n="Việc tốt"> <span class="ten">Việc tốt / Của rơi</span> <span class="diem cong">+5</span></label>
+        </div>
     </div>
+
+    <button class="btn-xacnhan" onclick="luuDiem()">✅ XÁC NHẬN ĐỢT NÀY</button>
+
+    <div class="log-box" id="nhat-ky">
+        <i>Lịch sử chấm sẽ hiện ở đây...</i>
+    </div>
+</div>
+
+<div class="footer-btns">
+    <button class="btn-small" style="background:#0068ff; color:white;" onclick="copyZalo()">📋 Copy Zalo</button>
+    <button class="btn-small" style="background:#ced4da;" onclick="if(confirm('Xóa hết dữ liệu tuần này?')) {localStorage.clear(); location.reload();}">🔄 Reset Tuần</button>
 </div>
 
 <script>
-    let db = JSON.parse(localStorage.getItem('pa_old_style')) || {};
-    let currentLop = "";
+    const lops = ['6A','6B','6C','7A','7B','7C','8A','8B','8C','9A','9B'];
+    let db = JSON.parse(localStorage.getItem('pa_2026_beauty')) || {};
+    let cur = "";
 
-    function tick(id) { document.getElementById(id).checked = !document.getElementById(id).checked; }
+    // Vẽ danh sách lớp đẹp mắt
+    function veLop() {
+        let html = "";
+        lops.forEach(l => {
+            let diem = db[l] ? db[l].total : 100;
+            html += `<div class="lop-card ${cur==l?'active':''}" id="card-${l}" onclick="chonLop('${l}')">
+                        <b>${l}</b>
+                        <span>${diem}đ</span>
+                    </div>`;
+        });
+        document.getElementById('ds-lop').innerHTML = html;
+    }
 
     function chonLop(l) {
-        currentLop = l;
-        document.querySelectorAll('.row-lop').forEach(r => r.classList.remove('selected'));
-        document.getElementById('row-'+l).classList.add('selected');
-        document.getElementById('form-panel').style.display = "block";
-        document.getElementById('lbl-lop').innerText = "CHẤM ĐIỂM: LỚP " + l;
-        renderLog();
+        cur = l;
+        veLop();
+        document.getElementById('vung-cham').style.display = "block";
+        document.getElementById('dang-cham-lop').innerText = "Đang chấm Lớp " + l;
+        document.getElementById('vung-cham').scrollIntoView({behavior: "smooth"});
+        inLog();
     }
 
-    function xacNhan() {
-        const tenVal = document.getElementById('txt-ten').value.trim();
+    function luuDiem() {
+        const tenVal = document.getElementById('input-ten').value.trim();
         const dsTen = tenVal.split(/[,.;]+/).filter(x => x.trim().length > 0);
-        const checks = Array.from(document.querySelectorAll('#list-loi input:checked'));
+        const cks = Array.from(document.querySelectorAll('.ck:checked'));
 
-        if (checks.length === 0) return alert("Chưa chọn lỗi!");
-        const isClassError = checks.every(c => c.dataset.type === "L");
-        if (!isClassError && dsTen.length === 0) return alert("Chưa nhập tên HS!");
+        if (cks.length === 0) return alert("❌ Bạn chưa chọn lỗi nào!");
+        if (dsTen.length === 0) return alert("❌ Bạn chưa nhập tên học sinh!");
 
-        if (!db[currentLop]) db[currentLop] = { total: 100, logs: [] };
+        if (!db[cur]) db[cur] = { total: 100, logs: [] };
 
-        let scoreChange = 0;
-        let desc = [];
+        let dotDiem = 0;
+        let tenLoi = [];
 
-        checks.forEach(c => {
-            let diem = parseInt(c.dataset.d);
-            let n = c.dataset.type === "L" ? 1 : dsTen.length;
-            scoreChange += (diem * n);
-            desc.push(c.dataset.n);
+        cks.forEach(ck => {
+            let diem = parseInt(ck.dataset.d);
+            dotDiem += (diem * dsTen.length);
+            tenLoi.push(ck.dataset.n);
         });
 
-        db[currentLop].total += scoreChange;
-        db[currentLop].logs.unshift(`${new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'})}: ${scoreChange}đ - ${tenVal || 'Cả lớp'} (${desc.join(",")})`);
+        // Cập nhật điểm & Nhật ký
+        db[cur].total += dotDiem;
+        db[cur].logs.unshift(`${new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}: ${dotDiem}đ - ${tenVal} (${tenLoi.join(',')})`);
 
-        // Reset
-        document.getElementById('txt-ten').value = "";
-        checks.forEach(c => c.checked = false);
-        
-        localStorage.setItem('pa_old_style', JSON.stringify(db));
-        updateBang();
-        renderLog();
+        // QUAN TRỌNG: Bấm xong là xóa sạch để nhập đợt mới
+        document.getElementById('input-ten').value = "";
+        cks.forEach(ck => ck.checked = false);
+
+        localStorage.setItem('pa_2026_beauty', JSON.stringify(db));
+        veLop();
+        inLog();
+        alert("✅ Đã lưu thành công!");
     }
 
-    function updateBang() {
-        dsLop.forEach(l => {
-            const s = db[l] ? db[l].total : 100;
-            document.getElementById('diem-'+l).innerText = s;
-        });
-        const sorted = [...dsLop].sort((a,b) => (db[b]?.total||100) - (db[a]?.total||100));
-        sorted.forEach((l, i) => document.getElementById('rank-'+l).innerText = i+1);
-    }
-
-    function renderLog() {
-        const logBox = document.getElementById('log');
-        if (!db[currentLop] || db[currentLop].logs.length === 0) {
-            logBox.innerHTML = "Chưa có nhật ký chấm.";
+    function inLog() {
+        const box = document.getElementById('nhat-ky');
+        if (!db[cur] || db[cur].logs.length === 0) {
+            box.innerHTML = "<i>Chưa có dữ liệu lớp này.</i>";
             return;
         }
-        logBox.innerHTML = "<b>Lịch sử:</b><br>" + db[currentLop].logs.join("<br>");
+        box.innerHTML = "<b>Lịch sử chấm:</b><br>" + db[cur].logs.map(i => `<div class="log-item">${i}</div>`).join("");
     }
 
     function copyZalo() {
         let msg = "📊 THI ĐUA PHƯỚC AN\n";
-        [...dsLop].sort((a,b) => (db[b]?.total||100) - (db[a]?.total||100)).forEach((l, i) => {
-            msg += `${i+1}. Lớp ${l}: ${db[l]?.total || 100}đ\n`;
-        });
-        navigator.clipboard.writeText(msg).then(() => alert("Đã copy!"));
+        lops.forEach(l => msg += `Lớp ${l}: ${db[l] ? db[l].total : 100}đ\n`);
+        navigator.clipboard.writeText(msg).then(() => alert("Đã copy báo cáo!"));
     }
 
-    updateBang();
+    veLop();
 </script>
 </body>
 </html>
