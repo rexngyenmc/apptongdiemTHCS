@@ -3,173 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SAO ĐỎ PHƯỚC AN - 2026</title>
+    <title>TỔNG ĐIỂM TH&THCS Phước An</title>
     <style>
-        :root { --p: #4361ee; --s: #2ec4b6; --a: #e71d36; --bg: #f4f7fe; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 10px; }
+        :root { --p: #0056b3; --s: #2e7d32; --a: #d32f2f; --bg: #f4f7f6; --gold: #ffd700; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 10px; padding-bottom: 80px; color: #333; }
         
-        /* Màn hình PIN */
-        #lock-screen { position: fixed; inset: 0; background: var(--p); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2000; color: white; }
-        .pin-box input { width: 120px; padding: 15px; text-align: center; font-size: 2rem; border-radius: 15px; border: none; color: var(--p); font-weight: bold; }
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--p); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; color: white; }
+        .pin-input { width: 150px; padding: 15px; border-radius: 12px; border: none; font-size: 2rem; text-align: center; letter-spacing: 5px; font-weight: bold; margin: 20px 0; color: var(--p); }
 
-        .header { text-align: center; padding: 15px; background: linear-gradient(135deg, var(--p), #7209b7); color: white; border-radius: 15px; margin-bottom: 15px; }
+        #main-content { display: none; max-width: 1200px; margin: 0 auto; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* BẢNG XẾP HẠNG (MỚI) */
-        .xh-container { background: white; padding: 15px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        .xh-title { font-weight: bold; color: var(--p); margin-bottom: 10px; display: block; text-align: center; border-bottom: 2px solid #eee; padding-bottom: 5px; }
-        .grid-xh { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; }
-        .lop-card { background: #fff; padding: 12px 5px; border-radius: 15px; text-align: center; cursor: pointer; border: 2px solid #eee; transition: 0.2s; position: relative; }
-        .lop-card.active { border-color: var(--p); background: #edf2ff; transform: scale(1.05); }
-        .lop-card b { display: block; font-size: 1.1rem; }
-        .lop-card span { font-size: 0.85rem; color: var(--p); font-weight: bold; }
-        .rank-icon { position: absolute; top: -5px; right: -5px; font-size: 1.2rem; }
+        .header { background: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 4px solid var(--p); }
+        .school-title { font-size: 1.1rem; font-weight: bold; color: var(--p); text-transform: uppercase; }
 
-        /* VÙNG CHẤM ĐIỂM */
-        .main-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: none; margin-top: 10px; }
-        input[type="text"] { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #ddd; font-size: 1rem; box-sizing: border-box; margin: 10px 0; outline: none; }
+        .container { display: flex; flex-wrap: wrap; gap: 15px; }
+
+        .card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex: 1; min-width: 300px; }
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 10px 5px; text-align: center; border-bottom: 1px solid #f9f9f9; font-weight: bold; font-size: 0.9rem; }
         
-        .scroll-loi { max-height: 400px; overflow-y: auto; margin-bottom: 15px; }
-        .loi-item { display: flex; align-items: center; background: #f9f9f9; padding: 12px; border-radius: 12px; margin-bottom: 8px; cursor: pointer; border: 1px solid #eee; }
-        .loi-item input { width: 22px; height: 22px; margin-right: 15px; pointer-events: none; }
-        .loi-item span { flex: 1; font-size: 0.95rem; }
-        .loi-item b { color: var(--a); }
+        .rank { width: 28px; height: 28px; line-height: 28px; display: inline-block; border-radius: 50%; background: #eee; font-size: 0.75rem; }
+        .rank-1 { background: var(--gold); }
+        .rank-2 { background: #e0e0e0; }
+        .rank-3 { background: #f0d0b0; }
 
-        .btn-save { width: 100%; padding: 18px; border-radius: 15px; border: none; background: var(--p); color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
+        .lop-row { cursor: pointer; transition: 0.2s; }
+        .dang-chon { background: #e3f2fd !important; outline: 2px solid var(--p); }
 
-        /* NHẬT KÝ */
-        .log-box { margin-top: 20px; background: #fffde7; padding: 15px; border-radius: 15px; border: 1px dashed #fbc02d; font-size: 0.85rem; }
-        .log-item { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 8px 0; align-items: center; }
-        .btn-del { background: #ffebee; color: red; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-weight: bold; }
+        .search-box { position: sticky; top: 0; background: white; z-index: 10; padding: 10px 0; margin-bottom: 10px; border-bottom: 1px solid #eee; }
+        .search-input { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #e0e0e0; font-size: 0.9rem; box-sizing: border-box; outline: none; }
 
-        .footer { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .btn-foot { padding: 12px; border-radius: 12px; border: none; color: white; font-weight: bold; cursor: pointer; }
+        /* INPUT TÊN HS */
+        .name-box { margin-bottom: 15px; background: #fffde7; padding: 10px; border-radius: 10px; border: 1px solid #ffe082; }
+        .name-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-weight: bold; }
+
+        .scroll-form { max-height: 450px; overflow-y: auto; padding-right: 5px; }
+        .group-title { background: #f8f9fa; color: var(--p); padding: 8px; font-weight: bold; margin-top: 15px; font-size: 0.75rem; border-radius: 5px; border-left: 4px solid var(--p); }
+        .loi-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f1f1; cursor: pointer; }
+        .loi-item:active { background: #f9f9f9; }
+        .loi-item span { flex: 1; font-size: 0.85rem; color: #333; }
+        .score-tag { width: 50px; font-weight: bold; font-size: 0.8rem; text-align: right; margin-right: 10px; }
+        .minus { color: var(--a); }
+        .plus { color: var(--s); }
+        
+        input[type=checkbox] { width: 22px; height: 22px; cursor: pointer; }
+
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-apply { background: var(--p); color: white; }
+        .btn-zalo { background: #0068ff; color: white; }
+        .btn-reset { background: #fff; color: var(--a); border: 1px solid var(--a); margin-top: 20px; font-size: 0.7rem; }
+
+        .history-box { margin-top: 15px; font-size: 0.75rem; background: #f9f9f9; padding: 10px; border-radius: 10px; min-height: 50px; }
+        .log-entry { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dotted #ccc; }
+        .btn-del { color: red; border: none; background: none; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div id="lock-screen">
-    <h3 style="margin-bottom:20px">🔑 PIN SAO ĐỎ</h3>
-    <input type="password" maxlength="4" id="pin" oninput="if(this.value==='1234'){document.getElementById('lock-screen').style.display='none';document.getElementById('app').style.display='block';render();}">
+<div id="login-screen">
+    <h2>🔑 SAO ĐỎ PHƯỚC AN</h2>
+    <input type="password" id="pin-input" class="pin-input" placeholder="****" maxlength="4" oninput="checkPin()">
 </div>
 
-<div id="app" style="display:none">
-    <div class="header"><h2>🌟 SAO ĐỎ PHƯỚC AN</h2></div>
-
-    <div class="xh-container">
-        <span class="xh-title">BẢNG XẾP HẠNG THI ĐUA</span>
-        <div class="grid-xh" id="grid-lops"></div>
+<div id="main-content">
+    <div class="header">
+        <div class="school-title">Trường TH & THCS Phước An</div>
+        <p style="margin:5px 0 0 0; font-size:0.8rem; color:#555;">Hệ Thống Chấm Điểm Cộng Dồn - 2026</p>
     </div>
 
-    <div class="main-card" id="vung-cham">
-        <h3 id="lbl-lop" style="margin:0; color:var(--p)">Lớp --</h3>
-        <input type="text" id="txt-ten" placeholder="Nhập tên HS (ví dụ: An, Bình, Chi)...">
-        
-        <div class="scroll-loi">
-            <div style="font-size:0.7rem; color:#999; margin:10px 0">TÁC PHONG (-5đ)</div>
-            <div class="loi-item" onclick="toggle('l1')"><input type="checkbox" id="l1" data-d="-5" data-n="Khăn quàng"> <span>Không khăn quàng/Huy hiệu</span> <b>-5</b></div>
-            <div class="loi-item" onclick="toggle('l2')"><input type="checkbox" id="l2" data-d="-5" data-n="Bỏ áo ngoài"> <span>Không bỏ áo vào quần</span> <b>-5</b></div>
+    <div class="container">
+        <div class="card">
+            <h3>🏆 Bảng Xếp Hạng (XH)</h3>
+            <table>
+                <thead><tr><th>XH</th><th>Lớp</th><th>Điểm</th></tr></thead>
+                <tbody id="body-bang">
+                    <script>
+                        const dsLops = ['6A','6B','6C','7A','7B','7C','8A','8B','8C','9A','9B'];
+                        dsLops.forEach(l => {
+                          document.write(`<tr class="lop-row" data-lop="${l}" onclick="chonLop(this)"><td class="rank-cell"></td><td>Lớp ${l}</td><td class="tong">100</td></tr>`);
+                        });
+                    </script>
+                </tbody>
+            </table>
+            <button class="btn btn-zalo" onclick="xuatZalo()">🔵 Xuất Báo Cáo Zalo</button>
+            <button class="btn btn-reset" onclick="resetDuLieu()">🔄 Reset Tuần Mới</button>
+        </div>
+
+        <div id="panel" class="card" style="display:none; flex: 1.6;">
+            <div class="name-box">
+                <label style="font-size: 0.8rem; font-weight: bold; color: #d8a000;">👤 NHẬP TÊN HỌC SINH VI PHẠM:</label>
+                <input type="text" id="input-names" class="name-input" placeholder="Ví dụ: Hoàng, Ân, Hà...">
+            </div>
+
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-error" placeholder="🔍 Tìm nhanh lỗi..." onkeyup="filterLoi()">
+            </div>
             
-            <div style="font-size:0.7rem; color:#999; margin:10px 0">KỶ LUẬT & CHUYÊN CẦN</div>
-            <div class="loi-item" onclick="toggle('l3')"><input type="checkbox" id="l3" data-d="-2" data-n="Đi trễ"> <span>Học sinh đi trễ</span> <b>-2</b></div>
-            <div class="loi-item" onclick="toggle('l4')"><input type="checkbox" id="l4" data-d="-10" data-n="Nói tục"> <span>Nói tục, chửi thề</span> <b>-10</b></div>
-            <div class="loi-item" onclick="toggle('l5')"><input type="checkbox" id="l5" data-d="-50" data-n="SH 15p" data-type="L"> <span>Lớp không SH 15 phút</span> <b>-50</b></div>
+            <h3 id="tenlop" style="text-align:center; color: var(--p); margin: 5px 0;">Chọn Lớp</h3>
+            
+            <div class="scroll-form" id="form-nhap">
+                <div class="group-title">TÁC PHONG & ĐẠO ĐỨC</div>
+                <div class="loi-item" onclick="toggle('m1')"><span>Không Khăn quàng/Huy hiệu</span><b class="score-tag minus">-5</b><input type="checkbox" id="m1" data-n="Khăn quàng" data-d="-5"></div>
+                <div class="loi-item" onclick="toggle('m2')"><span>Không bỏ áo vào quần</span><b class="score-tag minus">-5</b><input type="checkbox" id="m2" data-n="Tác phong" data-d="-5"></div>
+                <div class="loi-item" onclick="toggle('m3')"><span>Mặc áo khoác sai quy định</span><b class="score-tag minus">-5</b><input type="checkbox" id="m3" data-n="Áo khoác" data-d="-5"></div>
+                <div class="loi-item" onclick="toggle('m12')"><span>Nói tục, chửi thề</span><b class="score-tag minus">-10</b><input type="checkbox" id="m12" data-n="Nói tục" data-d="-10"></div>
+                
+                <div class="group-title">CHUYÊN CẦN & TRẬT TỰ</div>
+                <div class="loi-item" onclick="toggle('m15')"><span>Học sinh đi trễ</span><b class="score-tag minus">-2</b><input type="checkbox" id="m15" data-n="Đi trễ" data-d="-2"></div>
+                <div class="loi-item" onclick="toggle('m20')"><span>Lớp ko SH 15 phút (Lớp)</span><b class="score-tag minus">-50</b><input type="checkbox" id="m20" data-n="Bỏ SH" data-d="-50" data-type="L"></div>
 
-            <div style="font-size:0.7rem; color:#999; margin:10px 0">THƯỞNG (+)</div>
-            <div class="loi-item" onclick="toggle('l6')"><input type="checkbox" id="l6" data-d="10" data-n="Điểm 10"> <span>Đạt điểm 10</span> <b style="color:var(--s)">+10</b></div>
+                <div class="group-title">HỌC TẬP & THƯỞNG</div>
+                <div class="loi-item" onclick="toggle('m39')"><span>Đạt điểm 10</span><b class="score-tag plus">+10</b><input type="checkbox" id="m39" data-n="Điểm 10" data-d="10"></div>
+                <div class="loi-item" onclick="toggle('m40')"><span>Tiết học loại A (Lớp)</span><b class="score-tag plus">+10</b><input type="checkbox" id="m40" data-n="Tiết A" data-d="10" data-type="L"></div>
+            </div>
+            
+            <button class="btn btn-apply" onclick="apDung()">LƯU ĐIỂM ĐỢT NÀY</button>
+            <div class="history-box" id="log-box">Lịch sử: Chưa có dữ liệu.</div>
         </div>
-
-        <button class="btn-save" onclick="luu()">XÁC NHẬN & LÀM ĐỢT MỚI</button>
-
-        <div class="log-box">
-            <b>Nhật ký & Điều chỉnh:</b>
-            <div id="list-logs"></div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <button class="btn-foot" style="background:#0068ff" onclick="xuat()">📋 COPY ZALO</button>
-        <button class="btn-foot" style="background:#6c757d" onclick="if(confirm('Xóa hết dữ liệu?')) {localStorage.clear(); location.reload();}">🔄 RESET</button>
     </div>
 </div>
 
 <script>
-    const lops = ['6A','6B','6C','7A','7B','7C','8A','8B','8C','9A','9B'];
-    let db = JSON.parse(localStorage.getItem('pa_2026_vfinal')) || {};
-    let cur = "";
+const PIN = "1234";	
+let db = JSON.parse(localStorage.getItem('pa_final_2026')) || {};
+let curLop = "";
 
-    function render() {
-        const sorted = [...lops].sort((a,b) => (db[b]?.total||100) - (db[a]?.total||100));
-        let html = "";
-        sorted.forEach((l, i) => {
-            let s = db[l] ? db[l].total : 100;
-            let medal = i===0 ? '🥇' : i===1 ? '🥈' : i===2 ? '🥉' : '';
-            html += `<div class="lop-card ${cur===l?'active':''}" onclick="chonLop('${l}')">
-                        <div class="rank-icon">${medal}</div>
-                        <b>${l}</b><span>${s}đ</span>
-                    </div>`;
-        });
-        document.getElementById('grid-lops').innerHTML = html;
+function checkPin() {
+    if (document.getElementById("pin-input").value === PIN) {
+        document.getElementById("login-screen").style.display = "none";
+        document.getElementById("main-content").style.display = "block";
+        updateHienThi();
     }
+}
 
-    function chonLop(l) {
-        cur = l; render();
-        document.getElementById('vung-cham').style.display = 'block';
-        document.getElementById('lbl-lop').innerText = "CHẤM LỚP " + l;
-        renderLogs();
+function toggle(id) {
+    const ck = document.getElementById(id);
+    ck.checked = !ck.checked;
+}
+
+function filterLoi() {
+    let input = document.getElementById('search-error').value.toLowerCase();
+    let items = document.getElementsByClassName('loi-item');
+    for (let i = 0; i < items.length; i++) {
+        items[i].style.display = items[i].innerText.toLowerCase().includes(input) ? "flex" : "none";
     }
+}
 
-    function toggle(id) { document.getElementById(id).checked = !document.getElementById(id).checked; }
+function chonLop(row) {
+    document.querySelectorAll(".lop-row").forEach(r => r.classList.remove("dang-chon"));
+    row.classList.add("dang-chon");
+    curLop = row.dataset.lop;
+    document.getElementById("panel").style.display = "block";
+    document.getElementById("tenlop").innerText = "Đang chấm Lớp " + curLop;
+    renderLog();
+}
 
-    function luu() {
-        const txt = document.getElementById('txt-ten').value.trim();
-        const hs = txt.split(/[,.;]+/).filter(x => x.trim().length > 0);
-        const cks = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'));
+function apDung() {
+    if(!curLop) return;
+    const nameStr = document.getElementById("input-names").value.trim();
+    const dsTen = nameStr.split(/[,.;]+/).filter(x => x.trim().length > 0);
+    const checks = Array.from(document.querySelectorAll("#form-nhap input[type='checkbox']:checked"));
 
-        if(cks.length === 0) return alert("Chưa chọn lỗi!");
-        if(cks.some(c => !c.dataset.type) && hs.length === 0) return alert("Chưa nhập tên HS!");
+    if(checks.length === 0) return alert("Bạn chưa chọn lỗi!");
+    const coLoiCaNhan = checks.some(c => !c.dataset.type);
+    if(coLoiCaNhan && dsTen.length === 0) return alert("Vui lòng nhập tên học sinh!");
 
-        if(!db[cur]) db[cur] = { total: 100, logs: [] };
+    if(!db[curLop]) db[curLop] = { total: 100, logs: [] };
 
-        cks.forEach(c => {
-            let d = parseInt(c.dataset.d);
-            let n = c.dataset.type === "L" ? 1 : hs.length;
-            let sum = d * n;
-            db[cur].total += sum;
-            db[cur].logs.unshift({ id: Date.now()+Math.random(), time: new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'}), info: `${txt||'Lớp'} - ${c.dataset.n}`, score: sum });
-        });
+    let hieuSoDotNay = 0;
+    let noiDung = [];
 
-        document.getElementById('txt-ten').value = "";
-        cks.forEach(c => c.checked = false);
-        localStorage.setItem('pa_2026_vfinal', JSON.stringify(db));
-        render(); renderLogs();
+    checks.forEach(c => {
+        let diemGoc = Number(c.dataset.d);
+        let soLuong = c.dataset.type === "L" ? 1 : dsTen.length;
+        let tongDiemLoi = diemGoc * soLuong;
+        
+        hieuSoDotNay += tongDiemLoi;
+        noiDung.push(`${c.dataset.n}(${soLuong})`);
+    });
+
+    db[curLop].total += hieuSoDotNay;
+    const gio = new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'});
+    
+    db[curLop].logs.unshift({
+        id: Date.now(),
+        time: gio,
+        text: `${nameStr || 'Cả lớp'} - ${noiDung.join(", ")}`,
+        score: hieuSoDotNay
+    });
+
+    // Reset Form
+    document.getElementById("input-names").value = "";
+    checks.forEach(c => c.checked = false);
+    
+    saveData();
+    updateHienThi();
+    alert("Đã cộng dồn thành công!");
+}
+
+function updateHienThi() {
+    let rows = Array.from(document.querySelectorAll(".lop-row"));
+    rows.forEach(r => {
+        let l = r.dataset.lop;
+        let score = db[l] ? db[l].total : 100;
+        r.querySelector(".tong").innerText = score;
+        r.dataset.tong = score;
+    });
+
+    // Xếp hạng
+    rows.sort((a,b) => (Number(b.dataset.tong) || 0) - (Number(a.dataset.tong) || 0));
+    let container = document.getElementById("body-bang");
+    rows.forEach((r, i) => {
+        let h = i + 1;
+        let icon = h === 1 ? '🥇' : h === 2 ? '🥈' : h === 3 ? '🥉' : h;
+        r.querySelector(".rank-cell").innerHTML = `<span class="rank ${h<=3?'rank-'+h:''}">${icon}</span>`;
+        container.appendChild(r);
+    });
+    renderLog();
+}
+
+function renderLog() {
+    const box = document.getElementById("log-box");
+    if(!curLop || !db[curLop] || db[curLop].logs.length === 0) {
+        box.innerHTML = "Nhật ký: Chưa có dữ liệu.";
+        return;
     }
+    box.innerHTML = "<b>Lịch sử chấm:</b><br>" + db[curLop].logs.map(n => `
+        <div class="log-entry">
+            <span>[${n.time}] ${n.text} (${n.score > 0 ? '+' : ''}${n.score})</span>
+            <button class="btn-del" onclick="xoaLog(${n.id})">✕</button>
+        </div>
+    `).join("");
+}
 
-    function renderLogs() {
-        const box = document.getElementById('list-logs');
-        if(!db[cur] || db[cur].logs.length === 0) { box.innerHTML = "<small>Chưa có dữ liệu.</small>"; return; }
-        box.innerHTML = db[cur].logs.map(i => `
-            <div class="log-item">
-                <span>${i.time} | ${i.info} (<b>${i.score>0?'+'+i.score:i.score}</b>)</span>
-                <button class="btn-del" onclick="xoaLog(${i.id}, ${i.score})">Xóa</button>
-            </div>
-        `).join("");
-    }
+function xoaLog(id) {
+    if(!confirm("Xóa lỗi này và trả lại điểm?")) return;
+    db[curLop].logs = db[curLop].logs.filter(n => {
+        if(n.id === id) {
+            db[curLop].total -= n.score;
+            return false;
+        }
+        return true;
+    });
+    saveData();
+    updateHienThi();
+}
 
-    function xoaLog(id, score) {
-        if(!confirm("Xóa lỗi này và trả lại điểm?")) return;
-        db[cur].total -= score;
-        db[cur].logs = db[cur].logs.filter(i => i.id !== id);
-        localStorage.setItem('pa_2026_vfinal', JSON.stringify(db));
-        render(); renderLogs();
-    }
+function xuatZalo() {
+    let msg = "📊 BÁO CÁO THI ĐUA PHƯỚC AN\n";
+    let sorted = Array.from(document.querySelectorAll(".lop-row"));
+    sorted.forEach((r, i) => {
+        msg += `${i+1}. Lớp ${r.dataset.lop}: ${r.querySelector(".tong").innerText}đ\n`;
+    });
+    navigator.clipboard.writeText(msg + "\n---\nSao đỏ Phước An 2026").then(() => alert("Đã copy báo cáo!"));
+}
 
-    function xuat() {
-        let msg = "📊 BÁO CÁO THI ĐUA PHƯỚC AN\n";
-        [...lops].sort((a,b) => (db[b]?.total||100) - (db[a]?.total||100)).forEach((l, i) => {
-            msg += `${i+1}. Lớp ${l}: ${db[l]?.total || 100}đ\n`;
-        });
-        navigator.clipboard.writeText(msg).then(() => alert("Đã copy báo cáo!"));
+function resetDuLieu() {
+    if(confirm("Xóa toàn bộ điểm và lịch sử tuần này?")) {
+        localStorage.removeItem('pa_final_2026');
+        location.reload();
     }
+}
+
+function saveData() {
+    localStorage.setItem('pa_final_2026', JSON.stringify(db));
+}
 </script>
 </body>
 </html>
