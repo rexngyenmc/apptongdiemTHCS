@@ -79,3 +79,38 @@
 
 </body>
 </html>
+<tr class="lop">
+  <td class="xephang"></td>
+  <td>8A</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr><button onclick="tinhVaXepHang()">Tính & Xếp hạng</button>
+<script>
+function tinhVaXepHang() {
+  let rows = document.querySelectorAll(".lop");
+
+  // Tính tổng
+  rows.forEach(row => {
+    let diem = row.querySelectorAll(".diem");
+    let tong = 0;
+    diem.forEach(d => tong += Number(d.value || 0));
+    row.querySelector(".tong").innerText = tong;
+    row.dataset.tong = tong;
+  });
+
+  // Sắp xếp theo tổng điểm
+  let arr = Array.from(rows);
+  arr.sort((a, b) => b.dataset.tong - a.dataset.tong);
+
+  // Gán xếp hạng
+  arr.forEach((row, index) => {
+    let hang = index + 1;
+    let text = hang;
+    if (hang === 1) text = "🥇";
+    if (hang === 2) text = "🥈";
+    if (hang === 3) text = "🥉";
+    row.querySelector(".xephang").innerText = text;
+  });
+}
+</script>
