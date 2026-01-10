@@ -5,157 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sao Đỏ TH&THCS Phước An</title>
     <style>
-        :root { --p: #0056b3; --s: #2e7d32; --a: #d32f2f; --bg: #f0f8ff; --gold: #ffd700; --silver: #c0c0c0; --bronze: #cd7f32; }
-        
+        :root { --p: #0056b3; --s: #2e7d32; --a: #d32f2f; --bg: #f0f8ff; --gold: #ffd700; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 10px; padding-bottom: 120px; }
         
-        /* ĐỊNH DANH TRƯỜNG */
+        /* HEADER TRƯỜNG */
         body::before {
             content: "📍 Trường TH&THCS Phước An"; display: block; font-size: 0.75rem; font-weight: bold;
             color: var(--p); padding: 5px 10px; background: rgba(255, 255, 255, 0.9);
             border-radius: 0 0 10px 0; position: fixed; top: 0; left: 0; z-index: 100;
         }
 
-        /* MÀN HÌNH KHÓA */
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--p); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; color: white; }
         .pin-input { width: 150px; padding: 15px; border-radius: 12px; border: none; font-size: 1.8rem; text-align: center; letter-spacing: 5px; margin: 20px 0; font-weight: bold; color: var(--p); }
 
         #main-content { display: none; max-width: 1200px; margin: 0 auto; }
-
-        .header { background: white; color: var(--p); padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-bottom: 4px solid var(--p); }
+        .header { background: white; color: var(--p); padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 20px; border-bottom: 4px solid var(--p); }
 
         .container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-
-        /* BẢNG XẾP HẠNG */
         .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex: 1; min-width: 320px; }
+        
+        /* BẢNG ĐIỂM */
         table { width: 100%; border-collapse: collapse; }
-        th { font-size: 0.7rem; color: #888; text-transform: uppercase; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; }
         td { padding: 12px 5px; text-align: center; border-bottom: 1px solid #f9f9f9; font-weight: bold; }
-
-        /* BIỂU TƯỢNG HẠNG */
         .rank { width: 30px; height: 30px; line-height: 30px; display: inline-block; border-radius: 50%; background: #eee; font-size: 0.8rem; }
-        .rank-1 { background: var(--gold); color: #000; font-size: 1.1rem; }
-        .rank-2 { background: var(--silver); color: #000; }
-        .rank-3 { background: var(--bronze); color: #fff; }
-
-        /* LỚP ĐANG CHỌN */
+        .rank-1 { background: var(--gold); }
         .lop-row { cursor: pointer; transition: 0.2s; }
         .dang-chon { background: #e3f2fd !important; outline: 2px solid var(--p); border-radius: 10px; }
 
-        /* PANEL CHẤM ĐIỂM */
-        .panel-section { flex: 1.5; min-width: 320px; display: none; }
-        .scroll-form { max-height: 500px; overflow-y: auto; padding: 10px; background: white; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .group-title { background: #f0f4f8; color: var(--p); padding: 8px; font-weight: bold; margin-top: 15px; font-size: 0.8rem; border-left: 4px solid var(--p); border-radius: 4px; }
-        .loi-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f1f1; }
-        .loi-item span { flex: 1; font-size: 0.85rem; }
-        .loi-item b { width: 40px; color: var(--a); font-size: 0.8rem; text-align: right; margin-right: 10px; }
-        .loi-item b.plus { color: var(--s); }
+        /* AI BOX */
+        .ai-box { background: #f0f7ff; border: 1px dashed var(--p); padding: 10px; border-radius: 10px; margin-bottom: 15px; }
+        .ai-tag { background: var(--p); color: white; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; }
+
+        .scroll-form { max-height: 450px; overflow-y: auto; padding: 10px; }
+        .group-title { background: #f0f4f8; color: var(--p); padding: 8px; font-weight: bold; margin-top: 15px; font-size: 0.8rem; border-left: 4px solid var(--p); }
+        .loi-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f1f1f1; }
         input[type=number] { width: 50px; padding: 8px; border-radius: 8px; border: 1px solid #ccc; text-align: center; font-weight: bold; }
 
-        /* NÚT BẤM */
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        .btn-apply { background: var(--p); color: white; font-size: 1rem; }
-        .btn-reset { background: #fff; color: var(--a); border: 2px solid var(--a); margin-top: 20px; font-size: 0.8rem; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-apply { background: var(--p); color: white; }
+        .btn-zalo { background: #0068ff; color: white; margin-top: 20px; }
 
-        /* NHẬT KÝ */
-        .log-box { width: 100%; margin-top: 20px; background: #fff; padding: 15px; border-radius: 20px; }
-        .log-list { max-height: 150px; overflow-y: auto; font-size: 0.75rem; color: #555; border-left: 2px solid #ddd; padding-left: 10px; }
-
-        /* TRANG TRÍ CUỐI TRANG */
-        .decor-fixed { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; pointer-events: none; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 30px; z-index: 1; }
-        .footer-text { text-align: center; padding: 20px; font-size: 0.7rem; color: #999; position: relative; z-index: 2; }
+        .decor-fixed { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; pointer-events: none; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 30px; }
     </style>
 </head>
 <body>
 
 <div id="login-screen">
-    <div style="font-size: 4rem;">🏫</div>
-    <h2 style="margin: 10px 0;">PHƯỚC AN ADMIN</h2>
+    <div style="font-size: 3rem;">🔐</div>
+    <h2>PHƯỚC AN ADMIN</h2>
     <input type="password" id="pin-input" class="pin-input" placeholder="PIN" maxlength="4" oninput="checkPin()">
-    <p style="opacity: 0.7; font-size: 0.8rem;">Vui lòng nhập mã PIN để tiếp tục</p>
 </div>
 
 <div id="main-content">
     <div class="header">
         <h1 style="margin:0;">SỔ TAY SAO ĐỎ</h1>
-        <div style="color: #666; font-size: 0.8rem; margin-top: 5px;">Hệ thống quản lý thi đua tập thể</div>
+        <p style="margin:5px 0 0 0; color: #666;">Hệ thống quản lý thi đua tập thể</p>
     </div>
 
     <div class="container">
         <div class="card">
-            <h3 style="margin-top:0;">🏆 Bảng Xếp Hạng</h3>
+            <h3>🏆 Bảng Xếp Hạng</h3>
             <table>
                 <thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm</th></tr></thead>
                 <tbody id="body-bang">
                     <script>
-                        const lops = ['6A','6B','6C', '7A','7B','7C', '8A','8B','8C', '9A','9B'];
+                        const lops = ['6A','6B','6C','7A','7B','7C','8A','8B','8C','9A','9B'];
                         lops.forEach(l => {
                             document.write(`<tr class="lop-row" data-lop="${l}" onclick="chonLop(this)"><td class="rank-cell"></td><td>${l}</td><td class="tong">100</td></tr>`);
                         });
                     </script>
                 </tbody>
             </table>
-            <button class="btn btn-reset" onclick="resetTuan()">🔄 RESET ĐIỂM TUẦN MỚI</button>
+            <button class="btn btn-zalo" onclick="xuatZalo()">🔵 Xuất báo cáo Zalo</button>
         </div>
 
-        <div id="panel" class="panel-section">
-            <div class="scroll-form">
-                <h3 id="tenlop" style="text-align:center; color: var(--p);">Chọn lớp...</h3>
-                
-                <div class="group-title">1. TÁC PHONG & ĐẠO ĐỨC (-5đ)</div>
-                <div class="loi-item"><span>Khăn quàng/Huy hiệu</span><b>-5</b><input type="number" id="l1" data-n="Khăn quàng" data-d="-5"></div>
-                <div class="loi-item"><span>Tác phong/Áo khoác</span><b>-5</b><input type="number" id="l2" data-n="Tác phong" data-d="-5"></div>
-                <div class="loi-item"><span>Xe không ngay hàng</span><b>-5</b><input type="number" id="l3" data-n="Để xe" data-d="-5"></div>
-                
-                <div class="group-title">2. CHUYÊN CẦN & TRẬT TỰ</div>
-                <div class="loi-item"><span>Đi trễ</span><b>-2</b><input type="number" id="l4" data-n="Đi trễ" data-d="-2"></div>
-                <div class="loi-item"><span>Vắng không phép</span><b>-5</b><input type="number" id="l5" data-n="Vắng KP" data-d="-5"></div>
-                <div class="loi-item"><span>Nói chuyện/Trốn tiết</span><b>-10</b><input type="number" id="l6" data-n="Trật tự" data-d="-10"></div>
-                <div class="loi-item"><span>Không SH đầu giờ/TD</span><b>-50</b><input type="number" id="l7" data-n="SH/TD" data-d="-50"></div>
-
-                <div class="group-title">3. HỌC TẬP (CỘNG/TRỪ)</div>
-                <div class="loi-item"><span>Điểm kém (0-3)</span><b>-10</b><input type="number" id="l8" data-n="Điểm kém" data-d="-10"></div>
-                <div class="loi-item"><span>Điểm 10</span><b class="plus">+10</b><input type="number" id="l9" data-n="Điểm 10" data-d="10"></div>
-                <div class="loi-item"><span>Tiết học loại A</span><b class="plus">+10</b><input type="number" id="l10" data-n="Tiết A" data-d="10"></div>
-                <div class="loi-item"><span>Tiết học loại D</span><b>-10</b><input type="number" id="l11" data-n="Tiết D" data-d="-10"></div>
-
-                <div class="group-title">4. VỆ SINH & PHONG TRÀO</div>
-                <div class="loi-item"><span>Rác trong lớp</span><b>-100</b><input type="number" id="l12" data-n="Rác lớp" data-d="-100"></div>
-                <div class="loi-item"><span>Nhất phong trào</span><b class="plus">+50</b><input type="number" id="l13" data-n="Nhất PT" data-d="50"></div>
-
-                <button class="btn btn-apply" onclick="apDung()">CẬP NHẬT DỮ LIỆU</button>
+        <div id="panel" class="card" style="display:none; flex: 1.5;">
+            <div class="ai-box">
+                <span class="ai-tag">AI NHẬN XÉT</span>
+                <p id="ai-text" style="font-size: 0.85rem; margin: 8px 0 0 0; line-height: 1.4; color: #333;">Chọn lớp để AI phân tích...</p>
             </div>
+            <h3 id="tenlop" style="color: var(--p); text-align: center;">Lớp</h3>
+            <div class="scroll-form" id="form-nhap">
+                <div class="group-title">1. TÁC PHONG (-5đ)</div>
+                <div class="loi-item"><span>Khăn quàng/Đồng phục</span><input type="number" id="l1" data-d="-5"></div>
+                <div class="group-title">2. CHUYÊN CẦN</div>
+                <div class="loi-item"><span>Đi trễ/Vắng</span><input type="number" id="l2" data-d="-5"></div>
+                <div class="group-title">3. HỌC TẬP (CỘNG)</div>
+                <div class="loi-item"><span>Điểm 10/Tiết A</span><input type="number" id="l3" data-d="10"></div>
+            </div>
+            <button class="btn btn-apply" onclick="apDung()">LƯU & PHÂN TÍCH</button>
         </div>
-
-        <div class="log-box">
-            <h4>📑 Nhật Ký Gần Đây</h4>
-            <div id="log-list" class="log-list">Chưa có hoạt động.</div>
-        </div>
-    </div>
-
-    <div class="footer-text">
-        Phần mềm được thiết kế bởi <b>truongkycaonguyen</b><br>
-        Dành riêng cho TH&THCS Phước An
     </div>
 </div>
 
 <div class="decor-fixed">
-    <div style="font-size: 40px;">🌳🌲</div>
-    <div style="font-size: 50px;">🏫</div>
-    <div style="font-size: 40px;">🌲🌳</div>
+    <span>🌳</span><span>🏫</span><span>🌳</span>
 </div>
 
 <script>
 const PIN = "1234";
 let lopDangChon = null;
 let dataLoi = {};
-let logs = [];
 
 function checkPin() {
     if (document.getElementById("pin-input").value === PIN) {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("main-content").style.display = "block";
-        loadAll();
+        loadData(); xepHang();
     }
 }
 
@@ -164,84 +120,74 @@ function chonLop(row) {
     row.classList.add("dang-chon");
     lopDangChon = row;
     document.getElementById("panel").style.display = "block";
-    document.getElementById("tenlop").innerText = "Đang chấm: " + row.dataset.lop;
-    
+    document.getElementById("tenlop").innerText = "Lớp " + row.dataset.lop;
     const saved = dataLoi[row.dataset.lop] || {};
     document.querySelectorAll("#form-nhap input").forEach(i => i.value = saved[i.id] || 0);
-    if(window.innerWidth < 600) document.getElementById("panel").scrollIntoView({behavior: "smooth"});
+    capNhatAI();
 }
 
 function apDung() {
     if(!lopDangChon) return;
-    const tenLop = lopDangChon.dataset.lop;
-    let tongBienDong = 0;
-    let detail = [];
+    let tong = 0;
     let tempLoi = {};
-
     document.querySelectorAll("#form-nhap input").forEach(i => {
         let val = Number(i.value) || 0;
-        let d = Number(i.dataset.d);
-        tongBienDong += (val * d);
+        tong += (val * Number(i.dataset.d));
         tempLoi[i.id] = val;
-        if(val > 0) detail.push(`${i.dataset.n} x${val}`);
     });
+    dataLoi[lopDangChon.dataset.lop] = tempLoi;
+    let final = 100 + tong;
+    lopDangChon.querySelector(".tong").innerText = final;
+    lopDangChon.dataset.tong = final;
+    capNhatAI(); xepHang(); saveData();
+    alert("Đã lưu!");
+}
 
-    dataLoi[tenLop] = tempLoi;
-    let diemFinal = 100 + tongBienDong;
-    lopDangChon.querySelector(".tong").innerText = (diemFinal < 0) ? 0 : diemFinal;
-    lopDangChon.dataset.tong = (diemFinal < 0) ? 0 : diemFinal;
-
-    const gio = new Date().toLocaleTimeString('vi-VN');
-    logs.unshift(`[${gio}] Lớp ${tenLop}: ${detail.length ? detail.join(", ") : "Cập nhật điểm"}`);
-    if(logs.length > 20) logs.pop();
-
-    renderLogs(); xepHang(); saveAll();
-    alert("Đã lưu điểm cho lớp " + tenLop);
+function capNhatAI() {
+    const diem = Number(lopDangChon.dataset.tong) || 100;
+    let txt = diem >= 100 ? "🌟 Lớp duy trì phong độ rất tốt. Cần phát huy!" : 
+              diem >= 80 ? "⚠️ Lớp có vi phạm nhẹ về tác phong/chuyên cần. Cần nhắc nhở." : 
+              "❌ Điểm thi đua thấp. GVCN cần chấn chỉnh kỷ luật ngay.";
+    document.getElementById("ai-text").innerText = txt;
 }
 
 function xepHang() {
     let rows = Array.from(document.querySelectorAll(".lop-row"));
-    rows.sort((a,b) => (Number(b.dataset.tong) || 0) - (Number(a.dataset.tong) || 0));
+    rows.sort((a,b) => (Number(b.dataset.tong) || 100) - (Number(a.dataset.tong) || 100));
     let container = document.getElementById("body-bang");
     rows.forEach((r, i) => {
         let h = i + 1;
-        let badge = h === 1 ? 'rank-1' : h === 2 ? 'rank-2' : h === 3 ? 'rank-3' : '';
-        let icon = h === 1 ? '🥇' : h === 2 ? '🥈' : h === 3 ? '🥉' : h;
-        r.querySelector(".rank-cell").innerHTML = `<span class="rank ${badge}">${icon}</span>`;
+        r.querySelector(".rank-cell").innerHTML = `<span class="rank ${h<=3?'rank-'+h:''}">${h<=3?['🥇','🥈','🥉'][h-1]:h}</span>`;
         container.appendChild(r);
     });
 }
 
-function renderLogs() {
-    const container = document.getElementById("log-list");
-    container.innerHTML = logs.map(l => `<div>• ${l}</div>`).join("");
+function xuatZalo() {
+    let msg = "📋 BÁO CÁO THI ĐUA PHƯỚC AN\n";
+    document.querySelectorAll(".lop-row").forEach((r, i) => {
+        msg += `${i+1}. Lớp ${r.dataset.lop}: ${r.querySelector(".tong").innerText}đ\n`;
+    });
+    navigator.clipboard.writeText(msg + "\nBy truongkycaonguyen").then(() => alert("Đã copy báo cáo!"));
 }
 
-function saveAll() {
-    localStorage.setItem('pa_v4_data', JSON.stringify({
+function saveData() {
+    localStorage.setItem('pa_data', JSON.stringify({
         diem: Array.from(document.querySelectorAll(".lop-row")).map(r => ({l: r.dataset.lop, d: r.dataset.tong})),
-        loi: dataLoi,
-        nhatky: logs
+        loi: dataLoi
     }));
 }
 
-function loadAll() {
-    const raw = localStorage.getItem('pa_v4_data');
-    if (!raw) { xepHang(); return; }
-    const data = JSON.parse(raw);
-    if (data.diem) data.diem.forEach(item => {
-        let r = document.querySelector(`.lop-row[data-lop="${item.l}"]`);
-        if(r) { r.querySelector(".tong").innerText = item.d; r.dataset.tong = item.d; }
-    });
-    dataLoi = data.loi || {};
-    logs = data.nhatky || [];
-    renderLogs(); xepHang();
-}
-
-function resetTuan() {
-    if(confirm("Xác nhận xóa toàn bộ dữ liệu để bắt đầu tuần mới?")) {
-        localStorage.clear();
-        location.reload();
+function loadData() {
+    const raw = JSON.parse(localStorage.getItem('pa_data'));
+    if (raw) {
+        if (raw.diem) raw.diem.forEach(item => {
+            let r = document.querySelector(`.lop-row[data-lop="${item.l}"]`);
+            if(r) { 
+                r.querySelector(".tong").innerText = item.d || 100; 
+                r.dataset.tong = item.d || 100; 
+            }
+        });
+        dataLoi = raw.loi || {};
     }
 }
 </script>
