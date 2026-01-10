@@ -6,7 +6,7 @@
     <title>Sao Đỏ TH&THCS Phước An</title>
     <style>
         :root { --p: #0056b3; --s: #2e7d32; --a: #d32f2f; --bg: #f4f7f6; --gold: #ffd700; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 10px; padding-bottom: 100px; color: #333; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 10px; padding-bottom: 80px; color: #333; }
         
         /* LOGIN */
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--p); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; color: white; }
@@ -16,16 +16,14 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* HEADER */
-        .header { background: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .header h4 { margin: 0; color: #555; font-size: 0.8rem; text-transform: uppercase; }
-        .school-title { font-size: 1.1rem; font-weight: bold; color: var(--p); margin: 5px 0; }
+        .header { background: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 4px solid var(--p); }
+        .school-title { font-size: 1.1rem; font-weight: bold; color: var(--p); text-transform: uppercase; }
 
         .container { display: flex; flex-wrap: wrap; gap: 15px; }
 
         /* BẢNG XẾP HẠNG */
         .card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex: 1; min-width: 300px; }
         table { width: 100%; border-collapse: collapse; }
-        th { font-size: 0.7rem; color: #888; text-transform: uppercase; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; }
         td { padding: 10px 5px; text-align: center; border-bottom: 1px solid #f9f9f9; font-weight: bold; font-size: 0.9rem; }
         
         .rank { width: 28px; height: 28px; line-height: 28px; display: inline-block; border-radius: 50%; background: #eee; font-size: 0.75rem; }
@@ -36,26 +34,27 @@
         .lop-row { cursor: pointer; transition: 0.2s; }
         .dang-chon { background: #e3f2fd !important; outline: 2px solid var(--p); }
 
+        /* THANH TÌM KIẾM LỖI */
+        .search-box { position: sticky; top: 0; background: white; z-index: 10; padding: 10px 0; margin-bottom: 10px; border-bottom: 1px solid #eee; }
+        .search-input { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #e0e0e0; font-size: 0.9rem; box-sizing: border-box; outline: none; transition: 0.3s; }
+        .search-input:focus { border-color: var(--p); }
+
         /* FORM CHẤM ĐIỂM */
-        .ai-box { background: #eef7ff; padding: 10px; border-radius: 10px; margin-bottom: 10px; font-size: 0.8rem; border-left: 4px solid var(--p); }
-        .scroll-form { max-height: 550px; overflow-y: auto; padding-right: 5px; }
-        .group-title { background: #f8f9fa; color: var(--p); padding: 8px; font-weight: bold; margin-top: 15px; font-size: 0.75rem; border-radius: 5px; border: 1px solid #eee; }
-        .loi-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f1f1f1; }
-        .loi-item span { flex: 1; font-size: 0.8rem; color: #444; padding-right: 5px; }
-        .score-tag { width: 45px; font-weight: bold; font-size: 0.75rem; text-align: center; }
+        .scroll-form { max-height: 500px; overflow-y: auto; padding-right: 5px; }
+        .group-title { background: #f8f9fa; color: var(--p); padding: 8px; font-weight: bold; margin-top: 15px; font-size: 0.75rem; border-radius: 5px; border-left: 4px solid var(--p); }
+        .loi-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f1f1; }
+        .loi-item span { flex: 1; font-size: 0.85rem; color: #333; }
+        .score-tag { width: 50px; font-weight: bold; font-size: 0.8rem; text-align: right; margin-right: 10px; }
         .minus { color: var(--a); }
         .plus { color: var(--s); }
-        input[type=number] { width: 45px; padding: 6px; border-radius: 5px; border: 1px solid #ddd; text-align: center; font-weight: bold; }
+        input[type=number] { width: 50px; padding: 8px; border-radius: 5px; border: 1px solid #ddd; text-align: center; font-weight: bold; }
 
-        /* LỊCH SỬ */
-        .history-list { max-height: 150px; overflow-y: auto; background: #fafafa; border-radius: 10px; padding: 10px; margin-top: 10px; font-size: 0.75rem; }
-        .history-item { padding: 4px 0; border-bottom: 1px dotted #ddd; }
-
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 8px; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .btn-apply { background: var(--p); color: white; }
         .btn-zalo { background: #0068ff; color: white; }
         .btn-reset { background: #fff; color: var(--a); border: 1px solid var(--a); margin-top: 20px; font-size: 0.7rem; }
 
+        .history-box { margin-top: 15px; font-size: 0.75rem; background: #f9f9f9; padding: 10px; border-radius: 10px; }
         .footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #888; }
         .footer b { color: var(--p); }
     </style>
@@ -63,113 +62,110 @@
 <body>
 
 <div id="login-screen">
-    <h2>Hệ Thống Sao Đỏ</h2>
+    <h2>🔑 SAO ĐỎ PHƯỚC AN</h2>
     <input type="password" id="pin-input" class="pin-input" placeholder="****" maxlength="4" oninput="checkPin()">
-    <p>Nhập mã PIN để truy cập</p>
 </div>
 
 <div id="main-content">
     <div class="header">
-        <h4>Liên đội TH & THCS Phước An</h4>
-        <div class="school-title">BIỂU ĐIỂM THI ĐUA NĂM HỌC 2025 - 2026</div>
-        <p style="margin:0; font-size:0.7rem; color:#888;">Quản lý bởi Ban chỉ huy Liên đội</p>
+        <div class="school-title">Trường TH & THCS Phước An</div>
+        <p style="margin:5px 0 0 0; font-size:0.8rem; color:#555;">BIỂU ĐIỂM THI ĐUA NĂM HỌC 2025 - 2026</p>
     </div>
 
     <div class="container">
         <div class="card" style="flex: 1;">
-            <h3 style="margin-top:0; font-size: 1rem;">🏆 Xếp Hạng</h3>
+            <h3>🏆 Bảng Xếp Hạng (XH)</h3>
             <table>
                 <thead><tr><th>XH</th><th>Lớp</th><th>Điểm</th></tr></thead>
                 <tbody id="body-bang">
                     <script>
                         const lops = ['6A','6B','6C','7A','7B','7C','8A','8B','8C','9A','9B'];
                         lops.forEach(l => {
-                            document.write(`<tr class="lop-row" data-lop="${l}" onclick="chonLop(this)"><td class="rank-cell"></td><td>${l}</td><td class="tong">100</td></tr>`);
+                            document.write(`<tr class="lop-row" data-lop="${l}" onclick="chonLop(this)"><td class="rank-cell"></td><td>Lớp ${l}</td><td class="tong">100</td></tr>`);
                         });
                     </script>
                 </tbody>
             </table>
-            <button class="btn btn-zalo" onclick="xuatZalo()">🔵 Xuất báo cáo Zalo</button>
-            <button class="btn btn-reset" onclick="resetDuLieu()">🔄 Reset tuần mới</button>
+            <button class="btn btn-zalo" onclick="xuatZalo()">🔵 Xuất Báo Cáo Zalo</button>
+            <button class="btn btn-reset" onclick="resetDuLieu()">🔄 Reset Tuần Mới</button>
         </div>
 
         <div id="panel" class="card" style="display:none; flex: 1.6;">
-            <div class="ai-box"><b>🤖 AI:</b> <span id="ai-text">Hãy chọn lớp để nhận xét.</span></div>
-            <h3 id="tenlop" style="text-align:center; color: var(--p); margin: 0 0 10px 0;">Lớp</h3>
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-error" placeholder="🔍 Tìm nhanh lỗi vi phạm hoặc điểm cộng..." onkeyup="filterLoi()">
+            </div>
+            
+            <h3 id="tenlop" style="text-align:center; color: var(--p); margin: 5px 0;">Chọn Lớp</h3>
             
             <div class="scroll-form" id="form-nhap">
-                <div class="group-title">1. TÁC PHONG & ĐẠO ĐỨC (1HS/LẦN)</div>
-                <div class="loi-item"><span>Khăn quàng/Huy hiệu</span><b class="score-tag minus">-5</b><input type="number" id="m1" data-n="Khăn quàng" data-d="-5"></div>
-                <div class="loi-item"><span>Không tác phong (bỏ áo ngoài)</span><b class="score-tag minus">-5</b><input type="number" id="m2" data-n="Tác phong" data-d="-5"></div>
-                <div class="loi-item"><span>Mặc áo khoác sai q.định</span><b class="score-tag minus">-5</b><input type="number" id="m3" data-n="Áo khoác" data-d="-5"></div>
-                <div class="loi-item"><span>Đồng phục không đúng</span><b class="score-tag minus">-5</b><input type="number" id="m4" data-n="Đồng phục" data-d="-5"></div>
-                <div class="loi-item"><span>Đi chân trần (sân/WC)</span><b class="score-tag minus">-5</b><input type="number" id="m5" data-n="Chân trần" data-d="-5"></div>
+                <div class="group-title">TÁC PHONG & ĐẠO ĐỨC</div>
+                <div class="loi-item"><span>Không đeo Khăn quàng/Huy hiệu</span><b class="score-tag minus">-5</b><input type="number" id="m1" data-n="Khăn quàng" data-d="-5"></div>
+                <div class="loi-item"><span>Không bỏ áo vào quần (tác phong)</span><b class="score-tag minus">-5</b><input type="number" id="m2" data-n="Tác phong" data-d="-5"></div>
+                <div class="loi-item"><span>Mặc áo khoác sai quy định</span><b class="score-tag minus">-5</b><input type="number" id="m3" data-n="Áo khoác" data-d="-5"></div>
+                <div class="loi-item"><span>Đồng phục không đúng quy định</span><b class="score-tag minus">-5</b><input type="number" id="m4" data-n="Đồng phục" data-d="-5"></div>
+                <div class="loi-item"><span>Đi chân trần ra sân/WC</span><b class="score-tag minus">-5</b><input type="number" id="m5" data-n="Chân trần" data-d="-5"></div>
                 <div class="loi-item"><span>Để xe không ngay hàng</span><b class="score-tag minus">-5</b><input type="number" id="m6" data-n="Để xe" data-d="-5"></div>
-                <div class="loi-item"><span>Không đội mũ bảo hiểm</span><b class="score-tag minus">-5</b><input type="number" id="m7" data-n="Mũ bảo hiểm" data-d="-5"></div>
+                <div class="loi-item"><span>Không đội nón bảo hiểm (xe máy/điện)</span><b class="score-tag minus">-5</b><input type="number" id="m7" data-n="Mũ bảo hiểm" data-d="-5"></div>
                 <div class="loi-item"><span>Ra cổng không xin phép</span><b class="score-tag minus">-5</b><input type="number" id="m8" data-n="Ra cổng" data-d="-5"></div>
-                <div class="loi-item"><span>Sử dụng ĐT sai nơi q.định</span><b class="score-tag minus">-5</b><input type="number" id="m9" data-n="Điện thoại" data-d="-5"></div>
-                <div class="loi-item"><span>Tóc dài (Nam)</span><b class="score-tag minus">-5</b><input type="number" id="m10" data-n="Tóc dài" data-d="-5"></div>
-                <div class="loi-item"><span>Nhuộm tóc/Son phấn/Móng tay</span><b class="score-tag minus">-10</b><input type="number" id="m11" data-n="Nhuộm tóc" data-d="-10"></div>
+                <div class="loi-item"><span>Sử dụng điện thoại sai quy định</span><b class="score-tag minus">-5</b><input type="number" id="m9" data-n="Điện thoại" data-d="-5"></div>
+                <div class="loi-item"><span>Để tóc dài (Nam)</span><b class="score-tag minus">-5</b><input type="number" id="m10" data-n="Tóc dài" data-d="-5"></div>
+                <div class="loi-item"><span>Nhuộm tóc/Son phấn/Móng tay</span><b class="score-tag minus">-10</b><input type="number" id="m11" data-n="Nhuộm/Phấn" data-d="-10"></div>
                 <div class="loi-item"><span>Nói tục, chửi thề</span><b class="score-tag minus">-10</b><input type="number" id="m12" data-n="Nói tục" data-d="-10"></div>
                 <div class="loi-item"><span>Đánh nhau</span><b class="score-tag minus">-10</b><input type="number" id="m13" data-n="Đánh nhau" data-d="-10"></div>
                 <div class="loi-item"><span>Chống đối sao đỏ</span><b class="score-tag minus">-10</b><input type="number" id="m14" data-n="Chống đối" data-d="-10"></div>
 
-                <div class="group-title">2. CHUYÊN CẦN & TRẬT TỰ</div>
+                <div class="group-title">CHUYÊN CẦN & TRẬT TỰ</div>
                 <div class="loi-item"><span>Đi trễ</span><b class="score-tag minus">-2</b><input type="number" id="m15" data-n="Đi trễ" data-d="-2"></div>
                 <div class="loi-item"><span>Vắng không phép</span><b class="score-tag minus">-5</b><input type="number" id="m16" data-n="Vắng" data-d="-5"></div>
                 <div class="loi-item"><span>Trốn tiết</span><b class="score-tag minus">-10</b><input type="number" id="m17" data-n="Trốn tiết" data-d="-10"></div>
-                <div class="loi-item"><span>Nói chuyện riêng</span><b class="score-tag minus">-5</b><input type="number" id="m18" data-n="Nói chuyện" data-d="-5"></div>
-                <div class="loi-item"><span>Không SH 15' (Cá nhân)</span><b class="score-tag minus">-5</b><input type="number" id="m19" data-n="Bỏ SH 15'" data-d="-5"></div>
-                <div class="loi-item"><span>Không SH 15' (Cả Lớp)</span><b class="score-tag minus">-50</b><input type="number" id="m20" data-n="Lớp bỏ SH" data-d="-50"></div>
-                <div class="loi-item"><span>Không TD giữa giờ (Cá nhân)</span><b class="score-tag minus">-5</b><input type="number" id="m21" data-n="Bỏ TD" data-d="-5"></div>
-                <div class="loi-item"><span>Không TD giữa giờ (Cả Lớp)</span><b class="score-tag minus">-50</b><input type="number" id="m22" data-n="Lớp bỏ TD" data-d="-50"></div>
-                <div class="loi-item"><span>TD giữa giờ ko nghiêm túc</span><b class="score-tag minus">-5</b><input type="number" id="m23" data-n="TD ko nghiêm túc" data-d="-5"></div>
-                <div class="loi-item"><span>Chào cờ ko đúng giờ (Lớp)</span><b class="score-tag minus">-20</b><input type="number" id="m24" data-n="Chào cờ trễ" data-d="-20"></div>
-                <div class="loi-item"><span>Mất trật tự chào cờ</span><b class="score-tag minus">-5</b><input type="number" id="m25" data-n="Ồn chào cờ" data-d="-5"></div>
-                <div class="loi-item"><span>Lớp ko hát Quốc/Đội ca</span><b class="score-tag minus">-20</b><input type="number" id="m26" data-n="Ko hát ca" data-d="-20"></div>
-                <div class="loi-item"><span>Ko đáp khẩu hiệu Đội</span><b class="score-tag minus">-20</b><input type="number" id="m27" data-n="Ko đáp k.hiệu" data-d="-20"></div>
+                <div class="loi-item"><span>Nói chuyện riêng trong giờ</span><b class="score-tag minus">-5</b><input type="number" id="m18" data-n="Nói chuyện" data-d="-5"></div>
+                <div class="loi-item"><span>Cá nhân ko SH 15 phút/Thể dục</span><b class="score-tag minus">-5</b><input type="number" id="m19" data-n="Bỏ SH/TD" data-d="-5"></div>
+                <div class="loi-item"><span>Lớp ko SH 15 phút/Thể dục</span><b class="score-tag minus">-50</b><input type="number" id="m20" data-n="Lớp bỏ SH/TD" data-d="-50"></div>
+                <div class="loi-item"><span>TD giữa giờ ko nghiêm túc</span><b class="score-tag minus">-5</b><input type="number" id="m21" data-n="TD ko n.túc" data-d="-5"></div>
+                <div class="loi-item"><span>Chào cờ ko đúng giờ (Lớp)</span><b class="score-tag minus">-20</b><input type="number" id="m22" data-n="Chào cờ trễ" data-d="-20"></div>
+                <div class="loi-item"><span>Mất trật tự giờ chào cờ</span><b class="score-tag minus">-5</b><input type="number" id="m23" data-n="Ồn chào cờ" data-d="-5"></div>
+                <div class="loi-item"><span>Lớp ko hát Quốc ca/Đội ca</span><b class="score-tag minus">-20</b><input type="number" id="m24" data-n="Ko hát lễ" data-d="-20"></div>
+                <div class="loi-item"><span>Lớp ko đáp khẩu hiệu Đội</span><b class="score-tag minus">-20</b><input type="number" id="m25" data-n="Ko đáp k.hiệu" data-d="-20"></div>
+                <div class="loi-item"><span>Ko hoàn thành chào cờ đầu tuần</span><b class="score-tag minus">-50</b><input type="number" id="m26" data-n="Bỏ chào cờ" data-d="-50"></div>
 
-                <div class="group-title">3. VỆ SINH & TÀI SẢN</div>
-                <div class="loi-item"><span>Ăn uống sai nơi q.định</span><b class="score-tag minus">-10</b><input type="number" id="m28" data-n="Ăn quà" data-d="-10"></div>
-                <div class="loi-item"><span>Xả rác (Cá nhân)</span><b class="score-tag minus">-20</b><input type="number" id="m29" data-n="Xả rác" data-d="-20"></div>
-                <div class="loi-item"><span>Xả rác (Cả lớp)</span><b class="score-tag minus">-100</b><input type="number" id="m30" data-n="Lớp xả rác" data-d="-100"></div>
-                <div class="loi-item"><span>Vẽ tường, bàn ghế</span><b class="score-tag minus">-10</b><input type="number" id="m31" data-n="Vẽ bậy" data-d="-10"></div>
-                <div class="loi-item"><span>Làm hư hỏng tài sản trường</span><b class="score-tag minus">-30</b><input type="number" id="m32" data-n="Hư tài sản" data-d="-30"></div>
-                <div class="loi-item"><span>Chui rào, phá hàng rào</span><b class="score-tag minus">-30</b><input type="number" id="m33" data-n="Chui rào" data-d="-30"></div>
+                <div class="group-title">VỆ SINH & TÀI SẢN</div>
+                <div class="loi-item"><span>Ăn uống sai nơi quy định</span><b class="score-tag minus">-10</b><input type="number" id="m27" data-n="Ăn quà" data-d="-10"></div>
+                <div class="loi-item"><span>Bỏ rác sai nơi q.định (HS)</span><b class="score-tag minus">-20</b><input type="number" id="m28" data-n="HS xả rác" data-d="-20"></div>
+                <div class="loi-item"><span>Bỏ rác sai nơi q.định (Lớp)</span><b class="score-tag minus">-100</b><input type="number" id="m29" data-n="Lớp xả rác" data-d="-100"></div>
+                <div class="loi-item"><span>Vẽ tường, bàn ghế, bảng</span><b class="score-tag minus">-10</b><input type="number" id="m30" data-n="Vẽ bậy" data-d="-10"></div>
+                <div class="loi-item"><span>Hư hỏng tài sản nhà trường</span><b class="score-tag minus">-30</b><input type="number" id="m31" data-n="Hư tài sản" data-d="-30"></div>
+                <div class="loi-item"><span>Chui rào, phá hàng rào</span><b class="score-tag minus">-30</b><input type="number" id="m32" data-n="Chui rào" data-d="-30"></div>
 
-                <div class="group-title">4. HỌC TẬP & PHONG TRÀO</div>
-                <div class="loi-item"><span>Không thuộc bài/Làm BT</span><b class="score-tag minus">-10</b><input type="number" id="m34" data-n="Lười học" data-d="-10"></div>
-                <div class="loi-item"><span>Không chuẩn bị bài/Dụng cụ</span><b class="score-tag minus">-10</b><input type="number" id="m35" data-n="Thiếu dụng cụ" data-d="-10"></div>
-                <div class="loi-item"><span>Làm mất/Xé bài kiểm tra</span><b class="score-tag minus">-20</b><input type="number" id="m36" data-n="Xé bài KT" data-d="-20"></div>
-                <div class="loi-item"><span>Điểm: 0, 1, 2, 3</span><b class="score-tag minus">-10</b><input type="number" id="m37" data-n="Điểm kém" data-d="-10"></div>
-                <div class="loi-item"><span>Điểm: 4</span><b class="score-tag minus">-5</b><input type="number" id="m38" data-n="Điểm yếu" data-d="-5"></div>
-                <div class="loi-item"><span>Điểm: 7</span><b class="score-tag plus">+5</b><input type="number" id="m39" data-n="Điểm khá" data-d="5"></div>
-                <div class="loi-item"><span>Điểm: 8, 9</span><b class="score-tag plus">+9</b><input type="number" id="m40" data-n="Điểm giỏi" data-d="9"></div>
-                <div class="loi-item"><span>Điểm: 10</span><b class="score-tag plus">+10</b><input type="number" id="m41" data-n="Điểm 10" data-d="10"></div>
-                <div class="loi-item"><span>Tiết học loại A</span><b class="score-tag plus">+10</b><input type="number" id="m42" data-n="Tiết A" data-d="10"></div>
-                <div class="loi-item"><span>Tiết học loại B</span><b class="score-tag plus">+5</b><input type="number" id="m43" data-n="Tiết B" data-d="5"></div>
-                <div class="loi-item"><span>Tiết học loại C</span><b class="score-tag minus">-5</b><input type="number" id="m44" data-n="Tiết C" data-d="-5"></div>
-                <div class="loi-item"><span>Tiết học loại D</span><b class="score-tag minus">-10</b><input type="number" id="m45" data-n="Tiết D" data-d="-10"></div>
-                <div class="loi-item"><span>Làm mất sổ đầu bài</span><b class="score-tag minus">-50</b><input type="number" id="m46" data-n="Mất SĐB" data-d="-50"></div>
-                <div class="loi-item"><span>Nhặt được của rơi</span><b class="score-tag plus">+5</b><input type="number" id="m47" data-n="Của rơi" data-d="5"></div>
-                <div class="loi-item"><span>P.trào: Nhất/Nhì/Ba</span><b class="score-tag plus">Cộng</b><input type="number" id="m48" placeholder="50,40.."></div>
-                <div class="loi-item"><span>Ko hoàn thành p.trào/chỉ tiêu</span><b class="score-tag minus">-30</b><input type="number" id="m49" data-n="Ko h.thành PT" data-d="-30"></div>
-                <div class="loi-item"><span>Ko hoàn thành chào cờ đầu tuần</span><b class="score-tag minus">-50</b><input type="number" id="m50" data-n="Ko chào cờ" data-d="-50"></div>
+                <div class="group-title">HỌC TẬP & ĐIỂM SỐ</div>
+                <div class="loi-item"><span>Ko thuộc bài/Làm BT/C.bị bài</span><b class="score-tag minus">-10</b><input type="number" id="m33" data-n="Ko bài vở" data-d="-10"></div>
+                <div class="loi-item"><span>Mất/Xé bài kiểm tra</span><b class="score-tag minus">-20</b><input type="number" id="m34" data-n="Xé bài KT" data-d="-20"></div>
+                <div class="loi-item"><span>Điểm số: 0, 1, 2, 3</span><b class="score-tag minus">-10</b><input type="number" id="m35" data-n="Điểm kém" data-d="-10"></div>
+                <div class="loi-item"><span>Điểm số: 4</span><b class="score-tag minus">-5</b><input type="number" id="m36" data-n="Điểm yếu" data-d="-5"></div>
+                <div class="loi-item"><span>Điểm số: 7</span><b class="score-tag plus">+5</b><input type="number" id="m37" data-n="Điểm khá" data-d="5"></div>
+                <div class="loi-item"><span>Điểm số: 8, 9</span><b class="score-tag plus">+9</b><input type="number" id="m38" data-n="Điểm giỏi" data-d="9"></div>
+                <div class="loi-item"><span>Điểm số: 10</span><b class="score-tag plus">+10</b><input type="number" id="m39" data-n="Điểm 10" data-d="10"></div>
+                <div class="loi-item"><span>Tiết học loại A</span><b class="score-tag plus">+10</b><input type="number" id="m40" data-n="Tiết A" data-d="10"></div>
+                <div class="loi-item"><span>Tiết học loại B</span><b class="score-tag plus">+5</b><input type="number" id="m41" data-n="Tiết B" data-d="5"></div>
+                <div class="loi-item"><span>Tiết học loại C</span><b class="score-tag minus">-5</b><input type="number" id="m42" data-n="Tiết C" data-d="-5"></div>
+                <div class="loi-item"><span>Tiết học loại D</span><b class="score-tag minus">-10</b><input type="number" id="m43" data-n="Tiết D" data-d="-10"></div>
+                <div class="loi-item"><span>Nhặt được của rơi trả lại</span><b class="score-tag plus">+5</b><input type="number" id="m44" data-n="Của rơi" data-d="5"></div>
+                <div class="loi-item"><span>Mất sổ đầu bài</span><b class="score-tag minus">-50</b><input type="number" id="m45" data-n="Mất SĐB" data-d="-50"></div>
 
-                <div class="group-title">5. ĐỐI VỚI SAO ĐỎ</div>
-                <div class="loi-item"><span>Ko đeo băng sao đỏ</span><b class="score-tag minus">-10</b><input type="number" id="m51" data-n="Ko băng SĐ" data-d="-10"></div>
-                <div class="loi-item"><span>SĐ trực trễ</span><b class="score-tag minus">-10</b><input type="number" id="m52" data-n="SĐ trễ" data-d="-10"></div>
-                <div class="loi-item"><span>SĐ ko trực</span><b class="score-tag minus">-20</b><input type="number" id="m53" data-n="SĐ bỏ trực" data-d="-20"></div>
-                <div class="loi-item"><span>SĐ ko tổng kết cuối tuần</span><b class="score-tag minus">-50</b><input type="number" id="m54" data-n="SĐ ko t.kết" data-d="-50"></div>
+                <div class="group-title">PHONG TRÀO & SAO ĐỎ</div>
+                <div class="loi-item"><span>PT Nhất(+50)/Nhì(+40)/Ba(+30)</span><b class="score-tag plus">Cộng</b><input type="number" id="m46" data-n="Phong trào" data-d="1"></div>
+                <div class="loi-item"><span>Ko h.thành PT/Chỉ tiêu</span><b class="score-tag minus">-30</b><input type="number" id="m47" data-n="Ko h.thành PT" data-d="-30"></div>
+                <div class="loi-item"><span>SĐ ko băng/Trực trễ</span><b class="score-tag minus">-10</b><input type="number" id="m48" data-n="SĐ lỗi nhẹ" data-d="-10"></div>
+                <div class="loi-item"><span>SĐ ko trực/Ko tổng kết</span><b class="score-tag minus">-50</b><input type="number" id="m49" data-n="SĐ lỗi nặng" data-d="-50"></div>
             </div>
-            <button class="btn btn-apply" onclick="apDung()">LƯU KẾT QUẢ CHẤM</button>
-            <div class="history-list" id="history-box">Chưa có lịch sử chấm cho lớp này.</div>
+            
+            <button class="btn btn-apply" onclick="apDung()">LƯU ĐIỂM & NHẬT KÝ</button>
+            <div class="history-box" id="log-box">Lịch sử: Chưa có dữ liệu.</div>
         </div>
     </div>
 
     <div class="footer">
-        By <b>truongkycaonguyen</b><br>
-        Hệ thống Sao Đỏ Phước An 2026
+        by <b>truongkycaonguyen</b><br>
+        Liên đội TH & THCS Phước An 2026
     </div>
 </div>
 
@@ -186,53 +182,58 @@ function checkPin() {
     }
 }
 
+function filterLoi() {
+    let input = document.getElementById('search-error').value.toLowerCase();
+    let items = document.getElementsByClassName('loi-item');
+    let groups = document.getElementsByClassName('group-title');
+
+    for (let i = 0; i < items.length; i++) {
+        let text = items[i].innerText.toLowerCase();
+        items[i].style.display = text.includes(input) ? "flex" : "none";
+    }
+    // Ẩn tiêu đề nhóm nếu không có lỗi nào hiển thị
+    for (let g = 0; g < groups.length; g++) {
+        groups[g].style.display = input === "" ? "block" : "none";
+    }
+}
+
 function chonLop(row) {
     document.querySelectorAll(".lop-row").forEach(r => r.classList.remove("dang-chon"));
     row.classList.add("dang-chon");
     document.getElementById("panel").style.display = "block";
     const tenLop = row.dataset.lop;
-    document.getElementById("tenlop").innerText = "Lớp " + tenLop;
+    document.getElementById("tenlop").innerText = "Đang chấm Lớp " + tenLop;
     
     const saved = dataLoi[tenLop] || {};
     document.querySelectorAll("#form-nhap input").forEach(i => i.value = saved[i.id] || 0);
     renderLog(tenLop);
-    capNhatAI(tenLop);
-    if(window.innerWidth < 800) document.getElementById("panel").scrollIntoView({behavior: "smooth"});
 }
 
 function apDung() {
     const row = document.querySelector(".lop-row.dang-chon");
     if(!row) return;
     const tenLop = row.dataset.lop;
-    let tongBienDong = 0;
+    let tongHieuSo = 0;
     let details = [];
 
     document.querySelectorAll("#form-nhap input").forEach(i => {
         let val = Number(i.value) || 0;
         let diemGoc = Number(i.dataset.d) || 0;
-        
-        // Riêng cho mục phong trào nhập điểm tự do
-        if(i.id === "m48") {
-            tongBienDong += val;
-        } else {
-            tongBienDong += (val * diemGoc);
-        }
+        tongHieuSo += (val * diemGoc);
 
         dataLoi[tenLop] = dataLoi[tenLop] || {};
         dataLoi[tenLop][i.id] = val;
-        
-        if(val > 0) details.push(`${i.dataset.n || "Phong trào"}(${val})`);
+        if(val > 0) details.push(`${i.dataset.n}(${val})`);
     });
 
-    let finalScore = 100 + tongBienDong;
-    row.querySelector(".tong").innerText = finalScore;
-    row.dataset.tong = finalScore;
+    let score = 100 + tongHieuSo;
+    row.querySelector(".tong").innerText = score;
+    row.dataset.tong = score;
 
     const gio = new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'});
     nhatKy.unshift({lop: tenLop, time: gio, text: details.join(", ") || "Cập nhật"});
-    if(nhatKy.length > 50) nhatKy.pop();
-
-    saveData(); xepHang(); renderLog(tenLop); capNhatAI(tenLop);
+    
+    saveData(); xepHang(); renderLog(tenLop);
     alert("Đã lưu điểm thành công!");
 }
 
@@ -242,25 +243,16 @@ function xepHang() {
     let container = document.getElementById("body-bang");
     rows.forEach((r, i) => {
         let h = i + 1;
-        let cls = h === 1 ? 'rank-1' : h === 2 ? 'rank-2' : h === 3 ? 'rank-3' : '';
         let icon = h === 1 ? '🥇' : h === 2 ? '🥈' : h === 3 ? '🥉' : h;
-        r.querySelector(".rank-cell").innerHTML = `<span class="rank ${cls}">${icon}</span>`;
+        r.querySelector(".rank-cell").innerHTML = `<span class="rank ${h<=3?'rank-'+h:''}">${icon}</span>`;
         container.appendChild(r);
     });
 }
 
 function renderLog(tenLop) {
     const list = nhatKy.filter(n => n.lop === tenLop);
-    document.getElementById("history-box").innerHTML = list.length ? 
-        list.map(n => `<div class="history-item">🕒 ${n.time}: ${n.text}</div>`).join("") : "Chưa có lịch sử chấm.";
-}
-
-function capNhatAI(tenLop) {
-    const row = document.querySelector(`.lop-row[data-lop="${tenLop}"]`);
-    const diem = Number(row.dataset.tong) || 100;
-    let ai = diem >= 100 ? "Lớp xuất sắc, duy trì phong độ nhé!" : 
-             diem >= 80 ? "Khá tốt, cần nhắc nhở các bạn giảm lỗi nhỏ." : "Vi phạm quá nhiều, cần GVCN chấn chỉnh kỷ luật!";
-    document.getElementById("ai-text").innerText = `Lớp ${tenLop}: ${ai}`;
+    document.getElementById("log-box").innerHTML = "Nhật ký: " + (list.length ? 
+        list.map(n => `[${n.time}] ${n.text}`).join(" | ") : "Chưa có dữ liệu.");
 }
 
 function xuatZalo() {
@@ -268,17 +260,17 @@ function xuatZalo() {
     document.querySelectorAll(".lop-row").forEach((r, i) => {
         msg += `${i+1}. Lớp ${r.dataset.lop}: ${r.querySelector(".tong").innerText}đ\n`;
     });
-    navigator.clipboard.writeText(msg + "\n---\nBy truongkycaonguyen").then(() => alert("Đã copy báo cáo!"));
+    navigator.clipboard.writeText(msg + "\n---\nby truongkycaonguyen").then(() => alert("Đã copy báo cáo!"));
 }
 
 function resetDuLieu() {
-    if(confirm("Xóa toàn bộ dữ liệu tuần này?")) {
+    if(confirm("Xóa toàn bộ điểm và lịch sử tuần này?")) {
         localStorage.clear(); location.reload();
     }
 }
 
 function saveData() {
-    localStorage.setItem('pa_final_v5', JSON.stringify({
+    localStorage.setItem('pa_v6_data', JSON.stringify({
         scores: Array.from(document.querySelectorAll(".lop-row")).map(r => ({l: r.dataset.lop, d: r.dataset.tong})),
         details: dataLoi,
         history: nhatKy
@@ -286,7 +278,7 @@ function saveData() {
 }
 
 function loadData() {
-    const raw = JSON.parse(localStorage.getItem('pa_final_v5'));
+    const raw = JSON.parse(localStorage.getItem('pa_v6_data'));
     if (raw) {
         if (raw.scores) raw.scores.forEach(item => {
             let r = document.querySelector(`.lop-row[data-lop="${item.l}"]`);
