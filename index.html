@@ -2,130 +2,122 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Sao Đỏ – Bảng xếp hạng</title>
+<title>Điểm Sao Đỏ</title>
 
 <style>
-body{
-  font-family: Arial, sans-serif;
-  background:#eef2ff;
-  padding:20px;
+body {
+  font-family: Arial;
+  background: #e8f4ff;
+  margin: 0;
+  padding: 20px;
 }
 
-h1{
-  text-align:center;
-  color:#0b3cff;
+h1 {
+  text-align: center;
 }
 
-.container{
-  gap:20px;
-  display:flex;
+.container {
+  display: flex;
+  gap: 20px;
 }
 
-/* ===== BẢNG LỚP ===== */
-table{
-  border-collapse:collapse;
-  background:white;
-  box-shadow:0 0 10px rgba(0,0,0,0.1);
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: white;
 }
 
-th,td{
-  border:1px solid #ccc;
-  padding:10px;
-  text-align:center;
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
 }
 
-th{
-  background:#0b3cff;
-  color:white;
+th {
+  background: #1976d2;
+  color: white;
 }
 
-.lop{
-  cursor:pointer;
-}
-.lop:hover{
-  background:#e0e7ff;
+.lop-row {
+  cursor: pointer;
 }
 
-/* ===== KHUNG NHẬP LỖI ===== */
-#khungLoi{
-  flex:1;
-  background:#dbeafe;
-  padding:15px;
-  border-radius:10px;
-  display:none;
+.lop-row:hover {
+  background: #e3f2fd;
 }
 
-#khungLoi h2{
-  margin-top:0;
-  color:#0b3cff;
+#panel {
+  width: 320px;
+  background: #d0ebff;
+  padding: 10px;
+  display: none;
 }
 
-.loi{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:8px;
+#panel h3 {
+  text-align: center;
 }
 
-button{
-  margin-top:10px;
-  padding:8px 16px;
-  border:none;
-  background:#0b3cff;
-  color:white;
-  border-radius:5px;
-  cursor:pointer;
-}
-
-button:hover{
-  background:#082ca3;
+input[type=number] {
+  width: 60px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>BẢNG XẾP HẠNG SAO ĐỎ 
-  trường TH&THCS PHƯỚC AN </h1>
+<h1>BẢNG ĐIỂM SAO ĐỎ</h1>
 
 <div class="container">
 
-<!-- ===== BẢNG XẾP HẠNG ===== -->
+<!-- BẢNG XẾP HẠNG -->
 <table id="bang">
-<tr>
-  <th>XH</th>
-  <th>Lớp</th>
-  <th>Điểm gốc</th>
-  <th>Tổng điểm</th>
-</tr>
+  <tr>
+    <th>Lớp</th>
+    <th>Tổng điểm</th>
+    <th>Xếp hạng</th>
+  </tr>
 
-<!-- 12 LỚP -->
-<tr class="lop" onclick="chonLop(this,'6A')"><td class="xephang"></td><td>6A</td><td>100</td><td class="tong">100</td></tr>
-<tr class="lop" onclick="chonLop(this,'6B')"><td class="xephang"></td><td>6B</td><td>100</td><td class="tong">100</td></tr>
-<tr class="lop" onclick="chonLop(this,'6C')"><td class="xephang"></td><td>6C</td><td>100</td><td class="tong">100</td></tr>
-
-<tr class="lop" onclick="chonLop(this,'7A')"><td class="xephang"></td><td>7A</td><td>100</td><td class="tong">100</td></tr>
-<tr class="lop" onclick="chonLop(this,'7B')"><td class="xephang"></td><td>7B</td><td>100</td><td class="tong">100</td></tr>
-<tr class="lop" onclick="chonLop(this,'7C')"><td class="xephang"></td><td>7C</td><td>100</td><td class="tong">100</td></tr>
-
-<tr class="lop" onclick="chonLop(this,'8A')"><td class="xephang"></td><td>8A</td><td>100</td><td class="tong">100</td></tr>
-<tr class="lop" onclick="chonLop(this,'8B')"><td class="xephang"></td><td>8B</td><td>100</td><td class="tong">100</td></tr>
-<tr class="lop" onclick="chonLop(this,'8C')"><td class="xephang"></td><td>8C</td><td>100</td><td class="tong">100</td></tr>
-
-<tr class="lop" onclick="chonLop(this,'9A')"><td class="xephang"></td><td>9A</td><td>100</td><td class="tong">100</td></tr>
-<tr class="lop" onclick="chonLop(this,'9B')"><td class="xephang"></td><td>9B</td><td>100</td><td class="tong">100</td></tr>
-<tr class="lop" onclick="chonLop(this,'9C')"><td class="xephang"></td><td>9C</td><td>100</td><td class="tong">100</td></tr>
+  <tr class="lop-row" data-lop="6A" onclick="chonLop(this)"> <td>6A</td><td class="tong">100</td><td class="xephang"></td> </tr>
+  <tr class="lop-row" data-lop="6B" onclick="chonLop(this)"> <td>6B</td><td class="tong">100</td><td class="xephang"></td> </tr>
+  <tr class="lop-row" data-lop="6C" onclick="chonLop(this)"> <td>6C</td><td class="tong">100</td><td class="xephang"></td> </tr>
+  <tr class="lop-row" data-lop="7A" onclick="chonLop(this)"> <td>7A</td><td class="tong">100</td><td class="xephang"></td> </tr>
+  <tr class="lop-row" data-lop="7B" onclick="chonLop(this)"> <td>7B</td><td class="tong">100</td><td class="xephang"></td> </tr>
+  <tr class="lop-row" data-lop="7C" onclick="chonLop(this)"> <td>7C</td><td class="tong">100</td><td class="xephang"></td> </tr>
+  <tr class="lop-row" data-lop="8A" onclick="chonLop(this)"> <td>8A</td><td class="tong">100</td><td class="xephang"></td> </tr>
+  <tr class="lop-row" data-lop="8B" onclick="chonLop(this)"> <td>8B</td><td class="tong">100</td><td class="xephang"></td> </tr>
+  <tr class="lop-row" data-lop="8C" onclick="chonLop(this)"> <td>8C</td><td class="tong">100</td><td class="xephang"></td> </tr>
+  <tr class="lop-row" data-lop="9A" onclick="chonLop(this)"> <td>9A</td><td class="tong">100</td><td class="xephang"></td> </tr>
+  <tr class="lop-row" data-lop="9B" onclick="chonLop(this)"> <td>9B</td><td class="tong">100</td><td class="xephang"></td> </tr>
+  <tr class="lop-row" data-lop="9C" onclick="chonLop(this)"> <td>9C</td><td class="tong">100</td><td class="xephang"></td> </tr>
 </table>
 
-<!-- ===== KHUNG NHẬP LỖI ===== -->
-<div id="khungLoi">
-  <h2 id="tenLop">Lớp</h2>
+<!-- BẢNG LỖI -->
+<div id="panel">
+  <h3 id="tenlop">Lớp</h3>
 
-  <!-- KHUNG LỖI (TẠM – CHỜ BẠN ĐƯA BẢNG LỖI CHUẨN) -->
-  <div class="loi">Đi học muộn <input type="number" value="0" data-diem="2"></div>
-  <div class="loi">Không đồng phục <input type="number" value="0" data-diem="3"></div>
-  <div class="loi">Nói chuyện <input type="number" value="0" data-diem="1"></div>
+  <table>
+    <tr><th>Lỗi</th><th>Số lần</th></tr>
 
-  <button onclick="apDungLoi()">Áp dụng lỗi</button>
+    <tr>
+      <td>Đi học muộn (-2)</td>
+      <td><input type="number" min="0" data-diem="2"></td>
+    </tr>
+    <tr>
+      <td>Không đồng phục (-5)</td>
+      <td><input type="number" min="0" data-diem="5"></td>
+    </tr>
+    <tr>
+      <td>Không đeo khăn quàng (-3)</td>
+      <td><input type="number" min="0" data-diem="3"></td>
+    </tr>
+    <tr>
+      <td>Nói chuyện trong giờ (-2)</td>
+      <td><input type="number" min="0" data-diem="2"></td>
+    </tr>
+  </table>
+
+  <br>
+  <button onclick="apDung()">Áp dụng</button>
 </div>
 
 </div>
@@ -133,48 +125,45 @@ button:hover{
 <script>
 let lopDangChon = null;
 
-function chonLop(row, ten){
+function chonLop(row) {
   lopDangChon = row;
-  document.getElementById("khungLoi").style.display="block";
-  document.getElementById("tenLop").innerText="Nhập lỗi lớp " + ten;
+  document.getElementById("panel").style.display = "block";
+  document.getElementById("tenlop").innerText = "Lớp " + row.dataset.lop;
+
+  document.querySelectorAll("#panel input").forEach(i => i.value = 0);
 }
 
-function apDungLoi(){
-  let inputs = document.querySelectorAll("#khungLoi input");
-  let tru = 0;
-
-  inputs.forEach(i=>{
-    tru += Number(i.value) * Number(i.dataset.diem);
+function apDung() {
+  let tongTru = 0;
+  document.querySelectorAll("#panel input").forEach(i => {
+    tongTru += (Number(i.value) || 0) * Number(i.dataset.diem);
   });
 
-  let tong = 100 - tru;
+  let tong = 100 - tongTru;
+  if (tong < 0) tong = 0;
+
   lopDangChon.querySelector(".tong").innerText = tong;
+  lopDangChon.dataset.tong = tong;
 
   xepHang();
 }
 
-function xepHang(){
-  let rows = Array.from(document.querySelectorAll(".lop"));
-  rows.sort((a,b)=>
-    b.querySelector(".tong").innerText - a.querySelector(".tong").innerText
-  );
+function xepHang() {
+  let rows = Array.from(document.querySelectorAll(".lop-row"));
+  rows.sort((a,b) => (b.dataset.tong || 100) - (a.dataset.tong || 100));
 
   rows.forEach((r,i)=>{
-    let xh = i+1;
-    if(xh==1) xh="1";
-    if(xh==2) xh="2";
-    if(xh==3) xh="3";
-    r.querySelector(".xephang").innerText=xh;
+    let h = i+1;
+    let t = h;
+    if(h==1) t="🥇";
+    if(h==2) t="🥈";
+    if(h==3) t="🥉";
+    r.querySelector(".xephang").innerText = t;
   });
 }
-</div> <!-- MÀN HÌNH 1: BẢNG XẾP HẠNG -->
-<div id="manHinh1">
-  <table id="bang">
-    ...
-  </table>
-</div>
 </script>
 
 </body>
 </html>
+
 
