@@ -81,7 +81,7 @@
                     <script>
                         const lops = ['6A','6B','6C','7A','7B','7C','8A','8B','8C','9A','9B'];
                         lops.forEach(l => {
-                            document.write(`<tr class="lop-row" data-lop="${l}" onclick="chonLop(this)"><td class="rank-cell"></td><td>Lớp ${l}</td><td class="tong">100</td></tr>`);
+                          document.write(`<tr class="lop-row" data-lop="${l}" onclick="chonLop(this)"><td class="rank-cell"></td><td>Lớp ${l}</td><td class="tong">Chưa xếp hạng</td></tr>`);
                         });
                     </script>
                 </tbody>
@@ -278,6 +278,22 @@ function saveData() {
 }
 
 function loadData() {
+    function loadData() {
+    const raw = JSON.parse(localStorage.getItem('pa_v6_data'));
+    if (raw && raw.scores) {
+        raw.scores.forEach(item => {
+            let r = document.querySelector(`.lop-row[data-lop="${item.l}"]`);
+            if (r) {
+                // Nếu điểm là undefined hoặc null thì hiện "Chưa xếp hạng"
+                const diemHienThi = (item.d === undefined || item.d === null) ? "Chưa xếp hạng" : item.d;
+                r.querySelector(".tong").innerText = diemHienThi;
+                r.dataset.tong = item.d;
+            }
+        });
+        dataLoi = raw.details || {};
+        nhatKy = raw.history || [];
+    }
+}
     const raw = JSON.parse(localStorage.getItem('pa_v6_data'));
     if (raw) {
         if (raw.scores) raw.scores.forEach(item => {
@@ -288,6 +304,6 @@ function loadData() {
         nhatKy = raw.history || [];
     }
 }
-</script>function updateClock()
+</script>
 </body>
 </html>
