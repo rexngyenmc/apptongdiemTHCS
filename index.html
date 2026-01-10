@@ -155,7 +155,7 @@ function xepHang() {
     let container = document.getElementById("body-bang");
     rows.forEach((r, i) => {
         let h = i + 1;
-        r.querySelector(".xh").innerText = (h==1)?"🥇":(h==2)?"🥈":(h==3)?"🥉":h;
+        r.querySelector(".xh").innerText = (h==1)?"1":(h==2)?"2":(h==3)?"3":h;
         container.appendChild(r);
     });
 }
