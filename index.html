@@ -43,60 +43,94 @@
   <h1>BẢNG XẾP HẠNG THI ĐUA TUẦN</h1>
 
   <table>
-    <tr>
-      <th>Xếp hạng</th>
-      <th>Lớp</th>
-      <th>Điểm nền nếp</th>
-      <th>Điểm học tập</th>
-      <th>Tổng điểm</th>
-    </tr>
+    <tr class="lop">
+  <td class="xephang"></td>
+  <td>6A</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr>
+<tr class="lop">
+  <td class="xephang"></td>
+  <td>6B</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr>
+<tr class="lop">
+  <td class="xephang"></td>
+  <td>6C</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr>
 
-    <tr>
-      <td>🥇 1</td>
-      <td>8A</td>
-      <td>95</td>
-      <td>98</td>
-      <td>193</td>
-    </tr>
+<tr class="lop">
+  <td class="xephang"></td>
+  <td>7A</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr>
+<tr class="lop">
+  <td class="xephang"></td>
+  <td>7B</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr>
+<tr class="lop">
+  <td class="xephang"></td>
+  <td>7C</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr>
 
-    <tr>
-      <td>🥈 2</td>
-      <td>8B</td>
-      <td>92</td>
-      <td>96</td>
-      <td>188</td>
-    </tr>
-
-    <tr>
-      <td>🥉 3</td>
-      <td>8C</td>
-      <td>90</td>
-      <td>94</td>
-      <td>184</td>
-    </tr>
-
-  </table>
-
-</body>
-</html>
 <tr class="lop">
   <td class="xephang"></td>
   <td>8A</td>
   <td><input class="diem" type="number"></td>
   <td><input class="diem" type="number"></td>
   <td class="tong"></td>
-</tr><button onclick="tinhVaXepHang()">Tính & Xếp hạng</button>
-<script>
-function tinhVaXepHang() {
-  let rows = document.querySelectorAll(".lop");
+</tr>
+<tr class="lop">
+  <td class="xephang"></td>
+  <td>8B</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr>
+<tr class="lop">
+  <td class="xephang"></td>
+  <td>8C</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr>
 
-  // Tính tổng
-  rows.forEach(row => {
-    let diem = row.querySelectorAll(".diem");
-    let tong = 0;
-    diem.forEach(d => tong += Number(d.value || 0));
-    row.querySelector(".tong").innerText = tong;
-    row.dataset.tong = tong;
+<tr class="lop">
+  <td class="xephang"></td>
+  <td>9A</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr>
+<tr class="lop">
+  <td class="xephang"></td>
+  <td>9B</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr>
+<tr class="lop">
+  <td class="xephang"></td>
+  <td>9C</td>
+  <td><input class="diem" type="number"></td>
+  <td><input class="diem" type="number"></td>
+  <td class="tong"></td>
+</tr>
+
   });
 
   // Sắp xếp theo tổng điểm
