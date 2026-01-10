@@ -1,131 +1,173 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Bảng xếp hạng Sao Đỏ</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #eef2ff;
-      padding: 20px;
-    }
+<meta charset="UTF-8">
+<title>Sao Đỏ – Bảng xếp hạng</title>
 
-    h1 {
-      text-align: center;
-      color: #1a3cff;
-    }
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#eef2ff;
+  padding:20px;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      margin-top: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+h1{
+  text-align:center;
+  color:#0b3cff;
+}
 
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
-      text-align: center;
-    }
+.container{
+  display:flex;
+  gap:20px;
+}
 
-    th {
-      background: #1a3cff;
-      color: white;
-    }
+/* ===== BẢNG LỚP ===== */
+table{
+  border-collapse:collapse;
+  background:white;
+  box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
 
-    input {
-      width: 70px;
-      text-align: center;
-    }
+th,td{
+  border:1px solid #ccc;
+  padding:10px;
+  text-align:center;
+}
 
-    button {
-      margin-top: 15px;
-      padding: 10px 25px;
-      background: #1a3cff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+th{
+  background:#0b3cff;
+  color:white;
+}
 
-    button:hover {
-      background: #0f24b3;
-    }
+.lop{
+  cursor:pointer;
+}
+.lop:hover{
+  background:#e0e7ff;
+}
 
-    .goc {
-      font-weight: bold;
-      color: #0f24b3;
-    }
-  </style>
+/* ===== KHUNG NHẬP LỖI ===== */
+#khungLoi{
+  flex:1;
+  background:#dbeafe;
+  padding:15px;
+  border-radius:10px;
+  display:none;
+}
+
+#khungLoi h2{
+  margin-top:0;
+  color:#0b3cff;
+}
+
+.loi{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:8px;
+}
+
+button{
+  margin-top:10px;
+  padding:8px 16px;
+  border:none;
+  background:#0b3cff;
+  color:white;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#082ca3;
+}
+</style>
 </head>
 
 <body>
 
-<h1>BẢNG XẾP HẠNG THI ĐUA SAO ĐỎ</h1>
+<h1>BẢNG XẾP HẠNG SAO ĐỎ</h1>
 
+<div class="container">
+
+<!-- ===== BẢNG XẾP HẠNG ===== -->
 <table id="bang">
-  <tr>
-    <th>Xếp hạng</th>
-    <th>Lớp</th>
-    <th>Điểm gốc</th>
-    <th>Điểm cộng</th>
-    <th>Ba rê lỗi (trừ)</th>
-    <th>Tổng điểm</th>
-  </tr>
+<tr>
+  <th>XH</th>
+  <th>Lớp</th>
+  <th>Điểm gốc</th>
+  <th>Tổng điểm</th>
+</tr>
 
-  <!-- KHỐI 6 -->
-  <tr class="lop"><td class="xephang"></td><td>6A</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
-  <tr class="lop"><td class="xephang"></td><td>6B</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
-  <tr class="lop"><td class="xephang"></td><td>6C</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+<!-- 12 LỚP -->
+<tr class="lop" onclick="chonLop(this,'6A')"><td class="xephang"></td><td>6A</td><td>100</td><td class="tong">100</td></tr>
+<tr class="lop" onclick="chonLop(this,'6B')"><td class="xephang"></td><td>6B</td><td>100</td><td class="tong">100</td></tr>
+<tr class="lop" onclick="chonLop(this,'6C')"><td class="xephang"></td><td>6C</td><td>100</td><td class="tong">100</td></tr>
 
-  <!-- KHỐI 7 -->
-  <tr class="lop"><td class="xephang"></td><td>7A</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
-  <tr class="lop"><td class="xephang"></td><td>7B</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
-  <tr class="lop"><td class="xephang"></td><td>7C</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+<tr class="lop" onclick="chonLop(this,'7A')"><td class="xephang"></td><td>7A</td><td>100</td><td class="tong">100</td></tr>
+<tr class="lop" onclick="chonLop(this,'7B')"><td class="xephang"></td><td>7B</td><td>100</td><td class="tong">100</td></tr>
+<tr class="lop" onclick="chonLop(this,'7C')"><td class="xephang"></td><td>7C</td><td>100</td><td class="tong">100</td></tr>
 
-  <!-- KHỐI 8 -->
-  <tr class="lop"><td class="xephang"></td><td>8A</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
-  <tr class="lop"><td class="xephang"></td><td>8B</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
-  <tr class="lop"><td class="xephang"></td><td>8C</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+<tr class="lop" onclick="chonLop(this,'8A')"><td class="xephang"></td><td>8A</td><td>100</td><td class="tong">100</td></tr>
+<tr class="lop" onclick="chonLop(this,'8B')"><td class="xephang"></td><td>8B</td><td>100</td><td class="tong">100</td></tr>
+<tr class="lop" onclick="chonLop(this,'8C')"><td class="xephang"></td><td>8C</td><td>100</td><td class="tong">100</td></tr>
 
-  <!-- KHỐI 9 -->
-  <tr class="lop"><td class="xephang"></td><td>9A</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
-  <tr class="lop"><td class="xephang"></td><td>9B</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
-  <tr class="lop"><td class="xephang"></td><td>9C</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
-
+<tr class="lop" onclick="chonLop(this,'9A')"><td class="xephang"></td><td>9A</td><td>100</td><td class="tong">100</td></tr>
+<tr class="lop" onclick="chonLop(this,'9B')"><td class="xephang"></td><td>9B</td><td>100</td><td class="tong">100</td></tr>
+<tr class="lop" onclick="chonLop(this,'9C')"><td class="xephang"></td><td>9C</td><td>100</td><td class="tong">100</td></tr>
 </table>
 
-<div style="text-align:center">
-  <button onclick="tinhVaXepHang()">TÍNH & XẾP HẠNG</button>
+<!-- ===== KHUNG NHẬP LỖI ===== -->
+<div id="khungLoi">
+  <h2 id="tenLop">Lớp</h2>
+
+  <!-- KHUNG LỖI (TẠM – CHỜ BẠN ĐƯA BẢNG LỖI CHUẨN) -->
+  <div class="loi">Đi học muộn <input type="number" value="0" data-diem="2"></div>
+  <div class="loi">Không đồng phục <input type="number" value="0" data-diem="3"></div>
+  <div class="loi">Nói chuyện <input type="number" value="0" data-diem="1"></div>
+
+  <button onclick="apDungLoi()">Áp dụng lỗi</button>
+</div>
+
 </div>
 
 <script>
-function tinhVaXepHang() {
-  let rows = document.querySelectorAll(".lop");
+let lopDangChon = null;
 
-  rows.forEach(row => {
-    let cong = Number(row.querySelector(".cong").value || 0);
-    let tru  = Number(row.querySelector(".tru").value || 0);
-    let tong = 100 + cong - tru;
+function chonLop(row, ten){
+  lopDangChon = row;
+  document.getElementById("khungLoi").style.display="block";
+  document.getElementById("tenLop").innerText="Nhập lỗi lớp " + ten;
+}
 
-    row.querySelector(".tong").innerText = tong;
-    row.dataset.tong = tong;
+function apDungLoi(){
+  let inputs = document.querySelectorAll("#khungLoi input");
+  let tru = 0;
+
+  inputs.forEach(i=>{
+    tru += Number(i.value) * Number(i.dataset.diem);
   });
 
-  let arr = Array.from(rows);
-  arr.sort((a, b) => b.dataset.tong - a.dataset.tong);
+  let tong = 100 - tru;
+  lopDangChon.querySelector(".tong").innerText = tong;
 
-  arr.forEach((row, index) => {
-    let hang = index + 1;
-    let xh = hang;
-    if (hang === 1) xh = "🥇";
-    if (hang === 2) xh = "🥈";
-    if (hang === 3) xh = "🥉";
-    row.querySelector(".xephang").innerText = xh;
+  xepHang();
+}
+
+function xepHang(){
+  let rows = Array.from(document.querySelectorAll(".lop"));
+  rows.sort((a,b)=>
+    b.querySelector(".tong").innerText - a.querySelector(".tong").innerText
+  );
+
+  rows.forEach((r,i)=>{
+    let xh = i+1;
+    if(xh==1) xh="🥇";
+    if(xh==2) xh="🥈";
+    if(xh==3) xh="🥉";
+    r.querySelector(".xephang").innerText=xh;
   });
 }
 </script>
 
 </body>
 </html>
+
