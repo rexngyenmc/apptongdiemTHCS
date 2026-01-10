@@ -34,31 +34,28 @@
         .lop-row { cursor: pointer; transition: 0.2s; }
         .dang-chon { background: #e3f2fd !important; outline: 2px solid var(--p); }
 
-        /* THANH TÌM KIẾM LỖI */
-        .search-box { position: sticky; top: 0; background: white; z-index: 10; padding: 10px 0; margin-bottom: 10px; border-bottom: 1px solid #eee; }
-        .search-input { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid #e0e0e0; font-size: 0.9rem; box-sizing: border-box; outline: none; transition: 0.3s; }
-        .search-input:focus { border-color: var(--p); }
+        /* Ô NHẬP TÊN TRÊN CÙNG */
+        .sticky-input { position: sticky; top: 0; background: white; z-index: 20; padding: 10px 0; border-bottom: 2px solid #eee; margin-bottom: 10px; }
+        .name-input { width: 100%; padding: 12px; border-radius: 10px; border: 2px solid var(--p); font-size: 1rem; box-sizing: border-box; outline: none; }
 
-        /* FORM CHẤM ĐIỂM */
-        .scroll-form { max-height: 500px; overflow-y: auto; padding-right: 5px; }
+        /* BẢNG LỖI CŨ (DẠNG TICK) */
+        .scroll-form { max-height: 400px; overflow-y: auto; padding-right: 5px; }
         .group-title { background: #f8f9fa; color: var(--p); padding: 8px; font-weight: bold; margin-top: 15px; font-size: 0.75rem; border-radius: 5px; border-left: 4px solid var(--p); }
-        .loi-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f1f1; }
-        .loi-item span { flex: 1; font-size: 0.85rem; color: #333; }
-        .score-tag { width: 50px; font-weight: bold; font-size: 0.8rem; text-align: right; margin-right: 10px; }
+        .loi-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f1f1; cursor: pointer; }
+        .loi-item:hover { background: #fdfdfd; }
+        .loi-item span { flex: 1; font-size: 0.85rem; color: #333; margin-left: 10px; }
+        .score-tag { width: 50px; font-weight: bold; font-size: 0.8rem; text-align: right; margin-right: 5px; }
         .minus { color: var(--a); }
         .plus { color: var(--s); }
         
-        /* ĐỔI THÀNH INPUT TEXT ĐỂ NHẬP TÊN */
-        input[type=text].input-name { width: 100px; padding: 8px; border-radius: 5px; border: 1px solid #ddd; font-size: 0.8rem; }
+        .ck-box { width: 20px; height: 20px; cursor: pointer; }
 
         .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .btn-apply { background: var(--p); color: white; }
         .btn-zalo { background: #0068ff; color: white; }
         .btn-reset { background: #fff; color: var(--a); border: 1px solid var(--a); margin-top: 20px; font-size: 0.7rem; }
 
-        .history-box { margin-top: 15px; font-size: 0.75rem; background: #f9f9f9; padding: 10px; border-radius: 10px; border-left: 4px solid var(--p); }
-        .footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #888; }
-        .footer b { color: var(--p); }
+        .history-box { margin-top: 15px; font-size: 0.75rem; background: #f9f9f9; padding: 10px; border-radius: 10px; border-left: 4px solid #fbc02d; }
     </style>
 </head>
 <body>
@@ -71,7 +68,7 @@
 <div id="main-content">
     <div class="header">
         <div class="school-title">Trường TH & THCS Phước An</div>
-        <p style="margin:5px 0 0 0; font-size:0.8rem; color:#555;">HỆ THỐNG NHẬP TÊN HS VI PHẠM TỰ ĐỘNG</p>
+        <p style="margin:5px 0 0 0; font-size:0.8rem; color:#555;">CHẤM ĐIỂM: NHẬP TÊN -> TICK LỖI -> LƯU</p>
     </div>
 
     <div class="container">
@@ -93,124 +90,141 @@
         </div>
 
         <div id="panel" class="card" style="display:none; flex: 1.6;">
-            <div class="search-box">
-                <input type="text" class="search-input" id="search-error" placeholder="🔍 Tìm lỗi (VD: khăn quàng)..." onkeyup="filterLoi()">
+            <div class="sticky-input">
+                <h3 id="tenlop" style="margin:0 0 10px 0; color:var(--p)">Chọn Lớp</h3>
+                <input type="text" id="input-names" class="name-input" placeholder="Nhập tên HS vi phạm: Hoàng, Ân, Hà..." oninput="reCalc()">
             </div>
             
-            <h3 id="tenlop" style="text-align:center; color: var(--p); margin: 5px 0;">Chọn Lớp</h3>
-            <p style="text-align:center; font-size:0.7rem; color:#888;">Nhập tên HS cách nhau bằng dấu phẩy để tự tính điểm</p>
-            
-            <div class="scroll-form" id="form-nhap">
+            <div class="scroll-form" id="form-loi">
                 <div class="group-title">TÁC PHONG & ĐẠO ĐỨC</div>
-                <div class="loi-item"><span>Không khăn quàng</span><b class="score-tag minus">-5</b><input type="text" class="input-name" id="m1" data-n="Khăn quàng" data-d="-5"></div>
-                <div class="loi-item"><span>Sai tác phong</span><b class="score-tag minus">-5</b><input type="text" class="input-name" id="m2" data-n="Tác phong" data-d="-5"></div>
-                <div class="loi-item"><span>Áo khoác sai quy định</span><b class="score-tag minus">-5</b><input type="text" class="input-name" id="m3" data-n="Áo khoác" data-d="-5"></div>
-                <div class="loi-item"><span>Nhuộm tóc/Phấn</span><b class="score-tag minus">-10</b><input type="text" class="input-name" id="m11" data-n="Nhuộm/Phấn" data-d="-10"></div>
-                <div class="loi-item"><span>Nói tục</span><b class="score-tag minus">-10</b><input type="text" class="input-name" id="m12" data-n="Nói tục" data-d="-10"></div>
-                
-                <div class="group-title">CHUYÊN CẦN & TRẬT TỰ</div>
-                <div class="loi-item"><span>Đi trễ</span><b class="score-tag minus">-2</b><input type="text" class="input-name" id="m15" data-n="Đi trễ" data-d="-2"></div>
-                <div class="loi-item"><span>Vắng không phép</span><b class="score-tag minus">-5</b><input type="text" class="input-name" id="m16" data-n="Vắng" data-d="-5"></div>
-                
-                <div class="group-title">HỌC TẬP & ĐIỂM SỐ</div>
-                <div class="loi-item"><span>Điểm 10</span><b class="score-tag plus">+10</b><input type="text" class="input-name" id="m39" data-n="Điểm 10" data-d="10"></div>
-                <div class="loi-item"><span>Tiết học loại A</span><b class="score-tag plus">+10</b><input type="text" class="input-name" id="m40" data-n="Tiết A" data-d="10"></div>
-                <div class="loi-item"><span>Việc tốt/Của rơi</span><b class="score-tag plus">+5</b><input type="text" class="input-name" id="m44" data-n="Của rơi" data-d="5"></div>
-            </div>
-            
-            <button class="btn btn-apply" onclick="apDung()">LƯU ĐIỂM & NHẬT KÝ</button>
-            <div class="history-box" id="log-box">Nhật ký: (Bấm lưu để xem chi tiết)</div>
-        </div>
-    </div>
+                <div class="loi-item" onclick="toggleCk('m1')">
+                    <input type="checkbox" class="ck-box" id="m1" data-n="Khăn quàng" data-d="-5" onchange="reCalc()">
+                    <span>Không đeo Khăn quàng/Huy hiệu</span><b class="score-tag minus">-5</b>
+                </div>
+                <div class="loi-item" onclick="toggleCk('m2')">
+                    <input type="checkbox" class="ck-box" id="m2" data-n="Tác phong" data-d="-5" onchange="reCalc()">
+                    <span>Không bỏ áo vào quần</span><b class="score-tag minus">-5</b>
+                </div>
+                <div class="loi-item" onclick="toggleCk('m12')">
+                    <input type="checkbox" class="ck-box" id="m12" data-n="Nói tục" data-d="-10" onchange="reCalc()">
+                    <span>Nói tục, chửi thề</span><b class="score-tag minus">-10</b>
+                </div>
 
-    <div class="footer">
-        by <b>truongkycaonguyen</b><br>
-        Liên đội TH & THCS Phước An 2026
+                <div class="group-title">CHUYÊN CẦN & TRẬT TỰ</div>
+                <div class="loi-item" onclick="toggleCk('m15')">
+                    <input type="checkbox" class="ck-box" id="m15" data-n="Đi trễ" data-d="-2" onchange="reCalc()">
+                    <span>Đi học trễ</span><b class="score-tag minus">-2</b>
+                </div>
+                <div class="loi-item" onclick="toggleCk('m18')">
+                    <input type="checkbox" class="ck-box" id="m18" data-n="Nói chuyện" data-d="-5" onchange="reCalc()">
+                    <span>Nói chuyện riêng</span><b class="score-tag minus">-5</b>
+                </div>
+
+                <div class="group-title">HỌC TẬP & ĐIỂM SỐ</div>
+                <div class="loi-item" onclick="toggleCk('m39')">
+                    <input type="checkbox" class="ck-box" id="m39" data-n="Điểm 10" data-d="10" onchange="reCalc()">
+                    <span>Đạt điểm 10</span><b class="score-tag plus">+10</b>
+                </div>
+                <div class="loi-item" onclick="toggleCk('m44')">
+                    <input type="checkbox" class="ck-box" id="m44" data-n="Của rơi" data-d="5" onchange="reCalc()">
+                    <span>Nhặt của rơi trả lại</span><b class="score-tag plus">+5</b>
+                </div>
+                </div>
+            
+            <button class="btn btn-apply" onclick="luuDiem()">LƯU ĐIỂM & NHẬT KÝ</button>
+            <div class="history-box" id="log-box">Nhật ký: Chưa có dữ liệu.</div>
+        </div>
     </div>
 </div>
 
 <script>
 const PIN = "1234";	
-let dataLoi = {}; // Lưu trữ chuỗi tên người vi phạm
-let nhatKy = [];
+let db = JSON.parse(localStorage.getItem('pa_v9_data')) || {};
 
 function checkPin() {
     if (document.getElementById("pin-input").value === PIN) {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("main-content").style.display = "block";
-        loadData(); xepHang();
+        renderTable();
     }
 }
 
-function filterLoi() {
-    let input = document.getElementById('search-error').value.toLowerCase();
-    let items = document.getElementsByClassName('loi-item');
-    let groups = document.getElementsByClassName('group-title');
-    for (let i = 0; i < items.length; i++) {
-        let text = items[i].innerText.toLowerCase();
-        items[i].style.display = text.includes(input) ? "flex" : "none";
-    }
+function toggleCk(id) {
+    const ck = document.getElementById(id);
+    ck.checked = !ck.checked;
+    reCalc();
 }
 
+// Tự động tính điểm tạm thời khi gõ tên hoặc tick
+function reCalc() {
+    const names = document.getElementById('input-names').value.split(/[,.;]+/).filter(t => t.trim() !== "");
+    const count = names.length;
+    let tamTinh = 0;
+    
+    document.querySelectorAll('.ck-box:checked').forEach(ck => {
+        tamTinh += (count * parseInt(ck.dataset.d));
+    });
+    
+    const displayScore = 100 + tamTinh;
+    document.getElementById('tenlop').innerHTML = `Lớp ${currentLop} <span style="color:${tamTinh < 0 ? 'red':'green'}">(${displayScore}đ)</span>`;
+}
+
+let currentLop = "";
 function chonLop(row) {
     document.querySelectorAll(".lop-row").forEach(r => r.classList.remove("dang-chon"));
     row.classList.add("dang-chon");
     document.getElementById("panel").style.display = "block";
-    const tenLop = row.dataset.lop;
-    document.getElementById("tenlop").innerText = "Đang chấm Lớp " + tenLop;
     
-    // Tải lại dữ liệu tên đã nhập trước đó (nếu có)
-    const saved = dataLoi[tenLop] || {};
-    document.querySelectorAll(".input-name").forEach(i => {
-        i.value = saved[i.id] || "";
+    currentLop = row.dataset.lop;
+    
+    // Tải dữ liệu cũ để ĐIỀU CHỈNH
+    const data = db[currentLop] || { names: "", checks: [] };
+    document.getElementById('input-names').value = data.names;
+    
+    document.querySelectorAll('.ck-box').forEach(ck => {
+        ck.checked = data.checks.includes(ck.id);
     });
-    renderLog(tenLop);
+    
+    reCalc();
+    renderLog();
 }
 
-function apDung() {
-    const row = document.querySelector(".lop-row.dang-chon");
-    if(!row) return;
-    const tenLop = row.dataset.lop;
-    let tongHieuSo = 0;
-    let details = [];
-
-    dataLoi[tenLop] = {}; // Reset dữ liệu lớp đang chọn để lưu mới
-
-    document.querySelectorAll(".input-name").forEach(i => {
-        let textValue = i.value.trim();
-        if (textValue !== "") {
-            // Tách danh sách theo dấu phẩy hoặc dấu chấm phẩy
-            let names = textValue.split(/[,;]+/).filter(n => n.trim() !== "");
-            let soLuong = names.length;
-            let diemGoc = Number(i.dataset.d) || 0;
-            
-            tongHieuSo += (soLuong * diemGoc);
-            dataLoi[tenLop][i.id] = textValue; // Lưu nguyên chuỗi để sửa sau này
-            
-            details.push(`${i.dataset.n}: ${soLuong} HS (${textValue})`);
-        }
+function luuDiem() {
+    const nameStr = document.getElementById('input-names').value;
+    const names = nameStr.split(/[,.;]+/).filter(t => t.trim() !== "");
+    const count = names.length;
+    const checks = Array.from(document.querySelectorAll('.ck-box:checked')).map(ck => ck.id);
+    
+    let hieuSo = 0;
+    let desc = [];
+    document.querySelectorAll('.ck-box:checked').forEach(ck => {
+        hieuSo += (count * parseInt(ck.dataset.d));
+        desc.push(`${ck.dataset.n}(${count})`);
     });
-
-    let score = 100 + tongHieuSo;
-    row.querySelector(".tong").innerText = score;
-    row.dataset.tong = score;
 
     const gio = new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'});
     
-    // Tìm và cập nhật nhật ký cho lớp này nếu đã tồn tại, nếu không thì thêm mới
-    const oldLogIdx = nhatKy.findIndex(n => n.lop === tenLop);
-    const newLog = {lop: tenLop, time: gio, text: details.join(" | ") || "Mới cập nhật"};
-    if(oldLogIdx > -1) nhatKy[oldLogIdx] = newLog;
-    else nhatKy.unshift(newLog);
-    
-    saveData(); xepHang(); renderLog(tenLop);
-    alert("Đã lưu điểm và nhật ký Lớp " + tenLop);
+    db[currentLop] = {
+        names: nameStr,
+        checks: checks,
+        total: 100 + hieuSo,
+        logText: `[${gio}] ${desc.join(", ") || "Cập nhật"}: ${nameStr}`
+    };
+
+    localStorage.setItem('pa_v9_data', JSON.stringify(db));
+    renderTable();
+    renderLog();
+    alert("Đã lưu thành công!");
 }
 
-function renderLog(tenLop) {
-    const log = nhatKy.find(n => n.lop === tenLop);
-    document.getElementById("log-box").innerHTML = log ? 
-        `<b>Nhật ký [${log.time}]:</b><br>${log.text}` : "Nhật ký: Chưa có dữ liệu.";
+function renderTable() {
+    lops.forEach(l => {
+        let r = document.querySelector(`.lop-row[data-lop="${l}"]`);
+        let score = db[l] ? db[l].total : 100;
+        r.querySelector(".tong").innerText = score;
+        r.dataset.tong = score;
+    });
+    xepHang();
 }
 
 function xepHang() {
@@ -219,58 +233,29 @@ function xepHang() {
     let container = document.getElementById("body-bang");
     rows.forEach((r, i) => {
         let h = i + 1;
-        let icon = h === 1 ? '🥇' : h === 2 ? '🥈' : h === 3 ? '🥉' : h;
-        r.querySelector(".rank-cell").innerHTML = `<span class="rank ${h<=3?'rank-'+h:''}">${icon}</span>`;
+        r.querySelector(".rank-cell").innerHTML = `<span class="rank ${h<=3?'rank-'+h:''}">${h==1?'🥇':h==2?'🥈':h==3?'🥉':h}</span>`;
         container.appendChild(r);
     });
 }
 
+function renderLog() {
+    const box = document.getElementById("log-box");
+    box.innerHTML = db[currentLop] ? `Nhật ký: ${db[currentLop].logText}` : "Nhật ký: Chưa có dữ liệu.";
+}
+
 function xuatZalo() {
-    let msg = "📊 BÁO CÁO THI ĐUA PHƯỚC AN\n";
+    let msg = "📊 THI ĐUA PHƯỚC AN\n";
     let rows = Array.from(document.querySelectorAll(".lop-row"));
     rows.sort((a,b) => Number(b.dataset.tong) - Number(a.dataset.tong));
     rows.forEach((r, i) => {
         msg += `${i+1}. Lớp ${r.dataset.lop}: ${r.dataset.tong}đ\n`;
     });
-    navigator.clipboard.writeText(msg + "\n---\nby HUỲNH VĂN ĐÁP").then(() => alert("Đã copy báo cáo!"));
+    navigator.clipboard.writeText(msg).then(() => alert("Đã copy báo cáo!"));
 }
 
 function resetDuLieu() {
-    if(confirm("Xóa toàn bộ điểm và lịch sử tuần này?")) {
+    if(confirm("Xóa toàn bộ điểm tuần này?")) {
         localStorage.clear(); location.reload();
-    }
-}
-
-function saveData() {
-    localStorage.setItem('pa_v7_data', JSON.stringify({
-        details: dataLoi,
-        history: nhatKy
-    }));
-}
-
-function loadData() {
-    const raw = JSON.parse(localStorage.getItem('pa_v7_data'));
-    if (raw) {
-        dataLoi = raw.details || {};
-        nhatKy = raw.history || [];
-        
-        // Tính toán lại điểm dựa trên chuỗi tên đã lưu
-        for (let lop in dataLoi) {
-            let row = document.querySelector(`.lop-row[data-lop="${lop}"]`);
-            if (row) {
-                let hieuSo = 0;
-                for (let id in dataLoi[lop]) {
-                    let input = document.getElementById(id);
-                    if (input) {
-                        let names = dataLoi[lop][id].split(/[,;]+/).filter(n => n.trim() !== "");
-                        hieuSo += (names.length * Number(input.dataset.d));
-                    }
-                }
-                let finalScore = 100 + hieuSo;
-                row.dataset.tong = finalScore;
-                row.querySelector(".tong").innerText = finalScore;
-            }
-        }
     }
 }
 </script>
