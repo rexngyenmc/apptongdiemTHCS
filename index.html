@@ -62,19 +62,19 @@
 <body>
 
 <div id="login-screen">
-    <h2>🔑 SAO ĐỎ PHƯỚC AN</h2>
+    <h2>MẬT KHẨU/PIN</h2>
     <input type="password" id="pin-input" class="pin-input" placeholder="****" maxlength="4" oninput="checkPin()">
 </div>
 
 <div id="main-content">
     <div class="header">
         <div class="school-title">Trường TH & THCS Phước An</div>
-        <p style="margin:5px 0 0 0; font-size:0.8rem; color:#555;">BIỂU ĐIỂM THI ĐUA NĂM HỌC 2025 - 2026</p>
+        <p style="margin:5px 0 0 0; font-size:0.8rem; color:#555;">BIỂU ĐIỂM THI ĐUA CÁC LỚP TRONG TUẦN </p>
     </div>
 
     <div class="container">
         <div class="card" style="flex: 1;">
-            <h3>🏆 Bảng Xếp Hạng (XH)</h3>
+            <h3>🏆 Bảng Xếp Hạng </h3>
             <table>
                 <thead><tr><th>XH</th><th>Lớp</th><th>Điểm</th></tr></thead>
                 <tbody id="body-bang">
@@ -268,7 +268,6 @@ function resetDuLieu() {
         localStorage.clear(); location.reload();
     }
 }
-
 function saveData() {
     localStorage.setItem('pa_v6_data', JSON.stringify({
         scores: Array.from(document.querySelectorAll(".lop-row")).map(r => ({l: r.dataset.lop, d: r.dataset.tong})),
@@ -276,8 +275,22 @@ function saveData() {
         history: nhatKy
     }));
 }
-
-function loadData() {
+function loadData()
+    function updateClock() {
+    const now = new Date();
+    const d = now.getDate().toString().padStart(2, '0');
+    const m = (now.getMonth() + 1).toString().padStart(2, '0');
+    const y = now.getFullYear();
+    const h = now.getHours().toString().padStart(2, '0');
+    const i = now.getMinutes().toString().padStart(2, '0');
+    const s = now.getSeconds().toString().padStart(2, '0');
+    
+    const timeString = `📅 ${d}/${m}/${y} — ⏰ ${h}:${i}:${s}`;
+    const el = document.getElementById('real-time');
+    if (el) el.innerHTML = timeString;
+}
+setInterval(updateClock, 1000);
+updateClock();
     function loadData() {
     const raw = JSON.parse(localStorage.getItem('pa_v6_data'));
     if (raw && raw.scores) {
@@ -307,3 +320,11 @@ function loadData() {
 </script>
 </body>
 </html>
+<div class="header" style="text-align: center; background: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; border-bottom: 4px solid #0056b3;">
+    <div style="font-size: 1.2rem; font-weight: bold; color: #0056b3;">TRƯỜNG TH & THCS PHƯỚC AN</div>
+    <p style="margin: 5px 0; font-size: 0.8rem;">BIỂU ĐIỂM THI ĐUA NĂM HỌC 2025 - 2026</p>
+    
+    <div id="real-time" style="font-size: 0.9rem; color: #d32f2f; font-weight: bold; margin-top: 10px; background: #fff3f3; padding: 5px 15px; border-radius: 20px; display: inline-block; border: 1px solid #ffcdd2;">
+        📅 Đang tải thời gian...
+    </div>
+</div>
