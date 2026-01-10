@@ -58,16 +58,6 @@
         .log-entry { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dotted #ccc; }
         .btn-del { color: red; border: none; background: none; font-weight: bold; cursor: pointer; }
     </style>/
-    * Giao diện Bảng tính mở rộng */
-#modal-bt { 
-    display: none; position: fixed; inset: 0; background: white; 
-    z-index: 9999; padding: 15px; overflow-y: auto; 
-}
-.table-bt { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
-.table-bt th, .table-bt td { border: 1px solid #333; padding: 10px 5px; text-align: left; }
-.table-bt th { background: #f0f0f0; }
-.btn-close-bt { background: #666; color: white; width: 100%; padding: 12px; border: none; border-radius: 10px; margin-top: 20px; font-weight: bold; }
-</head>
 <body>
 
 <div id="login-screen">
@@ -264,16 +254,13 @@ function renderLog() {
     const box = document.getElementById("log-box");
     if(!curLop || !db[curLop] || db[curLop].logs.length === 0) {
         box.innerHTML = "Nhật ký: Chưa có dữ liệu.";
-        return;
-    }
+        return 
     box.innerHTML = "<b>Lịch sử chấm:</b><br>" + db[curLop].logs.map(n => `
         <div class="log-entry">
             <span>[${n.time}] ${n.text} (${n.score > 0 ? '+' : ''}${n.score})</span>
             <button class="btn-del" onclick="xoaLog(${n.id})">✕</button>
         </div>
     `).join("");
-}
-
 function xoaLog(id) {
     if(!confirm("Xóa lỗi này và trả lại điểm?")) return;
     db[curLop].logs = db[curLop].logs.filter(n => {
@@ -308,22 +295,4 @@ function saveData() {
 }
 </script>
 </body>
-</html><button class="btn" style="background: #03dac6; color: #333;" onclick="xemBangTinh()">📊 BẢNG TÍNH CHI TIẾT</button>
-
-<div id="modal-bt">
-    <h3 style="text-align:center; color: var(--p);">CHI TIẾT BẢNG TÍNH</h3>
-    <p id="bt-lop-name" style="font-weight:bold; color: var(--p);"></p>
-    <table class="table-bt">
-        <thead>
-            <tr>
-                <th>Nội dung</th>
-                <th>Biểu điểm</th>
-                <th>Việc làm tốt/không tốt</th>
-                <th>Số lần</th>
-                <th>Điểm</th>
-            </tr>
-        </thead>
-        <tbody id="bt-body"></tbody>
-    </table>
-    <button class="btn-close-bt" onclick="document.getElementById('modal-bt').style.display='none'">ĐÓNG BẢNG TÍNH</button>
-</div>
+</html>
