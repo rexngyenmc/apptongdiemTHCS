@@ -103,21 +103,49 @@
             <h3 id="tenlop" style="text-align:center; color: var(--p); margin: 5px 0;">Chọn Lớp</h3>
             
             <div class="scroll-form" id="form-nhap">
-                <div class="group-title">TÁC PHONG & ĐẠO ĐỨC</div>
-                <div class="loi-item" onclick="toggle('m1')"><span>Không Khăn quàng/Huy hiệu</span><b class="score-tag minus">-5</b><input type="checkbox" id="m1" data-n="Khăn quàng" data-d="-5"></div>
-                <div class="loi-item" onclick="toggle('m2')"><span>Không bỏ áo vào quần</span><b class="score-tag minus">-5</b><input type="checkbox" id="m2" data-n="Tác phong" data-d="-5"></div>
-                <div class="loi-item" onclick="toggle('m3')"><span>Mặc áo khoác sai quy định</span><b class="score-tag minus">-5</b><input type="checkbox" id="m3" data-n="Áo khoác" data-d="-5"></div>
-                <div class="loi-item" onclick="toggle('m12')"><span>Nói tục, chửi thề</span><b class="score-tag minus">-10</b><input type="checkbox" id="m12" data-n="Nói tục" data-d="-10"></div>
+                                <div class="group-title">1. Tác phong & Đồng phục (-5đ)</div>
+                <div class="loi-item" onclick="toggle('m1')"><input type="checkbox" id="m1" data-d="-5" data-n="Khăn quàng"> <span class="loi-text">Không đeo Khăn quàng/Huy hiệu</span> <span class="loi-score minus">-5</span></div>
+                <div class="loi-item" onclick="toggle('m2')"><input type="checkbox" id="m2" data-d="-5" data-n="Tác phong"> <span class="loi-text">Không bỏ áo vào quần</span> <span class="loi-score minus">-5</span></div>
+                <div class="loi-item" onclick="toggle('m3')"><input type="checkbox" id="m3" data-d="-5" data-n="Áo khoác"> <span class="loi-text">Mặc áo khoác trong trường sai quy định</span> <span class="loi-score minus">-5</span></div>
+                <div class="loi-item" onclick="toggle('m4')"><input type="checkbox" id="m4" data-d="-5" data-n="Đồng phục"> <span class="loi-text">Đồng phục không đúng quy định</span> <span class="loi-score minus">-5</span></div>
+                <div class="loi-item" onclick="toggle('m5')"><input type="checkbox" id="m5" data-d="-5" data-n="Chân trần"> <span class="loi-text">Đi chân trần ra sân/WC</span> <span class="loi-score minus">-5</span></div>
+                <div class="loi-item" onclick="toggle('m6')"><input type="checkbox" id="m6" data-d="-5" data-n="Tóc dài"> <span class="loi-text">Để tóc dài (nam)</span> <span class="loi-score minus">-5</span></div>
                 
-                <div class="group-title">CHUYÊN CẦN & TRẬT TỰ</div>
-                <div class="loi-item" onclick="toggle('m15')"><span>Học sinh đi trễ</span><b class="score-tag minus">-2</b><input type="checkbox" id="m15" data-n="Đi trễ" data-d="-2"></div>
-                <div class="loi-item" onclick="toggle('m20')"><span>Lớp ko SH 15 phút (Lớp)</span><b class="score-tag minus">-50</b><input type="checkbox" id="m20" data-n="Bỏ SH" data-d="-50" data-type="L"></div>
+                <div class="group-title">2. Đạo đức & Kỷ luật (-10đ/ -30đ)</div>
+                <div class="loi-item" onclick="toggle('m7')"><input type="checkbox" id="m7" data-d="-10" data-n="Nhuộm/Son"> <span class="loi-text">Nhuộm tóc, tô son, sơn móng</span> <span class="loi-score minus">-10</span></div>
+                <div class="loi-item" onclick="toggle('m8')"><input type="checkbox" id="m8" data-d="-10" data-n="Nói tục"> <span class="loi-text">Nói tục, chửi thề</span> <span class="loi-score minus">-10</span></div>
+                <div class="loi-item" onclick="toggle('m9')"><input type="checkbox" id="m9" data-d="-10" data-n="Đánh nhau"> <span class="loi-text">Đánh nhau</span> <span class="loi-score minus">-10</span></div>
+                <div class="loi-item" onclick="toggle('m10')"><input type="checkbox" id="m10" data-d="-10" data-n="Chống đối"> <span class="loi-text">Chống đối Sao đỏ</span> <span class="loi-score minus">-10</span></div>
+                <div class="loi-item" onclick="toggle('m11')"><input type="checkbox" id="m11" data-d="-30" data-n="Hư hỏng TS"> <span class="loi-text">Cố ý làm hư hỏng tài sản trường</span> <span class="loi-score minus">-30</span></div>
+                <div class="loi-item" onclick="toggle('m12')"><input type="checkbox" id="m12" data-d="-30" data-n="Phá rào"> <span class="loi-text">Chui rào, phá hàng rào</span> <span class="loi-score minus">-30</span></div>
+                <div class="loi-item" onclick="toggle('m13')"><input type="checkbox" id="m13" data-d="-20" data-n="Bỏ rác bậy"> <span class="loi-text">Bỏ rác không đúng nơi quy định</span> <span class="loi-score minus">-20</span></div>
 
-                <div class="group-title">HỌC TẬP & THƯỞNG</div>
-                <div class="loi-item" onclick="toggle('m39')"><span>Đạt điểm 10</span><b class="score-tag plus">+10</b><input type="checkbox" id="m39" data-n="Điểm 10" data-d="10"></div>
-                <div class="loi-item" onclick="toggle('m40')"><span>Tiết học loại A (Lớp)</span><b class="score-tag plus">+10</b><input type="checkbox" id="m40" data-n="Tiết A" data-d="10" data-type="L"></div>
+                <div class="group-title">3. Chuyên cần & Tập thể</div>
+                <div class="loi-item" onclick="toggle('m14')"><input type="checkbox" id="m14" data-d="-2" data-n="Đi trễ"> <span class="loi-text">Đi học trễ</span> <span class="loi-score minus">-2</span></div>
+                <div class="loi-item" onclick="toggle('m15')"><input type="checkbox" id="m15" data-d="-5" data-n="Vắng"> <span class="loi-text">Vắng không phép</span> <span class="loi-score minus">-5</span></div>
+                <div class="loi-item" onclick="toggle('m16')"><input type="checkbox" id="m16" data-d="-10" data-n="Trốn tiết"> <span class="loi-text">Trốn tiết</span> <span class="loi-score minus">-10</span></div>
+                <div class="loi-item" onclick="toggle('m17')"><input type="checkbox" id="m17" data-d="-5" data-n="Nói chuyện"> <span class="loi-text">Nói chuyện riêng</span> <span class="loi-score minus">-5</span></div>
+                <div class="loi-item" onclick="toggle('m18')"><input type="checkbox" id="m18" data-d="-50" data-n="Bỏ SH15" data-tp="L"> <span class="loi-text">Lớp không SH 15 phút</span> <span class="loi-score minus">-50</span></div>
+                <div class="loi-item" onclick="toggle('m19')"><input type="checkbox" id="m19" data-d="-20" data-n="Quốc ca nhỏ" data-tp="L"> <span class="loi-text">Hát Quốc ca nhỏ/Không hát</span> <span class="loi-score minus">-20</span></div>
+
+                <div class="group-title">4. Học tập (Cộng & Trừ)</div>
+                <div class="loi-item" onclick="toggle('m20')"><input type="checkbox" id="m20" data-d="-10" data-n="K.Thuộc bài"> <span class="loi-text">Không thuộc bài/Không làm BT</span> <span class="loi-score minus">-10</span></div>
+                <div class="loi-item" onclick="toggle('m21')"><input type="checkbox" id="m21" data-d="-10" data-n="Điểm yếu"> <span class="loi-text">Điểm 0, 1, 2, 3</span> <span class="loi-score minus">-10</span></div>
+                <div class="loi-item" onclick="toggle('m22')"><input type="checkbox" id="m22" data-d="5" data-n="Điểm 7"> <span class="loi-text">Đạt điểm 7</span> <span class="loi-score plus">+5</span></div>
+                <div class="loi-item" onclick="toggle('m23')"><input type="checkbox" id="m23" data-d="9" data-n="Điểm 8,9"> <span class="loi-text">Đạt điểm 8, 9</span> <span class="loi-score plus">+9</span></div>
+                <div class="loi-item" onclick="toggle('m24')"><input type="checkbox" id="m24" data-d="10" data-n="Điểm 10"> <span class="loi-text">Đạt điểm 10</span> <span class="loi-score plus">+10</span></div>
+                <div class="loi-item" onclick="toggle('m25')"><input type="checkbox" id="m25" data-d="10" data-n="Tiết A" data-tp="L"> <span class="loi-text">1 tiết học loại A</span> <span class="loi-score plus">+10</span></div>
+                <div class="loi-item" onclick="toggle('m26')"><input type="checkbox" id="m26" data-d="5" data-n="Việc tốt"> <span class="loi-text">Nhặt được của rơi trả lại</span> <span class="loi-score plus">+5</span></div>
+
+                <div class="group-title">5. Lỗi Sao đỏ</div>
+                <div class="loi-item" onclick="toggle('m27')"><input type="checkbox" id="m27" data-d="-10" data-n="SĐ trễ" data-tp="L"> <span class="loi-text">Sao đỏ trực trễ/Không đeo băng</span> <span class="loi-score minus">-10</span></div>
+                <div class="loi-item" onclick="toggle('m28')"><input type="checkbox" id="m28" data-d="-20" data-n="SĐ bỏ trực" data-tp="L"> <span class="loi-text">Sao đỏ không đi trực</span> <span class="loi-score minus">-20</span></div>
             </div>
-            
+
+            <div class="log-box" id="nhat-ky"></div>
+        </div>
+    </div>
+</div>
             <button class="btn btn-apply" onclick="apDung()">LƯU ĐIỂM ĐỢT NÀY</button>
             <div class="history-box" id="log-box">Lịch sử: Chưa có dữ liệu.</div>
         </div>
