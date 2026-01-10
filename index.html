@@ -20,7 +20,33 @@
         }
 
         /* Header phong cách bảng hiệu trường */
-        .school-header {
+        .school-header {/* Tên trường ở góc trên cùng bên trái */
+body::before {
+    content: "📍 Trường TH&THCS Phước An";
+    display: block;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #0056b3;
+    padding: 5px 10px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 0 0 10px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+/* Dòng chữ tác giả ở cuối trang */
+body::after {
+    content: "By truongkycaonguyen";
+    display: block;
+    text-align: center;
+    font-size: 0.75rem;
+    font-style: italic;
+    color: #607d8b;
+    margin-top: 30px;
+    padding-bottom: 20px;
+}
             background: var(--school-blue);
             color: white;
             padding: 20px;
