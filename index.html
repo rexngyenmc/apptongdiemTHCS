@@ -3,128 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sổ Tay Sao Đỏ THCS</title>
+    <title>Sao Đỏ TH&THCS Phước An</title>
     <style>
         :root {
-            --school-blue: #0056b3;
-            --leaf-green: #2e7d32;
-            --sky-blue: #e3f2fd;
-            --accent: #ff9800;
+            --p: #0056b3; --s: #2e7d32; --a: #d32f2f; --bg: #e3f2fd;
         }
 
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            background: var(--sky-blue); 
-            margin: 0; padding: 10px;
-            padding-bottom: 100px; /* Chừa chỗ cho hàng cây ở dưới */
+        /* GIAO DIỆN CHUNG */
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 10px; padding-bottom: 80px; }
+        body::before {
+            content: "📍 Trường TH&THCS Phước An"; display: block; font-size: 0.75rem; font-weight: bold;
+            color: var(--p); padding: 5px 10px; background: rgba(255, 255, 255, 0.8);
+            border-radius: 0 0 10px 0; position: fixed; top: 0; left: 0; z-index: 100;
         }
 
-        /* Header phong cách bảng hiệu trường */
-        .school-header {/* Tên trường ở góc trên cùng bên trái */
-body::before {
-    content: "📍 Trường TH&THCS Phước An";
-    display: block;
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: #0056b3;
-    padding: 5px 10px;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 0 0 10px 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 100;
-}
+        .header { background: var(--p); color: white; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; max-width: 1100px; margin: 0 auto; }
 
-/* Dòng chữ tác giả ở cuối trang */
-body::after {
-    content: "By truongkycaonguyen";
-    display: block;
-    text-align: center;
-    font-size: 0.75rem;
-    font-style: italic;
-    color: #607d8b;
-    margin-top: 30px;
-    padding-bottom: 20px;
-}
-            background: var(--school-blue);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; max-width: 1000px; margin: 0 auto; }
-
-        /* Bảng xếp hạng trắng tinh khôi */
-        .table-section { 
-            flex: 1; min-width: 320px; background: white; 
-            padding: 15px; border-radius: 15px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
+        /* BẢNG ĐIỂM */
+        .table-section { flex: 1; min-width: 320px; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         table { width: 100%; border-collapse: collapse; }
-        th { color: #666; font-size: 0.8rem; text-transform: uppercase; padding: 10px; border-bottom: 2px solid #eee; }
+        th { padding: 10px; border-bottom: 2px solid #eee; color: #666; font-size: 0.8rem; }
         td { padding: 12px 5px; text-align: center; border-bottom: 1px solid #f9f9f9; font-weight: bold; }
-        
-        .lop-row { cursor: pointer; border-radius: 8px; }
-        .dang-chon { background: #fffde7 !important; outline: 2px solid var(--accent); }
+        .lop-row { cursor: pointer; transition: 0.2s; }
+        .dang-chon { background: #fff9c4 !important; outline: 2px solid #ffd600; }
 
-        /* Panel chấm điểm */
-        .panel-section { 
-            flex: 1.2; min-width: 320px; background: white; 
-            padding: 20px; border-radius: 15px; 
-            display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border-top: 5px solid var(--school-blue);
-            z-index: 10;
-        }
+        /* PANEL CHẤM ĐIỂM & AI */
+        .panel-section { flex: 1.2; min-width: 320px; background: white; padding: 20px; border-radius: 15px; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-top: 5px solid var(--p); }
+        .ai-box { background: #f0f7ff; border: 1px dashed var(--p); padding: 10px; border-radius: 10px; margin-bottom: 15px; }
+        .ai-tag { background: var(--p); color: white; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; }
 
-        .group-title { 
-            background: #f0f4f8; color: var(--school-blue);
-            padding: 8px; font-weight: bold; border-radius: 5px;
-            margin: 15px 0 10px 0; font-size: 0.8rem;
-        }
-
+        .group-title { background: #f8f9fa; color: var(--p); padding: 8px; font-weight: bold; border-radius: 5px; margin: 15px 0 5px 0; font-size: 0.8rem; border-left: 4px solid var(--p); }
         .loi-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f1f1f1; }
-        .loi-item span { flex: 1; font-size: 0.9rem; }
-        .loi-item b { width: 40px; text-align: right; color: #d32f2f; margin-right: 10px; }
-        .loi-item b.plus { color: #2e7d32; }
+        .loi-item span { flex: 1; font-size: 0.85rem; }
         input[type=number] { width: 45px; padding: 8px; border: 1px solid #ddd; border-radius: 8px; text-align: center; font-weight: bold; }
 
-        /* Nút bấm */
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .btn-apply { background: var(--school-blue); color: white; font-size: 1rem; }
-        .btn-zalo { background: white; color: var(--school-blue); border: 2px solid var(--school-blue); }
+        /* NÚT BẤM */
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .btn-apply { background: var(--p); color: white; font-size: 1rem; }
+        .btn-zalo { background: white; color: var(--p); border: 2px solid var(--p); }
 
-        /* TRANG TRÍ GÓC DƯỚI */
-        .decoration {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            height: 80px;
-            pointer-events: none; /* Không làm vướng khi chạm */
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            padding: 0 20px;
-            z-index: 1;
-        }
-        .school-icon { font-size: 50px; filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1)); }
-        .trees { font-size: 40px; }
+        /* TRANG TRÍ */
+        .decoration { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; pointer-events: none; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 20px; z-index: 1; }
+        .footer-credit { text-align: center; font-size: 0.7rem; color: #78909c; padding: 10px; position: relative; z-index: 2; margin-top: 20px; }
 
-        @media (max-width: 600px) {
-            .container { flex-direction: column; }
-            .panel-section { position: relative; width: auto; }
-        }
+        @media (max-width: 600px) { .container { flex-direction: column; } .panel-section { width: auto; } }
     </style>
 </head>
 <body>
 
-<div class="school-header">
+<div class="header">
     <div style="font-size: 2rem;">🏫</div>
-    <h1>Hệ Thống Tổng Kết Sao Đỏ</h1>
-    <div style="font-size: 0.8rem; opacity: 0.8;">Năm học 2025 - 2026</div>
+    <h1>Hệ Thống Sao Đỏ Phước An</h1>
+    <div style="font-size: 0.8rem; opacity: 0.9;">Dữ liệu thi đua học sinh THCS</div>
 </div>
 
 <div class="container">
@@ -140,35 +71,46 @@ body::after {
                 </script>
             </tbody>
         </table>
-        <button class="btn btn-zalo" onclick="xuatBaoCao()">📋 Copy Báo Cáo Zalo</button>
-        <button class="btn" style="background:none; color:#999; text-decoration:underline;" onclick="resetDiem()">Xóa dữ liệu tuần cũ</button>
+        <button class="btn btn-zalo" onclick="xuatBaoCao()">📋 Sao chép báo cáo Zalo</button>
+        <button class="btn" style="background:none; color:#999; font-size:0.7rem;" onclick="resetDiem()">🔄 Làm mới tuần mới</button>
     </div>
 
     <div id="panel" class="panel-section">
-        <h2 id="tenlop" style="text-align:center; color: var(--school-blue);">Lớp</h2>
-        <div id="form-nhap">
-            <div class="group-title">👔 TÁC PHONG</div>
-            <div class="loi-item"><span>Khăn quàng/Huy hiệu</span><b>-5</b><input type="number" id="l1" data-d="-5"></div>
-            <div class="loi-item"><span>Tác phong/Áo khoác</span><b>-5</b><input type="number" id="l2" data-d="-5"></div>
-            <div class="loi-item"><span>Đồng phục/Giày dép</span><b>-5</b><input type="number" id="l3" data-d="-5"></div>
-            
-            <div class="group-title">📚 HỌC TẬP & KỶ LUẬT</div>
-            <div class="loi-item"><span>Đi trễ/Vắng/Trốn tiết</span><b>-5</b><input type="number" id="l4" data-d="-5"></div>
-            <div class="loi-item"><span>Nói chuyện/Điện thoại</span><b>-5</b><input type="number" id="l5" data-d="-5"></div>
-            <div class="loi-item"><span>Điểm 10 (Cộng)</span><b class="plus">+10</b><input type="number" id="l6" data-d="10"></div>
-            
-            <div class="group-title">🧹 TẬP THỂ</div>
-            <div class="loi-item"><span>Vệ sinh/Bỏ rác sai</span><b>-20</b><input type="number" id="l7" data-d="-20"></div>
-            <div class="loi-item"><span>Chào cờ/TD giữa giờ</span><b>-20</b><input type="number" id="l8" data-d="-20"></div>
+        <div class="ai-box">
+            <span class="ai-tag">AI NHẬN XÉT</span>
+            <p id="ai-nhan-xet" style="font-size: 0.85rem; color: #333; margin: 8px 0 0 0; line-height: 1.4;">Hãy chọn một lớp để xem đánh giá thông minh...</p>
         </div>
-        <button class="btn btn-apply" onclick="apDung()">LƯU KẾT QUẢ</button>
+
+        <h2 id="tenlop" style="text-align:center; color: var(--p); margin: 10px 0;">Lớp</h2>
+        
+        <div id="form-nhap">
+            <div class="group-title">👔 TÁC PHONG ( -5đ )</div>
+            <div class="loi-item"><span>Khăn quàng / Huy hiệu</span><input type="number" id="l1" data-d="-5"></div>
+            <div class="loi-item"><span>Bỏ áo vào quần / Tác phong</span><input type="number" id="l2" data-d="-5"></div>
+            <div class="loi-item"><span>Đồng phục / Giày dép</span><input type="number" id="l3" data-d="-5"></div>
+            
+            <div class="group-title">⏰ CHUYÊN CẦN & TRẬT TỰ</div>
+            <div class="loi-item"><span>Đi trễ ( -2đ )</span><input type="number" id="l4" data-d="-2"></div>
+            <div class="loi-item"><span>Vắng không phép ( -5đ )</span><input type="number" id="l5" data-d="-5"></div>
+            <div class="loi-item"><span>Nói chuyện / Trốn tiết ( -10đ )</span><input type="number" id="l6" data-d="-10"></div>
+
+            <div class="group-title">🌟 ĐIỂM THI ĐUA (CỘNG)</div>
+            <div class="loi-item"><span>Điểm 10 học tập ( +10đ )</span><input type="number" id="l7" data-d="10"></div>
+            <div class="loi-item"><span>Tiết học tốt ( +10đ )</span><input type="number" id="l8" data-d="10"></div>
+        </div>
+
+        <button class="btn btn-apply" onclick="apDung()">CẬP NHẬT & PHÂN TÍCH AI</button>
     </div>
 </div>
 
 <div class="decoration">
-    <div class="trees">🌳🌲🌳</div>
-    <div class="school-icon">🏫</div>
-    <div class="trees">🌲🌳</div>
+    <div style="font-size: 40px;">🌳🌲</div>
+    <div style="font-size: 50px;">🏫</div>
+    <div style="font-size: 40px;">🌲🌳</div>
+</div>
+
+<div class="footer-credit">
+    By <b>truongkycaonguyen</b> | TH&THCS Phước An
 </div>
 
 <script>
@@ -182,28 +124,52 @@ function chonLop(row) {
     row.classList.add("dang-chon");
     lopDangChon = row;
     document.getElementById("panel").style.display = "block";
-    document.getElementById("tenlop").innerText = "Đang chấm: " + row.dataset.lop;
+    document.getElementById("tenlop").innerText = "Đang xem: " + row.dataset.lop;
 
     const saved = dataLoi[row.dataset.lop] || {};
     document.querySelectorAll("#form-nhap input").forEach(i => i.value = saved[i.id] || 0);
+    capNhatAI();
     if(window.innerWidth < 600) document.getElementById("panel").scrollIntoView({behavior: "smooth"});
 }
 
 function apDung() {
     if(!lopDangChon) return;
-    let tong = 0;
+    let tongBienDong = 0;
     let tempLoi = {};
     document.querySelectorAll("#form-nhap input").forEach(i => {
         let val = Number(i.value) || 0;
-        tong += (val * Number(i.dataset.d));
+        tongBienDong += (val * Number(i.dataset.d));
         tempLoi[i.id] = val;
     });
     dataLoi[lopDangChon.dataset.lop] = tempLoi;
-    let total = 100 + tong;
+    let total = 100 + tongBienDong;
     lopDangChon.querySelector(".tong").innerText = (total < 0) ? 0 : total;
     lopDangChon.dataset.tong = (total < 0) ? 0 : total;
-    xepHang(); saveData();
-    alert("Đã cập nhật!");
+    
+    capNhatAI();
+    xepHang(); 
+    saveData();
+    
+    const btn = document.querySelector(".btn-apply");
+    btn.innerText = "ĐÃ PHÂN TÍCH ✔️";
+    setTimeout(() => btn.innerText = "CẬP NHẬT & PHÂN TÍCH AI", 1000);
+}
+
+function capNhatAI() {
+    const diem = Number(lopDangChon.dataset.tong) || 100;
+    const loi = dataLoi[lopDangChon.dataset.lop] || {};
+    let nx = "";
+
+    if (diem >= 100) nx = "🌟 Lớp duy trì phong độ xuất sắc. Không có lỗi vi phạm. Cần tiếp tục phát huy!";
+    else if (diem >= 90) nx = "✅ Ý thức tốt. Tuy nhiên cần nhắc nhở vài cá nhân về lỗi tác phong để đạt điểm tuyệt đối.";
+    else if (diem >= 80) nx = "⚠️ Lớp có dấu hiệu lơ là. Lỗi tập trung nhiều ở chuyên cần. GVCN cần đôn đốc hơn.";
+    else if (diem >= 60) nx = "❌ Tình trạng thi đua ở mức trung bình. Nhiều vi phạm về kỷ luật và trật tự. Cần họp lớp chấn chỉnh ngay.";
+    else nx = "🚩 BÁO ĐỘNG: Vi phạm nghiêm trọng hệ thống nội quy. Đề nghị cấm túc và hạ bậc thi đua tuần này.";
+
+    if (loi.l4 > 2) nx += " Đặc biệt, tình trạng đi trễ đang diễn ra khá phổ biến.";
+    if (loi.l7 > 3) nx += " Điểm sáng là lớp có nhiều hoa điểm 10 bù đắp lại lỗi vi phạm.";
+
+    document.getElementById("ai-nhan-xet").innerText = nx;
 }
 
 function xepHang() {
@@ -218,13 +184,13 @@ function xepHang() {
 }
 
 function saveData() {
-    localStorage.setItem('sd_diem_final', JSON.stringify(Array.from(document.querySelectorAll(".lop-row")).map(r => ({l: r.dataset.lop, d: r.querySelector(".tong").innerText}))));
-    localStorage.setItem('sd_loi_final', JSON.stringify(dataLoi));
+    localStorage.setItem('pa_diem', JSON.stringify(Array.from(document.querySelectorAll(".lop-row")).map(r => ({l: r.dataset.lop, d: r.querySelector(".tong").innerText}))));
+    localStorage.setItem('pa_loi', JSON.stringify(dataLoi));
 }
 
 function loadData() {
-    const d = JSON.parse(localStorage.getItem('sd_diem_final'));
-    const l = JSON.parse(localStorage.getItem('sd_loi_final'));
+    const d = JSON.parse(localStorage.getItem('pa_diem'));
+    const l = JSON.parse(localStorage.getItem('pa_loi'));
     if (d) d.forEach(item => {
         let r = document.querySelector(`.lop-row[data-lop="${item.l}"]`);
         if(r) { r.querySelector(".tong").innerText = item.d; r.dataset.tong = item.d; }
@@ -233,16 +199,17 @@ function loadData() {
 }
 
 function resetDiem() {
-    if(confirm("Bạn muốn reset điểm tuần này?")) {
+    if(confirm("Bạn muốn reset toàn bộ dữ liệu Phước An tuần này?")) {
         localStorage.clear(); location.reload();
     }
 }
 
 function xuatBaoCao() {
-    let t = "📋 BÁO CÁO THI ĐUA\n";
+    let t = "📋 BÁO CÁO THI ĐUA PHƯỚC AN\n--------------------------\n";
     document.querySelectorAll(".lop-row").forEach(r => {
         t += `${r.querySelector(".xh").innerText}. Lớp ${r.dataset.lop}: ${r.querySelector(".tong").innerText}đ\n`;
     });
+    t += "\nBy truongkycaonguyen";
     navigator.clipboard.writeText(t).then(() => alert("Đã copy báo cáo!"));
 }
 </script>
