@@ -70,7 +70,7 @@
 <div id="main-content">
     <div class="header">
         <div class="school-title">Trường TH & THCS Phước An</div>
-        <p style="margin:5px 0 0 0; font-size:0.8rem; color:#555;">BIỂU ĐIỂM THI ĐUA NĂM HỌC 2025 - 2026</p>
+        <p style="margin:5px 0 0 0; font-size:0.8rem; color:#555;">BIỂU ĐIỂM THI ĐUA CÁC LỚP TRONG TUẦN</p>
     </div>
 
     <div class="container">
@@ -171,7 +171,7 @@
 </div>
 
 <script>
-const PIN = "1234";
+const PIN = "1234";	
 let dataLoi = {};
 let nhatKy = [];
 
@@ -257,11 +257,11 @@ function renderLog(tenLop) {
 }
 
 function xuatZalo() {
-    let msg = "📊 BÁO CÁO THI ĐUA PHƯỚC AN\n";
+    let msg = " BÁO CÁO THI ĐUA PHƯỚC AN\n";
     document.querySelectorAll(".lop-row").forEach((r, i) => {
         msg += `${i+1}. Lớp ${r.dataset.lop}: ${r.querySelector(".tong").innerText}đ\n`;
     });
-    navigator.clipboard.writeText(msg + "\n---\nby truongkycaonguyen").then(() => alert("Đã copy báo cáo!"));
+    navigator.clipboard.writeText(msg + "\n---\nby HUỲNH VĂN ĐÁP  ").then(() => alert("Đã copy báo cáo!"));
 }
 
 function resetDuLieu() {
