@@ -2,11 +2,11 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Bảng điểm thi đua</title>
+  <title>Bảng xếp hạng Sao Đỏ</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f2f6ff;
+      background: #eef2ff;
       padding: 20px;
     }
 
@@ -19,12 +19,13 @@
       width: 100%;
       border-collapse: collapse;
       background: white;
+      margin-top: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     th, td {
       border: 1px solid #ccc;
-      padding: 10px;
+      padding: 8px;
       text-align: center;
     }
 
@@ -33,118 +34,98 @@
       color: white;
     }
 
-    tr:nth-child(even) {
-      background: #f9f9f9;
+    input {
+      width: 70px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 25px;
+      background: #1a3cff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0f24b3;
+    }
+
+    .goc {
+      font-weight: bold;
+      color: #0f24b3;
     }
   </style>
 </head>
+
 <body>
 
-  <h1>BẢNG XẾP HẠNG THI ĐUA TUẦN</h1>
+<h1>BẢNG XẾP HẠNG THI ĐUA SAO ĐỎ</h1>
 
-  <table>
-    <tr class="lop">
-  <td class="xephang"></td>
-  <td>6A</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
-<tr class="lop">
-  <td class="xephang"></td>
-  <td>6B</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
-<tr class="lop">
-  <td class="xephang"></td>
-  <td>6C</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
+<table id="bang">
+  <tr>
+    <th>Xếp hạng</th>
+    <th>Lớp</th>
+    <th>Điểm gốc</th>
+    <th>Điểm cộng</th>
+    <th>Ba rê lỗi (trừ)</th>
+    <th>Tổng điểm</th>
+  </tr>
 
-<tr class="lop">
-  <td class="xephang"></td>
-  <td>7A</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
-<tr class="lop">
-  <td class="xephang"></td>
-  <td>7B</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
-<tr class="lop">
-  <td class="xephang"></td>
-  <td>7C</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
+  <!-- KHỐI 6 -->
+  <tr class="lop"><td class="xephang"></td><td>6A</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+  <tr class="lop"><td class="xephang"></td><td>6B</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+  <tr class="lop"><td class="xephang"></td><td>6C</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
 
-<tr class="lop">
-  <td class="xephang"></td>
-  <td>8A</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
-<tr class="lop">
-  <td class="xephang"></td>
-  <td>8B</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
-<tr class="lop">
-  <td class="xephang"></td>
-  <td>8C</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
+  <!-- KHỐI 7 -->
+  <tr class="lop"><td class="xephang"></td><td>7A</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+  <tr class="lop"><td class="xephang"></td><td>7B</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+  <tr class="lop"><td class="xephang"></td><td>7C</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
 
-<tr class="lop">
-  <td class="xephang"></td>
-  <td>9A</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
-<tr class="lop">
-  <td class="xephang"></td>
-  <td>9B</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
-<tr class="lop">
-  <td class="xephang"></td>
-  <td>9C</td>
-  <td><input class="diem" type="number"></td>
-  <td><input class="diem" type="number"></td>
-  <td class="tong"></td>
-</tr>
+  <!-- KHỐI 8 -->
+  <tr class="lop"><td class="xephang"></td><td>8A</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+  <tr class="lop"><td class="xephang"></td><td>8B</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+  <tr class="lop"><td class="xephang"></td><td>8C</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
 
+  <!-- KHỐI 9 -->
+  <tr class="lop"><td class="xephang"></td><td>9A</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+  <tr class="lop"><td class="xephang"></td><td>9B</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+  <tr class="lop"><td class="xephang"></td><td>9C</td><td class="goc">100</td><td><input class="cong" type="number" value="0"></td><td><input class="tru" type="number" value="0"></td><td class="tong"></td></tr>
+
+</table>
+
+<div style="text-align:center">
+  <button onclick="tinhVaXepHang()">TÍNH & XẾP HẠNG</button>
+</div>
+
+<script>
+function tinhVaXepHang() {
+  let rows = document.querySelectorAll(".lop");
+
+  rows.forEach(row => {
+    let cong = Number(row.querySelector(".cong").value || 0);
+    let tru  = Number(row.querySelector(".tru").value || 0);
+    let tong = 100 + cong - tru;
+
+    row.querySelector(".tong").innerText = tong;
+    row.dataset.tong = tong;
   });
 
-  // Sắp xếp theo tổng điểm
   let arr = Array.from(rows);
   arr.sort((a, b) => b.dataset.tong - a.dataset.tong);
 
-  // Gán xếp hạng
   arr.forEach((row, index) => {
     let hang = index + 1;
-    let text = hang;
-    if (hang === 1) text = "🥇";
-    if (hang === 2) text = "🥈";
-    if (hang === 3) text = "🥉";
-    row.querySelector(".xephang").innerText = text;
+    let xh = hang;
+    if (hang === 1) xh = "🥇";
+    if (hang === 2) xh = "🥈";
+    if (hang === 3) xh = "🥉";
+    row.querySelector(".xephang").innerText = xh;
   });
 }
 </script>
+
+</body>
+</html>
