@@ -40,9 +40,53 @@ th{
 <div class="header">
   HỆ THỐNG QUẢN LÝ ĐIỂM SAO ĐỎ THCS
 </div>
-
 <div class="container">
+  <h3>Nhập điểm lớp</h3>
+
+  <input id="lop" placeholder="Lớp (VD: 8A)">
+  <input id="neNep" type="number" placeholder="Nề nếp">
+  <input id="dongPhuc" type="number" placeholder="Đồng phục">
+  <input id="veSinh" type="number" placeholder="Vệ sinh">
+  <button onclick="capNhat()">Cập nhật</button>
+
   <h3>Bảng điểm tuần</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Lớp</th>
+        <th>Nề nếp</th>
+        <th>Đồng phục</th>
+        <th>Vệ sinh</th>
+        <th>Tổng</th>
+      </tr>
+    </thead>
+    <tbody id="bang">
+    </tbody>
+  </table>
+</div>
+
+<script>
+function capNhat(){
+  let lop = document.getElementById("lop").value;
+  let neNep = Number(document.getElementById("neNep").value);
+  let dongPhuc = Number(document.getElementById("dongPhuc").value);
+  let veSinh = Number(document.getElementById("veSinh").value);
+  let tong = neNep + dongPhuc + veSinh;
+
+  document.getElementById("bang").innerHTML = `
+    <tr>
+      <td>${lop}</td>
+      <td>${neNep}</td>
+      <td>${dongPhuc}</td>
+      <td>${veSinh}</td>
+      <td>${tong}</td>
+    </tr>
+  `;
+}
+</script>
+
+
 
   <table>
     <tr>
