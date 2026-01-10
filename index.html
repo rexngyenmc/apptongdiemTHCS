@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -57,7 +58,8 @@
         .history-box { margin-top: 15px; font-size: 0.75rem; background: #f9f9f9; padding: 10px; border-radius: 10px; min-height: 50px; }
         .log-entry { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dotted #ccc; }
         .btn-del { color: red; border: none; background: none; font-weight: bold; cursor: pointer; }
-    </style>/
+    </style>
+</head>
 <body>
 
 <div id="login-screen">
@@ -254,13 +256,16 @@ function renderLog() {
     const box = document.getElementById("log-box");
     if(!curLop || !db[curLop] || db[curLop].logs.length === 0) {
         box.innerHTML = "Nhật ký: Chưa có dữ liệu.";
-        return 
+        return;
+    }
     box.innerHTML = "<b>Lịch sử chấm:</b><br>" + db[curLop].logs.map(n => `
         <div class="log-entry">
             <span>[${n.time}] ${n.text} (${n.score > 0 ? '+' : ''}${n.score})</span>
             <button class="btn-del" onclick="xoaLog(${n.id})">✕</button>
         </div>
     `).join("");
+}
+
 function xoaLog(id) {
     if(!confirm("Xóa lỗi này và trả lại điểm?")) return;
     db[curLop].logs = db[curLop].logs.filter(n => {
