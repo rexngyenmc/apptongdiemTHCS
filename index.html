@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -70,7 +71,7 @@
 <div id="main-content">
     <div class="header">
         <div class="school-title">Trường TH & THCS Phước An</div>
-        <p style="margin:5px 0 0 0; font-size:0.8rem; color:#555;">BIỂU ĐIỂM THI ĐUA CÁC LỚP TRONG TUẦN </p>
+        <p style="margin:5px 0 0 0; font-size:0.8rem; color:#555;">BIỂU ĐIỂM THI ĐUA NĂM HỌC 2025 - 2026</p>
     </div>
 
     <div class="container">
@@ -87,8 +88,8 @@
                     </script>
                 </tbody>
             </table>
-            <button class="btn btn-zalo" onclick="xuatZalo()">🔵 Xuất Báo Cáo điểm </button>
-            <button class="btn btn-reset" onclick="resetDuLieu()">🔄 Reset Tuần Mới/vá lỗi</button>
+            <button class="btn btn-zalo" onclick="xuatZalo()">🔵 Xuất Báo Cáo Zalo</button>
+            <button class="btn btn-reset" onclick="resetDuLieu()">🔄 Reset Tuần Mới</button>
         </div>
 
         <div id="panel" class="card" style="display:none; flex: 1.6;">
@@ -257,11 +258,9 @@ function renderLog(tenLop) {
 }
 
 function xuatZalo() {
-    let msg = "BÁO CÁO THI ĐUA CÁC LỚP \n";
+    let msg = "BÁO CÁO THI ĐUA PHƯỚC AN\n";
     document.querySelectorAll(".lop-row").forEach((r, i) => {
-        msg += `${i+1}. Lớp ${r.dataset.lop}: ${r.querySelector(".tong").innerText}đ\n`;
-    });
-    navigator.clipboard.writeText.then(() => alert("Đã copy báo cáo!"));
+        msg += `${i+1}. Lớp ${r.dataset.lop}: ${r.querySelector(".tong").innerText}đ\n`.then(() => alert("Đã copy báo cáo!"));
 }
 
 function resetDuLieu() {
