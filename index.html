@@ -288,19 +288,6 @@ function loadData() {
         nhatKy = raw.history || [];
     }
 }
-</script>function updateClock() {
-    const now = new Date();
-    const days = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
-    const d = now.getDate().toString().padStart(2, '0');
-    const m = (now.getMonth() + 1).toString().padStart(2, '0');
-    const y = now.getFullYear();
-    const h = now.getHours().toString().padStart(2, '0');
-    const i = now.getMinutes().toString().padStart(2, '0');
-    const s = now.getSeconds().toString().padStart(2, '0');
-    
-    document.getElementById('real-time').innerHTML = `📅 ${days[now.getDay()]}, ${d}/${m}/${y} - ⏰ ${h}:${i}:${s}`;
-}
-setInterval(updateClock, 1000);
-updateClock();
+</script>function updateClock()
 </body>
 </html>
