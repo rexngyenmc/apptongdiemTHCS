@@ -50,9 +50,15 @@
       <tbody id="body-bang">
         <tr class="lop-row" data-lop="6A" onclick="chonLop(this)"><td>6A</td><td class="tong">100</td><td class="xephang"></td></tr>
         <tr class="lop-row" data-lop="6B" onclick="chonLop(this)"><td>6B</td><td class="tong">100</td><td class="xephang"></td></tr>
-        <tr class="lop-row" data-lop="7A" onclick="chonLop(this)"><td>7A</td><td class="tong">100</td><td class="xephang"></td></tr>
-        <tr class="lop-row" data-lop="8A" onclick="chonLop(this)"><td>8A</td><td class="tong">100</td><td class="xephang"></td></tr>
-        <tr class="lop-row" data-lop="9A" onclick="chonLop(this)"><td>9A</td><td class="tong">100</td><td class="xephang"></td></tr>
+        <tr class="lop-row" data-lop="6C" onclick="chonLop(this)"><td>6C</td><td class="tong">100</td><td class="xephang"></td></tr>
+        <tr class="lop-row" data-lop="7A" onclick="chonLop(this)"><td>7B</td><td class="tong">100</td><td class="xephang"></td></tr>
+        <tr class="lop-row" data-lop="7B" onclick="chonLop(this)"><td>7B</td><td class="tong">100</td><td class="xephang"></td></tr>
+        <tr class="lop-row" data-lop="7C" onclick="chonLop(this)"><td>7C</td><td class="tong">100</td><td class="xephang"></td></tr>
+      <tr class="lop-row" data-lop="8A" onclick="chonLop(this)"><td>8A</td><td class="tong">100</td><td class="xephang"></td></tr>
+      <tr class="lop-row" data-lop="8B" onclick="chonLop(this)"><td>8B</td><td class="tong">100</td><td class="xephang"></td></tr>
+      <tr class="lop-row" data-lop="8C" onclick="chonLop(this)"><td>8C</td><td class="tong">100</td><td class="xephang"></td></tr>
+      <tr class="lop-row" data-lop="9A" onclick="chonLop(this)"><td>9A</td><td class="tong">100</td><td class="xephang"></td></tr>
+      <tr class="lop-row" data-lop="9B" onclick="chonLop(this)"><td>9B</td><td class="tong">100</td><td class="xephang"></td></tr>
       </tbody>
     </table>
     <button class="btn-report" onclick="xuatBaoCao()">Sao chép báo cáo gửi Zalo</button>
@@ -138,26 +144,7 @@ function xepHang() {
   });
 }
 
-function luuDuLieu() {
-  const scores = {};
-  document.querySelectorAll(".lop-row").forEach(r => {
-    scores[r.dataset.lop] = r.querySelector(".tong").innerText;
-  });
-  localStorage.setItem('dataSaoDo', JSON.stringify(scores));
-}
 
-function xuatBaoCao() {
-  let text = "📋 BÁO CÁO ĐIỂM SAO ĐỎ\n------------------\n";
-  let rows = document.querySelectorAll(".lop-row");
-  rows.forEach(r => {
-    let lop = r.dataset.lop;
-    let diem = r.querySelector(".tong").innerText;
-    let hang = r.querySelector(".xephang").innerText;
-    text += `Hạng ${hang}: Lớp ${lop} - ${diem} điểm\n`;
-  });
-  
-  navigator.clipboard.writeText(text).then(() => {
-    alert("Đã sao chép báo cáo! Bây giờ bạn có thể dán vào Zalo.");
   });
 }
 </script>
