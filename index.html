@@ -84,7 +84,8 @@ button:hover{
 
 <body>
 
-<h1>BẢNG XẾP HẠNG SAO ĐỎ</h1>
+<h1>BẢNG XẾP HẠNG SAO ĐỎ 
+  trường TH&THCS PHƯỚC AN </h1>
 
 <div class="container">
 
@@ -160,9 +161,9 @@ function xepHang(){
 
   rows.forEach((r,i)=>{
     let xh = i+1;
-    if(xh==1) xh="🥇";
-    if(xh==2) xh="🥈";
-    if(xh==3) xh="🥉";
+    if(xh==1) xh="1";
+    if(xh==2) xh="2";
+    if(xh==3) xh="3";
     r.querySelector(".xephang").innerText=xh;
   });
 }
