@@ -71,8 +71,8 @@
             <h3 id="current-lop-label" style="color:var(--p); text-align:center; margin-top:0"></h3>
             
             <div class="input-group">
-                <span class="input-label">👤 CÁ NHÂN/TẬP THỂ (Cách nhau bằng dấu phẩy):</span>
-                <input type="text" id="hs-names" class="input-box" placeholder="Ví dụ: Hoàng, Hà, Ân...">
+                <span class="input-label">👤 CÁ NHÂN/TẬP THỂ (VD: Hoàng x3, Hà, Ân...):</span>
+                <input type="text" id="hs-names" class="input-box" placeholder="Ví dụ: Hoàng x3, Hà, Ân...">
             </div>
 
             <div class="input-group">
@@ -86,25 +86,17 @@
                 <div class="loi-item" onclick="toggleLoi('l2')"><input type="checkbox" id="l2" data-d="-5" data-n="Không bỏ áo vào quần"> <span>Không bỏ áo vào quần</span> <div class="score-tag minus">-5</div></div>
                 <div class="loi-item" onclick="toggleLoi('l3')"><input type="checkbox" id="l3" data-d="-5" data-n="Mặc áo khoác sai quy định"> <span>Mặc áo khoác sai quy định</span> <div class="score-tag minus">-5</div></div>
                 <div class="loi-item" onclick="toggleLoi('l4')"><input type="checkbox" id="l4" data-d="-5" data-n="Đồng phục sai quy định"> <span>Đồng phục sai quy định</span> <div class="score-tag minus">-5</div></div>
-                <div class="loi-item" onclick="toggleLoi('l5')"><input type="checkbox" id="l5" data-d="-5" data-n="Đi chân trần"> <span>Đi chân trần ra sân/WC</span> <div class="score-tag minus">-5</div></div>
-                <div class="loi-item" onclick="toggleLoi('l6')"><input type="checkbox" id="l6" data-d="-5" data-n="Để xe không ngay hàng"> <span>Để xe không ngay hàng</span> <div class="score-tag minus">-5</div></div>
+                <div class="loi-item" onclick="toggleLoi('l5')"><input type="checkbox" id="l5" data-d="-5" data-n="Đi chân trần ra sân/WC"> <span>Đi chân trần ra sân/WC</span> <div class="score-tag minus">-5</div></div>
 
-                <div class="group-title">KỶ LUẬT & ĐẠO ĐỨC</div>
-                <div class="loi-item" onclick="toggleLoi('l7')"><input type="checkbox" id="l7" data-d="-10" data-n="Nói tục, chửi thề"> <span>Nói tục, chửi thề</span> <div class="score-tag minus">-10</div></div>
-                <div class="loi-item" onclick="toggleLoi('l8')"><input type="checkbox" id="l8" data-d="-20" data-n="Bỏ rác sai quy định"> <span>Bỏ rác sai quy định</span> <div class="score-tag minus">-20</div></div>
-                <div class="loi-item" onclick="toggleLoi('l9')"><input type="checkbox" id="l9" data-d="-10" data-n="Nhuộm tóc/Son phấn"> <span>Nhuộm tóc, son phấn</span> <div class="score-tag minus">-10</div></div>
-                <div class="loi-item" onclick="toggleLoi('l10')"><input type="checkbox" id="l10" data-d="-10" data-n="Đánh nhau"> <span>Đánh nhau</span> <div class="score-tag minus">-10</div></div>
+                <div class="group-title">KỶ LUẬT & ĐẠO ĐỨC (-10đ đến -30đ)</div>
+                <div class="loi-item" onclick="toggleLoi('l6')"><input type="checkbox" id="l6" data-d="-10" data-n="Nói tục, chửi thề"> <span>Nói tục, chửi thề</span> <div class="score-tag minus">-10</div></div>
+                <div class="loi-item" onclick="toggleLoi('l7')"><input type="checkbox" id="l7" data-d="-20" data-n="Bỏ rác sai quy định"> <span>Bỏ rác sai quy định</span> <div class="score-tag minus">-20</div></div>
+                <div class="loi-item" onclick="toggleLoi('l8')"><input type="checkbox" id="l8" data-d="-30" data-n="Chui rào/Phá hàng rào"> <span>Chui rào/Phá hàng rào</span> <div class="score-tag minus">-30</div></div>
                 
-                <div class="group-title">CHUYÊN CẦN (-2đ đến -10đ)</div>
-                <div class="loi-item" onclick="toggleLoi('l11')"><input type="checkbox" id="l11" data-d="-2" data-n="Đi trễ"> <span>Đi trễ</span> <div class="score-tag minus">-2</div></div>
-                <div class="loi-item" onclick="toggleLoi('l12')"><input type="checkbox" id="l12" data-d="-10" data-n="Trốn tiết"> <span>Trốn tiết</span> <div class="score-tag minus">-10</div></div>
-                <div class="loi-item" onclick="toggleLoi('l13')"><input type="checkbox" id="l13" data-d="-5" data-n="Vắng ko phép"> <span>Vắng không phép</span> <div class="score-tag minus">-5</div></div>
-
                 <div class="group-title">HỌC TẬP (+/-)</div>
-                <div class="loi-item" onclick="toggleLoi('l14')"><input type="checkbox" id="l14" data-d="10" data-n="Điểm số: 10"> <span>Đạt điểm 10</span> <div class="score-tag plus">+10</div></div>
-                <div class="loi-item" onclick="toggleLoi('l15')"><input type="checkbox" id="l15" data-d="9" data-n="Điểm số: 8,9"> <span>Đạt điểm 8, 9</span> <div class="score-tag plus">+9</div></div>
-                <div class="loi-item" onclick="toggleLoi('l16')"><input type="checkbox" id="l16" data-d="-10" data-n="Ko thuộc bài"> <span>Ko thuộc bài/Ko làm BT</span> <div class="score-tag minus">-10</div></div>
-                <div class="loi-item" onclick="toggleLoi('l17')"><input type="checkbox" id="l17" data-d="10" data-n="Tiết học loại A"> <span>Tiết học loại A</span> <div class="score-tag plus">+10</div></div>
+                <div class="loi-item" onclick="toggleLoi('l9')"><input type="checkbox" id="l9" data-d="10" data-n="Điểm số: 10"> <span>Đạt điểm 10</span> <div class="score-tag plus">+10</div></div>
+                <div class="loi-item" onclick="toggleLoi('l10')"><input type="checkbox" id="l10" data-d="9" data-n="Điểm số: 8,9"> <span>Đạt điểm 8, 9</span> <div class="score-tag plus">+9</div></div>
+                <div class="loi-item" onclick="toggleLoi('l11')"><input type="checkbox" id="l11" data-d="-10" data-n="Không thuộc bài"> <span>Không thuộc bài/Không làm BT</span> <div class="score-tag minus">-10</div></div>
             </div>
 
             <button class="btn btn-apply" onclick="luuDuLieu()">LƯU VÀO LỊCH SỬ</button>
@@ -181,25 +173,47 @@
         });
     }
 
-    function luuDuLieu()
-    // Tách danh sách tên bằng dấu phẩy
-const namesArray = nameInput.split(',').filter(n => n.trim() !== "");
+    function luuDuLieu() {
+        if(!curLop) return;
+        const nameInput = document.getElementById('hs-names').value.trim() || "Tập thể";
+        const selected = document.querySelectorAll('#error-list input:checked');
+        
+        if(selected.length === 0) return alert("Chưa chọn mục nào!");
 
-// Tính tổng số lần dựa trên danh sách tên và ký tự 'x'
-let soLan = 0;
-if (namesArray.length === 0) {
-    soLan = 1; // Nếu không nhập tên, mặc định tính 1 lần (tập thể)
-} else {
-    namesArray.forEach(item => {
-        // Tìm số sau chữ 'x' (ví dụ: "Hoàng x3" -> lấy số 3)
-        let match = item.toLowerCase().match(/x\s*(\d+)/);
-        if (match) {
-            soLan += parseInt(match[1]);
+        // Logic xử lý "Hoàng x3, Hà..."
+        const namesArray = nameInput.split(',').filter(n => n.trim() !== "");
+        let soLan = 0;
+        
+        if (namesArray.length === 0) {
+            soLan = 1;
         } else {
-            soLan += 1; // Nếu tên bình thường không có 'x' thì tính là 1
+            namesArray.forEach(item => {
+                let match = item.toLowerCase().match(/x\s*(\d+)/);
+                soLan += match ? parseInt(match[1]) : 1;
+            });
         }
-    });
-}
+
+        selected.forEach(s => {
+            let diemGoc = parseInt(s.dataset.d);
+            let tongDiemRow = diemGoc * soLan;
+            
+            db[curLop].logs.unshift({
+                id: Date.now() + Math.random(),
+                name: nameInput,
+                việc: s.dataset.n,
+                biểu: diemGoc,
+                lần: soLan,
+                tổng: tongDiemRow
+            });
+            db[curLop].total += tongDiemRow;
+            s.checked = false;
+        });
+
+        document.getElementById('hs-names').value = "";
+        renderBXH();
+        renderLS();
+    }
+
     function renderLS() {
         const body = document.getElementById('ls-body');
         body.innerHTML = '';
