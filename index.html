@@ -42,12 +42,12 @@
 
 <div id="main-content">
     <div class="header">
-        <h1 style="font-size: 1rem; margin:0; color:var(--p)">LIÊN ĐỘI TH & THCS PHƯỚC AN</h1>
+        <h1 style="font-size: 1rem; margin:0; color:var(--p)">TH & THCS PHƯỚC AN</h1>
     </div>
 
     <div class="container">
         <div class="card">
-            <h3 style="margin-top:0; font-size:0.9rem">🏆 BẢNG XẾP HẠNG</h3>
+            <h3 style="margin-top:0; font-size:0.9rem">🏆BẢNG XẾP HẠNG</h3>
             <table>
                 <thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm</th></tr></thead>
                 <tbody id="bxh-body"></tbody>
@@ -60,12 +60,12 @@
             
             <div class="input-group">
                 <span class="input-label">CÁ NHÂN/TẬP THỂ (VD: Nguyên x2, Bảo...):</span>
-                <input type="text" id="hs-names" class="input-box" placeholder="Ví dụ: Thủy, Linh">
+                <input type="text" id="hs-names" class="input-box" placeholder="Ví dụ: Thủy,Linh">
             </div>
 
             <div class="input-group">
-                <span class="input-label">🔍 TÌM KIẾM LỖI:</span>
-                <input type="text" id="search-loi" class="input-box" placeholder="Tìm lỗi..." onkeyup="filterLoi()">
+                <span class="input-label">TÌM KIẾM LỖI:</span>
+                <input type="text" id="search-loi" class="input-box" placeholder="tìm lỗi ( chữ đầu )" onkeyup="filterLoi()">
             </div>
 
             <div class="scroll-form" id="error-list">
@@ -111,10 +111,10 @@
     <div class="loi-item" onclick="toggleLoi('l32')"><input type="checkbox" id="l32" data-d="-10" data-n="Tiết học loại D"> <span>1 tiết học loại D</span> <div class="score-tag minus">-10</div></div>
     <div class="loi-item" onclick="toggleLoi('l33')"><input type="checkbox" id="l33" data-d="5" data-n="Trả lại của rơi"> <span>Trả lại của rơi</span> <div class="score-tag plus">+5</div></div>
 </div>
-            <button class="btn btn-apply" onclick="luuDuLieu()">💾 LƯU VÀO LỊCH SỬ</button>
+            <button class="btn btn-apply" onclick="luuDuLieu()">💾LƯU VÀO LỊCH SỬ</button>
 
-            <h3 style="font-size:0.8rem; margin-top:30px;">📜 LỊCH SỬ CHẤM (LỚP ĐANG CHỌN)</h3>
-            <button class="btn btn-copy" onclick="copyTableLS()">📋 Sao chép bảng tính (Có viền)</button>
+            <h3 style="font-size:0.8rem; margin-top:30px;">📜LỊCH SỬ CHẤM (LỚP ĐANG CHỌN)</h3>
+            <button class="btn btn-copy" onclick="copyTableLS()">📋 Sao chép bảng tính </button>
             <table class="ls-table" id="table-to-copy">
                 <thead>
                     <tr>
@@ -130,7 +130,7 @@
             </table>
         </div>
 
-        <button class="btn btn-reset" onclick="resetTuan()">🔄 RESET TUẦN MỚI</button>
+        <button class="btn btn-reset" onclick="resetTuan()">🔄RESET TUẦN MỚI</button>
     </div>
 </div>
 
@@ -259,11 +259,11 @@
         document.execCommand('copy');
         window.getSelection().removeAllRanges();
         document.body.removeChild(tempDiv);
-        alert("Đã sao chép bảng lịch sử có viền!");
+        alert("Đã sao chép bảng lịch sử!");
     }
 
     function xuatZalo() {
-        let txt = "📊 BÁO CÁO THI ĐUA PHƯỚC AN\n";
+        let txt = "BÁO CÁO THI ĐUA PHƯỚC AN\n";
         [...LOP_LIST].sort((a,b) => db[b].total - db[a].total).forEach((l, i) => {
             txt += `${i+1}. Lớp ${l}: ${db[l].total}đ\n`;
         });
