@@ -3,109 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SAO ĐỎ PHƯỚC AN - 2026</title>
+    <title>LIÊN ĐỘI PHƯỚC AN - 2026</title>
     <style>
-        :root { --p: #0056b3; --s: #2e7d32; --a: #d32f2f; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); margin: 0; padding: 10px; color: #333; }
+        :root { --p: #6200ee; --s: #03dac6; --a: #b00020; --gold: #ffd700; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 10px; color: #333; }
         
-        /* Đăng nhập */
-        #login-screen { position: fixed; inset: 0; background: var(--p); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; color: white; }
-        .pin-input { width: 150px; padding: 15px; border-radius: 12px; border: none; font-size: 2rem; text-align: center; font-weight: bold; margin-top: 20px; color: var(--p); }
+        /* Đăng nhập trang trí */
+        #login-screen { position: fixed; inset: 0; background: linear-gradient(135deg, var(--p), #3700b3); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; color: white; text-align: center; }
+        .logo { font-size: 3rem; margin-bottom: 10px; }
+        .pin-input { width: 150px; padding: 15px; border-radius: 15px; border: 2px solid rgba(255,255,255,0.3); font-size: 1.5rem; text-align: center; background: rgba(255,255,255,0.1); color: white; outline: none; }
 
-        /* Giao diện chính */
-        .header { background: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 4px solid var(--p); }
-        .school-title { font-size: 1.1rem; font-weight: bold; color: var(--p); text-transform: uppercase; }
+        /* Header chuyên nghiệp */
+        .header { background: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; border-bottom: 5px solid var(--p); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .header h2 { margin: 0; color: var(--p); font-size: 1.2rem; }
+        .header p { margin: 5px 0 0 0; font-size: 0.8rem; font-weight: bold; color: #666; }
 
-        /* Danh sách lớp */
-        .grid-lops { display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 10px; margin-bottom: 15px; }
-        .lop-card { background: white; padding: 12px 5px; border-radius: 12px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; border: 2px solid transparent; }
-        .lop-card.active { border-color: var(--p); background: #e3f2fd; }
-        .lop-card b { display: block; font-size: 1rem; }
-        .lop-card span { font-size: 0.8rem; color: var(--p); font-weight: bold; }
+        /* Bảng xếp hạng (XH) */
+        .grid-xh { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .lop-card { background: white; padding: 15px 5px; border-radius: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; border: 2px solid transparent; position: relative; }
+        .lop-card.active { border-color: var(--p); background: #f3e5f5; }
+        .lop-card b { display: block; font-size: 1.1rem; }
+        .lop-card span { font-size: 0.9rem; color: var(--p); font-weight: bold; }
+        .rank-1::after { content: '🥇'; position: absolute; top: -5px; right: -5px; font-size: 1.2rem; }
 
         /* Form Chấm Điểm */
-        .card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: none; }
-        .name-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; font-weight: bold; margin-bottom: 10px; }
+        .card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 25px rgba(0,0,0,0.1); display: none; margin-bottom: 20px; }
+        .name-input { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #eee; font-size: 1rem; box-sizing: border-box; margin-bottom: 15px; outline: none; font-weight: bold; }
 
-        /* Danh sách lỗi (Giữ nguyên từ bản gốc) */
-        .scroll-loi { max-height: 400px; overflow-y: auto; padding-right: 5px; }
-        .group-title { background: #f8f9fa; color: var(--p); padding: 8px; font-weight: bold; margin-top: 15px; font-size: 0.75rem; border-left: 4px solid var(--p); border-radius: 4px; }
-        .loi-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f1f1; cursor: pointer; }
-        .loi-item span { flex: 1; font-size: 0.85rem; }
-        .score-tag { width: 45px; font-weight: bold; font-size: 0.8rem; text-align: right; }
-        .minus { color: var(--a); } .plus { color: var(--s); }
-        input[type=checkbox] { width: 20px; height: 20px; margin-right: 10px; }
+        /* Danh sách lỗi theo biểu điểm Phước An */
+        .scroll-loi { max-height: 400px; overflow-y: auto; border: 1px solid #f0f0f0; border-radius: 12px; padding: 5px; }
+        .group-title { background: #fdf2f2; color: var(--a); padding: 8px; font-weight: bold; margin-top: 15px; font-size: 0.75rem; border-radius: 5px; border-left: 4px solid var(--a); }
+        .group-plus { background: #f2fdf2; color: #2e7d32; border-left-color: #2e7d32; }
+        .loi-item { display: flex; align-items: center; padding: 12px; border-bottom: 1px solid #fafafa; }
+        .loi-item span { flex: 1; font-size: 0.85rem; padding: 0 10px; }
+        .loi-score { font-weight: bold; width: 50px; text-align: right; }
+        .minus { color: var(--a); } .plus { color: #2e7d32; }
 
-        /* Nút bấm */
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 0.9rem; }
+        /* Nút chức năng */
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        .btn { padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 5px; }
         .btn-ls { background: #ff9800; color: white; }
         .btn-save { background: var(--p); color: white; }
+        .btn-zalo { background: #0068ff; color: white; width: 100%; margin-top: 10px; }
+        .btn-reset { background: #666; color: white; width: 100%; margin-top: 20px; font-size: 0.7rem; padding: 8px; }
 
-        /* Bảng báo cáo 5 cột (Hình 2) */
+        /* Báo cáo (LS) */
         #report-screen { display: none; position: fixed; inset: 0; background: white; z-index: 8000; padding: 15px; overflow-y: auto; }
         .report-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.75rem; }
         .report-table th, .report-table td { border: 1px solid #333; padding: 8px 4px; text-align: left; }
         .report-table th { background: #f2f2f2; text-align: center; }
-        .total-row { font-weight: bold; background: #eee; }
     </style>
 </head>
 <body>
 
 <div id="login-screen">
-    <h2>🔑 SAO ĐỎ PHƯỚC AN</h2>
-    <input type="password" id="pin" class="pin-input" placeholder="****" maxlength="4" oninput="checkPin(this.value)">
+    <div class="logo">🇻🇳</div>
+    <h2 style="margin:0">LIÊN ĐỘI PHƯỚC AN</h2>
+    <p style="font-size:0.8rem; opacity:0.8">Hệ Thống Chấm Điểm 2025-2026</p>
+    <input type="password" id="pin" class="pin-input" placeholder="PIN" maxlength="4" oninput="checkPin(this.value)">
 </div>
 
 <div id="main-ui" style="display:none">
     <div class="header">
-        <div class="school-title">Trường TH & THCS Phước An</div>
-        <p style="margin:5px 0 0 0; font-size:0.8rem; color:#555;">Hệ Thống Chấm Điểm - 2026</p>
+        <p>ĐỘI TNTP HỒ CHÍ MINH</p>
+        <h2>LIÊN ĐỘI TH & THCS PHƯỚC AN</h2>
+        <p style="color:var(--p)">BẢNG XẾP HẠNG TUẦN</p>
     </div>
 
-    <div class="grid-lops" id="grid-lops"></div>
+    <div class="grid-xh" id="grid-xh"></div>
 
     <div class="card" id="form-cham">
-        <h3 id="label-lop" style="margin:0 0 10px 0; color: var(--p);">Lớp --</h3>
+        <h3 id="label-lop" style="margin-top:0; color:var(--p)">Đang chọn: --</h3>
         
-        <label style="font-size: 0.75rem; font-weight: bold; color: #d8a000;">👤 NHẬP TÊN (VD: HOÀNGX2, AN):</label>
-        <input type="text" id="input-names" class="name-input" placeholder="Tên học sinh...">
+        <label style="font-size:0.75rem; font-weight:bold; color:#666">HỌC SINH (VD: ANX2, BÌNH):</label>
+        <input type="text" id="input-names" class="name-input" placeholder="Tên kèm x hệ số...">
 
         <div class="scroll-loi" id="ds-loi">
-            <div class="group-title">1. Tác phong & Đồng phục (-5đ)</div>
-            <div class="loi-item" onclick="toggle('m1')"><input type="checkbox" id="m1" data-d="-5" data-n="Khăn quàng"> <span>Không Khăn quàng/Huy hiệu</span> <b class="score-tag minus">-5</b></div>
-            <div class="loi-item" onclick="toggle('m2')"><input type="checkbox" id="m2" data-d="-5" data-n="Tác phong"> <span>Không bỏ áo vào quần</span> <b class="score-tag minus">-5</b></div>
-            <div class="loi-item" onclick="toggle('m3')"><input type="checkbox" id="m3" data-d="-5" data-n="Áo khoác"> <span>Mặc áo khoác sai quy định</span> <b class="score-tag minus">-5</b></div>
-            
-            <div class="group-title">2. Đạo đức & Kỷ luật</div>
-            <div class="loi-item" onclick="toggle('m7')"><input type="checkbox" id="m7" data-d="-10" data-n="Nhuộm/Son"> <span>Nhuộm tóc, tô son, sơn móng</span> <b class="score-tag minus">-10</b></div>
-            <div class="loi-item" onclick="toggle('m8')"><input type="checkbox" id="m8" data-d="-10" data-n="Nói tục"> <span>Nói tục, chửi thề</span> <b class="score-tag minus">-10</b></div>
-            <div class="loi-item" onclick="toggle('m9')"><input type="checkbox" id="m9" data-d="-10" data-n="Đánh nhau"> <span>Đánh nhau</span> <b class="score-tag minus">-10</b></div>
-            <div class="loi-item" onclick="toggle('m13')"><input type="checkbox" id="m13" data-d="-20" data-n="Bỏ rác bậy"> <span>Bỏ rác không đúng nơi quy định</span> <b class="score-tag minus">-20</b></div>
+            <div class="group-title">1. TÁC PHONG & ĐỒNG PHỤC (-5đ)</div>
+            <div class="loi-item" onclick="toggle('m1')"><input type="checkbox" id="m1" data-d="-5" data-n="Khăn quàng/Huy hiệu"> <span>Không Khăn quàng/Huy hiệu</span> <b class="loi-score minus">-5</b></div>
+            <div class="loi-item" onclick="toggle('m2')"><input type="checkbox" id="m2" data-d="-5" data-n="Tác phong áo"> <span>Không bỏ áo vào quần</span> <b class="loi-score minus">-5</b></div>
+            <div class="loi-item" onclick="toggle('m3')"><input type="checkbox" id="m3" data-d="-5" data-n="Áo khoác"> <span>Mặc áo khoác sai quy định</span> <b class="loi-score minus">-5</b></div>
+            <div class="loi-item" onclick="toggle('m4')"><input type="checkbox" id="m4" data-d="-5" data-n="Đồng phục"> <span>Đồng phục sai quy định</span> <b class="loi-score minus">-5</b></div>
 
-            <div class="group-title">3. Chuyên cần & Tập thể</div>
-            <div class="loi-item" onclick="toggle('m14')"><input type="checkbox" id="m14" data-d="-2" data-n="Đi trễ"> <span>Đi học trễ</span> <b class="score-tag minus">-2</b></div>
-            <div class="loi-item" onclick="toggle('m18')"><input type="checkbox" id="m18" data-d="-50" data-n="Bỏ SH15" data-tp="L"> <span>Lớp không SH 15 phút</span> <b class="score-tag minus">-50</b></div>
+            <div class="group-title">2. ĐẠO ĐỨC & KỶ LUẬT</div>
+            <div class="loi-item" onclick="toggle('m5')"><input type="checkbox" id="m5" data-d="-10" data-n="Tóc/Son/Phấn"> <span>Nhuộm tóc/Son/Phấn/Móng</span> <b class="loi-score minus">-10</b></div>
+            <div class="loi-item" onclick="toggle('m6')"><input type="checkbox" id="m6" data-d="-10" data-n="Nói tục"> <span>Nói tục, chửi thề</span> <b class="loi-score minus">-10</b></div>
+            <div class="loi-item" onclick="toggle('m7')"><input type="checkbox" id="m7" data-d="-10" data-n="Đánh nhau"> <span>Đánh nhau</span> <b class="loi-score minus">-10</b></div>
+            <div class="loi-item" onclick="toggle('m8')"><input type="checkbox" id="m8" data-d="-20" data-n="Bỏ rác bậy"> <span>Bỏ rác bậy (-20đ HS, -100đ Lớp)</span> <b class="loi-score minus">-20</b></div>
 
-            <div class="group-title">4. Học tập (Cộng & Trừ)</div>
-            <div class="loi-item" onclick="toggle('m21')"><input type="checkbox" id="m21" data-d="-10" data-n="Điểm yếu"> <span>Điểm 0, 1, 2, 3</span> <b class="score-tag minus">-10</b></div>
-            <div class="loi-item" onclick="toggle('m24')"><input type="checkbox" id="m24" data-d="10" data-n="Điểm 10"> <span>Đạt điểm 10</span> <b class="score-tag plus">+10</b></div>
-            <div class="loi-item" onclick="toggle('m25')"><input type="checkbox" id="m25" data-d="10" data-n="Tiết A" data-tp="L"> <span>1 tiết học loại A</span> <b class="score-tag plus">+10</b></div>
+            <div class="group-title">3. CHUYÊN CẦN & TẬP THỂ</div>
+            <div class="loi-item" onclick="toggle('m9')"><input type="checkbox" id="m9" data-d="-2" data-n="Đi trễ"> <span>Đi học trễ</span> <b class="loi-score minus">-2</b></div>
+            <div class="loi-item" onclick="toggle('m10')"><input type="checkbox" id="m10" data-d="-5" data-n="Nói chuyện"> <span>Nói chuyện riêng</span> <b class="loi-score minus">-5</b></div>
+            <div class="loi-item" onclick="toggle('m11')"><input type="checkbox" id="m11" data-d="-50" data-n="SH 15 phút" data-tp="L"> <span>Không SH 15 phút (Lớp)</span> <b class="loi-score minus">-50</b></div>
+            <div class="loi-item" onclick="toggle('m12')"><input type="checkbox" id="m12" data-d="-50" data-n="Thể dục" data-tp="L"> <span>Không tập TD giữa giờ (Lớp)</span> <b class="loi-score minus">-50</b></div>
+
+            <div class="group-title group-plus">4. ĐIỂM THƯỞNG (CỘNG)</div>
+            <div class="loi-item" onclick="toggle('m13')"><input type="checkbox" id="m13" data-d="10" data-n="Điểm 10"> <span>Đạt điểm 10</span> <b class="loi-score plus">+10</b></div>
+            <div class="loi-item" onclick="toggle('m14')"><input type="checkbox" id="m14" data-d="5" data-n="Việc tốt"> <span>Nhặt của rơi trả lại</span> <b class="loi-score plus">+5</b></div>
+            <div class="loi-item" onclick="toggle('m15')"><input type="checkbox" id="m15" data-d="10" data-n="Tiết A" data-tp="L"> <span>Tiết học loại A (Lớp)</span> <b class="loi-score plus">+10</b></div>
         </div>
 
-        <button class="btn btn-save" onclick="saveData()">✅ LƯU ĐIỂM ĐỢT NÀY</button>
-        <button class="btn btn-ls" onclick="openReport()">📋 XEM BÁO CÁO (LS)</button>
+        <div class="btn-group">
+            <button class="btn btn-ls" onclick="openReport()">📋 BÁO CÁO LS</button>
+            <button class="btn btn-save" onclick="saveData()">✅ LƯU ĐIỂM</button>
+        </div>
+        <button class="btn btn-zalo" onclick="exportZalo()">📱 XUẤT BÁO CÁO ZALO</button>
+        <button class="btn btn-reset" onclick="resetWeek()">🔄 RESET TUẦN MỚI</button>
     </div>
 </div>
 
 <div id="report-screen">
     <button class="btn" style="background:#666; color:white; margin-bottom:10px" onclick="closeReport()">⬅ QUAY LẠI</button>
-    <h3 style="text-align:center">BÁO CÁO LỚP <span id="report-lop-name">--</span></h3>
+    <h3 style="text-align:center; margin-bottom:0">CHI TIẾT ĐIỂM LỚP <span id="report-lop-name">--</span></h3>
     <table class="report-table">
         <thead>
             <tr>
-                <th>Việc làm tốt/ không tốt</th>
+                <th>Nội dung</th>
                 <th>Biểu điểm</th>
-                <th>Cá nhân/ tập thể</th>
+                <th>Cá nhân/Lớp</th>
                 <th>Số lần</th>
                 <th>Điểm</th>
             </tr>
@@ -116,39 +131,41 @@
 
 <script>
     const dsLops = ['6A','6B','6C','7A','7B','7C','8A','8B','8C','9A','9B'];
-    let db = JSON.parse(localStorage.getItem('saodo_pa_2026')) || {};
+    let db = JSON.parse(localStorage.getItem('saodo_pa_2026_final')) || {};
     let currentLop = "";
 
     function checkPin(val) {
         if(val === "1234") {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-ui').style.display = 'block';
-            renderGrid();
+            renderXH();
         }
     }
 
-    function renderGrid() {
+    function renderXH() {
+        let sortedLops = [...dsLops].sort((a,b) => (db[b]?.total || 100) - (db[a]?.total || 100));
         let html = "";
-        dsLops.forEach(l => {
+        sortedLops.forEach((l, index) => {
             let score = db[l] ? db[l].total : 100;
-            html += `<div class="lop-card ${currentLop === l ? 'active' : ''}" onclick="selectLop('${l}')">
-                        <b>Lớp ${l}</b>
+            let rankClass = index === 0 ? "rank-1" : "";
+            html += `<div class="lop-card ${currentLop === l ? 'active' : ''} ${rankClass}" onclick="selectLop('${l}')">
+                        <b>${l}</b>
                         <span>${score}đ</span>
                     </div>`;
         });
-        document.getElementById('grid-lops').innerHTML = html;
+        document.getElementById('grid-xh').innerHTML = html;
     }
 
     function selectLop(l) {
         currentLop = l;
-        renderGrid();
+        renderXH();
         document.getElementById('form-cham').style.display = 'block';
-        document.getElementById('label-lop').innerText = "Đang chấm: Lớp " + l;
+        document.getElementById('label-lop').innerText = "Chấm điểm: Lớp " + l;
+        window.scrollTo({ top: document.getElementById('form-cham').offsetTop, behavior: 'smooth' });
     }
 
     function toggle(id) {
-        let ck = document.getElementById(id);
-        ck.checked = !ck.checked;
+        document.getElementById(id).checked = !document.getElementById(id).checked;
     }
 
     function saveData() {
@@ -156,10 +173,10 @@
         const nameStr = document.getElementById('input-names').value.trim();
         const checks = Array.from(document.querySelectorAll("#ds-loi input[type='checkbox']:checked"));
 
-        if(checks.length === 0) return alert("Bạn chưa chọn lỗi!");
+        if(checks.length === 0) return alert("Vui lòng tích lỗi!");
         if(!db[currentLop]) db[currentLop] = { total: 100, logs: [] };
 
-        // Logic nhân hệ số x2, x3...
+        // Logic x2, x3...
         let items = nameStr.split(',').filter(x => x.trim().length > 0);
         let count = 0;
         if(items.length === 0) {
@@ -173,7 +190,7 @@
 
         checks.forEach(c => {
             let bieu = Number(c.dataset.d);
-            let soLan = c.dataset.tp === "L" ? 1 : count; // Nếu lỗi lớp thì tính 1 lần
+            let soLan = c.dataset.tp === "L" ? 1 : count; 
             let tong = bieu * soLan;
 
             db[currentLop].total += tong;
@@ -182,19 +199,20 @@
                 b: bieu,
                 hs: nameStr || "Cả lớp",
                 l: soLan,
-                t: tong
+                t: tong,
+                d: new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'})
             });
         });
 
-        localStorage.setItem('saodo_pa_2026', JSON.stringify(db));
+        localStorage.setItem('saodo_pa_2026_final', JSON.stringify(db));
         document.getElementById('input-names').value = "";
         checks.forEach(c => c.checked = false);
-        renderGrid();
-        alert("Đã ghi nhận thành công!");
+        renderXH();
+        alert("Đã lưu điểm thành công!");
     }
 
     function openReport() {
-        if(!currentLop || !db[currentLop] || db[currentLop].logs.length === 0) return alert("Chưa có lịch sử!");
+        if(!currentLop || !db[currentLop]) return;
         let html = "";
         let tong = 0;
         db[currentLop].logs.forEach(log => {
@@ -204,16 +222,38 @@
                 <td style="text-align:center">${log.b > 0 ? '+' : ''}${log.b}</td>
                 <td>${log.hs}</td>
                 <td style="text-align:center">${log.l}</td>
-                <td style="font-weight:bold; text-align:center">${log.t > 0 ? '+' : ''}${log.t}</td>
+                <td style="text-align:center; font-weight:bold">${log.t > 0 ? '+' : ''}${log.t}</td>
             </tr>`;
         });
-        html += `<tr class="total-row"><td colspan="4" style="text-align:right">Tổng điểm đợt này:</td><td style="text-align:center">${tong > 0 ? '+' : ''}${tong}</td></tr>`;
+        html += `<tr style="background:#eee; font-weight:bold"><td colspan="4" style="text-align:right">Tổng cộng:</td><td style="text-align:center">${tong > 0 ? '+' : ''}${tong}</td></tr>`;
         document.getElementById('report-lop-name').innerText = currentLop;
         document.getElementById('report-body').innerHTML = html;
         document.getElementById('report-screen').style.display = 'block';
     }
 
     function closeReport() { document.getElementById('report-screen').style.display = 'none'; }
+
+    function exportZalo() {
+        if(!currentLop || !db[currentLop]) return;
+        let text = `--- BÁO CÁO SAO ĐỎ PHƯỚC AN ---\nLớp: ${currentLop}\nTổng điểm hiện tại: ${db[currentLop].total}đ\n\nChi tiết vi phạm:\n`;
+        db[currentLop].logs.forEach(log => {
+            text += `- ${log.n}: ${log.hs} (${log.t > 0 ? '+' : ''}${log.t}đ)\n`;
+        });
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Đã sao chép nội dung báo cáo! Bây giờ hãy mở Zalo và dán vào nhóm.");
+        });
+    }
+
+    function resetWeek() {
+        if(confirm("Bạn có chắc chắn muốn RESET toàn bộ dữ liệu để sang tuần mới không? (Điểm sẽ quay về 100)")) {
+            localStorage.removeItem('saodo_pa_2026_final');
+            db = {};
+            currentLop = "";
+            document.getElementById('form-cham').style.display = 'none';
+            renderXH();
+            alert("Đã làm mới hệ thống!");
+        }
+    }
 </script>
 </body>
 </html>
