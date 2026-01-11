@@ -181,37 +181,25 @@
         });
     }
 
-    function luuDuLieu() {
-        if(!curLop) return;
-        const nameInput = document.getElementById('hs-names').value.trim() || "Tập thể";
-        const selected = document.querySelectorAll('#error-list input:checked');
-        
-        if(selected.length === 0) return alert("Chưa chọn mục nào!");
+    function luuDuLieu()
+    // Tách danh sách tên bằng dấu phẩy
+const namesArray = nameInput.split(',').filter(n => n.trim() !== "");
 
-        const namesArray = nameInput.split(',').filter(n => n.trim() !== "");
-        const soLan = namesArray.length > 0 ? namesArray.length : 1;
-
-        selected.forEach(s => {
-            let diemGoc = parseInt(s.dataset.d);
-            let tongDiem = diemGoc * soLan;
-            
-            db[curLop].logs.unshift({
-                id: Date.now() + Math.random(),
-                name: nameInput,
-                việc: s.dataset.n,
-                biểu: diemGoc,
-                lần: soLan,
-                tổng: tongDiem
-            });
-            db[curLop].total += tongDiem;
-            s.checked = false;
-        });
-
-        document.getElementById('hs-names').value = "";
-        renderBXH();
-        renderLS();
-    }
-
+// Tính tổng số lần dựa trên danh sách tên và ký tự 'x'
+let soLan = 0;
+if (namesArray.length === 0) {
+    soLan = 1; // Nếu không nhập tên, mặc định tính 1 lần (tập thể)
+} else {
+    namesArray.forEach(item => {
+        // Tìm số sau chữ 'x' (ví dụ: "Hoàng x3" -> lấy số 3)
+        let match = item.toLowerCase().match(/x\s*(\d+)/);
+        if (match) {
+            soLan += parseInt(match[1]);
+        } else {
+            soLan += 1; // Nếu tên bình thường không có 'x' thì tính là 1
+        }
+    });
+}
     function renderLS() {
         const body = document.getElementById('ls-body');
         body.innerHTML = '';
