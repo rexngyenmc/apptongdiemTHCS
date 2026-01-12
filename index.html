@@ -75,3 +75,112 @@
         <button class="btn-main bg-gv" style="margin-top:20px; padding:15px;" onclick="verifyUser()">VÀO HỆ THỐNG</button>
     </div>
 </div>
+<div id="class-screen" class="screen">
+    <button onclick="showScreen('auth-screen')" style="background:none; border:none; color:var(--blue); font-weight:bold; cursor:pointer; margin-bottom:15px;">← QUAY LẠI</button>
+    <div class="card">
+        <h3 id="class-title">Chọn lớp trực</h3>
+        <div class="class-grid" id="class-list-btns">
+            </div>
+    </div>
+</div>
+
+<div id="score-screen" class="screen">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <button onclick="showScreen('class-screen')" style="background:none; border:none; color:var(--blue); font-weight:bold; cursor:pointer;">← CHỌN LỚP KHÁC</button>
+        <b id="display-info" style="color:var(--red); background:#fff; padding:5px 10px; border-radius:10px; font-size:14px;"></b>
+    </div>
+
+    <div class="card">
+        <h3 style="margin-top:0; color:var(--blue);">Danh mục vi phạm</h3>
+        <div id="criteria-container">
+            </div>
+    </div>
+
+    <div class="card">
+        <h3 style="margin-top:0;">Lịch sử vừa nhập (Tạm thời)</h3>
+        <div class="ls-table-container">
+            <table class="ls-table">
+                <thead>
+                    <tr>
+                        <th>Lớp</th>
+                        <th>Nội dung</th>
+                        <th>HS/Lần</th>
+                        <th>Điểm</th>
+                        <th>Xóa</th>
+                    </tr>
+                </thead>
+                <tbody id="ls-body"></tbody>
+            </table>
+        </div>
+        <button class="btn-main" style="background:var(--green); margin-top:20px;" onclick="syncFinal()">LƯU & ĐỒNG BỘ TOÀN HỆ THỐNG</button>
+    </div>
+</div>
+
+<script>
+[cite_start]// DỮ LIỆU TỪ FILE WORD CỦA BẠN [cite: 5]
+const DATA_SD = [
+    { group: "Tác phong", items: [
+        { n: "Không khăn quàng/Huy hiệu", d: -5 },
+        { n: "Không bỏ áo vào quần", d: -5 },
+        { n: "Mặc áo khoác sai quy định", d: -5 },
+        { n: "Đồng phục sai quy định", d: -5 },
+        { n: "Đi chân trần", d: -5 },
+        { n: "Tóc dài (nam)", d: -5 },
+        { n: "Nhuộm tóc/Trang điểm", d: -10 }
+    ]},
+    { group: "Kỷ luật & Giao thông", items: [
+        { n: "Để xe sai quy định", d: -5 },
+        { n: "Không đội mũ bảo hiểm", d: -5 },
+        { n: "Ra cổng không xin phép", d: -5 },
+        { n: "Sử dụng điện thoại sai nơi", d: -5 },
+        { n: "Chui rào/Phá rào", d: -30 }
+    ]},
+    { group: "Nề nếp & Vệ sinh", items: [
+        { n: "Nói tục/Chửi thề", d: -10 },
+        { n: "Đánh nhau", d: -10 },
+        { n: "Ăn uống sai quy định", d: -10 },
+        { n: "Bỏ rác sai nơi", d: -20 },
+        { n: "Vẽ bậy tường/bàn ghế", d: -10 },
+        { n: "Phá hoại tài sản trường", d: -30 }
+    ]},
+    { group: "Chuyên cần & Tập thể", items: [
+        { n: "Đi trễ", d: -2 },
+        { n: "Vắng không phép", d: -5 },
+        { n: "Trốn tiết", d: -10 },
+        { n: "Nói chuyện riêng", d: -5 },
+        { n: "Bỏ SH 15 phút/TD giữa giờ", d: -50 }
+    ]},
+    { group: "Nghiệp vụ Sao đỏ", items: [
+        { n: "SĐ không băng/Trực trễ", d: -10 },
+        { n: "SĐ không đi trực", d: -20 },
+        { n: "SĐ không tổng kết cuối tuần", d: -50 },
+        { n: "SĐ bao che bạn bè", d: -100 }
+    ]}
+];
+
+const DATA_GV = [
+    { group: "Sổ đầu bài", items: [
+        { n: "Tiết học loại A", d: 10 },
+        { n: "Tiết học loại B", d: 5 },
+        { n: "Tiết học loại C", d: -5 },
+        { n: "Tiết học loại D", d: -10 },
+        { n: "Làm mất sổ đầu bài", d: -50 }
+    ]},
+    { group: "Học tập", items: [
+        { n: "Điểm 10", d: 10 },
+        { n: "Điểm 8, 9", d: 9 },
+        { n: "Điểm 7", d: 5 },
+        { n: "Điểm 4", d: -5 },
+        { n: "Điểm 0, 1, 2, 3", d: -10 },
+        { n: "Không thuộc/Làm bài tập", d: -10 }
+    ]},
+    { group: "Phong trào & Khác", items: [
+        { n: "Nhất/Nhì/Ba phong trào", d: 50 },
+        { n: "Nhặt được của rơi", d: 5 }
+    ]}
+];
+
+const DS_GV = ["Cô Huệ", "Thầy Sơn", "Cô Lan", "Thầy Hùng", "Thầy Đức"];
+const DS_SD = ["An 9A1", "Bình 8A2", "Chi 7A1", "Dũng 6A2", "Hạnh 9A2"];
+const DANH_SACH_LOP = ["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
+</script>
