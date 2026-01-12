@@ -3,362 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Phước An 2026 - Hệ Thống Đồng Bộ</title>
+    <title>Phước An 2026 - Đồng Bộ Sheets</title>
     <style>
-        :root { --blue: #1a73e8; --green: #34a853; --orange: #fbbc05; --red: #ea4335; --dark: #121212; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: #f0f2f5; color: #333; overflow-x: hidden; }
-        
-        /* Màn hình */
+        :root { --blue: #1a73e8; --green: #34a853; --orange: #fbbc05; --red: #ea4335; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f0f2f5; }
         .screen { display: none; padding: 15px; max-width: 800px; margin: auto; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from {opacity:0} to {opacity:1} }
-        
-        /* Buttons */
-        .btn-main { width: 100%; padding: 22px; border: none; border-radius: 15px; color: white; font-size: 1.2rem; font-weight: 800; cursor: pointer; margin-bottom: 15px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .btn-main:active { transform: scale(0.98); opacity: 0.9; }
-        .bg-gv { background: var(--blue); } 
-        .bg-sd { background: var(--green); } 
-        .bg-bxh { background: var(--orange); color: black; }
-
-        /* Search & Login Card */
-        .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        .inp-search { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; font-size: 1rem; box-sizing: border-box; margin-bottom: 10px; outline: none; }
-        .inp-search:focus { border-color: var(--blue); }
-        .scroll-list { max-height: 250px; overflow-y: auto; border: 1px solid #eee; border-radius: 12px; background: #fff; }
-        .user-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; text-align: left; font-weight: 500; }
-        .user-item:hover { background: #f8f9fa; }
-        .user-item.selected { background: var(--blue) !important; color: white !important; }
-
-        /* Grid Lớp hàng ngang */
-        .class-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 15px 0; }
-        .btn-cl { padding: 15px 5px; border: 1px solid #ddd; border-radius: 12px; background: white; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
-        .btn-cl.active { background: var(--blue); color: white; border-color: var(--blue); }
-
-        /* Bảng Lịch Sử (LS) */
-        .ls-table-container { overflow-x: auto; margin-top: 10px; border-radius: 10px; border: 1px solid #eee; }
-        .ls-table { width: 100%; border-collapse: collapse; min-width: 450px; background: white; }
-        .ls-table th, .ls-table td { padding: 12px; border: 1px solid #eee; text-align: left; font-size: 13px; }
-        .ls-table th { background: #f1f3f4; font-weight: 700; }
-        .btn-del { color: var(--red); cursor: pointer; font-weight: bold; border: none; background: none; }
-
-        /* BXH Trình chiếu */
-        #bxh-screen { background: radial-gradient(circle at top, #001f3f, #000); color: white; text-align: center; min-height: 100vh; padding: 40px 15px; }
-        .rank-row { display: flex; align-items: center; background: rgba(255,255,255,0.08); margin: 12px auto; padding: 25px; border-radius: 20px; max-width: 900px; border: 1px solid rgba(255,255,255,0.1); }
-        .rank-1 { background: linear-gradient(90deg, #ffd700, #ff8f00); color: black; font-weight: 900; transform: scale(1.05); }
-
-        /* Thông báo đồng bộ */
-        #sync-status { position: fixed; top: 10px; right: 10px; font-size: 10px; padding: 5px 10px; border-radius: 20px; background: #333; color: #0f0; display: none; z-index: 9999; }
+        .card { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        .btn-main { width: 100%; padding: 20px; border: none; border-radius: 15px; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+        .inp-search { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 10px; box-sizing: border-box; }
+        .scroll-list { max-height: 200px; overflow-y: auto; border: 1px solid #eee; border-radius: 10px; }
+        .user-item { padding: 12px; border-bottom: 1px solid #eee; text-align: left; cursor: pointer; }
+        .user-item.selected { background: var(--blue); color: white; }
+        .class-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+        .btn-cl { padding: 12px 2px; border: 1px solid #ddd; border-radius: 8px; background: white; font-weight: bold; cursor: pointer; }
+        .btn-cl.active { background: var(--blue); color: white; }
+        .item-row { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; align-items: center; }
+        .detail-area { display: none; padding: 15px; background: #f9f9f9; flex-direction: column; gap: 10px; border-radius: 10px; margin-bottom: 10px; }
+        .ls-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .ls-table th, .ls-table td { border: 1px solid #eee; padding: 8px; text-align: left; }
+        #sync-status { position: fixed; top: 0; width: 100%; background: var(--orange); text-align: center; font-size: 12px; display: none; z-index: 100; padding: 5px; font-weight: bold; }
+        #bxh-screen { background: #001f3f; color: white; min-height: 100vh; text-align: center; }
+        .rank-row { display: flex; align-items: center; background: rgba(255,255,255,0.1); margin: 10px; padding: 15px; border-radius: 15px; }
+        .rank-1 { background: linear-gradient(90deg, #ffd700, #ff8f00); color: #000; font-weight: bold; }
     </style>
 </head>
 <body>
-
-<div id="sync-status">Đang đồng bộ...</div>
-
+<div id="sync-status">Đang xử lý dữ liệu...</div>
 <div id="home-screen" class="screen" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh;">
-    <h1 style="font-size: 2.2rem; margin-bottom: 5px; color: var(--blue);">PHƯỚC AN 2026</h1>
-    <p style="margin-bottom: 30px; color: #666; font-weight: 500;">Hệ thống chấm điểm trực tuyến</p>
-    
-    <button class="btn-main bg-gv" onclick="init('GV')">GIÁO VIÊN</button>
-    <button class="btn-main bg-sd" onclick="init('SD')">SAO ĐỎ</button>
-    <button class="btn-main bg-bxh" onclick="init('BXH')">BẢNG VÀNG THI ĐUA</button>
+    <h1 style="color:var(--blue); margin-bottom: 5px;">PHƯỚC AN 2026</h1>
+    <p style="color: #666; margin-bottom: 30px;">Học kỳ 2 - Tuần 19/20</p>
+    <button class="btn-main" style="background:var(--blue)" onclick="init('GV')">GIÁO VIÊN</button>
+    <button class="btn-main" style="background:var(--green)" onclick="init('SD')">SAO ĐỎ</button>
+    <button class="btn-main" style="background:var(--orange); color:#000" onclick="init('BXH')">BẢNG VÀNG THI ĐUA</button>
 </div>
 
 <div id="auth-screen" class="screen">
-    <button onclick="goHome()" style="background:none; border:none; color:var(--blue); font-weight:bold; cursor:pointer; margin-bottom:15px;">← QUAY LẠI</button>
+    <button onclick="goHome()" style="margin-bottom:10px;">← Quay lại</button>
     <div class="card">
-        <h2 id="auth-title" style="margin-top:0;">Chọn Người Chấm</h2>
-        <input type="password" id="pin-input" class="inp-search" placeholder="Nhập mã PIN..." style="display:none; text-align:center; letter-spacing: 5px;">
-        <input type="text" id="user-search" class="inp-search" placeholder="Gõ để tìm tên của bạn..." onkeyup="filterUser()">
-        
-        <div id="user-list" class="scroll-list">
-            </div>
-        
-        <button class="btn-main bg-gv" style="margin-top:20px; padding:15px;" onclick="verifyUser()">VÀO HỆ THỐNG</button>
-    </div>
-</div>
-<div id="class-screen" class="screen">
-    <button onclick="showScreen('auth-screen')" style="background:none; border:none; color:var(--blue); font-weight:bold; cursor:pointer; margin-bottom:15px;">← QUAY LẠI</button>
-    <div class="card">
-        <h3 id="class-title">Chọn lớp trực</h3>
-        <div class="class-grid" id="class-list-btns">
-            </div>
+        <h3 id="auth-title">Xác thực</h3>
+        <input type="password" id="pin-input" class="inp-search" placeholder="Nhập mã PIN (1234 hoặc 9999)" style="display:none">
+        <input type="text" id="user-search" class="inp-search" placeholder="Tìm tên giáo viên/sao đỏ..." onkeyup="filterUser()">
+        <div id="user-list" class="scroll-list"></div>
+        <button class="btn-main" style="background:var(--blue); margin-top:15px" onclick="verifyUser()">VÀO HỆ THỐNG</button>
     </div>
 </div>
 
 <div id="score-screen" class="screen">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <button onclick="showScreen('class-screen')" style="background:none; border:none; color:var(--blue); font-weight:bold; cursor:pointer;">← CHỌN LỚP KHÁC</button>
-        <b id="display-info" style="color:var(--red); background:#fff; padding:5px 10px; border-radius:10px; font-size:14px;"></b>
-    </div>
-
     <div class="card">
-        <h3 style="margin-top:0; color:var(--blue);">Danh mục vi phạm</h3>
-        <div id="criteria-container">
-            </div>
+        <div style="display:flex; justify-content:space-between; align-items: center;">
+            <h3 id="info-lop" style="margin:0; color:var(--blue)">Chọn lớp</h3>
+            <button onclick="showScreen('auth-screen')" style="font-size: 12px;">Đổi người trực</button>
+        </div>
+        <div class="class-grid" id="class-btns"></div>
     </div>
-
-    <div class="card">
-        <h3 style="margin-top:0;">Lịch sử vừa nhập (Tạm thời)</h3>
-        <div class="ls-table-container">
+    <div id="main-input" style="display:none">
+        <div class="card">
+            <h4 style="margin:0 0 10px 0;">TIÊU CHÍ CHẤM ĐIỂM</h4>
+            <div id="criteria-list"></div>
+        </div>
+        <div class="card">
+            <h4 style="margin:0 0 10px 0;">LỊCH SỬ CHỜ LƯU</h4>
             <table class="ls-table">
-                <thead>
-                    <tr>
-                        <th>Lớp</th>
-                        <th>Nội dung</th>
-                        <th>HS/Lần</th>
-                        <th>Điểm</th>
-                        <th>Xóa</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Lớp</th><th>Lỗi</th><th>HS/Lần</th><th>Điểm</th><th>Xóa</th></tr></thead>
                 <tbody id="ls-body"></tbody>
             </table>
+            <button id="btn-sync" class="btn-main" style="background:var(--green); margin-top:15px" onclick="syncToCloud()">GỬI DỮ LIỆU & ĐỒNG BỘ TV</button>
         </div>
-        <button class="btn-main" style="background:var(--green); margin-top:20px;" onclick="syncFinal()">LƯU & ĐỒNG BỘ TOÀN HỆ THỐNG</button>
     </div>
 </div>
 
+<div id="bxh-screen" class="screen">
+    <h1 style="color:var(--orange); padding-top:20px; text-shadow: 0 0 10px rgba(0,0,0,0.5);">🏆 BẢNG VÀNG THI ĐUA</h1>
+    <p id="bxh-date"></p>
+    <div id="bxh-content"></div>
+    <button class="btn-main" style="background:#333; width:200px; margin-top: 20px;" onclick="goHome()">QUAY LẠI</button>
+</div>
 <script>
-[cite_start]// DỮ LIỆU TỪ FILE WORD CỦA BẠN [cite: 5]
+// --- DÁN LINK APPS SCRIPT CỦA BẠN VÀO ĐÂY ---
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyYhBw6Z3RIuFjCvUJS14GdMl_NjfVAKnLYMNf5mpe8TL1WXwq0tRxFDHiG4eyutu9TDQ/exec";
+
+const DANH_SACH_LOP = ["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
+const DS_GV = ["Cô Huệ", "Thầy Sơn", "Cô Lan", "Thầy Hùng", "Thầy Đức"];
+const DS_SD = ["An 9A1", "Bình 8A2", "Chi 7A1", "Dũng 6A2", "Hạnh 9A2"];
+
+// Dữ liệu bám sát file Word TIÊU CHÍ THI ĐUA THCS (1).docx
 const DATA_SD = [
-    { group: "Tác phong", items: [
-        { n: "Không khăn quàng/Huy hiệu", d: -5 },
-        { n: "Không bỏ áo vào quần", d: -5 },
-        { n: "Mặc áo khoác sai quy định", d: -5 },
-        { n: "Đồng phục sai quy định", d: -5 },
-        { n: "Đi chân trần", d: -5 },
-        { n: "Tóc dài (nam)", d: -5 },
-        { n: "Nhuộm tóc/Trang điểm", d: -10 }
+    {h: "Tác phong", ds: [
+        {n:"Không khăn quàng/Huy hiệu", d:-5}, // 
+        {n:"Không bỏ áo vào quần", d:-5}, // 
+        {n:"Mặc áo khoác sai giờ quy định", d:-5}, // 
+        {n:"Sai đồng phục (quần/áo/giày/dép)", d:-5}, // 
+        {n:"Đi chân trần ra sân/nhà vệ sinh", d:-5}, // 
+        {n:"Tóc dài (Nam)", d:-5}, // 
+        {n:"Nhuộm tóc/Trang điểm/Sơn móng", d:-10} // 
     ]},
-    { group: "Kỷ luật & Giao thông", items: [
-        { n: "Để xe sai quy định", d: -5 },
-        { n: "Không đội mũ bảo hiểm", d: -5 },
-        { n: "Ra cổng không xin phép", d: -5 },
-        { n: "Sử dụng điện thoại sai nơi", d: -5 },
-        { n: "Chui rào/Phá rào", d: -30 }
+    {h: "Nề nếp & Kỷ luật", ds: [
+        {n:"Để xe sai quy định", d:-5}, // 
+        {n:"Không đội mũ bảo hiểm", d:-5}, // 
+        {n:"Ra cổng không xin phép", d:-5}, // 
+        {n:"Sử dụng ĐT không đúng nơi", d:-5}, // 
+        {n:"Nói tục/Chửi thề/Đánh nhau", d:-10}, // 
+        {n:"Chống đối sao đỏ", d:-10}, // 
+        {n:"Đi trễ", d:-2}, // 
+        {n:"Vắng không phép", d:-5}, // 
+        {n:"Trốn tiết/Nói chuyện riêng", d:-10} // 
     ]},
-    { group: "Nề nếp & Vệ sinh", items: [
-        { n: "Nói tục/Chửi thề", d: -10 },
-        { n: "Đánh nhau", d: -10 },
-        { n: "Ăn uống sai quy định", d: -10 },
-        { n: "Bỏ rác sai nơi", d: -20 },
-        { n: "Vẽ bậy tường/bàn ghế", d: -10 },
-        { n: "Phá hoại tài sản trường", d: -30 }
+    {h: "Vệ sinh & Tài sản", ds: [
+        {n:"Ăn uống sai quy định", d:-10}, // 
+        {n:"Bỏ rác sai nơi (Lớp trừ 100đ)", d:-20}, // 
+        {n:"Vẽ bậy tường/bàn ghế", d:-10}, // 
+        {n:"Phá hoại tài sản trường", d:-30}, // 
+        {n:"Chui rào/Phá hàng rào", d:-30} // 
     ]},
-    { group: "Chuyên cần & Tập thể", items: [
-        { n: "Đi trễ", d: -2 },
-        { n: "Vắng không phép", d: -5 },
-        { n: "Trốn tiết", d: -10 },
-        { n: "Nói chuyện riêng", d: -5 },
-        { n: "Bỏ SH 15 phút/TD giữa giờ", d: -50 }
-    ]},
-    { group: "Nghiệp vụ Sao đỏ", items: [
-        { n: "SĐ không băng/Trực trễ", d: -10 },
-        { n: "SĐ không đi trực", d: -20 },
-        { n: "SĐ không tổng kết cuối tuần", d: -50 },
-        { n: "SĐ bao che bạn bè", d: -100 }
+    {h: "Nghiệp vụ Sao đỏ", ds: [
+        {n:"SĐ không băng/Trực trễ", d:-10}, // 
+        {n:"SĐ không đi trực", d:-20}, // 
+        {n:"SĐ không tổng kết cuối tuần", d:-50} // 
     ]}
 ];
 
 const DATA_GV = [
-    { group: "Sổ đầu bài", items: [
-        { n: "Tiết học loại A", d: 10 },
-        { n: "Tiết học loại B", d: 5 },
-        { n: "Tiết học loại C", d: -5 },
-        { n: "Tiết học loại D", d: -10 },
-        { n: "Làm mất sổ đầu bài", d: -50 }
+    {h: "Học tập", ds: [
+        {n:"Tiết A", d:10}, {n:"Tiết B", d:5}, // 
+        {n:"Tiết C", d:-5}, {n:"Tiết D", d:-10}, // 
+        {n:"Điểm 10", d:10}, {n:"Điểm 8,9", d:9}, // 
+        {n:"Điểm 7", d:5}, {n:"Điểm 4", d:-5}, // 
+        {n:"Điểm 0,1,2,3", d:-10}, // 
+        {n:"Không thuộc bài/Làm bài tập", d:-10}, // 
+        {n:"Mất/Xé bài kiểm tra", d:-20} // 
     ]},
-    { group: "Học tập", items: [
-        { n: "Điểm 10", d: 10 },
-        { n: "Điểm 8, 9", d: 9 },
-        { n: "Điểm 7", d: 5 },
-        { n: "Điểm 4", d: -5 },
-        { n: "Điểm 0, 1, 2, 3", d: -10 },
-        { n: "Không thuộc/Làm bài tập", d: -10 }
-    ]},
-    { group: "Phong trào & Khác", items: [
-        { n: "Nhất/Nhì/Ba phong trào", d: 50 },
-        { n: "Nhặt được của rơi", d: 5 }
+    {h: "Phong trào", ds: [
+        {n:"Hạng Nhất phong trào", d:50}, // 
+        {n:"Hạng Nhì phong trào", d:40}, // 
+        {n:"Hạng Ba phong trào", d:30}, // 
+        {n:"Nhặt được của rơi trả lại", d:5} // 
     ]}
 ];
 
-const DS_GV = ["Cô Huệ", "Thầy Sơn", "Cô Lan", "Thầy Hùng", "Thầy Đức"];
-const DS_SD = ["An 9A1", "Bình 8A2", "Chi 7A1", "Dũng 6A2", "Hạnh 9A2"];
-const DANH_SACH_LOP = ["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
-</script>let currentRole = '', currentUser = '', currentLop = '', lsTemp = [];
+let role="", user="", currentLop="", lsTemp=[];
 
-// Khởi tạo ứng dụng
-function init(role) {
-    currentRole = role;
-    if(role === 'BXH') { renderBXH(); showScreen('bxh-screen'); return; }
-    
-    document.getElementById('auth-title').innerText = "Đăng nhập: " + (role === 'GV' ? 'GIÁO VIÊN' : 'SAO ĐỎ');
-    document.getElementById('pin-input').style.display = (role === 'SD' ? 'block' : 'none');
-    renderUserList();
+function init(r){
+    role=r; if(r==='BXH') return renderBXH();
     showScreen('auth-screen');
+    document.getElementById('pin-input').style.display=(r==='SD'?'block':'none');
+    renderUserList();
 }
 
-function renderUserList() {
-    const list = currentRole === 'GV' ? DS_GV : DS_SD;
-    let html = '';
-    list.sort().forEach(name => {
-        html += `<div class="user-item" onclick="selectUser(this)">${name}</div>`;
+function renderUserList(){
+    let list = (role==='GV'?DS_GV:DS_SD).sort();
+    let h=""; list.forEach(n => h+=`<div class="user-item" onclick="selU(this)">${n}</div>`);
+    document.getElementById('user-list').innerHTML=h;
+}
+
+function filterUser(){
+    let val = document.getElementById('user-search').value.toLowerCase();
+    let items = document.querySelectorAll('.user-item');
+    items.forEach(it => {
+        it.style.display = it.innerText.toLowerCase().includes(val) ? 'block' : 'none';
     });
-    document.getElementById('user-list').innerHTML = html;
 }
 
-function selectUser(el) {
-    document.querySelectorAll('.user-item').forEach(i => i.classList.remove('selected'));
-    el.classList.add('selected');
-    currentUser = el.innerText;
+function selU(el){
+    document.querySelectorAll('.user-item').forEach(i=>i.classList.remove('selected'));
+    el.classList.add('selected'); user=el.innerText;
 }
 
-function verifyUser() {
-    if(!currentUser) return alert("Vui lòng chọn tên!");
-    if(currentRole === 'SD' && document.getElementById('pin-input').value !== '1234') return alert("Sai mã PIN!");
-    
-    renderClassButtons();
-    showScreen('class-screen');
-}
-
-function renderClassButtons() {
-    let html = '';
-    DANH_SACH_LOP.forEach(lop => {
-        html += `<button class="btn-cl" onclick="selectLop('${lop}', this)">${lop}</button>`;
-    });
-    document.getElementById('class-list-btns').innerHTML = html;
-}
-
-function selectLop(lop, btn) {
-    currentLop = lop;
-    document.querySelectorAll('.btn-cl').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('display-info').innerText = `${lop} | Trực: ${currentUser}`;
-    renderCriteria();
+function verifyUser(){
+    if(!user) return alert("Vui lòng chọn tên!");
+    if(role==='SD' && document.getElementById('pin-input').value!=='1234') return alert("Sai mã PIN!");
     showScreen('score-screen');
+    let h=""; DANH_SACH_LOP.forEach(l => h+=`<button class="btn-cl" onclick="selLop('${l}',this)">${l}</button>`);
+    document.getElementById('class-btns').innerHTML=h;
 }
 
-function renderCriteria() {
-    const data = currentRole === 'GV' ? DATA_GV : DATA_SD;
-    let html = '';
-    data.forEach((group, gIdx) => {
-        html += `<h4 style="margin:15px 0 5px; color:#666; border-bottom:1px solid #ddd">${group.group}</h4>`;
-        group.items.forEach((item, iIdx) => {
-            const id = `item-${gIdx}-${iIdx}`;
-            html += `
-                <div class="item-row" onclick="toggleDetail('${id}')">
-                    <span>${item.n}</span>
-                    <b style="color:${item.d > 0 ? 'green' : 'red'}">${item.d > 0 ? '+'+item.d : item.d}</b>
-                </div>
+function selLop(l, b){
+    currentLop=l; document.querySelectorAll('.btn-cl').forEach(i=>i.classList.remove('active'));
+    b.classList.add('active'); document.getElementById('info-lop').innerText="Lớp: "+l;
+    document.getElementById('main-input').style.display='block'; renderCriteria();
+}
+
+function renderCriteria(){
+    let h="", data=(role==='GV'?DATA_GV:DATA_SD);
+    data.forEach((g,gi)=>{
+        h+=`<h4 style="margin:15px 0 5px; color:#666; border-bottom: 1px solid #eee;">${g.h}</h4>`;
+        g.ds.forEach((item,ii)=>{
+            let id=`row-${gi}-${ii}`;
+            h+=`<div class="item-row" onclick="toggle('${id}')"><span>${item.n}</span><b style="color:${item.d>0?'green':'red'}">${item.d>0?'+'+item.d:item.d}</b></div>
                 <div class="detail-area" id="${id}">
-                    <input type="text" id="hs-${id}" placeholder="Tên học sinh vi phạm...">
-                    <input type="number" id="sl-${id}" value="1" min="1" placeholder="Số lần">
-                    <button class="btn-main" style="padding:10px; background:var(--blue)" 
-                        onclick="addToLS('${item.n}', ${item.d}, '${id}')">Xác nhận</button>
+                    <input type="text" placeholder="Tên HS/Lý do..." id="hs-${id}">
+                    <input type="number" value="1" id="sl-${id}" placeholder="Số lần">
+                    <button onclick="addLS('${item.n}',${item.d},'${id}')" style="background:var(--blue); color:#fff; border:none; padding:10px; border-radius:8px">Xác nhận thêm</button>
                 </div>`;
         });
     });
-    document.getElementById('criteria-container').innerHTML = html;
+    document.getElementById('criteria-list').innerHTML=h;
 }
 
-function toggleDetail(id) {
-    const el = document.getElementById(id);
-    const isOpen = el.style.display === 'flex';
-    document.querySelectorAll('.detail-area').forEach(d => d.style.display = 'none');
-    el.style.display = isOpen ? 'none' : 'flex';
+function addLS(name, score, id){
+    let hs=document.getElementById('hs-'+id).value || "Cả lớp", sl=document.getElementById('sl-'+id).value || 1;
+    lsTemp.push({time: new Date().toLocaleString('vi-VN'), lop: currentLop, loi: name, info: hs, sl: sl, diem: score*sl, nguoi: user});
+    renderLS(); toggle(id);
 }
 
-function addToLS(name, score, id) {
-    const hs = document.getElementById(`hs-${id}`).value || "Cả lớp";
-    const sl = parseInt(document.getElementById(`sl-${id}`).value) || 1;
-    
-    const entry = {
-        id: Date.now(),
-        lop: currentLop,
-        loi: name,
-        info: hs,
-        sl: sl,
-        diem: score * sl,
-        nguoi: currentUser,
-        time: new Date().toLocaleString('vi-VN')
-    };
-    
-    lsTemp.push(entry);
-    renderLS();
-    toggleDetail(id);
+function renderLS(){
+    let h=""; lsTemp.forEach((item, idx)=> h+=`<tr><td>${item.lop}</td><td>${item.loi}</td><td>${item.info}(x${item.sl})</td><td>${item.diem}</td><td onclick="lsTemp.splice(${idx},1);renderLS()" style="color:red; font-weight:bold;">X</td></tr>`);
+    document.getElementById('ls-body').innerHTML=h;
 }
 
-function renderLS() {
-    let html = '';
-    lsTemp.forEach((item, idx) => {
-        html += `<tr>
-            <td>${item.lop}</td>
-            <td>${item.loi}</td>
-            <td>${item.info} (x${item.sl})</td>
-            <td>${item.diem}</td>
-            <td><button class="btn-del" onclick="lsTemp.splice(${idx},1);renderLS()">X</button></td>
-        </tr>`;
-    });
-    document.getElementById('ls-body').innerHTML = html;
+async function syncToCloud(){
+    if(lsTemp.length===0) return alert("Không có dữ liệu!");
+    document.getElementById('sync-status').style.display='block';
+    document.getElementById('sync-status').innerText="Đang gửi dữ liệu lên Google Sheets...";
+    try {
+        await fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify(lsTemp)});
+        alert("Đồng bộ thành công!"); lsTemp=[]; renderLS(); goHome();
+    } catch(e) { alert("Lỗi mạng! Hãy kiểm tra kết nối."); }
+    document.getElementById('sync-status').style.display='none';
 }
 
-// TỰ ĐỘNG SAO LƯU ĐỒNG BỘ (LocalStorage)
-function syncFinal() {
-    if(lsTemp.length === 0) return alert("Chưa có dữ liệu để lưu!");
-    
-    // Lấy dữ liệu cũ từ bộ nhớ
-    let allData = JSON.parse(localStorage.getItem('PHUOCAN_DB')) || [];
-    // Gộp dữ liệu mới vào
-    allData = [...allData, ...lsTemp];
-    // Lưu lại vào bộ nhớ thiết bị
-    localStorage.setItem('PHUOCAN_DB', JSON.stringify(allData));
-    
-    alert("Đã đồng bộ thành công lên hệ thống!");
-    lsTemp = [];
-    renderLS();
-    goHome();
+async function renderBXH(){
+    showScreen('bxh-screen');
+    document.getElementById('bxh-date').innerText = "Ngày: " + new Date().toLocaleDateString('vi-VN');
+    document.getElementById('bxh-content').innerHTML="<p>Đang tải bảng xếp hạng từ Tivi...</p>";
+    try {
+        const res = await fetch(SCRIPT_URL); const data = await res.json();
+        let bxh={}; DANH_SACH_LOP.forEach(l => bxh[l]=100);
+        data.slice(1).forEach(r => { if(bxh[r[1]]!==undefined) bxh[r[1]]+=parseFloat(r[5]); });
+        let sorted = Object.entries(bxh).sort((a,b)=>b[1]-a[1]);
+        let h=""; sorted.forEach((item,idx)=> h+=`<div class="rank-row ${idx===0?'rank-1':''}"><span>${idx+1}. Lớp ${item[0]}</span><span style="margin-left:auto">${item[1]} đ</span></div>`);
+        document.getElementById('bxh-content').innerHTML=h;
+    } catch(e) { document.getElementById('bxh-content').innerHTML="Lỗi tải dữ liệu. Hãy dán đúng link SCRIPT_URL!"; }
 }
 
-function renderBXH() {
-    const db = JSON.parse(localStorage.getItem('PHUOCAN_DB')) || [];
-    let bxh = {};
-    DANH_SACH_LOP.forEach(l => bxh[l] = 100); // Điểm gốc là 100
-
-    db.forEach(entry => {
-        if(bxh[entry.lop] !== undefined) bxh[entry.lop] += entry.diem;
-    });
-
-    let sorted = Object.entries(bxh).sort((a, b) => b[1] - a[1]);
-    let html = '';
-    sorted.forEach((item, idx) => {
-        html += `
-            <div class="rank-row ${idx === 0 ? 'rank-1' : ''}">
-                <div style="font-size:2rem; width:60px">${idx + 1}</div>
-                <div style="flex:1; text-align:left; font-size:1.5rem">Lớp ${item[0]}</div>
-                <div style="font-size:1.8rem">${item[1]} đ</div>
-            </div>`;
-    });
-    document.getElementById('bxh-content').innerHTML = html || "<p>Chưa có dữ liệu thi đua</p>";
-}
-
-function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-    document.getElementById(id).style.display = 'block';
-    window.scrollTo(0,0);
-}
-
-function goHome() {
-    showScreen('home-screen');
-    currentUser = '';
-    currentLop = '';
-    lsTemp = [];
-}
+function toggle(id){ let e=document.getElementById(id); e.style.display=(e.style.display==='flex'?'none':'flex'); }
+function showScreen(id){ document.querySelectorAll('.screen').forEach(s=>s.style.display='none'); document.getElementById(id).style.display='block'; }
+function goHome(){ location.reload(); }
 </script>
-
-<div id="bxh-screen" class="screen">
-    <h1 style="color:var(--orange); font-size:2.5rem; margin-bottom:5px">🏆 BẢNG VÀNG THI ĐUA</h1>
-    <p id="bxh-week-title">HỌC KỲ 2 - NĂM HỌC 2025-2026</p>
-    <div id="bxh-content"></div>
-    <button class="btn-main" style="background:#444; margin-top:30px" onclick="goHome()">THOÁT</button>
-</div>
-
 </body>
 </html>
