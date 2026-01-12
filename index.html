@@ -183,4 +183,182 @@ const DATA_GV = [
 const DS_GV = ["Cô Huệ", "Thầy Sơn", "Cô Lan", "Thầy Hùng", "Thầy Đức"];
 const DS_SD = ["An 9A1", "Bình 8A2", "Chi 7A1", "Dũng 6A2", "Hạnh 9A2"];
 const DANH_SACH_LOP = ["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
+</script>let currentRole = '', currentUser = '', currentLop = '', lsTemp = [];
+
+// Khởi tạo ứng dụng
+function init(role) {
+    currentRole = role;
+    if(role === 'BXH') { renderBXH(); showScreen('bxh-screen'); return; }
+    
+    document.getElementById('auth-title').innerText = "Đăng nhập: " + (role === 'GV' ? 'GIÁO VIÊN' : 'SAO ĐỎ');
+    document.getElementById('pin-input').style.display = (role === 'SD' ? 'block' : 'none');
+    renderUserList();
+    showScreen('auth-screen');
+}
+
+function renderUserList() {
+    const list = currentRole === 'GV' ? DS_GV : DS_SD;
+    let html = '';
+    list.sort().forEach(name => {
+        html += `<div class="user-item" onclick="selectUser(this)">${name}</div>`;
+    });
+    document.getElementById('user-list').innerHTML = html;
+}
+
+function selectUser(el) {
+    document.querySelectorAll('.user-item').forEach(i => i.classList.remove('selected'));
+    el.classList.add('selected');
+    currentUser = el.innerText;
+}
+
+function verifyUser() {
+    if(!currentUser) return alert("Vui lòng chọn tên!");
+    if(currentRole === 'SD' && document.getElementById('pin-input').value !== '1234') return alert("Sai mã PIN!");
+    
+    renderClassButtons();
+    showScreen('class-screen');
+}
+
+function renderClassButtons() {
+    let html = '';
+    DANH_SACH_LOP.forEach(lop => {
+        html += `<button class="btn-cl" onclick="selectLop('${lop}', this)">${lop}</button>`;
+    });
+    document.getElementById('class-list-btns').innerHTML = html;
+}
+
+function selectLop(lop, btn) {
+    currentLop = lop;
+    document.querySelectorAll('.btn-cl').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('display-info').innerText = `${lop} | Trực: ${currentUser}`;
+    renderCriteria();
+    showScreen('score-screen');
+}
+
+function renderCriteria() {
+    const data = currentRole === 'GV' ? DATA_GV : DATA_SD;
+    let html = '';
+    data.forEach((group, gIdx) => {
+        html += `<h4 style="margin:15px 0 5px; color:#666; border-bottom:1px solid #ddd">${group.group}</h4>`;
+        group.items.forEach((item, iIdx) => {
+            const id = `item-${gIdx}-${iIdx}`;
+            html += `
+                <div class="item-row" onclick="toggleDetail('${id}')">
+                    <span>${item.n}</span>
+                    <b style="color:${item.d > 0 ? 'green' : 'red'}">${item.d > 0 ? '+'+item.d : item.d}</b>
+                </div>
+                <div class="detail-area" id="${id}">
+                    <input type="text" id="hs-${id}" placeholder="Tên học sinh vi phạm...">
+                    <input type="number" id="sl-${id}" value="1" min="1" placeholder="Số lần">
+                    <button class="btn-main" style="padding:10px; background:var(--blue)" 
+                        onclick="addToLS('${item.n}', ${item.d}, '${id}')">Xác nhận</button>
+                </div>`;
+        });
+    });
+    document.getElementById('criteria-container').innerHTML = html;
+}
+
+function toggleDetail(id) {
+    const el = document.getElementById(id);
+    const isOpen = el.style.display === 'flex';
+    document.querySelectorAll('.detail-area').forEach(d => d.style.display = 'none');
+    el.style.display = isOpen ? 'none' : 'flex';
+}
+
+function addToLS(name, score, id) {
+    const hs = document.getElementById(`hs-${id}`).value || "Cả lớp";
+    const sl = parseInt(document.getElementById(`sl-${id}`).value) || 1;
+    
+    const entry = {
+        id: Date.now(),
+        lop: currentLop,
+        loi: name,
+        info: hs,
+        sl: sl,
+        diem: score * sl,
+        nguoi: currentUser,
+        time: new Date().toLocaleString('vi-VN')
+    };
+    
+    lsTemp.push(entry);
+    renderLS();
+    toggleDetail(id);
+}
+
+function renderLS() {
+    let html = '';
+    lsTemp.forEach((item, idx) => {
+        html += `<tr>
+            <td>${item.lop}</td>
+            <td>${item.loi}</td>
+            <td>${item.info} (x${item.sl})</td>
+            <td>${item.diem}</td>
+            <td><button class="btn-del" onclick="lsTemp.splice(${idx},1);renderLS()">X</button></td>
+        </tr>`;
+    });
+    document.getElementById('ls-body').innerHTML = html;
+}
+
+// TỰ ĐỘNG SAO LƯU ĐỒNG BỘ (LocalStorage)
+function syncFinal() {
+    if(lsTemp.length === 0) return alert("Chưa có dữ liệu để lưu!");
+    
+    // Lấy dữ liệu cũ từ bộ nhớ
+    let allData = JSON.parse(localStorage.getItem('PHUOCAN_DB')) || [];
+    // Gộp dữ liệu mới vào
+    allData = [...allData, ...lsTemp];
+    // Lưu lại vào bộ nhớ thiết bị
+    localStorage.setItem('PHUOCAN_DB', JSON.stringify(allData));
+    
+    alert("Đã đồng bộ thành công lên hệ thống!");
+    lsTemp = [];
+    renderLS();
+    goHome();
+}
+
+function renderBXH() {
+    const db = JSON.parse(localStorage.getItem('PHUOCAN_DB')) || [];
+    let bxh = {};
+    DANH_SACH_LOP.forEach(l => bxh[l] = 100); // Điểm gốc là 100
+
+    db.forEach(entry => {
+        if(bxh[entry.lop] !== undefined) bxh[entry.lop] += entry.diem;
+    });
+
+    let sorted = Object.entries(bxh).sort((a, b) => b[1] - a[1]);
+    let html = '';
+    sorted.forEach((item, idx) => {
+        html += `
+            <div class="rank-row ${idx === 0 ? 'rank-1' : ''}">
+                <div style="font-size:2rem; width:60px">${idx + 1}</div>
+                <div style="flex:1; text-align:left; font-size:1.5rem">Lớp ${item[0]}</div>
+                <div style="font-size:1.8rem">${item[1]} đ</div>
+            </div>`;
+    });
+    document.getElementById('bxh-content').innerHTML = html || "<p>Chưa có dữ liệu thi đua</p>";
+}
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+    window.scrollTo(0,0);
+}
+
+function goHome() {
+    showScreen('home-screen');
+    currentUser = '';
+    currentLop = '';
+    lsTemp = [];
+}
 </script>
+
+<div id="bxh-screen" class="screen">
+    <h1 style="color:var(--orange); font-size:2.5rem; margin-bottom:5px">🏆 BẢNG VÀNG THI ĐUA</h1>
+    <p id="bxh-week-title">HỌC KỲ 2 - NĂM HỌC 2025-2026</p>
+    <div id="bxh-content"></div>
+    <button class="btn-main" style="background:#444; margin-top:30px" onclick="goHome()">THOÁT</button>
+</div>
+
+</body>
+</html>
