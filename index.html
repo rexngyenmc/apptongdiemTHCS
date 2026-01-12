@@ -3,238 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hệ Thống Quản Lý Phước An 2025-2026</title>
+    <title>Quản Lý Phước An - 2026</title>
     <style>
-        :root { --p: #1a73e8; --s: #34a853; --a: #d93025; --bg: #f8f9fa; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; color: #3c4043; }
-        .navbar { display: flex; background: #fff; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; justify-content: center; gap: 10px; }
-        .nav-item { padding: 10px 15px; border-radius: 20px; font-weight: 600; cursor: pointer; color: #5f6368; }
-        .nav-item.active { background: #e8f0fe; color: var(--p); }
-        .container { padding: 15px; max-width: 600px; margin: auto; }
-        .card { background: #fff; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .scroll-list { max-height: 450px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; margin: 10px 0; }
-        .group-title { background: #f1f3f4; padding: 8px; font-size: 0.75rem; font-weight: bold; color: #5f6368; position: sticky; top: 0; }
-        .loi-item { padding: 12px; border-bottom: 1px solid #f1f3f4; cursor: pointer; transition: 0.2s; }
-        .loi-item:active { background: #f8f9fa; }
-        .loi-item.active { background: #eef6ff; border-left: 4px solid var(--p); }
-        .input-name { width: 100%; margin-top: 10px; padding: 12px; border: 1px solid #dadce0; border-radius: 8px; display: none; box-sizing: border-box; }
-        .loi-item.active .input-name { display: block; }
-        .btn-main { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; background: var(--p); color: #fff; margin-top: 10px; }
-        .rank-table { width: 100%; border-collapse: collapse; }
-        .rank-table td, .rank-table th { padding: 12px; border-bottom: 1px solid #eee; text-align: center; }
-        #login-screen { position: fixed; inset: 0; background: #fff; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
-        .badge { padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; }
-        .plus { background: #e6f4ea; color: var(--s); }
-        .minus { background: #fce8e6; color: var(--a); }
+        :root { --blue: #1a73e8; --green: #34a853; --orange: #fbbc05; --red: #ea4335; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: #202124; }
+        
+        /* MÀN HÌNH CHÍNH */
+        #home-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 20px; padding: 20px; box-sizing: border-box; }
+        .btn-big { width: 100%; max-width: 350px; padding: 30px; border: none; border-radius: 20px; color: white; font-size: 1.3rem; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-gv { background: var(--blue); }
+        .btn-sd { background: var(--green); }
+        .btn-bxh { background: var(--orange); }
+        .btn-big:active { transform: scale(0.95); }
+
+        /* CONTAINER CHUNG */
+        .container { display: none; padding: 20px; max-width: 600px; margin: auto; }
+        .card { background: white; border-radius: 20px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        .class-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
+        .btn-cl { padding: 15px 5px; border: 1.5px solid #eee; border-radius: 12px; background: white; font-weight: bold; cursor: pointer; }
+        .btn-cl:active { background: #e8f0fe; border-color: var(--blue); }
+
+        /* DANH SÁCH LỖI */
+        .item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #f1f3f4; cursor: pointer; border-radius: 10px; }
+        .item.selected { background: #fff9c4; border-left: 5px solid var(--orange); }
+        .inp-note { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #ddd; border-radius: 10px; display: none; box-sizing: border-box; }
+        .item.selected + .inp-note { display: block; }
+
+        /* BXH TRÌNH CHIẾU */
+        #bxh-view { display: none; background: radial-gradient(circle, #1a237e, #000); min-height: 100vh; color: white; padding: 30px 15px; text-align: center; }
+        .rank-row { display: flex; align-items: center; background: rgba(255,255,255,0.1); margin: 10px auto; padding: 15px 25px; border-radius: 15px; max-width: 800px; border: 1px solid rgba(255,255,255,0.1); }
+        .rank-row:nth-child(1) { background: linear-gradient(90deg, #ffd700, #ff8f00); color: black; transform: scale(1.03); }
+        .r-num { width: 50px; font-size: 1.8rem; font-weight: 900; }
+        .r-name { flex: 1; text-align: left; font-size: 1.3rem; font-weight: bold; padding-left: 15px; }
+        .r-pts { font-size: 1.8rem; font-weight: 900; }
+
+        /* MÃ PIN */
+        #pin-screen { display: none; position: fixed; inset: 0; background: white; z-index: 999; flex-direction: column; align-items: center; justify-content: center; }
+        .pin-input { font-size: 2.5rem; width: 160px; text-align: center; border: 2px solid #ddd; border-radius: 15px; padding: 10px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-<div id="login-screen">
-    <h3 id="login-label">NHẬP MÃ PIN</h3>
-    <input type="password" id="pin-input" style="padding:15px; font-size:2rem; text-align:center; width:180px; border:2px solid #ddd; border-radius:12px; margin-bottom:20px;" maxlength="4" inputmode="numeric">
-    <button class="btn-main" style="width:180px" onclick="verifyPin()">XÁC NHẬN</button>
+<div id="home-screen">
+    <h2 style="margin-bottom: 10px;">THI ĐUA PHƯỚC AN</h2>
+    <button class="btn-big btn-gv" onclick="openGV()">TÔI LÀ GIÁO VIÊN</button>
+    <button class="btn-big btn-sd" onclick="askPin('SD')">TÔI LÀ SAO ĐỎ</button>
+    <button class="btn-big btn-bxh" onclick="askPin('BXH')">BXH TRÌNH CHIẾU</button>
 </div>
 
-<nav class="navbar">
-    <div class="nav-item active" id="m-saodo" onclick="switchTab('saodo')">SAO ĐỎ</div>
-    <div class="nav-item" id="m-daubai" onclick="switchTab('daubai')">SỔ ĐẦU BÀI</div>
-</nav>
+<div id="pin-screen">
+    <h3 id="pin-label">NHẬP MÃ PIN</h3>
+    <input type="password" class="pin-input" id="pin-box" maxlength="4" inputmode="numeric">
+    <button class="btn-big btn-gv" style="width:160px" onclick="confirmPin()">VÀO</button>
+    <p onclick="location.reload()" style="color:blue; margin-top:20px; cursor:pointer">Quay lại</p>
+</div>
 
-<div class="container">
-    <div id="tab-saodo">
-        <div class="card">
-            <button class="btn-main" style="background:#ff9800; margin-bottom:15px" onclick="syncFromCloud()">🔄 TỔNG KẾT & ĐỒNG BỘ TOÀN TRƯỜNG</button>
-            <table class="rank-table">
-                <thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm</th></tr></thead>
-                <tbody id="bxh-body"></tbody>
-            </table>
-            <button class="btn-main" style="background:#666" onclick="openLogin('SAODO')">🔐 ĐĂNG NHẬP SAO ĐỎ</button>
-        </div>
-        <div id="saodo-panel" class="card" style="display:none">
-            <h3 id="sd-label" style="margin:0; color:var(--p)"></h3>
-            <div id="list-sd" class="scroll-list"></div>
-            <button class="btn-main" onclick="saveData('sd')">LƯU KẾT QUẢ CHẤM</button>
-        </div>
-    </div>
+<div id="class-select" class="container">
+    <h2 id="mode-title"></h2>
+    <div class="class-grid" id="class-btns"></div>
+</div>
 
-    <div id="tab-daubai" style="display:none">
-        <div class="card" id="db-select">
-            <h3 style="text-align:center">CHỌN LỚP CỦA BẠN</h3>
-            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;" id="class-grid"></div>
-        </div>
-        <div id="daubai-panel" class="card" style="display:none">
-            <h3 id="db-label" style="margin:0; color:var(--s)"></h3>
-            <div id="list-db" class="scroll-list"></div>
-            <button class="btn-main" style="background:var(--s)" onclick="saveData('db')">GHI VÀO SỔ ĐẦU BÀI</button>
-            <button class="btn-main" style="background:#eee; color:#333" onclick="location.reload()">QUAY LẠI</button>
-        </div>
+<div id="input-screen" class="container">
+    <h2 id="target-class" style="color:var(--blue)"></h2>
+    <div id="criteria-list"></div>
+    <button class="btn-big btn-gv" style="width:100%; margin-top:20px" onclick="sendData()">GỬI DỮ LIỆU</button>
+</div>
+
+<div id="bxh-view">
+    <h1 style="font-size: 2.5rem; text-shadow: 0 4px 10px rgba(0,0,0,0.5);">🏆 BẢNG VÀNG THI ĐUA</h1>
+    <div id="bxh-list"></div>
+    <div style="margin-top: 30px;">
+        <button class="btn-cl" onclick="location.reload()">THOÁT</button>
+        <button class="btn-cl" style="background: var(--green); color:white; border:none" onclick="backupData()">SAO LƯU (CSV)</button>
     </div>
 </div>
 
 <script>
-    // THAY LINK GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY
-    const SCRIPT_URL = "DÁN_LINK_CỦA_BẠN_Ở_ĐÂY";
+    const SCRIPT_URL = "DÁN_LINK_WEB_APP_URL_CỦA_BẠN_Ở_ĐÂY";
+    const PIN_SD = "1234", PIN_BXH = "9999";
+    const LOP = ["6A1","6A2","6A3","7A1","7A2","7A3","8A1","8A2","9A1","9A2"];
     
-    const LOP_LIST = ["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
-    const PIN_SAODO = "1234", PIN_LOP = "2025";
-
-    // Danh mục lỗi chi tiết từ file TIÊU CHÍ THI ĐUA THCS 
-    const CRITERIA = [
-        { g: "Tác phong - Đồng phục (-5đ)", i: [
-            {n:"Không khăn quàng/huy hiệu",d:-5}, {n:"Không bỏ áo vào quần",d:-5},
-            {n:"Mặc áo khoác trong trường",d:-5}, {n:"Đồng phục sai quy định",d:-5},
-            {n:"Đi chân trần ra sân/WC",d:-5}, {n:"Để xe không ngay hàng",d:-5},
-            {n:"Không nón bảo hiểm",d:-5}, {n:"Để tóc dài (Nam)",d:-5}
-        ]},
-        { g: "Kỷ luật & Đạo đức (-10đ đến -30đ)", i: [
-            {n:"Nhuộm tóc/Son phấn/Sơn móng",d:-10}, {n:"Nói tục, chửi thề",d:-10},
-            {n:"Đánh nhau",d:-10}, {n:"Chống đối sao đỏ",d:-10},
-            {n:"Bỏ rác sai quy định",d:-20}, {n:"Vẽ bậy tường/bàn ghế",d:-10},
-            {n:"Chui rào, phá hàng rào",d:-30}, {n:"Ăn uống sai quy định",d:-10}
-        ]},
-        { g: "Chuyên cần", i: [
-            {n:"Đi trễ",d:-2}, {n:"Vắng không phép",d:-5}, {n:"Trốn tiết",d:-10},
-            {n:"Nói chuyện riêng",d:-5}, {n:"Không sinh hoạt 15'",d:-5}
-        ]},
-        { g: "Học tập", i: [
-            {n:"Điểm 10",d:10}, {n:"Điểm 8, 9",d:9}, {n:"Điểm 7",d:5},
-            {n:"Điểm 4",d:-5}, {n:"Điểm 0,1,2,3",d:-10}, {n:"Không thuộc bài/Làm BT",d:-10},
-            {n:"Nhặt được của rơi trả lại",d:5}
-        ]},
-        { g: "Xếp loại tiết học (Sổ đầu bài)", i: [
-            {n:"Tiết học loại A",d:10}, {n:"Tiết học loại B",d:5},
-            {n:"Tiết học loại C",d:-5}, {n:"Tiết học loại D",d:-10}
-        ]}
+    // PHÂN CHIA LỖI
+    const LOI_SD = [
+        {g:"Tác phong", i:[{n:"Không khăn quàng",d:-5}, {n:"Sai đồng phục",d:-5}, {n:"Tóc nhuộm/dài",d:-10}]},
+        {g:"Nền nếp", i:[{n:"Đi muộn",d:-2}, {n:"Ăn quà vặt",d:-5}, {n:"Nói tục",d:-10}]}
+    ];
+    const LOI_GV = [
+        {g:"Học tập", i:[{n:"Tiết học loại A",d:10}, {n:"Tiết học loại B",d:5}, {n:"Tiết học loại C",d:-5}, {n:"HS phát biểu",d:2}]}
     ];
 
-    let db = {}, activeClass = "", loginType = "";
+    let currentRole = "", selectedClass = "", rawData = [];
 
-    function init() {
-        LOP_LIST.forEach(l => db[l] = { score: 100, logs: [] });
-        const grid = document.getElementById('class-grid');
-        LOP_LIST.forEach(l => {
-            grid.innerHTML += `<button style="padding:15px; border:1px solid #ddd; border-radius:8px; background:#fff; font-weight:bold; color:var(--p);" onclick="openLogin('LOP', '${l}')">${l}</button>`;
-        });
-        buildList('sd'); buildList('db'); renderBXH();
+    function askPin(role) {
+        currentRole = role;
+        document.getElementById('pin-screen').style.display = 'flex';
     }
 
-    function buildList(type) {
-        const container = document.getElementById('list-' + type);
-        CRITERIA.forEach(group => {
-            container.innerHTML += `<div class="group-title">${group.g}</div>`;
-            group.i.forEach(item => {
-                const id = type + Math.random().toString(36).substr(2, 5);
-                container.innerHTML += `
-                    <div class="loi-item" id="item-${id}" onclick="toggle('${id}')">
-                        <div style="display:flex; justify-content:space-between; align-items:center">
-                            <span>${item.n}</span>
-                            <span class="badge ${item.d > 0 ? 'plus' : 'minus'}">${item.d > 0 ? '+' : ''}${item.d}</span>
-                        </div>
-                        <input type="text" class="input-name" id="name-${id}" placeholder="Tên HS (VD: An x2)..." onclick="event.stopPropagation()">
-                        <input type="checkbox" id="cb-${id}" data-n="${item.n}" data-d="${item.d}" style="display:none">
+    function confirmPin() {
+        const pin = document.getElementById('pin-box').value;
+        if (currentRole === 'SD' && pin === PIN_SD) showClassSelect();
+        else if (currentRole === 'BXH' && pin === PIN_BXH) showBXH();
+        else alert("Mã PIN không đúng!");
+    }
+
+    function openGV() { currentRole = 'GV'; showClassSelect(); }
+
+    function showClassSelect() {
+        document.getElementById('home-screen').style.display = 'none';
+        document.getElementById('pin-screen').style.display = 'none';
+        document.getElementById('class-select').style.display = 'block';
+        document.getElementById('mode-title').innerText = currentRole === 'GV' ? "GIÁO VIÊN: CHỌN LỚP" : "SAO ĐỎ: CHỌN LỚP";
+        const grid = document.getElementById('class-btns');
+        grid.innerHTML = "";
+        LOP.forEach(l => grid.innerHTML += `<button class="btn-cl" onclick="startInput('${l}')">${l}</button>`);
+    }
+
+    function startInput(l) {
+        selectedClass = l;
+        document.getElementById('class-select').style.display = 'none';
+        document.getElementById('input-screen').style.display = 'block';
+        document.getElementById('target-class').innerText = "Đang chấm lớp: " + l;
+        const list = document.getElementById('criteria-list');
+        list.innerHTML = "";
+        const data = currentRole === 'GV' ? LOI_GV : LOI_SD;
+        data.forEach(g => {
+            list.innerHTML += `<div style="font-weight:bold; margin-top:15px; color:#666">${g.g}</div>`;
+            g.i.forEach(item => {
+                const id = Math.random().toString(36).substr(2, 5);
+                list.innerHTML += `
+                    <div class="item" id="it-${id}" onclick="this.classList.toggle('selected')">
+                        <span>${item.n}</span><b>${item.d > 0 ? '+'+item.d : item.d}</b>
+                        <input type="checkbox" style="display:none" data-n="${item.n}" data-d="${item.d}" data-g="${g.g}">
+                    </div>
+                    <input type="text" class="inp-note" id="note-${id}" placeholder="Tên HS hoặc Ghi chú...">`;
+            });
+        });
+    }
+
+    async function sendData() {
+        const selected = document.querySelectorAll('.item.selected');
+        if (!selected.length) return alert("Bạn chưa chọn mục nào!");
+        
+        for (let it of selected) {
+            const id = it.id.replace('it-', '');
+            const cb = it.querySelector('input');
+            const note = document.getElementById('note-' + id).value || "Tập thể";
+            const payload = {
+                lop: selectedClass,
+                noiDung: cb.dataset.n,
+                tenHS: note,
+                diem: parseInt(cb.dataset.d),
+                loai: (currentRole === 'GV' ? "SĐB - " : "Sao Đỏ - ") + cb.dataset.g
+            };
+            await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+        }
+        alert("Đã lưu dữ liệu thành công!");
+        location.reload();
+    }
+
+    async function showBXH() {
+        document.getElementById('home-screen').style.display = 'none';
+        document.getElementById('pin-screen').style.display = 'none';
+        document.getElementById('bxh-view').style.display = 'block';
+        const list = document.getElementById('bxh-list');
+        list.innerHTML = "Đang tải dữ liệu...";
+        
+        try {
+            const res = await fetch(SCRIPT_URL);
+            rawData = await res.json();
+            let scores = {};
+            LOP.forEach(l => scores[l] = 100);
+            rawData.forEach(r => { if(scores[r[1]] !== undefined) scores[r[1]] += parseInt(r[4]); });
+            
+            const sorted = Object.keys(scores).sort((a,b) => scores[b] - scores[a]);
+            list.innerHTML = "";
+            sorted.forEach((l, i) => {
+                list.innerHTML += `
+                    <div class="rank-row">
+                        <div class="r-num">${i+1}</div>
+                        <div class="r-name">${l}</div>
+                        <div class="r-pts">${scores[l]}</div>
                     </div>`;
             });
-        });
+        } catch(e) { list.innerHTML = "Lỗi tải dữ liệu!"; }
     }
 
-    async function saveData(type) {
-        const activeItems = document.querySelectorAll(`#list-${type} .loi-item.active`);
-        if (activeItems.length === 0) return alert("Vui lòng chọn ít nhất một mục!");
-
-        for (let item of activeItems) {
-            const id = item.id.replace('item-', '');
-            const cb = document.getElementById('cb-' + id);
-            const name = document.getElementById('name-' + id).value || "Tập thể";
-            const points = parseInt(cb.dataset.d);
-
-            const payload = {
-                lop: activeClass,
-                noiDung: cb.dataset.n,
-                tenHS: name,
-                diem: points,
-                loai: type === 'sd' ? 'Sao Đỏ' : 'Sổ Đầu Bài'
-            };
-
-            // Gửi lên Cloud
-            try {
-                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-            } catch (e) { console.error("Cloud Sync Error"); }
-
-            db[activeClass].score += points;
-        }
-
-        alert("Đã lưu và đồng bộ thành công!");
-        location.reload(); 
+    function backupData() {
+        let csv = "Thời gian,Lớp,Nội dung,Tên HS,Điểm,Loại\n";
+        rawData.forEach(row => csv += row.join(",") + "\n");
+        const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "SaoLuu_PhuocAn_" + new Date().toLocaleDateString() + ".csv";
+        link.click();
     }
-
-    async function syncFromCloud() {
-        try {
-            const response = await fetch(SCRIPT_URL);
-            const data = await response.json();
-            // Reset điểm về 100 trước khi tính toán lại từ Cloud
-            LOP_LIST.forEach(l => db[l].score = 100);
-            data.forEach(row => {
-                const lop = row[1];
-                const diem = parseInt(row[4]);
-                if (db[lop]) db[lop].score += diem;
-            });
-            renderBXH();
-            alert("Bảng xếp hạng đã cập nhật dữ liệu mới nhất từ giáo viên!");
-        } catch (e) { alert("Lỗi tải dữ liệu!"); }
-    }
-
-    function toggle(id) { document.getElementById('item-' + id).classList.toggle('active'); }
-
-    function openLogin(type, lop = "") {
-        loginType = type; activeClass = lop;
-        document.getElementById('login-label').innerText = type === 'SAODO' ? "MÃ PIN SAO ĐỎ" : "PIN LỚP " + lop;
-        document.getElementById('login-screen').style.display = 'flex';
-    }
-
-    function verifyPin() {
-        const pin = document.getElementById('pin-input').value;
-        if ((loginType === 'SAODO' && pin === PIN_SAODO) || (loginType === 'LOP' && pin === PIN_LOP)) {
-            document.getElementById('login-screen').style.display = 'none';
-            if (loginType === 'SAODO') {
-                alert("Chào Sao Đỏ! Hãy chọn một lớp ở bảng xếp hạng để bắt đầu chấm.");
-            } else {
-                document.getElementById('db-select').style.display = 'none';
-                document.getElementById('daubai-panel').style.display = 'block';
-                document.getElementById('db-label').innerText = "SỔ ĐẦU BÀI LỚP " + activeClass;
-            }
-        } else { alert("Mã PIN không đúng!"); }
-        document.getElementById('pin-input').value = "";
-    }
-
-    function switchTab(t) {
-        document.getElementById('tab-saodo').style.display = t === 'saodo' ? 'block' : 'none';
-        document.getElementById('tab-daubai').style.display = t === 'daubai' ? 'block' : 'none';
-        document.getElementById('m-saodo').classList.toggle('active', t === 'saodo');
-        document.getElementById('m-daubai').classList.toggle('active', t === 'daubai');
-    }
-
-    function renderBXH() {
-        const body = document.getElementById('bxh-body'); body.innerHTML = "";
-        const sorted = [...LOP_LIST].sort((a, b) => db[b].score - db[a].score);
-        sorted.forEach((l, i) => {
-            body.innerHTML += `<tr onclick="selectSD('${l}')">
-                <td>${i + 1}</td>
-                <td><b>${l}</b></td>
-                <td style="color:${db[l].score < 100 ? 'red' : 'green'}"><b>${db[l].score}</b></td>
-            </tr>`;
-        });
-    }
-
-    function selectSD(l) {
-        if (loginType !== 'SAODO') return;
-        activeClass = l;
-        document.getElementById('saodo-panel').style.display = 'block';
-        document.getElementById('sd-label').innerText = "CHẤM ĐIỂM LỚP " + l;
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-    init();
 </script>
 </body>
 </html>
