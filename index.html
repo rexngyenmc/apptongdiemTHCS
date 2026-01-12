@@ -3,134 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Đồng Bộ Thi Đua Phước An</title>
+    <title>Hệ Thống Phước An 2026 - Siêu Cấp</title>
     <style>
-        :root { --blue: #1a73e8; --green: #34a853; --orange: #fbbc05; --red: #ea4335; --dark: #202124; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: #f1f3f4; color: var(--dark); }
+        :root { --p: #1a73e8; --s: #34a853; --w: #fbbc05; --r: #ea4335; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f0f2f5; }
+        .screen { display: none; padding: 20px; max-width: 800px; margin: auto; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from {opacity:0} to {opacity:1} }
         
-        /* Giao diện chính */
-        #home-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 20px; padding: 20px; box-sizing: border-box; }
-        .btn-main { width: 100%; max-width: 400px; padding: 25px; border: none; border-radius: 15px; color: white; font-size: 1.3rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .bg-gv { background: var(--blue); } .bg-sd { background: var(--green); } .bg-bxh { background: var(--orange); color: #000; }
+        /* Menu chính */
+        #home-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; gap: 20px; }
+        .btn-main { width: 100%; max-width: 400px; padding: 25px; border: none; border-radius: 20px; color: white; font-size: 1.3rem; font-weight: 800; cursor: pointer; box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .bg-gv { background: var(--p); } .bg-sd { background: var(--s); } .bg-bxh { background: var(--w); color: #000; }
 
-        /* Chọn lớp hàng ngang */
-        .class-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
-        .btn-cl { padding: 15px 5px; border: 1.5px solid #ddd; border-radius: 10px; background: #fff; font-weight: bold; cursor: pointer; }
+        /* Tìm kiếm & Danh sách tên */
+        .search-box { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 10px; font-size: 1rem; box-sizing: border-box; }
+        .list-container { max-height: 200px; overflow-y: auto; background: white; border-radius: 12px; border: 1px solid #eee; margin-bottom: 15px; }
+        .user-item { padding: 12px 15px; border-bottom: 1px solid #eee; cursor: pointer; text-align: left; }
+        .user-item:hover { background: #e8f0fe; }
+        .user-item.active { background: var(--p); color: white; }
 
-        /* Bảng xếp hạng Trình chiếu rực rỡ */
-        #bxh-view { display: none; background: radial-gradient(circle, #001f3f, #000); min-height: 100vh; color: #fff; padding: 30px 15px; text-align: center; }
-        .rank-row { display: flex; align-items: center; background: rgba(255,255,255,0.1); margin: 10px auto; padding: 18px; border-radius: 15px; max-width: 800px; border: 1px solid rgba(255,255,255,0.1); }
-        .rank-1 { background: linear-gradient(90deg, #ffd700, #ff8f00) !important; color: #000 !important; transform: scale(1.05); border: 2px solid gold; }
+        /* Lớp hàng ngang */
+        .class-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .btn-cl { padding: 15px 5px; border: 2px solid #ddd; border-radius: 10px; background: white; font-weight: bold; cursor: pointer; }
+        .btn-cl.active { background: var(--p); color: white; }
+
+        /* Chấm lỗi chi tiết */
+        .card { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 15px; text-align: left; }
+        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; }
+        .item-row.selected { background: #fff9c4; border-left: 5px solid var(--w); }
+        .detail-area { display: none; padding: 15px; background: #fafafa; border: 1px solid #eee; border-radius: 10px; margin-top: 5px; margin-bottom: 10px; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        
+        /* BXH rực rỡ */
+        #bxh-screen { background: radial-gradient(circle, #001f3f, #000); color: white; text-align: center; min-height: 100vh; }
+        .rank-row { display: flex; align-items: center; background: rgba(255,255,255,0.1); margin: 10px auto; padding: 20px; border-radius: 15px; max-width: 900px; }
+        .rank-1 { background: linear-gradient(90deg, #ffd700, #ff8f00); color: #000; font-weight: bold; transform: scale(1.05); }
     </style>
 </head>
 <body>
 
-<div id="home-screen">
-    <h1 style="margin-bottom: 5px;">THCS PHƯỚC AN</h1>
-    <p style="color: #666; margin-top: 0;">Dữ liệu đồng bộ thời gian thực</p>
-    <button class="btn-main bg-gv" onclick="init('GV')">TÔI LÀ GIÁO VIÊN</button>
-    <button class="btn-main bg-sd" onclick="init('SD')">TÔI LÀ SAO ĐỎ</button>
-    <button class="btn-main bg-bxh" onclick="init('BXH')">BXH TRÌNH CHIẾU</button>
+<div id="home-screen" class="screen" style="display:flex">
+    <h1>PHƯỚC AN 2026</h1>
+    <button class="btn-main bg-gv" onclick="init('GV')">GIÁO VIÊN</button>
+    <button class="btn-main bg-sd" onclick="init('SD')">SAO ĐỎ</button>
+    <button class="btn-main bg-bxh" onclick="init('BXH')">BẢNG VÀNG</button>
 </div>
 
-<div id="app-container" style="display:none; padding: 20px; max-width: 600px; margin: auto;">
-    <button onclick="location.reload()" style="padding: 10px; cursor: pointer;">← QUAY LẠI</button>
-    <div id="auth-area" style="margin-top: 20px; background: white; padding: 20px; border-radius: 15px;">
-        <h3 id="role-text"></h3>
-        <input type="text" id="user-name" placeholder="Nhập tên Giáo viên/Sao đỏ..." style="width:100%; padding:12px; margin-bottom:10px;">
-        <input type="password" id="pin-code" placeholder="Nhập mã PIN..." style="width:100%; padding:12px; display:none;">
-        <button class="btn-main bg-gv" style="padding: 15px;" onclick="verify()">TIẾP TỤC</button>
-    </div>
-
-    <div id="class-area" style="display:none; margin-top: 20px;">
-        <h3>CHỌN LỚP (THEO HÀNG)</h3>
-        <div class="class-grid" id="class-list"></div>
-    </div>
-
-    <div id="score-area" style="display:none; margin-top: 20px;">
-        <h2 id="target-title" style="color:var(--blue)"></h2>
-        <div id="criteria-list" style="text-align: left;"></div>
-        <button class="btn-main bg-gv" style="width:100%; margin-top: 20px;" onclick="sendData()">LƯU & ĐỒNG BỘ</button>
+<div id="auth-screen" class="screen">
+    <button onclick="location.reload()" style="padding:10px; margin-bottom:10px">← QUAY LẠI</button>
+    <div class="card">
+        <h3 id="auth-title">CHỌN NGƯỜI CHẤM</h3>
+        <input type="password" id="pin-input" class="search-box" placeholder="Nhập PIN..." style="display:none; text-align:center">
+        <input type="text" id="search-user" class="search-box" placeholder="Tìm kiếm tên..." onkeyup="filterUser()">
+        <div id="user-list" class="list-container"></div>
+        <button class="btn-main bg-gv" style="padding:15px" onclick="verifyAuth()">TIẾP TỤC</button>
     </div>
 </div>
 
-<div id="bxh-view">
-    <h1 style="color: var(--orange); font-size: 2.5rem;">🏆 BẢNG VÀNG THI ĐUA</h1>
-    <p id="bxh-date" style="font-size: 1.2rem;"></p>
-    <div id="bxh-content">Đang tải dữ liệu đồng bộ...</div>
-    <button class="btn-main" style="background:#444; margin-top:30px; width: 200px;" onclick="location.reload()">THOÁT</button>
+<div id="class-screen" class="screen">
+    <button onclick="showScreen('auth-screen')" style="padding:10px; margin-bottom:10px">← QUAY LẠI</button>
+    <div class="card">
+        <h3>CHỌN LỚP (HÀNG NGANG)</h3>
+        <div class="class-grid" id="class-btns"></div>
+    </div>
 </div>
 
+<div id="score-screen" class="screen">
+    <button onclick="showScreen('class-screen')" style="padding:10px; margin-bottom:10px">← CHỌN LẠI LỚP</button>
+    <div class="card">
+        <h2 id="target-l" style="margin:0; color:var(--p)"></h2>
+        <p id="info-p" style="margin:5px 0; color:#666"></p>
+    </div>
+    <div id="criteria-list"></div>
+    <button class="btn-main bg-gv" style="width:100%; margin:20px 0" onclick="save()">LƯU & ĐỒNG BỘ</button>
+</div>
+
+<div id="bxh-screen" class="screen">
+    <h1 style="color:var(--w); font-size:3rem">🏆 BẢNG VÀNG THI ĐUA</h1>
+    <div id="bxh-content"></div>
+    <button class="btn-main" onclick="location.reload()" style="background:#444; width:200px; margin-top:20px">THOÁT</button>
+</div>
 <script>
-    const SCRIPT_URL = "https://rexngyenmc.github.io/apptongdiemTHCS/"; 
-    const LOP = ["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
-    let role = "", user = "", selectedLop = "";
+const DANH_SACH_GV = ["Thầy An", "Cô Bình", "Thầy Chi", "Cô Diệp", "Thầy Giang"]; // Bạn tự thêm tiếp
+const DANH_SACH_SD = ["Sao Đỏ 1", "Sao Đỏ 2", "Sao Đỏ 3", "Sao Đỏ 4"]; 
+const LOP = ["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
 
-    // Dữ liệu đúng biểu điểm trường Phước An 
-    const DATA_GV = [
-        {h: "Học tập", ds: [{n:"1 tiết A", d:10}, {n:"1 tiết B", d:5}, {n:"Điểm 10", d:10}, {n:"Điểm 8,9", d:9}, {n:"Không bài tập", d:-10}]}
-    ];
-    const DATA_SD = [
-        {h: "Tác phong", ds: [{n:"Không khăn quàng", d:-5}, {n:"Không áo trong quần", d:-5}, {n:"Đi trễ", d:-2}, {n:"Nói tục", d:-10}]}
-    ];
+// ĐỦ LỖI TỪ FILE WORD
+const LOI_SD = [
+    {h: "Tác phong", ds: [
+        {n:"Không khăn quàng/huy hiệu", d:-5}, {n:"Không bỏ áo vào quần", d:-5},
+        {n:"Đồng phục sai quy định", d:-5}, {n:"Đi chân trần", d:-5},
+        {n:"Tóc dài (nam)/Nhuộm tóc", d:-10}, {n:"Đi trễ", d:-2}
+    ]},
+    {h: "Nề nếp - Đạo đức", ds: [
+        {n:"Nói tục chửi thề", d:-10}, {n:"Ăn quà vặt sai nơi", d:-10},
+        {n:"Bỏ rác sai nơi", d:-20}, {n:"Chui rào/Phá hàng rào", d:-30}
+    ]}
+];
+const LOI_GV = [
+    {h: "Học tập (Sổ đầu bài)", ds: [
+        {n:"1 tiết A", d:10}, {n:"1 tiết B", d:5}, {n:"1 tiết C", d:-5}, {n:"1 tiết D", d:-10},
+        {n:"Điểm 10", d:10}, {n:"Điểm 8,9", d:9}, {n:"Điểm 4", d:-5}, {n:"Điểm 0,1,2,3", d:-10},
+        {n:"Không thuộc bài/Làm BT", d:-10}, {n:"Mất sổ đầu bài", d:-50}
+    ]}
+];
 
-    function init(r) {
-        role = r;
-        document.getElementById('home-screen').style.display = 'none';
-        if(r === 'BXH') { verify(); return; }
-        document.getElementById('app-container').style.display = 'block';
-        document.getElementById('role-text').innerText = r === 'GV' ? "GIÁO VIÊN ĐĂNG NHẬP" : "SAO ĐỎ ĐĂNG NHẬP";
-        if(r === 'SD') document.getElementById('pin-code').style.display = 'block';
-    }
+let role = "", user = "", lopSelected = "";
 
-    function verify() {
-        user = document.getElementById('user-name').value;
-        const pin = document.getElementById('pin-code').value;
-        if(role === 'SD' && pin !== '1234') { alert("Sai mã PIN Sao đỏ!"); return; }
-        if(role === 'BXH') { showBXH(); return; }
-        if(!user) { alert("Vui lòng nhập tên!"); return; }
-        
-        document.getElementById('auth-area').style.display = 'none';
-        document.getElementById('class-area').style.display = 'block';
-        const list = document.getElementById('class-list');
-        list.innerHTML = "";
-        LOP.forEach(l => list.innerHTML += `<button class="btn-cl" onclick="showScore('${l}')">${l}</button>`);
-    }
+function init(r) {
+    role = r;
+    showScreen('auth-screen');
+    document.getElementById('auth-title').innerText = "AI ĐANG CHẤM? (" + r + ")";
+    document.getElementById('pin-input').style.display = (r === 'GV' ? 'none' : 'block');
+    renderUserList();
+}
 
-    function showScore(l) {
-        selectedLop = l;
-        document.getElementById('class-area').style.display = 'none';
-        document.getElementById('score-area').style.display = 'block';
-        document.getElementById('target-title').innerText = "Lớp: " + l;
-        const list = document.getElementById('criteria-list');
-        const items = role === 'GV' ? DATA_GV : DATA_SD;
-        list.innerHTML = "";
-        items.forEach(g => {
-            list.innerHTML += `<h4 style="border-bottom:2px solid #eee;">${g.h}</h4>`;
-            g.ds.forEach(i => {
-                list.innerHTML += `<div style="background:white; padding:12px; margin-bottom:5px; border-radius:8px; display:flex; justify-content:space-between;">
-                    <span>${i.n} <b>(${i.d > 0 ? '+'+i.d : i.d})</b></span>
-                    <input type="checkbox" class="chk" data-n="${i.n}" data-d="${i.d}">
-                </div>`;
-            });
+function filterUser() {
+    let val = document.getElementById('search-user').value.toLowerCase();
+    let items = document.querySelectorAll('.user-item');
+    items.forEach(i => {
+        i.style.display = i.innerText.toLowerCase().includes(val) ? "block" : "none";
+    });
+}
+
+function renderUserList() {
+    let list = role === 'GV' ? DANH_SACH_GV : DANH_SACH_SD;
+    let html = "";
+    list.forEach(name => {
+        html += `<div class="user-item" onclick="selectUser(this)">${name}</div>`;
+    });
+    document.getElementById('user-list').innerHTML = html;
+}
+
+function selectUser(el) {
+    document.querySelectorAll('.user-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    user = el.innerText;
+}
+
+function verifyAuth() {
+    if(!user) return alert("Chọn tên người chấm!");
+    if(role === 'SD' && document.getElementById('pin-input').value !== '1234') return alert("Sai PIN!");
+    if(role === 'BXH' && document.getElementById('pin-input').value !== '9999') return alert("Sai PIN!");
+    
+    if(role === 'BXH') return showScreen('bxh-screen');
+    
+    showScreen('class-screen');
+    let h = "";
+    LOP.forEach(l => h += `<button class="btn-cl" onclick="chooseLop('${l}', this)">${l}</button>`);
+    document.getElementById('class-btns').innerHTML = h;
+}
+
+function chooseLop(l, btn) {
+    lopSelected = l;
+    document.querySelectorAll('.btn-cl').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    setTimeout(() => showScore(), 300);
+}
+
+function showScore() {
+    showScreen('score-screen');
+    document.getElementById('target-l').innerText = "Lớp: " + lopSelected;
+    document.getElementById('info-p').innerText = "Người chấm: " + user + " | Ngày: " + new Date().toLocaleDateString('vi-VN');
+    
+    let html = "";
+    let data = role === 'GV' ? LOI_GV : LOI_SD;
+    data.forEach(g => {
+        html += `<h4 style="margin-top:15px">${g.h}</h4>`;
+        g.ds.forEach((item, idx) => {
+            let id = `row-${idx}`;
+            html += `<div class="item-row" onclick="toggleItem('${id}')">
+                        <span>${item.n} (${item.d > 0 ? '+'+item.d : item.d})</span>
+                    </div>
+                    <div class="detail-area" id="${id}">
+                        <input type="text" placeholder="Tên học sinh vi phạm..." class="inp-hs">
+                        <input type="number" placeholder="Số lần (mặc định 1)..." class="inp-count" value="1">
+                        <input type="hidden" class="inp-val" value="${item.d}">
+                        <input type="hidden" class="inp-name" value="${item.n}">
+                    </div>`;
         });
-    }
+    });
+    document.getElementById('criteria-list').innerHTML = html;
+}
 
-    async function sendData() {
-        const chks = document.querySelectorAll('.chk:checked');
-        if(chks.length === 0) return alert("Chưa chọn mục nào!");
-        const date = new Date().toLocaleDateString('vi-VN');
-        
-        alert("Đang đồng bộ điểm cho lớp " + selectedLop + " ngày " + date);
-        // Logic fetch(SCRIPT_URL, ...) sẽ gửi kèm: date, selectedLop, user, role
-        location.reload();
+function toggleItem(id) {
+    let el = document.getElementById(id);
+    let row = el.previousElementSibling;
+    if(el.style.display === "flex") {
+        el.style.display = "none";
+        row.classList.remove('selected');
+    } else {
+        el.style.display = "flex";
+        row.classList.add('selected');
     }
+}
 
-    function showBXH() {
-        document.getElementById('bxh-view').style.display = 'block';
-        document.getElementById('bxh-date').innerText = "Ngày: " + new Date().toLocaleDateString('vi-VN');
-        // Logic hiển thị danh sách lớp từ cao đến thấp 
-    }
+function save() {
+    alert("Đã lưu dữ liệu thành công cho " + user + " chấm lớp " + lopSelected);
+    location.reload();
+}
+
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+}
 </script>
 </body>
 </html>
