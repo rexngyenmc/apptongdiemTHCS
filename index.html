@@ -3,309 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WEB SAO ĐỎ PHƯỚC AN</title>
+    <title>QUẢN LÝ THI ĐUA PHƯỚC AN</title>
     <style>
-        :root { --p: #0056b3; --s: #2e7d32; --a: #d32f2f; --bg: #f8f9fa; --gold: #ffd700; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 10px; color: #333; }
-        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--p); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; color: white; }
-        .pin-input { width: 160px; padding: 15px; border-radius: 15px; border: none; font-size: 2rem; text-align: center; letter-spacing: 5px; font-weight: bold; margin: 20px 0; color: var(--p); outline: none; }
-        .header { background: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid var(--p); }
+        :root { --p: #0056b3; --s: #2e7d32; --a: #d32f2f; --bg: #f4f7f9; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 0; color: #333; }
+        
+        /* Menu Navigation */
+        .navbar { background: var(--p); display: flex; justify-content: space-around; padding: 10px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .nav-item { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; padding: 8px 15px; border-radius: 20px; transition: 0.3s; cursor: pointer; }
+        .nav-item.active { background: white; color: var(--p); }
+
+        /* Login Overlay */
+        #login-screen { position: fixed; inset: 0; background: var(--p); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; color: white; text-align: center; }
+        .pin-input { width: 160px; padding: 15px; border-radius: 15px; border: none; font-size: 2rem; text-align: center; margin: 20px 0; outline: none; }
+
+        .container { padding: 15px; max-width: 600px; margin: auto; }
+        .header { background: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; border-top: 5px solid var(--p); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { background: #f1f1f1; font-size: 0.7rem; padding: 8px; border: 1px solid #ddd; }
-        td { padding: 10px 5px; text-align: center; border: 1px solid #ddd; font-weight: bold; font-size: 0.8rem; }
-        .rank { width: 25px; height: 25px; line-height: 25px; display: inline-block; border-radius: 50%; background: #eee; font-size: 0.7rem; }
-        .rank-1 { background: var(--gold); }
-        .input-group { margin-bottom: 15px; }
-        .input-label { font-size: 0.8rem; font-weight: bold; color: var(--p); display: block; margin-bottom: 5px; }
-        .input-box { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 1rem; outline: none; }
-        .scroll-form { max-height: 400px; overflow-y: auto; border: 1px solid #eee; border-radius: 10px; background: #fff; margin-bottom: 10px; }
-        .group-title { background: #e9ecef; padding: 8px; font-weight: bold; font-size: 0.75rem; border-left: 4px solid var(--p); position: sticky; top: 0; z-index: 10; }
+
+        /* Form Styles */
         .loi-item { display: flex; flex-direction: column; padding: 12px; border-bottom: 1px solid #eee; }
-        .loi-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; cursor: pointer; }
-        .name-for-loi { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.85rem; outline: none; display: none; }
+        .loi-row { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .input-name { width: 100%; margin-top: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; display: none; box-sizing: border-box; }
         .loi-item.active { background: #f0f7ff; }
-        .loi-item.active .name-for-loi { display: block; }
-        .score-tag { font-weight: bold; font-size: 0.85rem; min-width: 40px; text-align: right; }
-        .minus { color: var(--a); } .plus { color: var(--s); }
+        .loi-item.active .input-name { display: block; }
+        
         .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 1rem; }
-        .btn-apply { background: var(--p); color: white; }
-        .btn-zalo { background: #0068ff; color: white; }
-        .btn-copy { background: #28a745; color: white; margin-bottom: 10px; }
-        .btn-reset { background: #fff; color: var(--a); border: 1px solid var(--a); margin-top: 20px; font-size: 0.7rem; }
-        .btn-del { color: red; border: none; background: none; font-weight: bold; cursor: pointer; }
-        .active-lop { background: #e3f2fd !important; }
+        .btn-save { background: var(--p); color: white; }
+        .btn-copy { background: var(--s); color: white; }
+        .btn-logout { background: #666 !important; color: white; margin-top: 20px; font-size: 0.8rem; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+        th, td { border: 1px solid #ddd; padding: 10px 5px; text-align: center; }
+        th { background: #f8f9fa; }
+        .minus { color: var(--a); } .plus { color: var(--s); }
+        .rank { width: 25px; height: 25px; line-height: 25px; display: inline-block; border-radius: 50%; background: #eee; font-size: 0.7rem; }
+        .active-lop { background: #e3f2fd !important; border: 1px solid var(--p); }
     </style>
 </head>
 <body>
 
 <div id="login-screen">
-    <h2 style="margin:0">🔑 MẬT MÃ SAO ĐỎ</h2>
-    <input type="password" id="pin-input" class="pin-input" placeholder="****" maxlength="4" oninput="checkPin()">
+    <h2 style="margin:0">HỆ THỐNG PHƯỚC AN</h2>
+    <p>Vui lòng nhập mã PIN (Sao đỏ hoặc Lớp)</p>
+    <input type="password" id="pin-input" class="pin-input" placeholder="****" maxlength="4" oninput="handleAuth()">
+    <p id="login-msg" style="color: #ffeb3b;"></p>
 </div>
 
-<div id="main-content">
-    <div class="header">
-        <h1 style="font-size: 1rem; margin:0; color:var(--p)">LIÊN ĐỘI TH & THCS PHƯỚC AN</h1>
-    </div>
+<nav class="navbar" id="main-nav" style="display:none">
+    <div class="nav-item active" id="menu-saodo" onclick="switchTab('saodo')">SỔ SAO ĐỎ</div>
+    <div class="nav-item" id="menu-daubai" onclick="switchTab('daubai')">SỔ ĐẦU BÀI</div>
+</nav>
 
-    <div class="container">
+<div class="container" id="app" style="display:none">
+    
+    <div id="tab-saodo">
+        <div class="header">
+            <h2 style="margin:0; font-size: 1.1rem; color:var(--p)">BẢNG THI ĐUA TOÀN TRƯỜNG</h2>
+        </div>
         <div class="card">
-            <h3 style="margin-top:0; font-size:0.9rem">🏆 BẢNG XẾP HẠNG</h3>
-            <table>
+            <h3>🏆 XẾP HẠNG TUẦN</h3>
+            <table id="bxh-table">
                 <thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm</th></tr></thead>
                 <tbody id="bxh-body"></tbody>
             </table>
-            <button class="btn btn-zalo" onclick="xuatZalo()">🔵 Copy báo cáo Zalo</button>
         </div>
-
-        <div class="card" id="input-area" style="display:none;">
-            <h3 id="current-lop-label" style="color:var(--p); text-align:center; margin-top:0"></h3>
-            
-            <div class="input-group">
-                <span class="input-label">🔍 TÌM KIẾM LỖI:</span>
-                <input type="text" id="search-loi" class="input-box" placeholder="Tìm tên lỗi..." onkeyup="filterLoi()">
-            </div>
-
-            <p style="font-size: 0.7rem; color: #666; margin-bottom: 5px;">* Tick chọn lỗi rồi nhập tên (VD: Nguyên x2) trực tiếp bên dưới lỗi đó.</p>
-            <div class="scroll-form" id="error-list">
-                </div>
-
-            <button class="btn btn-apply" onclick="luuDuLieu()">💾 LƯU DỮ LIỆU CHẤM</button>
-
-            <h3 style="font-size:0.8rem; margin-top:30px;">📜 LỊCH SỬ LỚP ĐANG CHỌNG</h3>
-            <button class="btn btn-copy" onclick="copyTableLS()">📋 Copy bảng (Dán Excel/Zalo)</button>
-            <div style="overflow-x: auto;">
-                <table id="table-to-copy">
-                    <thead>
-                        <tr>
-                            <th>Việc làm</th>
-                            <th>Biểu</th>
-                            <th>Cá nhân</th>
-                            <th>Lần</th>
-                            <th>Tổng</th>
-                            <th>Xóa</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ls-body"></tbody>
-                </table>
-            </div>
+        <div id="saodo-input-area" class="card" style="display:none">
+            <h3 id="saodo-lop-label" style="text-align:center; color:var(--p)"></h3>
+            <input type="text" id="search-saodo" class="input-name" style="display:block; margin-bottom:10px" placeholder="🔍 Tìm lỗi..." onkeyup="filterLoi('saodo')">
+            <div id="list-saodo" style="max-height:300px; overflow-y:auto; border:1px solid #ddd; border-radius:10px"></div>
+            <button class="btn btn-save" onclick="saveData('saodo')">💾 LƯU DỮ LIỆU SAO ĐỎ</button>
         </div>
+    </div>
 
-        <button class="btn btn-reset" onclick="resetTuan()">🔄 RESET TUẦN MỚI</button>
+    <div id="tab-daubai" style="display:none">
+        <div class="header">
+            <h2 id="daubai-title" style="margin:0; font-size: 1.1rem; color:var(--s)">SỔ ĐẦU BÀI ĐIỆN TỬ</h2>
+        </div>
+        <div class="card">
+            <h3>📝 GHI TIẾT HỌC / VI PHẠM</h3>
+            <div id="list-daubai" style="max-height:300px; overflow-y:auto; border:1px solid #ddd; border-radius:10px"></div>
+            <button class="btn btn-save" onclick="saveData('daubai')" style="background:var(--s)">💾 CẬP NHẬT VÀO SỔ</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>📜 CHI TIẾT ĐÃ GHI (LỚP ĐANG CHỌN)</h3>
+        <button class="btn btn-copy" onclick="copyData()">📋 SAO CHÉP BẢNG DỮ LIỆU</button>
+        <div style="overflow-x:auto">
+            <table id="log-table">
+                <thead>
+                    <tr><th>Nội dung</th><th>Biểu</th><th>Học sinh</th><th>Tổng</th><th>Xóa</th></tr>
+                </thead>
+                <tbody id="log-body"></tbody>
+            </table>
+        </div>
+        <button class="btn btn-logout" onclick="location.reload()">🔒 ĐĂNG XUẤT</button>
     </div>
 </div>
 
 <script>
-    const PIN = "1234";
-    const LOP_LIST = ['6A','6B','6C','7A','7B','7C','8A','8B','8C','9A','9B'];
-    
-    // Dữ liệu lỗi từ file Word 
-    const ERROR_DATA = [
-        { g: "TÁC PHONG - ĐỒNG PHỤC", i: [
-            { n: "Không đeo Khăn quàng/Huy hiệu", d: -5 },
-            { n: "Không bỏ áo vào quần", d: -5 },
-            { n: "Mặc áo khoác trong trường", d: -5 },
-            { n: "Đồng phục sai quy định", d: -5 },
-            { n: "Đi chân trần ra sân/WC", d: -5 },
-            { n: "Để xe không ngay hàng", d: -5 },
-            { n: "Không đội nón bảo hiểm", d: -5 },
-            { n: "Để tóc dài (Nam)", d: -5 }
-        ]},
-        { g: "KỶ LUẬT & ĐẠO ĐỨC", i: [
-            { n: "Nhuộm tóc/Son phấn/Móng", d: -10 },
-            { n: "Nói tục, chửi thề", d: -10 },
-            { n: "Đánh nhau", d: -10 },
-            { n: "Chống đối Sao đỏ", d: -10 },
-            { n: "Bỏ rác sai quy định", d: -20 },
-            { n: "Chui rào, phá hàng rào", d: -30 },
-            { n: "Viết vẽ bậy tường/bàn", d: -10 },
-            { n: "Ra cổng không phép", d: -5 }
-        ]},
-        { g: "HỌC TẬP & TIẾT HỌC", i: [
-            { n: "Điểm 10", d: 10 },
-            { n: "Điểm 8, 9", d: 9 },
-            { n: "Điểm 7", d: 5 },
-            { n: "Điểm 4", d: -5 },
-            { n: "Điểm 0,1,2,3", d: -10 },
-            { n: "Tiết học loại A", d: 10 },
-            { n: "Tiết học loại B", d: 5 },
-            { n: "Tiết học loại C", d: -5 },
-            { n: "Tiết học loại D", d: -10 },
-            { n: "Không thuộc bài/Làm BT", d: -10 },
-            { n: "Trả lại của rơi", d: 5 }
-        ]}
+    const PIN_SAODO = "1234";
+    const LOP_PINS = { "6A":"6001", "6B":"6002", "7A":"7001", "8A":"8001", "9A":"9001" };
+    const LOP_LIST = Object.keys(LOP_PINS);
+
+    const CRITERIA = [
+        { g: "TIẾT HỌC", i: [{n:"Tiết học loại A",d:10}, {n:"Tiết học loại B",d:5}, {n:"Tiết học loại C",d:-5}, {n:"Tiết học loại D",d:-10}] },
+        { g: "TÁC PHONG", i: [{n:"Không đeo khăn quàng",d:-5}, {n:"Không bỏ áo vào quần",d:-5}, {n:"Đồng phục sai",d:-5}] },
+        { g: "CHUYÊN CẦN", i: [{n:"Đi trễ",d:-2}, {n:"Vắng không phép",d:-5}, {n:"Trốn tiết",d:-10}] },
+        { g: "HỌC TẬP", i: [{n:"Điểm 10",d:10}, {n:"Điểm 8,9",d:9}, {n:"Điểm kém (0-3)",d:-10}] }
     ];
 
-    let db = JSON.parse(localStorage.getItem('PHUOC_AN_DB')) || {};
-    let curLop = "";
+    let userRole = ""; // "SAODO" hoặc tên lớp
+    let selectedClass = ""; 
+    let db = JSON.parse(localStorage.getItem('PHUOC_AN_FULL_DB')) || {};
 
-    function init() {
-        LOP_LIST.forEach(l => { if(!db[l]) db[l] = { total: 100, logs: [] }; });
-        const listEl = document.getElementById('error-list');
-        ERROR_DATA.forEach(group => {
-            listEl.innerHTML += `<div class="group-title">${group.g}</div>`;
-            group.i.forEach((item, idx) => {
-                const id = `err-${Math.random().toString(36).substr(2, 5)}`;
-                listEl.innerHTML += `
+    function handleAuth() {
+        const pin = document.getElementById('pin-input').value;
+        if(pin === PIN_SAODO) {
+            userRole = "SAODO";
+            loginSuccess();
+        } else {
+            for (let lop in LOP_PINS) {
+                if(LOP_PINS[lop] === pin) {
+                    userRole = lop;
+                    selectedClass = lop;
+                    loginSuccess();
+                    return;
+                }
+            }
+        }
+    }
+
+    function loginSuccess() {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('main-nav').style.display = 'flex';
+        document.getElementById('app').style.display = 'block';
+        initDB();
+        renderBXH();
+        buildList('saodo');
+        buildList('daubai');
+        if(userRole !== "SAODO") {
+            document.getElementById('menu-saodo').style.display = 'none';
+            switchTab('daubai');
+        }
+    }
+
+    function initDB() {
+        LOP_LIST.forEach(l => { if(!db[l]) db[l] = { score: 100, logs: [] }; });
+    }
+
+    function buildList(type) {
+        const container = document.getElementById('list-' + type);
+        container.innerHTML = "";
+        CRITERIA.forEach(group => {
+            container.innerHTML += `<div style="background:#eee;padding:5px;font-size:0.7rem;font-weight:bold">${group.g}</div>`;
+            group.i.forEach(item => {
+                const id = type + Math.random().toString(36).substr(2, 5);
+                container.innerHTML += `
                     <div class="loi-item" id="item-${id}">
-                        <div class="loi-info" onclick="toggleSelection('${id}')">
-                            <input type="checkbox" id="${id}" data-n="${item.n}" data-d="${item.d}">
-                            <span style="flex:1; margin-left:10px; font-size:0.85rem">${item.n}</span>
-                            <span class="score-tag ${item.d < 0 ? 'minus' : 'plus'}">${item.d > 0 ? '+' : ''}${item.d}</span>
+                        <div class="loi-row" onclick="toggleItem('${id}')">
+                            <span>${item.n}</span>
+                            <span class="${item.d<0?'minus':'plus'}"><b>${item.d>0?'+':''}${item.d}</b></span>
+                            <input type="checkbox" id="cb-${id}" data-n="${item.n}" data-d="${item.d}" style="display:none">
                         </div>
-                        <input type="text" class="name-for-loi" id="name-${id}" placeholder="Nhập tên HS (VD: Linh, An x2)...">
+                        <input type="text" class="input-name" id="name-${id}" placeholder="Tên HS hoặc x2, x3...">
                     </div>`;
             });
         });
     }
 
-    function checkPin() {
-        if(document.getElementById('pin-input').value === PIN) {
-            document.getElementById('login-screen').style.display = 'none';
-            renderBXH();
-        }
-    }
-
-    function toggleSelection(id) {
-        const cb = document.getElementById(id);
-        const item = document.getElementById(`item-${id}`);
+    function toggleItem(id) {
+        const cb = document.getElementById('cb-'+id);
+        const item = document.getElementById('item-'+id);
         cb.checked = !cb.checked;
-        if(cb.checked) {
-            item.classList.add('active');
-            document.getElementById(`name-${id}`).focus();
-        } else {
-            item.classList.remove('active');
+        item.classList.toggle('active', cb.checked);
+        if(cb.checked) document.getElementById('name-'+id).focus();
+    }
+
+    function switchTab(tab) {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.getElementById('menu-' + tab).classList.add('active');
+        document.getElementById('tab-saodo').style.display = tab === 'saodo' ? 'block' : 'none';
+        document.getElementById('tab-daubai').style.display = tab === 'daubai' ? 'block' : 'none';
+        if(tab === 'daubai') {
+            document.getElementById('daubai-title').innerText = "SỔ ĐẦU BÀI LỚP " + selectedClass;
+            renderLogs();
         }
     }
 
-    function filterLoi() {
-        let key = document.getElementById('search-loi').value.toLowerCase();
-        document.querySelectorAll('.loi-item').forEach(it => {
-            it.style.display = it.innerText.toLowerCase().includes(key) ? 'flex' : 'none';
-        });
+    function selectClass(lop) {
+        if(userRole !== "SAODO") return;
+        selectedClass = lop;
+        document.querySelectorAll('.lop-row').forEach(r => r.classList.remove('active-lop'));
+        document.getElementById('row-'+lop).classList.add('active-lop');
+        document.getElementById('saodo-input-area').style.display = 'block';
+        document.getElementById('saodo-lop-label').innerText = "CHẤM ĐIỂM LỚP " + lop;
+        renderLogs();
     }
 
-    function luuDuLieu() {
-        const selected = document.querySelectorAll('#error-list input[type="checkbox"]:checked');
-        if(selected.length === 0) return alert("Bạn chưa chọn lỗi nào!");
-
+    function saveData(type) {
+        if(!selectedClass) return alert("Vui lòng chọn lớp!");
+        const selected = document.querySelectorAll(`#list-${type} input[type="checkbox"]:checked`);
         selected.forEach(cb => {
-            const id = cb.id;
-            const rawName = document.getElementById(`name-${id}`).value.trim() || "Tập thể";
-            const diemGoc = parseInt(cb.dataset.d);
-            
-            // Xử lý "x2", "x3" thông minh
-            let soLan = 1;
-            const match = rawName.toLowerCase().match(/x\s*(\d+)/);
-            if(match) soLan = parseInt(match[1]);
+            const id = cb.id.replace('cb-', '');
+            const name = document.getElementById('name-'+id).value || "Tập thể";
+            const points = parseInt(cb.dataset.d);
+            let times = 1;
+            const match = name.match(/x(\d+)/);
+            if(match) times = parseInt(match[1]);
 
-            const tongDiemRow = diemGoc * soLan;
-
-            db[curLop].logs.unshift({
+            db[selectedClass].logs.unshift({
                 id: Date.now() + Math.random(),
-                việc: cb.dataset.n,
-                biểu: (diemGoc > 0 ? "+" : "") + diemGoc,
-                tên: rawName,
-                lần: soLan,
-                tổng: (tongDiemRow > 0 ? "+" : "") + tongDiemRow
+                content: cb.dataset.n + ` (${type === 'saodo' ? 'Sao đỏ' : 'SĐB'})`,
+                base: points,
+                who: name,
+                total: points * times
             });
-            db[curLop].total += tongDiemRow;
-
-            // Reset dòng đó
+            db[selectedClass].score += (points * times);
+            
+            // Reset
             cb.checked = false;
-            document.getElementById(`name-${id}`).value = "";
-            document.getElementById(`item-${id}`).classList.remove('active');
+            document.getElementById('item-'+id).classList.remove('active');
+            document.getElementById('name-'+id).value = "";
         });
-
-        renderBXH(); renderLS();
-        alert("Đã lưu thành công!");
+        localStorage.setItem('PHUOC_AN_FULL_DB', JSON.stringify(db));
+        renderBXH(); renderLogs();
+        alert("Đã lưu!");
     }
 
     function renderBXH() {
-        const sorted = [...LOP_LIST].sort((a,b) => db[b].total - db[a].total);
+        const sorted = [...LOP_LIST].sort((a,b) => db[b].score - db[a].score);
         const body = document.getElementById('bxh-body');
-        body.innerHTML = '';
+        body.innerHTML = "";
         sorted.forEach((l, i) => {
-            body.innerHTML += `<tr class="lop-row" id="row-${l}" onclick="chonLop('${l}')">
+            body.innerHTML += `<tr class="lop-row" id="row-${l}" onclick="selectClass('${l}')">
                 <td><span class="rank ${i<3?'rank-1':''}">${i+1}</span></td>
                 <td>Lớp ${l}</td>
-                <td style="color:${db[l].total<100?'red':'green'}">${db[l].total}</td>
+                <td style="color:${db[l].score<100?'red':'green'}">${db[l].score}</td>
             </tr>`;
         });
-        localStorage.setItem('PHUOC_AN_DB', JSON.stringify(db));
     }
 
-    function chonLop(l) {
-        curLop = l;
-        document.querySelectorAll('.lop-row').forEach(r => r.classList.remove('active-lop'));
-        document.getElementById(`row-${l}`).classList.add('active-lop');
-        document.getElementById('input-area').style.display = 'block';
-        document.getElementById('current-lop-label').innerText = `ĐANG CHẤM: LỚP ${l}`;
-        renderLS();
-        window.scrollTo({top: document.getElementById('input-area').offsetTop, behavior: 'smooth'});
-    }
-
-    function renderLS() {
-        const body = document.getElementById('ls-body');
-        body.innerHTML = '';
-        db[curLop].logs.forEach(log => {
+    function renderLogs() {
+        const body = document.getElementById('log-body');
+        body.innerHTML = "";
+        if(!selectedClass) return;
+        db[selectedClass].logs.forEach(log => {
             body.innerHTML += `<tr>
-                <td style="text-align:left">${log.việc}</td>
-                <td>${log.biểu}</td>
-                <td>${log.tên}</td>
-                <td>${log.lần}</td>
-                <td class="${parseInt(log.tổng)<0?'minus':'plus'}">${log.tổng}</td>
-                <td><button class="btn-del" onclick="xoaLog('${log.id}')">✕</button></td>
+                <td>${log.content}</td>
+                <td>${log.base}</td>
+                <td>${log.who}</td>
+                <td class="${log.total<0?'minus':'plus'}">${log.total}</td>
+                <td><button onclick="deleteLog(${log.id})" style="color:red;border:none;background:none">✕</button></td>
             </tr>`;
         });
     }
 
-    function copyTableLS() {
-        const table = document.getElementById("table-to-copy");
-        if (table.rows.length <= 1) return alert("Không có dữ liệu!");
-        
-        const tempDiv = document.createElement("div");
-        const tableClone = table.cloneNode(true);
-        for (let row of tableClone.rows) { row.deleteCell(-1); }
-        
-        tableClone.style.borderCollapse = "collapse";
-        tableClone.querySelectorAll("th, td").forEach(cell => {
-            cell.style.border = "1px solid black";
-            cell.style.padding = "5px";
-            cell.style.textAlign = "center";
-        });
+    function deleteLog(id) {
+        if(!confirm("Xóa dòng này?")) return;
+        const idx = db[selectedClass].logs.findIndex(l => l.id === id);
+        db[selectedClass].score -= db[selectedClass].logs[idx].total;
+        db[selectedClass].logs.splice(idx, 1);
+        localStorage.setItem('PHUOC_AN_FULL_DB', JSON.stringify(db));
+        renderBXH(); renderLogs();
+    }
 
-        tempDiv.appendChild(tableClone);
-        document.body.appendChild(tempDiv);
+    function copyData() {
+        const table = document.getElementById('log-table');
         const range = document.createRange();
-        range.selectNode(tempDiv);
+        range.selectNode(table);
         window.getSelection().removeAllRanges();
         window.getSelection().addRange(range);
         document.execCommand('copy');
-        document.body.removeChild(tempDiv);
-        alert("Đã copy bảng!");
+        alert("Đã copy dữ liệu lớp " + selectedClass);
     }
 
-    function xuatZalo() {
-        let txt = "📊 BÁO CÁO THI ĐUA PHƯỚC AN\n";
-        [...LOP_LIST].sort((a,b) => db[b].total - db[a].total).forEach((l, i) => {
-            txt += `${i+1}. Lớp ${l}: ${db[l].total}đ\n`;
+    function filterLoi(type) {
+        let key = document.getElementById('search-'+type).value.toLowerCase();
+        document.querySelectorAll(`#list-${type} .loi-item`).forEach(it => {
+            it.style.display = it.innerText.toLowerCase().includes(key) ? 'flex' : 'none';
         });
-        navigator.clipboard.writeText(txt).then(() => alert("Đã copy báo cáo!"));
     }
-
-    function xoaLog(id) {
-        if(!confirm("Xóa dòng này?")) return;
-        const index = db[curLop].logs.findIndex(x => x.id == id);
-        db[curLop].total -= parseInt(db[curLop].logs[index].tổng);
-        db[curLop].logs.splice(index, 1);
-        renderBXH(); renderLS();
-    }
-
-    function resetTuan() { if(confirm("Xóa hết dữ liệu tuần cũ?")) { localStorage.clear(); location.reload(); } }
-
-    init();
 </script>
 </body>
 </html>
