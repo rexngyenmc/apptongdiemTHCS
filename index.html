@@ -3,368 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hệ Thống Quản Lý Phước An</title>
+    <title>Hệ Thống Quản Lý Phước An 2025-2026</title>
     <style>
-        :root {
-            --primary: #1a73e8;
-            --secondary: #34a853;
-            --danger: #d93025;
-            --warning: #f9ab00;
-            --bg: #f8f9fa;
-            --text: #3c4043;
-            --card-bg: #ffffff;
-        }
-
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            padding: 0;
-            color: var(--text);
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* Menu thanh lịch */
-        .navbar {
-            display: flex;
-            background: #fff;
-            padding: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .nav-item {
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-            color: #5f6368;
-        }
-
-        .nav-item.active {
-            background-color: #e8f0fe;
-            color: var(--primary);
-            border: 1px solid #d2e3fc;
-        }
-
-        /* Container & Cards */
-        .container { padding: 15px; max-width: 500px; margin: auto; }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        }
-
-        h2, h3 { margin-top: 0; color: #202124; font-size: 1.1rem; }
-
-        /* Login Screen */
-        #login-screen {
-            position: fixed; inset: 0; background: white;
-            display: none; flex-direction: column; align-items: center;
-            justify-content: center; z-index: 1000;
-        }
-
-        .pin-box {
-            text-align: center; width: 85%;
-        }
-
-        .pin-input {
-            width: 100%; padding: 15px; font-size: 2rem;
-            border-radius: 12px; border: 2px solid #e0e0e0;
-            text-align: center; margin: 20px 0; outline: none;
-            background: #f1f3f4;
-        }
-
-        /* Danh sách lớp */
-        .class-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-        }
-
-        .class-btn {
-            background: white; border: 1px solid #dadce0;
-            padding: 15px 5px; border-radius: 12px;
-            font-weight: bold; color: var(--primary);
-            cursor: pointer; transition: 0.2s;
-        }
-
-        .class-btn:hover { background: #f8f9fa; border-color: var(--primary); }
-
-        /* Danh sách lỗi chuyên nghiệp */
-        .scroll-list {
-            max-height: 400px; overflow-y: auto;
-            border: 1px solid #dadce0; border-radius: 12px; margin: 15px 0;
-        }
-
-        .group-title {
-            background: #f1f3f4; padding: 10px; font-size: 0.75rem;
-            font-weight: bold; color: #5f6368; text-transform: uppercase;
-            position: sticky; top: 0; z-index: 10;
-        }
-
-        .loi-item {
-            padding: 15px; border-bottom: 1px solid #f1f3f4;
-            transition: background 0.2s;
-        }
-
+        :root { --p: #1a73e8; --s: #34a853; --a: #d93025; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; color: #3c4043; }
+        .navbar { display: flex; background: #fff; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; justify-content: center; gap: 10px; }
+        .nav-item { padding: 10px 15px; border-radius: 20px; font-weight: 600; cursor: pointer; color: #5f6368; }
+        .nav-item.active { background: #e8f0fe; color: var(--p); }
+        .container { padding: 15px; max-width: 600px; margin: auto; }
+        .card { background: #fff; border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .scroll-list { max-height: 450px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px; margin: 10px 0; }
+        .group-title { background: #f1f3f4; padding: 8px; font-size: 0.75rem; font-weight: bold; color: #5f6368; position: sticky; top: 0; }
+        .loi-item { padding: 12px; border-bottom: 1px solid #f1f3f4; cursor: pointer; transition: 0.2s; }
         .loi-item:active { background: #f8f9fa; }
-
-        .loi-row { display: flex; justify-content: space-between; align-items: center; }
-
-        .score-badge {
-            font-weight: bold; padding: 4px 8px; border-radius: 6px;
-            font-size: 0.85rem; min-width: 35px; text-align: center;
-        }
-
-        .plus { background: #e6f4ea; color: var(--secondary); }
-        .minus { background: #fce8e6; color: var(--danger); }
-
-        .input-name {
-            width: 100%; margin-top: 12px; padding: 12px;
-            border: 1.5px solid #dadce0; border-radius: 8px;
-            display: none; box-sizing: border-box; outline-color: var(--primary);
-        }
-
-        .loi-item.active { background: #f7f9ff; }
-        .loi-item.active .input-name { display: block; border-color: var(--primary); }
-
-        /* Button Styles */
-        .btn {
-            width: 100%; padding: 16px; border: none; border-radius: 12px;
-            font-weight: 600; cursor: pointer; font-size: 1rem;
-            transition: transform 0.1s, opacity 0.2s;
-        }
-
-        .btn:active { transform: scale(0.97); opacity: 0.9; }
-
-        .btn-primary { background-color: var(--primary); color: white; }
-        .btn-success { background-color: var(--secondary); color: white; }
-        .btn-outline { background-color: transparent; color: #5f6368; border: 1px solid #dadce0; }
-        
-        .btn-summary { 
-            background: linear-gradient(135deg, #1a73e8, #1557b0);
-            color: white; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(26,115,232,0.3);
-        }
-
-        /* Table Xếp hạng */
-        .modern-table { width: 100%; border-collapse: collapse; }
-        .modern-table td, .modern-table th { padding: 15px 10px; border-bottom: 1px solid #f1f3f4; text-align: center; }
-        .modern-table th { font-size: 0.8rem; color: #5f6368; font-weight: 500; }
-        .top-row { background: #fffcf0; }
-        .rank-circle {
-            width: 28px; height: 28px; background: #f1f3f4;
-            display: inline-flex; align-items: center; justify-content: center;
-            border-radius: 50%; font-size: 0.8rem; font-weight: bold;
-        }
+        .loi-item.active { background: #eef6ff; border-left: 4px solid var(--p); }
+        .input-name { width: 100%; margin-top: 10px; padding: 12px; border: 1px solid #dadce0; border-radius: 8px; display: none; box-sizing: border-box; }
+        .loi-item.active .input-name { display: block; }
+        .btn-main { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; background: var(--p); color: #fff; margin-top: 10px; }
+        .rank-table { width: 100%; border-collapse: collapse; }
+        .rank-table td, .rank-table th { padding: 12px; border-bottom: 1px solid #eee; text-align: center; }
+        #login-screen { position: fixed; inset: 0; background: #fff; display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
+        .badge { padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; }
+        .plus { background: #e6f4ea; color: var(--s); }
+        .minus { background: #fce8e6; color: var(--a); }
     </style>
 </head>
 <body>
 
 <div id="login-screen">
-    <div class="pin-box">
-        <h3 id="login-title">Nhập mã PIN</h3>
-        <input type="password" id="pin-input" class="pin-input" placeholder="••••" maxlength="4" inputmode="numeric">
-        <button class="btn btn-primary" onclick="verifyPin()">Xác nhận</button>
-        <button class="btn btn-outline" style="margin-top:10px" onclick="closeLogin()">Hủy bỏ</button>
-    </div>
+    <h3 id="login-label">NHẬP MÃ PIN</h3>
+    <input type="password" id="pin-input" style="padding:15px; font-size:2rem; text-align:center; width:180px; border:2px solid #ddd; border-radius:12px; margin-bottom:20px;" maxlength="4" inputmode="numeric">
+    <button class="btn-main" style="width:180px" onclick="verifyPin()">XÁC NHẬN</button>
 </div>
 
 <nav class="navbar">
-    <div class="nav-item active" id="m-saodo" onclick="switchTab('saodo')">Sổ Sao Đỏ</div>
-    <div class="nav-item" id="m-daubai" onclick="switchTab('daubai')">Sổ Đầu Bài</div>
+    <div class="nav-item active" id="m-saodo" onclick="switchTab('saodo')">SAO ĐỎ</div>
+    <div class="nav-item" id="m-daubai" onclick="switchTab('daubai')">SỔ ĐẦU BÀI</div>
 </nav>
 
 <div class="container">
     <div id="tab-saodo">
         <div class="card">
-            <button class="btn btn-summary" onclick="tongKetTuan()">📊 Tổng Kết & Xếp Hạng</button>
-            <table class="modern-table">
+            <button class="btn-main" style="background:#ff9800; margin-bottom:15px" onclick="syncFromCloud()">🔄 TỔNG KẾT & ĐỒNG BỘ TOÀN TRƯỜNG</button>
+            <table class="rank-table">
                 <thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm</th></tr></thead>
                 <tbody id="bxh-body"></tbody>
             </table>
-            <button class="btn btn-outline" onclick="openLogin('SAODO')" style="margin-top:20px">🔐 Đăng nhập Sao đỏ</button>
+            <button class="btn-main" style="background:#666" onclick="openLogin('SAODO')">🔐 ĐĂNG NHẬP SAO ĐỎ</button>
         </div>
-
-        <div id="saodo-panel" class="card" style="display:none; border-top: 4px solid var(--primary);">
-            <h3 id="sd-label"></h3>
+        <div id="saodo-panel" class="card" style="display:none">
+            <h3 id="sd-label" style="margin:0; color:var(--p)"></h3>
             <div id="list-sd" class="scroll-list"></div>
-            <button class="btn btn-primary" onclick="saveData('sd')">Lưu kết quả chấm</button>
+            <button class="btn-main" onclick="saveData('sd')">LƯU KẾT QUẢ CHẤM</button>
         </div>
     </div>
 
     <div id="tab-daubai" style="display:none">
         <div class="card" id="db-select">
-            <h3 style="text-align:center; margin-bottom:20px">Chọn lớp của bạn</h3>
-            <div class="class-grid" id="class-grid-list"></div>
+            <h3 style="text-align:center">CHỌN LỚP CỦA BẠN</h3>
+            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;" id="class-grid"></div>
         </div>
-
-        <div id="daubai-panel" class="card" style="display:none; border-top: 4px solid var(--secondary);">
-            <h3 id="db-label"></h3>
+        <div id="daubai-panel" class="card" style="display:none">
+            <h3 id="db-label" style="margin:0; color:var(--s)"></h3>
             <div id="list-db" class="scroll-list"></div>
-            <button class="btn btn-success" onclick="saveData('db')">Cập nhật sổ đầu bài</button>
-            <button class="btn btn-outline" style="margin-top:10px" onclick="exitClass()">Quay lại danh sách</button>
+            <button class="btn-main" style="background:var(--s)" onclick="saveData('db')">GHI VÀO SỔ ĐẦU BÀI</button>
+            <button class="btn-main" style="background:#eee; color:#333" onclick="location.reload()">QUAY LẠI</button>
         </div>
-    </div>
-
-    <div class="card" id="history-card" style="display:none">
-        <h3 style="font-size:0.9rem">Nhật ký: <span id="active-class-name" style="color:var(--primary)"></span></h3>
-        <table class="modern-table" style="font-size:0.8rem">
-            <tbody id="log-body"></tbody>
-        </table>
     </div>
 </div>
 
 <script>
-    const LOP_LIST = ["6A", "6B", "6C", "7A", "7B", "7C", "8A", "8B", "8C", "9A", "9B"];
-    const PIN_SAODO = "1234";
-    const PIN_LOP = "2025";
+    // THAY LINK GOOGLE APPS SCRIPT CỦA BẠN VÀO ĐÂY
+    const SCRIPT_URL = "DÁN_LINK_CỦA_BẠN_Ở_ĐÂY";
+    
+    const LOP_LIST = ["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
+    const PIN_SAODO = "1234", PIN_LOP = "2025";
 
+    // Danh mục lỗi chi tiết từ file TIÊU CHÍ THI ĐUA THCS 
     const CRITERIA = [
-        { g: "Xếp loại tiết học", i: [{n:"Tiết học loại A",d:10}, {n:"Tiết học loại B",d:5}, {n:"Tiết học loại C",d:-5}, {n:"Tiết học loại D",d:-10}] },
-        { g: "Tác phong & Đồng phục", i: [{n:"Không khăn quàng/huy hiệu",d:-5}, {n:"Không sơ vin",d:-5}, {n:"Mặc áo khoác",d:-5}, {n:"Đồng phục sai",d:-5}] },
-        { g: "Chuyên cần", i: [{n:"Đi trễ",d:-2}, {n:"Vắng không phép",d:-5}, {n:"Trốn tiết",d:-10}] },
-        { g: "Học tập", i: [{n:"Điểm 10",d:10}, {n:"Điểm 8,9",d:9}, {n:"Điểm 0-3",d:-10}, {n:"Không bài tập",d:-10}] }
+        { g: "Tác phong - Đồng phục (-5đ)", i: [
+            {n:"Không khăn quàng/huy hiệu",d:-5}, {n:"Không bỏ áo vào quần",d:-5},
+            {n:"Mặc áo khoác trong trường",d:-5}, {n:"Đồng phục sai quy định",d:-5},
+            {n:"Đi chân trần ra sân/WC",d:-5}, {n:"Để xe không ngay hàng",d:-5},
+            {n:"Không nón bảo hiểm",d:-5}, {n:"Để tóc dài (Nam)",d:-5}
+        ]},
+        { g: "Kỷ luật & Đạo đức (-10đ đến -30đ)", i: [
+            {n:"Nhuộm tóc/Son phấn/Sơn móng",d:-10}, {n:"Nói tục, chửi thề",d:-10},
+            {n:"Đánh nhau",d:-10}, {n:"Chống đối sao đỏ",d:-10},
+            {n:"Bỏ rác sai quy định",d:-20}, {n:"Vẽ bậy tường/bàn ghế",d:-10},
+            {n:"Chui rào, phá hàng rào",d:-30}, {n:"Ăn uống sai quy định",d:-10}
+        ]},
+        { g: "Chuyên cần", i: [
+            {n:"Đi trễ",d:-2}, {n:"Vắng không phép",d:-5}, {n:"Trốn tiết",d:-10},
+            {n:"Nói chuyện riêng",d:-5}, {n:"Không sinh hoạt 15'",d:-5}
+        ]},
+        { g: "Học tập", i: [
+            {n:"Điểm 10",d:10}, {n:"Điểm 8, 9",d:9}, {n:"Điểm 7",d:5},
+            {n:"Điểm 4",d:-5}, {n:"Điểm 0,1,2,3",d:-10}, {n:"Không thuộc bài/Làm BT",d:-10},
+            {n:"Nhặt được của rơi trả lại",d:5}
+        ]},
+        { g: "Xếp loại tiết học (Sổ đầu bài)", i: [
+            {n:"Tiết học loại A",d:10}, {n:"Tiết học loại B",d:5},
+            {n:"Tiết học loại C",d:-5}, {n:"Tiết học loại D",d:-10}
+        ]}
     ];
 
-    let db = JSON.parse(localStorage.getItem('PHUOC_AN_V4')) || {};
-    let activeClass = "";
-    let loginType = "";
+    let db = {}, activeClass = "", loginType = "";
 
     function init() {
-        LOP_LIST.forEach(l => { if(!db[l]) db[l] = { score: 100, logs: [] }; });
-        renderBXH();
-        const grid = document.getElementById('class-grid-list');
-        LOP_LIST.forEach(l => grid.innerHTML += `<div class="class-btn" onclick="openLogin('LOP', '${l}')">${l}</div>`);
-        buildCriteria('sd');
-        buildCriteria('db');
+        LOP_LIST.forEach(l => db[l] = { score: 100, logs: [] });
+        const grid = document.getElementById('class-grid');
+        LOP_LIST.forEach(l => {
+            grid.innerHTML += `<button style="padding:15px; border:1px solid #ddd; border-radius:8px; background:#fff; font-weight:bold; color:var(--p);" onclick="openLogin('LOP', '${l}')">${l}</button>`;
+        });
+        buildList('sd'); buildList('db'); renderBXH();
     }
 
-    function buildCriteria(type) {
+    function buildList(type) {
         const container = document.getElementById('list-' + type);
         CRITERIA.forEach(group => {
             container.innerHTML += `<div class="group-title">${group.g}</div>`;
             group.i.forEach(item => {
                 const id = type + Math.random().toString(36).substr(2, 5);
                 container.innerHTML += `
-                    <div class="loi-item" id="item-${id}">
-                        <div class="loi-row" onclick="toggleItem('${id}')">
-                            <span style="font-weight:500">${item.n}</span>
-                            <span class="score-badge ${item.d<0?'minus':'plus'}">${item.d>0?'+':''}${item.d}</span>
-                            <input type="checkbox" id="cb-${id}" data-n="${item.n}" data-d="${item.d}" style="display:none">
+                    <div class="loi-item" id="item-${id}" onclick="toggle('${id}')">
+                        <div style="display:flex; justify-content:space-between; align-items:center">
+                            <span>${item.n}</span>
+                            <span class="badge ${item.d > 0 ? 'plus' : 'minus'}">${item.d > 0 ? '+' : ''}${item.d}</span>
                         </div>
-                        <input type="text" class="input-name" id="name-${id}" placeholder="Nhập tên HS hoặc ghi chú...">
+                        <input type="text" class="input-name" id="name-${id}" placeholder="Tên HS (VD: An x2)..." onclick="event.stopPropagation()">
+                        <input type="checkbox" id="cb-${id}" data-n="${item.n}" data-d="${item.d}" style="display:none">
                     </div>`;
             });
         });
     }
 
-    function renderBXH() {
-        const sorted = [...LOP_LIST].sort((a,b) => db[b].score - db[a].score);
-        const body = document.getElementById('bxh-body');
-        body.innerHTML = "";
-        sorted.forEach((l, i) => {
-            body.innerHTML += `<tr class="${i===0?'top-row':''}" onclick="selectClassSD('${l}')">
-                <td><span class="rank-circle" style="${i===0?'background:#fbbc04;color:white':''}">${i+1}</span></td>
-                <td style="font-weight:600">Lớp ${l}</td>
-                <td style="color:${db[l].score<100?'var(--danger)':'var(--secondary)'}">${db[l].score}</td>
-            </tr>`;
-        });
+    async function saveData(type) {
+        const activeItems = document.querySelectorAll(`#list-${type} .loi-item.active`);
+        if (activeItems.length === 0) return alert("Vui lòng chọn ít nhất một mục!");
+
+        for (let item of activeItems) {
+            const id = item.id.replace('item-', '');
+            const cb = document.getElementById('cb-' + id);
+            const name = document.getElementById('name-' + id).value || "Tập thể";
+            const points = parseInt(cb.dataset.d);
+
+            const payload = {
+                lop: activeClass,
+                noiDung: cb.dataset.n,
+                tenHS: name,
+                diem: points,
+                loai: type === 'sd' ? 'Sao Đỏ' : 'Sổ Đầu Bài'
+            };
+
+            // Gửi lên Cloud
+            try {
+                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+            } catch (e) { console.error("Cloud Sync Error"); }
+
+            db[activeClass].score += points;
+        }
+
+        alert("Đã lưu và đồng bộ thành công!");
+        location.reload(); 
+    }
+
+    async function syncFromCloud() {
+        try {
+            const response = await fetch(SCRIPT_URL);
+            const data = await response.json();
+            // Reset điểm về 100 trước khi tính toán lại từ Cloud
+            LOP_LIST.forEach(l => db[l].score = 100);
+            data.forEach(row => {
+                const lop = row[1];
+                const diem = parseInt(row[4]);
+                if (db[lop]) db[lop].score += diem;
+            });
+            renderBXH();
+            alert("Bảng xếp hạng đã cập nhật dữ liệu mới nhất từ giáo viên!");
+        } catch (e) { alert("Lỗi tải dữ liệu!"); }
+    }
+
+    function toggle(id) { document.getElementById('item-' + id).classList.toggle('active'); }
+
+    function openLogin(type, lop = "") {
+        loginType = type; activeClass = lop;
+        document.getElementById('login-label').innerText = type === 'SAODO' ? "MÃ PIN SAO ĐỎ" : "PIN LỚP " + lop;
+        document.getElementById('login-screen').style.display = 'flex';
     }
 
     function verifyPin() {
         const pin = document.getElementById('pin-input').value;
-        if ((loginType === "SAODO" && pin === PIN_SAODO) || (loginType === "LOP" && pin === PIN_LOP)) {
-            closeLogin();
-            if (loginType === "LOP") {
+        if ((loginType === 'SAODO' && pin === PIN_SAODO) || (loginType === 'LOP' && pin === PIN_LOP)) {
+            document.getElementById('login-screen').style.display = 'none';
+            if (loginType === 'SAODO') {
+                alert("Chào Sao Đỏ! Hãy chọn một lớp ở bảng xếp hạng để bắt đầu chấm.");
+            } else {
                 document.getElementById('db-select').style.display = 'none';
                 document.getElementById('daubai-panel').style.display = 'block';
-                document.getElementById('history-card').style.display = 'block';
-                document.getElementById('db-label').innerText = "Ghi sổ lớp " + activeClass;
-                renderLogs();
+                document.getElementById('db-label').innerText = "SỔ ĐẦU BÀI LỚP " + activeClass;
             }
         } else { alert("Mã PIN không đúng!"); }
         document.getElementById('pin-input').value = "";
     }
 
-    function openLogin(type, lop = "") {
-        loginType = type; activeClass = lop;
-        document.getElementById('login-title').innerText = type === "SAODO" ? "Mã PIN Sao đỏ" : "PIN Lớp " + lop;
-        document.getElementById('login-screen').style.display = 'flex';
+    function switchTab(t) {
+        document.getElementById('tab-saodo').style.display = t === 'saodo' ? 'block' : 'none';
+        document.getElementById('tab-daubai').style.display = t === 'daubai' ? 'block' : 'none';
+        document.getElementById('m-saodo').classList.toggle('active', t === 'saodo');
+        document.getElementById('m-daubai').classList.toggle('active', t === 'daubai');
     }
 
-    function switchTab(tab) {
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        document.getElementById('m-'+tab).classList.add('active');
-        document.getElementById('tab-saodo').style.display = tab === 'saodo' ? 'block' : 'none';
-        document.getElementById('tab-daubai').style.display = tab === 'daubai' ? 'block' : 'none';
-        document.getElementById('history-card').style.display = 'none';
-    }
-
-    function selectClassSD(lop) {
-        if(loginType !== "SAODO") return;
-        activeClass = lop;
-        document.getElementById('saodo-panel').style.display = 'block';
-        document.getElementById('history-card').style.display = 'block';
-        document.getElementById('sd-label').innerText = "Đang chấm lớp " + lop;
-        renderLogs();
-    }
-
-    function saveData(type) {
-        const selected = document.querySelectorAll(`#list-${type} input[type="checkbox"]:checked`);
-        selected.forEach(cb => {
-            const id = cb.id.replace('cb-', '');
-            const name = document.getElementById('name-'+id).value || "Tập thể";
-            const points = parseInt(cb.dataset.d);
-            let t = 1; const m = name.match(/x(\d+)/); if(m) t = parseInt(m[1]);
-            db[activeClass].logs.unshift({id: Date.now()+Math.random(), content: cb.dataset.n, total: points*t, who: name});
-            db[activeClass].score += (points*t);
-            cb.checked = false; document.getElementById('item-'+id).classList.remove('active');
-            document.getElementById('name-'+id).value = "";
-        });
-        localStorage.setItem('PHUOC_AN_V4', JSON.stringify(db));
-        renderLogs(); renderBXH(); alert("Đã lưu!");
-    }
-
-    function renderLogs() {
-        const body = document.getElementById('log-body'); body.innerHTML = "";
-        document.getElementById('active-class-name').innerText = activeClass;
-        db[activeClass].logs.forEach(log => {
-            body.innerHTML += `<tr>
-                <td style="text-align:left">${log.content}<br><small style="color:#888">${log.who}</small></td>
-                <td class="${log.total<0?'minus':'plus'}" style="background:none;font-weight:bold">${log.total}</td>
-                <td><button onclick="deleteLog(${log.id})" style="border:none;background:none;color:#dadce0">✕</button></td>
+    function renderBXH() {
+        const body = document.getElementById('bxh-body'); body.innerHTML = "";
+        const sorted = [...LOP_LIST].sort((a, b) => db[b].score - db[a].score);
+        sorted.forEach((l, i) => {
+            body.innerHTML += `<tr onclick="selectSD('${l}')">
+                <td>${i + 1}</td>
+                <td><b>${l}</b></td>
+                <td style="color:${db[l].score < 100 ? 'red' : 'green'}"><b>${db[l].score}</b></td>
             </tr>`;
         });
     }
 
-    function deleteLog(id) {
-        if(!confirm("Xóa mục này?")) return;
-        const idx = db[activeClass].logs.findIndex(l => l.id === id);
-        db[activeClass].score -= db[activeClass].logs[idx].total;
-        db[activeClass].logs.splice(idx, 1);
-        localStorage.setItem('PHUOC_AN_V4', JSON.stringify(db));
-        renderLogs(); renderBXH();
+    function selectSD(l) {
+        if (loginType !== 'SAODO') return;
+        activeClass = l;
+        document.getElementById('saodo-panel').style.display = 'block';
+        document.getElementById('sd-label').innerText = "CHẤM ĐIỂM LỚP " + l;
+        window.scrollTo(0, document.body.scrollHeight);
     }
-
-    function toggleItem(id) {
-        const cb = document.getElementById('cb-'+id);
-        const item = document.getElementById('item-'+id);
-        cb.checked = !cb.checked; item.classList.toggle('active', cb.checked);
-        if(cb.checked) document.getElementById('name-'+id).focus();
-    }
-
-    function closeLogin() { document.getElementById('login-screen').style.display = 'none'; }
-    function exitClass() { location.reload(); }
-    function tongKetTuan() { renderBXH(); alert("Bảng xếp hạng đã được cập nhật!"); }
 
     init();
 </script>
