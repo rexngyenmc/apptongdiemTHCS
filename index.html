@@ -1,84 +1,88 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hệ Thống Phước An 2026</title>
+    <title>WEB SAO ĐỎ PHƯỚC AN</title>
     <style>
-        :root { --blue: #1a73e8; --green: #34a853; --orange: #fbbc05; --red: #ea4335; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f0f2f5; color: #333; }
-        .screen { display: none; padding: 15px; max-width: 900px; margin: auto; animation: fadeIn 0.2s; }
-        @keyframes fadeIn { from {opacity:0} to {opacity:1} }
-        .card { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        
-        /* Buttons */
-        .btn-main { width: 100%; padding: 18px; border: none; border-radius: 10px; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
-        .btn-cl { padding: 12px 5px; border: 1px solid #ddd; border-radius: 8px; background: white; font-weight: bold; cursor: pointer; }
-        .btn-cl.active { background: var(--blue); color: white; border-color: var(--blue); }
-
-        /* Chấm điểm theo bảng */
-        .item-row { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; align-items: center; }
-        .detail-area { display: none; padding: 15px; background: #fdfdfd; border: 1px solid #eee; flex-direction: column; gap: 10px; border-radius: 8px; margin: 5px 0 15px 0; }
-        input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        
-        /* Bảng lịch sử theo đúng mẫu user gửi */
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; background: white; font-size: 13px; }
-        th, td { border: 1px solid #dee2e6; padding: 10px; text-align: left; }
-        th { background: #f8f9fa; font-weight: bold; }
-        .btn-del { color: var(--red); cursor: pointer; font-weight: bold; border: none; background: none; font-size: 16px; }
-
-        #sync-status { position: fixed; top: 0; width: 100%; background: var(--orange); text-align: center; padding: 5px; font-weight: bold; display: none; z-index: 1000; }
-        .class-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        :root { --p: #0056b3; --s: #2e7d32; --a: #d32f2f; --bg: #f8f9fa; --gold: #ffd700; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 10px; color: #333; }
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--p); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; color: white; }
+        .pin-input { width: 160px; padding: 15px; border-radius: 15px; border: none; font-size: 2rem; text-align: center; letter-spacing: 5px; font-weight: bold; margin: 20px 0; color: var(--p); outline: none; }
+        .header { background: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid var(--p); }
+        .card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background: #f1f1f1; font-size: 0.7rem; padding: 8px; border: 1px solid #ddd; }
+        td { padding: 10px 5px; text-align: center; border: 1px solid #ddd; font-weight: bold; font-size: 0.8rem; }
+        .rank { width: 25px; height: 25px; line-height: 25px; display: inline-block; border-radius: 50%; background: #eee; font-size: 0.7rem; }
+        .rank-1 { background: var(--gold); }
+        .input-group { margin-bottom: 15px; }
+        .input-label { font-size: 0.8rem; font-weight: bold; color: var(--p); display: block; margin-bottom: 5px; }
+        .input-box { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 1rem; outline: none; }
+        .scroll-form { max-height: 400px; overflow-y: auto; border: 1px solid #eee; border-radius: 10px; background: #fff; margin-bottom: 10px; }
+        .group-title { background: #e9ecef; padding: 8px; font-weight: bold; font-size: 0.75rem; border-left: 4px solid var(--p); position: sticky; top: 0; z-index: 10; }
+        .loi-item { display: flex; flex-direction: column; padding: 12px; border-bottom: 1px solid #eee; }
+        .loi-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; cursor: pointer; }
+        .name-for-loi { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.85rem; outline: none; display: none; }
+        .loi-item.active { background: #f0f7ff; }
+        .loi-item.active .name-for-loi { display: block; }
+        .score-tag { font-weight: bold; font-size: 0.85rem; min-width: 40px; text-align: right; }
+        .minus { color: var(--a); } .plus { color: var(--s); }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 1rem; }
+        .btn-apply { background: var(--p); color: white; }
+        .btn-zalo { background: #0068ff; color: white; }
+        .btn-copy { background: #28a745; color: white; margin-bottom: 10px; }
+        .btn-reset { background: #fff; color: var(--a); border: 1px solid var(--a); margin-top: 20px; font-size: 0.7rem; }
+        .btn-del { color: red; border: none; background: none; font-weight: bold; cursor: pointer; }
+        .active-lop { background: #e3f2fd !important; }
     </style>
 </head>
 <body>
 
-<div id="sync-status">Đang đồng bộ dữ liệu...</div>
-
-<div id="home-screen" class="screen" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh;">
-    <h1 style="color:var(--blue); margin-bottom:5px;">PHƯỚC AN 2026</h1>
-    <p style="margin-bottom:30px; color:#666;">Học kỳ 2 - Năm học 2025-2026</p>
-    <button class="btn-main" style="background:var(--blue)" onclick="init('GV')">GIÁO VIÊN</button>
-    <button class="btn-main" style="background:var(--green)" onclick="init('SD')">SAO ĐỎ</button>
-    <button class="btn-main" style="background:var(--orange); color:black" onclick="init('BXH')">BẢNG VÀNG THI ĐUA</button>
+<div id="login-screen">
+    <h2 style="margin:0">🔑 MẬT MÃ SAO ĐỎ</h2>
+    <input type="password" id="pin-input" class="pin-input" placeholder="****" maxlength="4" oninput="checkPin()">
 </div>
 
-<div id="auth-screen" class="screen">
-    <button onclick="goHome()">← Quay lại</button>
-    <div class="card" style="margin-top:15px">
-        <h3 id="auth-title">Đăng nhập</h3>
-        <input type="password" id="pin-input" placeholder="Mã PIN" style="display:none; margin-bottom:10px; text-align:center;">
-        <input type="text" id="user-search" placeholder="Tìm tên của bạn..." onkeyup="filterUser()">
-        <div id="user-list" style="max-height:200px; overflow-y:auto; border:1px solid #eee; border-radius:8px; margin-top:10px;"></div>
-        <button class="btn-main" style="background:var(--blue); margin-top:15px" onclick="verifyUser()">VÀO HỆ THỐNG</button>
-    </div>
-</div>
-
-<div id="score-screen" class="screen">
-    <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <b id="info-header" style="color:var(--blue)"></b>
-            <button onclick="showScreen('auth-screen')">Đổi lớp</button>
-        </div>
-        <div class="class-grid" id="class-btns"></div>
+<div id="main-content">
+    <div class="header">
+        <h1 style="font-size: 1rem; margin:0; color:var(--p)">LIÊN ĐỘI TH & THCS PHƯỚC AN</h1>
     </div>
 
-    <div id="input-area" style="display:none">
+    <div class="container">
         <div class="card">
-            <h4 style="margin:0 0 10px 0">Danh mục vi phạm / Việc tốt</h4>
-            <div id="criteria-list"></div>
+            <h3 style="margin-top:0; font-size:0.9rem">🏆 BẢNG XẾP HẠNG</h3>
+            <table>
+                <thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm</th></tr></thead>
+                <tbody id="bxh-body"></tbody>
+            </table>
+            <button class="btn btn-zalo" onclick="xuatZalo()">🔵 Copy báo cáo Zalo</button>
         </div>
 
-        <div class="card">
-            <h4 style="margin:0 0 10px 0">Lịch sử vừa nhập (Chưa lưu)</h4>
-            <div class="table-container">
-                <table>
+        <div class="card" id="input-area" style="display:none;">
+            <h3 id="current-lop-label" style="color:var(--p); text-align:center; margin-top:0"></h3>
+            
+            <div class="input-group">
+                <span class="input-label">🔍 TÌM KIẾM LỖI:</span>
+                <input type="text" id="search-loi" class="input-box" placeholder="Tìm tên lỗi..." onkeyup="filterLoi()">
+            </div>
+
+            <p style="font-size: 0.7rem; color: #666; margin-bottom: 5px;">* Tick chọn lỗi rồi nhập tên (VD: Nguyên x2) trực tiếp bên dưới lỗi đó.</p>
+            <div class="scroll-form" id="error-list">
+                </div>
+
+            <button class="btn btn-apply" onclick="luuDuLieu()">💾 LƯU DỮ LIỆU CHẤM</button>
+
+            <h3 style="font-size:0.8rem; margin-top:30px;">📜 LỊCH SỬ LỚP ĐANG CHỌNG</h3>
+            <button class="btn btn-copy" onclick="copyTableLS()">📋 Copy bảng (Dán Excel/Zalo)</button>
+            <div style="overflow-x: auto;">
+                <table id="table-to-copy">
                     <thead>
                         <tr>
-                            <th>Nội dung</th>
-                            <th>Biểu điểm</th>
-                            <th>Học sinh</th>
+                            <th>Việc làm</th>
+                            <th>Biểu</th>
+                            <th>Cá nhân</th>
                             <th>Lần</th>
                             <th>Tổng</th>
                             <th>Xóa</th>
@@ -87,195 +91,222 @@
                     <tbody id="ls-body"></tbody>
                 </table>
             </div>
-            <div style="text-align:right; margin-top:10px; font-weight:bold; font-size:1.1rem">
-                Tổng điểm tuần: <span id="total-preview" style="color:var(--blue)">0</span>
-            </div>
-            <button class="btn-main" style="background:var(--green); margin-top:15px" onclick="syncToCloud()">LƯU VÀ ĐỒNG BỘ LÊN TV</button>
         </div>
+
+        <button class="btn btn-reset" onclick="resetTuan()">🔄 RESET TUẦN MỚI</button>
     </div>
 </div>
 
-<div id="bxh-screen" class="screen">
-    <h1 style="text-align:center; color:var(--orange)">🏆 BẢNG VÀNG THI ĐUA</h1>
-    <div id="bxh-content"></div>
-    <button class="btn-main" style="background:#444; margin-top:20px" onclick="goHome()">QUAY LẠI</button>
-</div>
-
 <script>
-// --- CẤU HÌNH ---
-const SCRIPT_URL = "DÁN_URL_APP_SCRIPT_CỦA_BẠN_VÀO_ĐÂY";
-const DANH_SACH_LOP = ["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
-const DS_GV = ["Cô Huệ", "Thầy Sơn", "Cô Lan", "Thầy Hùng", "Thầy Đức"];
-const DS_SD = ["An 9A1", "Bình 8A2", "Chi 7A1", "Dũng 6A2", "Hạnh 9A2"];
+    const PIN = "1234";
+    const LOP_LIST = ['6A','6B','6C','7A','7B','7C','8A','8B','8C','9A','9B'];
+    
+    // Dữ liệu lỗi từ file Word 
+    const ERROR_DATA = [
+        { g: "TÁC PHONG - ĐỒNG PHỤC", i: [
+            { n: "Không đeo Khăn quàng/Huy hiệu", d: -5 },
+            { n: "Không bỏ áo vào quần", d: -5 },
+            { n: "Mặc áo khoác trong trường", d: -5 },
+            { n: "Đồng phục sai quy định", d: -5 },
+            { n: "Đi chân trần ra sân/WC", d: -5 },
+            { n: "Để xe không ngay hàng", d: -5 },
+            { n: "Không đội nón bảo hiểm", d: -5 },
+            { n: "Để tóc dài (Nam)", d: -5 }
+        ]},
+        { g: "KỶ LUẬT & ĐẠO ĐỨC", i: [
+            { n: "Nhuộm tóc/Son phấn/Móng", d: -10 },
+            { n: "Nói tục, chửi thề", d: -10 },
+            { n: "Đánh nhau", d: -10 },
+            { n: "Chống đối Sao đỏ", d: -10 },
+            { n: "Bỏ rác sai quy định", d: -20 },
+            { n: "Chui rào, phá hàng rào", d: -30 },
+            { n: "Viết vẽ bậy tường/bàn", d: -10 },
+            { n: "Ra cổng không phép", d: -5 }
+        ]},
+        { g: "HỌC TẬP & TIẾT HỌC", i: [
+            { n: "Điểm 10", d: 10 },
+            { n: "Điểm 8, 9", d: 9 },
+            { n: "Điểm 7", d: 5 },
+            { n: "Điểm 4", d: -5 },
+            { n: "Điểm 0,1,2,3", d: -10 },
+            { n: "Tiết học loại A", d: 10 },
+            { n: "Tiết học loại B", d: 5 },
+            { n: "Tiết học loại C", d: -5 },
+            { n: "Tiết học loại D", d: -10 },
+            { n: "Không thuộc bài/Làm BT", d: -10 },
+            { n: "Trả lại của rơi", d: 5 }
+        ]}
+    ];
 
-// Dữ liệu bám sát source: 5 của bạn
-const DATA_SD = [
-    {h: "Tác phong", ds: [
-        {n:"Không khăn quàng/Huy hiệu", d:-5}, [cite: 5]
-        {n:"Không bỏ áo vào quần", d:-5}, [cite: 5]
-        {n:"Mặc áo khoác sai quy định", d:-5}, [cite: 5]
-        {n:"Đồng phục không đúng", d:-5}, [cite: 5]
-        {n:"Đi chân trần", d:-5}, [cite: 5]
-        {n:"Tóc dài (nam)", d:-5}, [cite: 5]
-        {n:"Nhuộm tóc/Trang điểm", d:-10} [cite: 5]
-    ]},
-    {h: "Nề nếp & Kỷ luật", ds: [
-        {n:"Để xe không ngay hàng", d:-5}, [cite: 5]
-        {n:"Không đội nón bảo hiểm", d:-5}, [cite: 5]
-        {n:"Ra cổng không xin phép", d:-5}, [cite: 5]
-        {n:"Sử dụng ĐT sai nơi", d:-5}, [cite: 5]
-        {n:"Nói tục/Chửi thề", d:-10}, [cite: 5]
-        {n:"Đánh nhau", d:-10}, [cite: 5]
-        {n:"Đi trễ", d:-2}, [cite: 5]
-        {n:"Vắng không phép", d:-5}, [cite: 5]
-        {n:"Trốn tiết/Nói chuyện riêng", d:-10} [cite: 5]
-    ]},
-    {h: "Nghiệp vụ Sao đỏ", ds: [
-        {n:"SĐ không đeo băng/Trực trễ", d:-10}, [cite: 5]
-        {n:"SĐ không đi trực", d:-20}, [cite: 5]
-        {n:"SĐ không tổng kết cuối tuần", d:-50} [cite: 5]
-    ]}
-];
+    let db = JSON.parse(localStorage.getItem('PHUOC_AN_DB')) || {};
+    let curLop = "";
 
-const DATA_GV = [
-    {h: "Học tập", ds: [
-        {n:"Tiết A", d:10}, {n:"Tiết B", d:5}, [cite: 5]
-        {n:"Tiết C", d:-5}, {n:"Tiết D", d:-10}, [cite: 5]
-        {n:"Điểm 10", d:10}, {n:"Điểm 8,9", d:9}, [cite: 5]
-        {n:"Điểm 7", d:5}, {n:"Điểm 4", d:-5}, [cite: 5]
-        {n:"Điểm 0,1,2,3", d:-10}, [cite: 5]
-        {n:"Không thuộc bài/Làm bài tập", d:-10} [cite: 5]
-    ]},
-    {h: "Phong trào", ds: [
-        {n:"Hạng Nhất/Nhì/Ba phong trào", d:50}, [cite: 5]
-        {n:"Nhặt được của rơi trả lại", d:5} [cite: 5]
-    ]}
-];
-
-let role="", user="", currentLop="", lsTemp=[];
-
-function init(r){
-    role=r; if(r==='BXH') return renderBXH();
-    showScreen('auth-screen');
-    document.getElementById('pin-input').style.display=(r==='SD'?'block':'none');
-    renderUserList();
-}
-
-function renderUserList(){
-    let list = (role==='GV'?DS_GV:DS_SD).sort();
-    let h=""; list.forEach(n => h+=`<div style="padding:12px; border-bottom:1px solid #eee; cursor:pointer;" onclick="selU(this)">${n}</div>`);
-    document.getElementById('user-list').innerHTML=h;
-}
-
-function selU(el){
-    Array.from(el.parentNode.children).forEach(i=>i.style.background="white");
-    el.style.background="#e8f0fe"; user=el.innerText;
-}
-
-function verifyUser(){
-    if(!user) return alert("Vui lòng chọn tên!");
-    showScreen('score-screen');
-    let h=""; DANH_SACH_LOP.forEach(l => h+=`<button class="btn-cl" onclick="selLop('${l}',this)">${l}</button>`);
-    document.getElementById('class-btns').innerHTML=h;
-}
-
-function selLop(l, b){
-    currentLop=l; document.querySelectorAll('.btn-cl').forEach(i=>i.classList.remove('active'));
-    b.classList.add('active'); document.getElementById('info-header').innerText="Người trực: "+user+" | Lớp: "+l;
-    document.getElementById('input-area').style.display='block'; renderCriteria();
-}
-
-function renderCriteria(){
-    let h="", data=(role==='GV'?DATA_GV:DATA_SD);
-    data.forEach((g,gi)=>{
-        h+=`<h5 style="margin:10px 0 5px 0; color:#888;">${g.h}</h5>`;
-        g.ds.forEach((item,ii)=>{
-            let id=`row-${gi}-${ii}`;
-            h+=`<div class="item-row" onclick="toggle('${id}')"><span>${item.n}</span><b>${item.d}</b></div>
-                <div class="detail-area" id="${id}">
-                    <input type="text" placeholder="Nhập tên HS (ví dụ: An, Bình, Chi...)" id="hs-${id}">
-                    <input type="number" value="1" id="sl-${id}" placeholder="Số lần">
-                    <button class="btn-main" style="background:var(--blue); padding:10px; font-size:0.9rem" onclick="addLS('${item.n}',${item.d},'${id}')">Xác nhận</button>
-                </div>`;
+    function init() {
+        LOP_LIST.forEach(l => { if(!db[l]) db[l] = { total: 100, logs: [] }; });
+        const listEl = document.getElementById('error-list');
+        ERROR_DATA.forEach(group => {
+            listEl.innerHTML += `<div class="group-title">${group.g}</div>`;
+            group.i.forEach((item, idx) => {
+                const id = `err-${Math.random().toString(36).substr(2, 5)}`;
+                listEl.innerHTML += `
+                    <div class="loi-item" id="item-${id}">
+                        <div class="loi-info" onclick="toggleSelection('${id}')">
+                            <input type="checkbox" id="${id}" data-n="${item.n}" data-d="${item.d}">
+                            <span style="flex:1; margin-left:10px; font-size:0.85rem">${item.n}</span>
+                            <span class="score-tag ${item.d < 0 ? 'minus' : 'plus'}">${item.d > 0 ? '+' : ''}${item.d}</span>
+                        </div>
+                        <input type="text" class="name-for-loi" id="name-${id}" placeholder="Nhập tên HS (VD: Linh, An x2)...">
+                    </div>`;
+            });
         });
-    });
-    document.getElementById('criteria-list').innerHTML=h;
-}
+    }
 
-// Hàm thêm vào lịch sử - Đúng như image_62db9e.png
-function addLS(name, score, id){
-    let hs = document.getElementById('hs-'+id).value || "Cả lớp";
-    let sl = parseInt(document.getElementById('sl-'+id).value) || 1;
-    lsTemp.push({
-        time: new Date().toLocaleString(),
-        lop: currentLop,
-        loi: name,
-        info: hs,
-        sl: sl,
-        diem: score,
-        tong: score * sl,
-        nguoi: user
-    });
-    renderLS();
-    toggle(id);
-    document.getElementById('hs-'+id).value = "";
-}
+    function checkPin() {
+        if(document.getElementById('pin-input').value === PIN) {
+            document.getElementById('login-screen').style.display = 'none';
+            renderBXH();
+        }
+    }
 
-function renderLS(){
-    let h="", total=0;
-    lsTemp.forEach((item, idx)=>{
-        total += item.tong;
-        h += `<tr>
-            <td>${item.loi}</td>
-            <td>${item.diem}</td>
-            <td>${item.info}</td>
-            <td>${item.sl}</td>
-            <td style="font-weight:bold; color:${item.tong<0?'red':'green'}">${item.tong}</td>
-            <td class="btn-del" onclick="lsTemp.splice(${idx},1);renderLS()">✕</td>
-        </tr>`;
-    });
-    document.getElementById('ls-body').innerHTML=h;
-    document.getElementById('total-preview').innerText = (total > 0 ? "+" : "") + total;
-}
+    function toggleSelection(id) {
+        const cb = document.getElementById(id);
+        const item = document.getElementById(`item-${id}`);
+        cb.checked = !cb.checked;
+        if(cb.checked) {
+            item.classList.add('active');
+            document.getElementById(`name-${id}`).focus();
+        } else {
+            item.classList.remove('active');
+        }
+    }
 
-async function syncToCloud(){
-    if(lsTemp.length===0) return alert("Chưa có lỗi nào để lưu!");
-    document.getElementById('sync-status').style.display='block';
-    try {
-        await fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify(lsTemp)});
-        alert("Đã gửi dữ liệu thành công!");
-        lsTemp=[]; renderLS(); goHome();
-    } catch(e) { alert("Lỗi kết nối máy chủ!"); }
-    document.getElementById('sync-status').style.display='none';
-}
-
-async function renderBXH(){
-    showScreen('bxh-screen');
-    document.getElementById('bxh-content').innerHTML="Đang tải dữ liệu...";
-    try {
-        const res = await fetch(SCRIPT_URL); const data = await res.json();
-        let bxh={}; DANH_SACH_LOP.forEach(l => bxh[l]=100);
-        data.slice(1).forEach(r => { if(bxh[r[1]]!==undefined) bxh[r[1]]+=parseFloat(r[5]); });
-        let sorted = Object.entries(bxh).sort((a,b)=>b[1]-a[1]);
-        let h=""; 
-        sorted.forEach((item,idx)=> {
-            h+=`<div style="display:flex; padding:15px; margin:10px; background:rgba(255,255,255,0.1); border-radius:10px; align-items:center;">
-                <span style="font-size:1.5rem; width:40px">${idx+1}</span>
-                <span style="flex:1; font-size:1.2rem">Lớp ${item[0]}</span>
-                <span style="font-size:1.3rem; font-weight:bold">${item[1]} đ</span>
-            </div>`;
+    function filterLoi() {
+        let key = document.getElementById('search-loi').value.toLowerCase();
+        document.querySelectorAll('.loi-item').forEach(it => {
+            it.style.display = it.innerText.toLowerCase().includes(key) ? 'flex' : 'none';
         });
-        document.getElementById('bxh-content').innerHTML=h;
-    } catch(e) { document.getElementById('bxh-content').innerHTML="Lỗi tải dữ liệu!"; }
-}
+    }
 
-function filterUser(){
-    let v=document.getElementById('user-search').value.toLowerCase();
-    document.querySelectorAll('#user-list div').forEach(it=>it.style.display=it.innerText.toLowerCase().includes(v)?'block':'none');
-}
-function toggle(id){ let e=document.getElementById(id); e.style.display=(e.style.display==='flex'?'none':'flex'); }
-function showScreen(id){ document.querySelectorAll('.screen').forEach(s=>s.style.display='none'); document.getElementById(id).style.display='block'; }
-function goHome(){ location.reload(); }
+    function luuDuLieu() {
+        const selected = document.querySelectorAll('#error-list input[type="checkbox"]:checked');
+        if(selected.length === 0) return alert("Bạn chưa chọn lỗi nào!");
+
+        selected.forEach(cb => {
+            const id = cb.id;
+            const rawName = document.getElementById(`name-${id}`).value.trim() || "Tập thể";
+            const diemGoc = parseInt(cb.dataset.d);
+            
+            // Xử lý "x2", "x3" thông minh
+            let soLan = 1;
+            const match = rawName.toLowerCase().match(/x\s*(\d+)/);
+            if(match) soLan = parseInt(match[1]);
+
+            const tongDiemRow = diemGoc * soLan;
+
+            db[curLop].logs.unshift({
+                id: Date.now() + Math.random(),
+                việc: cb.dataset.n,
+                biểu: (diemGoc > 0 ? "+" : "") + diemGoc,
+                tên: rawName,
+                lần: soLan,
+                tổng: (tongDiemRow > 0 ? "+" : "") + tongDiemRow
+            });
+            db[curLop].total += tongDiemRow;
+
+            // Reset dòng đó
+            cb.checked = false;
+            document.getElementById(`name-${id}`).value = "";
+            document.getElementById(`item-${id}`).classList.remove('active');
+        });
+
+        renderBXH(); renderLS();
+        alert("Đã lưu thành công!");
+    }
+
+    function renderBXH() {
+        const sorted = [...LOP_LIST].sort((a,b) => db[b].total - db[a].total);
+        const body = document.getElementById('bxh-body');
+        body.innerHTML = '';
+        sorted.forEach((l, i) => {
+            body.innerHTML += `<tr class="lop-row" id="row-${l}" onclick="chonLop('${l}')">
+                <td><span class="rank ${i<3?'rank-1':''}">${i+1}</span></td>
+                <td>Lớp ${l}</td>
+                <td style="color:${db[l].total<100?'red':'green'}">${db[l].total}</td>
+            </tr>`;
+        });
+        localStorage.setItem('PHUOC_AN_DB', JSON.stringify(db));
+    }
+
+    function chonLop(l) {
+        curLop = l;
+        document.querySelectorAll('.lop-row').forEach(r => r.classList.remove('active-lop'));
+        document.getElementById(`row-${l}`).classList.add('active-lop');
+        document.getElementById('input-area').style.display = 'block';
+        document.getElementById('current-lop-label').innerText = `ĐANG CHẤM: LỚP ${l}`;
+        renderLS();
+        window.scrollTo({top: document.getElementById('input-area').offsetTop, behavior: 'smooth'});
+    }
+
+    function renderLS() {
+        const body = document.getElementById('ls-body');
+        body.innerHTML = '';
+        db[curLop].logs.forEach(log => {
+            body.innerHTML += `<tr>
+                <td style="text-align:left">${log.việc}</td>
+                <td>${log.biểu}</td>
+                <td>${log.tên}</td>
+                <td>${log.lần}</td>
+                <td class="${parseInt(log.tổng)<0?'minus':'plus'}">${log.tổng}</td>
+                <td><button class="btn-del" onclick="xoaLog('${log.id}')">✕</button></td>
+            </tr>`;
+        });
+    }
+
+    function copyTableLS() {
+        const table = document.getElementById("table-to-copy");
+        if (table.rows.length <= 1) return alert("Không có dữ liệu!");
+        
+        const tempDiv = document.createElement("div");
+        const tableClone = table.cloneNode(true);
+        for (let row of tableClone.rows) { row.deleteCell(-1); }
+        
+        tableClone.style.borderCollapse = "collapse";
+        tableClone.querySelectorAll("th, td").forEach(cell => {
+            cell.style.border = "1px solid black";
+            cell.style.padding = "5px";
+            cell.style.textAlign = "center";
+        });
+
+        tempDiv.appendChild(tableClone);
+        document.body.appendChild(tempDiv);
+        const range = document.createRange();
+        range.selectNode(tempDiv);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        document.body.removeChild(tempDiv);
+        alert("Đã copy bảng!");
+    }
+
+    function xuatZalo() {
+        let txt = "📊 BÁO CÁO THI ĐUA PHƯỚC AN\n";
+        [...LOP_LIST].sort((a,b) => db[b].total - db[a].total).forEach((l, i) => {
+            txt += `${i+1}. Lớp ${l}: ${db[l].total}đ\n`;
+        });
+        navigator.clipboard.writeText(txt).then(() => alert("Đã copy báo cáo!"));
+    }
+
+    function xoaLog(id) {
+        if(!confirm("Xóa dòng này?")) return;
+        const index = db[curLop].logs.findIndex(x => x.id == id);
+        db[curLop].total -= parseInt(db[curLop].logs[index].tổng);
+        db[curLop].logs.splice(index, 1);
+        renderBXH(); renderLS();
+    }
+
+    function resetTuan() { if(confirm("Xóa hết dữ liệu tuần cũ?")) { localStorage.clear(); location.reload(); } }
+
+    init();
 </script>
 </body>
 </html>
