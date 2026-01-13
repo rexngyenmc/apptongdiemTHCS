@@ -2,78 +2,68 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WEB SAO ĐỎ PHƯỚC AN</title>
     <style>
-        :root { --blue-primary: #0056b3; --gray-bg: #f8f9fa; --green-success: #28a745; --red-error: #dc3545; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--gray-bg); margin: 0; padding: 15px; }
+        :root { --p: #0056b3; --s: #2e7d32; --a: #d32f2f; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 10px; color: #333; }
+        .header { background: white; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-top: 5px solid var(--p); }
+        .card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; }
         
-        /* Header giao diện cũ */
-        .header-title { background: white; padding: 15px; border-radius: 10px; border: 1px solid #dee2e6; color: var(--blue-primary); text-align: center; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
-
-        /* Khung tìm kiếm */
-        .search-box { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px; box-sizing: border-box; font-size: 1rem; }
-
-        /* Danh sách lỗi - Giao diện như ảnh 63d2e8.png */
-        .section-card { background: white; border-radius: 10px; border: 1px solid #dee2e6; overflow: hidden; margin-bottom: 20px; }
-        .section-header { background: #e9ecef; padding: 10px 15px; font-weight: bold; font-size: 0.9rem; border-left: 4px solid var(--blue-primary); }
-        .loi-container { max-height: 400px; overflow-y: auto; }
-        .loi-row { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid #eee; gap: 10px; }
-        .loi-row:last-child { border-bottom: none; }
+        /* Bảng danh sách lỗi */
+        .scroll-form { max-height: 400px; overflow-y: auto; border: 1px solid #eee; border-radius: 10px; background: #fff; }
+        .group-title { background: #e9ecef; padding: 8px; font-weight: bold; font-size: 0.75rem; border-left: 4px solid var(--p); position: sticky; top: 0; z-index: 10; }
         
-        .loi-info { flex: 2; font-size: 0.9rem; }
-        .loi-score { flex: 0.5; text-align: right; font-weight: bold; }
-        .loi-score.minus { color: var(--red-error); }
-        .loi-score.plus { color: var(--green-success); }
+        .loi-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eee; gap: 8px; cursor: pointer; }
+        .loi-name { flex: 1.5; font-size: 0.85rem; font-weight: bold; }
+        .score-tag { min-width: 35px; font-weight: bold; text-align: right; font-size: 0.85rem; }
         
-        /* Ô nhập tên trực tiếp & Xóa nhanh */
-        .input-wrapper { flex: 3; display: flex; align-items: center; gap: 5px; }
-        .input-name { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; font-size: 0.85rem; outline: none; }
-        .input-name:focus { border-color: var(--blue-primary); background: #f0f7ff; }
-        .btn-clear-row { background: none; border: none; color: #ccc; cursor: pointer; font-size: 1.2rem; font-weight: bold; padding: 0 5px; }
-        .btn-clear-row:hover { color: var(--red-error); }
+        /* Ô nhập tên ở cuối dòng (mặc định ẩn) */
+        .input-container { flex: 2; display: none; align-items: center; gap: 5px; }
+        .name-for-loi { width: 100%; padding: 8px; border: 1px solid var(--p); border-radius: 5px; font-size: 0.8rem; outline: none; }
+        .btn-clear-row { color: #ccc; border: none; background: none; font-size: 1.2rem; cursor: pointer; padding: 0 5px; }
+        
+        /* Hiện ô nhập khi dòng được chọn */
+        .loi-item.active { background: #f0f7ff; }
+        .loi-item.active .input-container { display: flex; }
 
-        /* Nút Lưu */
-        .btn-main { width: 100%; padding: 15px; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-save { background-color: #0056b3; }
-        .btn-copy { background-color: #28a745; }
+        /* Bảng LS 6 cột như ảnh */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; font-weight: bold; }
+        th { background: #f1f1f1; }
+        .minus { color: var(--a); } .plus { color: var(--s); }
 
-        /* Bảng lịch sử (LS) - Theo mẫu ảnh 635a8b.jpg */
-        .ls-table { width: 100%; border-collapse: collapse; background: white; font-size: 0.85rem; }
-        .ls-table th, .ls-table td { border: 1px solid #dee2e6; padding: 10px; text-align: center; }
-        .ls-table th { background: #f8f9fa; color: #555; }
-        .btn-del-ls { color: var(--red-error); background: none; border: none; cursor: pointer; font-weight: bold; }
-
-        .footer-info { font-size: 0.8rem; color: #666; margin-bottom: 10px; }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 1rem; }
+        .btn-apply { background: var(--p); color: white; }
     </style>
 </head>
 <body>
 
-<div class="header-title">LIÊN ĐỘI TH & THCS PHƯỚC AN</div>
-
-<div class="section-card">
-    <div style="padding: 15px;">
-        <div class="footer-info">* Nhập tên học sinh (VD: An, Bình x2) trực tiếp vào dòng lỗi.</div>
-        <input type="text" id="search-loi" class="search-box" placeholder="Tìm tên lỗi..." onkeyup="filterLoi()">
-        
-        <div class="section-header">HỌC TẬP & TÁC PHONG</div>
-        <div class="loi-container" id="loi-list">
-            </div>
-    </div>
+<div class="header">
+    <h1 style="font-size: 1rem; margin:0; color:var(--p)">LIÊN ĐỘI TH & THCS PHƯỚC AN</h1>
 </div>
 
-<button class="btn-main btn-save" onclick="saveToLS()">💾 LƯU DỮ LIỆU CHẤM</button>
+<div class="card">
+    <h3 id="current-lop-label" style="color:var(--p); text-align:center; margin:0 0 10px 0;">CHỌN LỚP ĐỂ CHẤM</h3>
+    <select id="select-lop" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--p); margin-bottom:10px;">
+        <option value="">-- Chọn lớp --</option>
+        <option>6A</option><option>6B</option><option>7A</option><option>8A</option><option>9A</option>
+    </select>
 
-<div class="section-card">
-    <div class="section-header">📜 LỊCH SỬ LỚP ĐANG CHỌN (LS)</div>
+    <div class="scroll-form" id="error-list"></div>
+    <button class="btn btn-apply" onclick="luuDuLieu()">💾 LƯU DỮ LIỆU CHẤM</button>
+</div>
+
+<div class="card">
+    <h3 style="font-size:0.85rem; margin:0 0 10px 0;">📜 LỊCH SỬ CHI TIẾT (LS)</h3>
     <div style="overflow-x: auto;">
-        <table class="ls-table">
+        <table>
             <thead>
                 <tr>
                     <th>Việc làm</th>
                     <th>Biểu</th>
-                    <th>Cá nhân/Tập thể</th>
-                    <th>Số lần</th>
+                    <th>Cá nhân</th>
+                    <th>Lần</th>
                     <th>Tổng</th>
                     <th>Xóa</th>
                 </tr>
@@ -83,110 +73,111 @@
     </div>
 </div>
 
-<button class="btn-main btn-copy" onclick="copyTable()">📋 Copy bảng (Dán Excel/Zalo)</button>
-
 <script>
-    [cite_start]// Dữ liệu bám sát biểu điểm Phước An 2025-2026 [cite: 5]
-    const DATA_PHUOC_AN = [
-        { n: "Không đeo Khăn quàng/Huy hiệu", d: -5 },
-        { n: "Không bỏ áo vào quần", d: -5 },
-        { n: "Mặc áo khoác sai quy định", d: -5 },
-        { n: "Đi chân trần ra sân/WC", d: -5 },
-        { n: "Để tóc dài (Nam)", d: -5 },
-        { n: "Nói tục, chửi thề", d: -10 },
-        { n: "Đi trễ", d: -2 },
-        { n: "Điểm 10", d: 10 },
-        { n: "Điểm 8, 9", d: 9 },
-        { n: "Điểm 7", d: 5 },
-        { n: "Điểm 0, 1, 2, 3", d: -10 },
-        { n: "Tiết học loại A", d: 10 },
-        { n: "Trả lại của rơi", d: 5 }
+    const ERROR_DATA = [
+        { g: "TÁC PHONG", i: [
+            { n: "Không Khăn quàng/Huy hiệu", d: -5 },
+            { n: "Không bỏ áo vào quần", d: -5 },
+            { n: "Để tóc dài (Nam)", d: -5 }
+        ]},
+        { g: "HỌC TẬP", i: [
+            { n: "Tiết học loại A", d: 10 },
+            { n: "Tiết học loại B", d: 5 },
+            { n: "Điểm 0,1,2,3", d: -10 }
+        ]}
     ];
 
-    let currentLS = [];
+    let db = JSON.parse(localStorage.getItem('PHUOC_AN_DB')) || {};
 
     function init() {
-        const container = document.getElementById('loi-list');
-        DATA_PHUOC_AN.forEach((item, index) => {
-            const inputId = `input-${index}`;
-            container.innerHTML += `
-                <div class="loi-row">
-                    <div class="loi-info">${item.n}</div>
-                    <div class="loi-score ${item.d < 0 ? 'minus' : 'plus'}">${item.d > 0 ? '+' : ''}${item.d}</div>
-                    <div class="input-wrapper">
-                        <input type="text" class="input-name" id="${inputId}" 
-                               data-name="${item.n}" data-score="${item.d}" 
-                               placeholder="Tên HS...">
-                        <button class="btn-clear-row" onclick="document.getElementById('${inputId}').value=''">&times;</button>
-                    </div>
-                </div>`;
+        const listEl = document.getElementById('error-list');
+        ERROR_DATA.forEach(group => {
+            listEl.innerHTML += `<div class="group-title">${group.g}</div>`;
+            group.i.forEach(item => {
+                const id = 'id' + Math.random().toString(36).substr(2, 5);
+                listEl.innerHTML += `
+                    <div class="loi-item" id="row-${id}" onclick="activeRow('${id}')">
+                        <span class="loi-name">${item.n}</span>
+                        <span class="score-tag ${item.d < 0 ? 'minus' : 'plus'}">${item.d > 0 ? '+' : ''}${item.d}</span>
+                        <div class="input-container" onclick="event.stopPropagation()">
+                            <input type="text" class="name-for-loi" id="input-${id}" data-n="${item.n}" data-d="${item.d}" placeholder="Tên HS x..">
+                            <button class="btn-clear-row" onclick="clearInput('${id}')">&times;</button>
+                        </div>
+                    </div>`;
+            });
         });
+        renderLS();
     }
 
-    function filterLoi() {
-        const key = document.getElementById('search-loi').value.toLowerCase();
-        document.querySelectorAll('.loi-row').forEach(row => {
-            const text = row.querySelector('.loi-info').innerText.toLowerCase();
-            row.style.display = text.includes(key) ? 'flex' : 'none';
-        });
+    function activeRow(id) {
+        document.getElementById(`row-${id}`).classList.toggle('active');
+        if(document.getElementById(`row-${id}`).classList.contains('active')) {
+            document.getElementById(`input-${id}`).focus();
+        }
     }
 
-    function saveToLS() {
-        const inputs = document.querySelectorAll('.input-name');
-        let hasNew = false;
+    function clearInput(id) {
+        document.getElementById(`input-${id}`).value = '';
+        document.getElementById(`row-${id}`).classList.remove('active');
+    }
 
+    function luuDuLieu() {
+        const lop = document.getElementById('select-lop').value;
+        if(!lop) return alert("Chưa chọn lớp!");
+        if(!db[lop]) db[lop] = { logs: [] };
+
+        const inputs = document.querySelectorAll('.name-for-loi');
         inputs.forEach(inp => {
             const val = inp.value.trim();
-            if (val !== "") {
+            if(val !== "") {
+                const diemGoc = parseInt(inp.dataset.d);
                 let soLan = 1;
                 const match = val.toLowerCase().match(/x\s*(\d+)/);
-                if (match) soLan = parseInt(match[1]);
+                if(match) soLan = parseInt(match[1]);
 
-                const score = parseInt(inp.dataset.score);
-                currentLS.unshift({
+                db[lop].logs.unshift({
                     id: Date.now() + Math.random(),
-                    viec: inp.dataset.name,
-                    bieu: (score > 0 ? "+" : "") + score,
-                    canhan: val,
-                    lan: soLan,
-                    tong: (score * soLan > 0 ? "+" : "") + (score * soLan)
+                    n: inp.dataset.n,
+                    b: (diemGoc > 0 ? "+" : "") + diemGoc,
+                    hs: val,
+                    sl: soLan,
+                    t: (diemGoc * soLan > 0 ? "+" : "") + (diemGoc * soLan)
                 });
                 inp.value = "";
-                hasNew = true;
+                inp.parentElement.parentElement.classList.remove('active');
             }
         });
-
-        if (hasNew) renderLS();
-        else alert("Vui lòng nhập tên học sinh vào lỗi tương ứng!");
+        localStorage.setItem('PHUOC_AN_DB', JSON.stringify(db));
+        renderLS();
     }
 
     function renderLS() {
+        const lop = document.getElementById('select-lop').value;
         const body = document.getElementById('ls-body');
-        body.innerHTML = "";
-        currentLS.forEach(item => {
+        body.innerHTML = '';
+        if(!lop || !db[lop]) return;
+        db[lop].logs.forEach(log => {
             body.innerHTML += `
                 <tr>
-                    <td style="text-align:left">${item.viec}</td>
-                    <td>${item.bieu}</td>
-                    <td>${item.canhan}</td>
-                    <td>${item.lan}</td>
-                    <td style="font-weight:bold; color:${parseInt(item.tong) < 0 ? 'red' : 'green'}">${item.tong}</td>
-                    <td><button class="btn-del-ls" onclick="deleteLS(${item.id})">✕</button></td>
+                    <td style="text-align:left">${log.n}</td>
+                    <td>${log.b}</td>
+                    <td>${log.hs}</td>
+                    <td>${log.sl}</td>
+                    <td class="${parseInt(log.t)<0?'minus':'plus'}">${log.t}</td>
+                    <td><button style="color:red; border:none; background:none; font-weight:bold; cursor:pointer" onclick="xoaLog('${log.id}')">✕</button></td>
                 </tr>`;
         });
     }
 
-    function deleteLS(id) {
-        currentLS = currentLS.filter(x => x.id !== id);
+    function xoaLog(id) {
+        const lop = document.getElementById('select-lop').value;
+        db[lop].logs = db[lop].logs.filter(x => x.id != id);
+        localStorage.setItem('PHUOC_AN_DB', JSON.stringify(db));
         renderLS();
     }
 
-    function copyTable() {
-        alert("Tính năng copy bảng đã sẵn sàng!");
-    }
-
+    document.getElementById('select-lop').onchange = renderLS;
     init();
 </script>
-
 </body>
 </html>
