@@ -3,141 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Phước An 2026 - Đồng Bộ Sheets</title>
+    <title>Hệ Thống Phước An 2026</title>
     <style>
         :root { --blue: #1a73e8; --green: #34a853; --orange: #fbbc05; --red: #ea4335; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f0f2f5; }
-        .screen { display: none; padding: 15px; max-width: 800px; margin: auto; animation: fadeIn 0.3s; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f0f2f5; color: #333; }
+        .screen { display: none; padding: 15px; max-width: 900px; margin: auto; animation: fadeIn 0.2s; }
         @keyframes fadeIn { from {opacity:0} to {opacity:1} }
-        .card { background: white; border-radius: 15px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        .btn-main { width: 100%; padding: 20px; border: none; border-radius: 15px; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
-        .inp-search { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 10px; box-sizing: border-box; }
-        .scroll-list { max-height: 200px; overflow-y: auto; border: 1px solid #eee; border-radius: 10px; }
-        .user-item { padding: 12px; border-bottom: 1px solid #eee; text-align: left; cursor: pointer; }
-        .user-item.selected { background: var(--blue); color: white; }
-        .class-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
-        .btn-cl { padding: 12px 2px; border: 1px solid #ddd; border-radius: 8px; background: white; font-weight: bold; cursor: pointer; }
-        .btn-cl.active { background: var(--blue); color: white; }
+        .card { background: white; border-radius: 12px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        
+        /* Buttons */
+        .btn-main { width: 100%; padding: 18px; border: none; border-radius: 10px; color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+        .btn-cl { padding: 12px 5px; border: 1px solid #ddd; border-radius: 8px; background: white; font-weight: bold; cursor: pointer; }
+        .btn-cl.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+        /* Chấm điểm theo bảng */
         .item-row { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; align-items: center; }
-        .detail-area { display: none; padding: 15px; background: #f9f9f9; flex-direction: column; gap: 10px; border-radius: 10px; margin-bottom: 10px; }
-        .ls-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .ls-table th, .ls-table td { border: 1px solid #eee; padding: 8px; text-align: left; }
-        #sync-status { position: fixed; top: 0; width: 100%; background: var(--orange); text-align: center; font-size: 12px; display: none; z-index: 100; padding: 5px; font-weight: bold; }
-        #bxh-screen { background: #001f3f; color: white; min-height: 100vh; text-align: center; }
-        .rank-row { display: flex; align-items: center; background: rgba(255,255,255,0.1); margin: 10px; padding: 15px; border-radius: 15px; }
-        .rank-1 { background: linear-gradient(90deg, #ffd700, #ff8f00); color: #000; font-weight: bold; }
+        .detail-area { display: none; padding: 15px; background: #fdfdfd; border: 1px solid #eee; flex-direction: column; gap: 10px; border-radius: 8px; margin: 5px 0 15px 0; }
+        input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        
+        /* Bảng lịch sử theo đúng mẫu user gửi */
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; background: white; font-size: 13px; }
+        th, td { border: 1px solid #dee2e6; padding: 10px; text-align: left; }
+        th { background: #f8f9fa; font-weight: bold; }
+        .btn-del { color: var(--red); cursor: pointer; font-weight: bold; border: none; background: none; font-size: 16px; }
+
+        #sync-status { position: fixed; top: 0; width: 100%; background: var(--orange); text-align: center; padding: 5px; font-weight: bold; display: none; z-index: 1000; }
+        .class-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
     </style>
 </head>
 <body>
-<div id="sync-status">Đang xử lý dữ liệu...</div>
+
+<div id="sync-status">Đang đồng bộ dữ liệu...</div>
+
 <div id="home-screen" class="screen" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh;">
-    <h1 style="color:var(--blue); margin-bottom: 5px;">PHƯỚC AN 2026</h1>
-    <p style="color: #666; margin-bottom: 30px;">Học kỳ 2 - Tuần 19/20</p>
+    <h1 style="color:var(--blue); margin-bottom:5px;">PHƯỚC AN 2026</h1>
+    <p style="margin-bottom:30px; color:#666;">Học kỳ 2 - Năm học 2025-2026</p>
     <button class="btn-main" style="background:var(--blue)" onclick="init('GV')">GIÁO VIÊN</button>
     <button class="btn-main" style="background:var(--green)" onclick="init('SD')">SAO ĐỎ</button>
-    <button class="btn-main" style="background:var(--orange); color:#000" onclick="init('BXH')">BẢNG VÀNG THI ĐUA</button>
+    <button class="btn-main" style="background:var(--orange); color:black" onclick="init('BXH')">BẢNG VÀNG THI ĐUA</button>
 </div>
 
 <div id="auth-screen" class="screen">
-    <button onclick="goHome()" style="margin-bottom:10px;">← Quay lại</button>
-    <div class="card">
-        <h3 id="auth-title">Xác thực</h3>
-        <input type="password" id="pin-input" class="inp-search" placeholder="Nhập mã PIN (1234 hoặc 9999)" style="display:none">
-        <input type="text" id="user-search" class="inp-search" placeholder="Tìm tên giáo viên/sao đỏ..." onkeyup="filterUser()">
-        <div id="user-list" class="scroll-list"></div>
+    <button onclick="goHome()">← Quay lại</button>
+    <div class="card" style="margin-top:15px">
+        <h3 id="auth-title">Đăng nhập</h3>
+        <input type="password" id="pin-input" placeholder="Mã PIN" style="display:none; margin-bottom:10px; text-align:center;">
+        <input type="text" id="user-search" placeholder="Tìm tên của bạn..." onkeyup="filterUser()">
+        <div id="user-list" style="max-height:200px; overflow-y:auto; border:1px solid #eee; border-radius:8px; margin-top:10px;"></div>
         <button class="btn-main" style="background:var(--blue); margin-top:15px" onclick="verifyUser()">VÀO HỆ THỐNG</button>
     </div>
 </div>
 
 <div id="score-screen" class="screen">
     <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items: center;">
-            <h3 id="info-lop" style="margin:0; color:var(--blue)">Chọn lớp</h3>
-            <button onclick="showScreen('auth-screen')" style="font-size: 12px;">Đổi người trực</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <b id="info-header" style="color:var(--blue)"></b>
+            <button onclick="showScreen('auth-screen')">Đổi lớp</button>
         </div>
         <div class="class-grid" id="class-btns"></div>
     </div>
-    <div id="main-input" style="display:none">
+
+    <div id="input-area" style="display:none">
         <div class="card">
-            <h4 style="margin:0 0 10px 0;">TIÊU CHÍ CHẤM ĐIỂM</h4>
+            <h4 style="margin:0 0 10px 0">Danh mục vi phạm / Việc tốt</h4>
             <div id="criteria-list"></div>
         </div>
+
         <div class="card">
-            <h4 style="margin:0 0 10px 0;">LỊCH SỬ CHỜ LƯU</h4>
-            <table class="ls-table">
-                <thead><tr><th>Lớp</th><th>Lỗi</th><th>HS/Lần</th><th>Điểm</th><th>Xóa</th></tr></thead>
-                <tbody id="ls-body"></tbody>
-            </table>
-            <button id="btn-sync" class="btn-main" style="background:var(--green); margin-top:15px" onclick="syncToCloud()">GỬI DỮ LIỆU & ĐỒNG BỘ TV</button>
+            <h4 style="margin:0 0 10px 0">Lịch sử vừa nhập (Chưa lưu)</h4>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nội dung</th>
+                            <th>Biểu điểm</th>
+                            <th>Học sinh</th>
+                            <th>Lần</th>
+                            <th>Tổng</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ls-body"></tbody>
+                </table>
+            </div>
+            <div style="text-align:right; margin-top:10px; font-weight:bold; font-size:1.1rem">
+                Tổng điểm tuần: <span id="total-preview" style="color:var(--blue)">0</span>
+            </div>
+            <button class="btn-main" style="background:var(--green); margin-top:15px" onclick="syncToCloud()">LƯU VÀ ĐỒNG BỘ LÊN TV</button>
         </div>
     </div>
 </div>
 
 <div id="bxh-screen" class="screen">
-    <h1 style="color:var(--orange); padding-top:20px; text-shadow: 0 0 10px rgba(0,0,0,0.5);">🏆 BẢNG VÀNG THI ĐUA</h1>
-    <p id="bxh-date"></p>
+    <h1 style="text-align:center; color:var(--orange)">🏆 BẢNG VÀNG THI ĐUA</h1>
     <div id="bxh-content"></div>
-    <button class="btn-main" style="background:#333; width:200px; margin-top: 20px;" onclick="goHome()">QUAY LẠI</button>
+    <button class="btn-main" style="background:#444; margin-top:20px" onclick="goHome()">QUAY LẠI</button>
 </div>
-<script>
-// --- DÁN LINK APPS SCRIPT CỦA BẠN VÀO ĐÂY ---
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyYhBw6Z3RIuFjCvUJS14GdMl_NjfVAKnLYMNf5mpe8TL1WXwq0tRxFDHiG4eyutu9TDQ/exec";
 
+<script>
+// --- CẤU HÌNH ---
+const SCRIPT_URL = "DÁN_URL_APP_SCRIPT_CỦA_BẠN_VÀO_ĐÂY";
 const DANH_SACH_LOP = ["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
 const DS_GV = ["Cô Huệ", "Thầy Sơn", "Cô Lan", "Thầy Hùng", "Thầy Đức"];
 const DS_SD = ["An 9A1", "Bình 8A2", "Chi 7A1", "Dũng 6A2", "Hạnh 9A2"];
 
-// Dữ liệu bám sát file Word TIÊU CHÍ THI ĐUA THCS (1).docx
+// Dữ liệu bám sát source: 5 của bạn
 const DATA_SD = [
     {h: "Tác phong", ds: [
-        {n:"Không khăn quàng/Huy hiệu", d:-5}, // 
-        {n:"Không bỏ áo vào quần", d:-5}, // 
-        {n:"Mặc áo khoác sai giờ quy định", d:-5}, // 
-        {n:"Sai đồng phục (quần/áo/giày/dép)", d:-5}, // 
-        {n:"Đi chân trần ra sân/nhà vệ sinh", d:-5}, // 
-        {n:"Tóc dài (Nam)", d:-5}, // 
-        {n:"Nhuộm tóc/Trang điểm/Sơn móng", d:-10} // 
+        {n:"Không khăn quàng/Huy hiệu", d:-5}, [cite: 5]
+        {n:"Không bỏ áo vào quần", d:-5}, [cite: 5]
+        {n:"Mặc áo khoác sai quy định", d:-5}, [cite: 5]
+        {n:"Đồng phục không đúng", d:-5}, [cite: 5]
+        {n:"Đi chân trần", d:-5}, [cite: 5]
+        {n:"Tóc dài (nam)", d:-5}, [cite: 5]
+        {n:"Nhuộm tóc/Trang điểm", d:-10} [cite: 5]
     ]},
     {h: "Nề nếp & Kỷ luật", ds: [
-        {n:"Để xe sai quy định", d:-5}, // 
-        {n:"Không đội mũ bảo hiểm", d:-5}, // 
-        {n:"Ra cổng không xin phép", d:-5}, // 
-        {n:"Sử dụng ĐT không đúng nơi", d:-5}, // 
-        {n:"Nói tục/Chửi thề/Đánh nhau", d:-10}, // 
-        {n:"Chống đối sao đỏ", d:-10}, // 
-        {n:"Đi trễ", d:-2}, // 
-        {n:"Vắng không phép", d:-5}, // 
-        {n:"Trốn tiết/Nói chuyện riêng", d:-10} // 
-    ]},
-    {h: "Vệ sinh & Tài sản", ds: [
-        {n:"Ăn uống sai quy định", d:-10}, // 
-        {n:"Bỏ rác sai nơi (Lớp trừ 100đ)", d:-20}, // 
-        {n:"Vẽ bậy tường/bàn ghế", d:-10}, // 
-        {n:"Phá hoại tài sản trường", d:-30}, // 
-        {n:"Chui rào/Phá hàng rào", d:-30} // 
+        {n:"Để xe không ngay hàng", d:-5}, [cite: 5]
+        {n:"Không đội nón bảo hiểm", d:-5}, [cite: 5]
+        {n:"Ra cổng không xin phép", d:-5}, [cite: 5]
+        {n:"Sử dụng ĐT sai nơi", d:-5}, [cite: 5]
+        {n:"Nói tục/Chửi thề", d:-10}, [cite: 5]
+        {n:"Đánh nhau", d:-10}, [cite: 5]
+        {n:"Đi trễ", d:-2}, [cite: 5]
+        {n:"Vắng không phép", d:-5}, [cite: 5]
+        {n:"Trốn tiết/Nói chuyện riêng", d:-10} [cite: 5]
     ]},
     {h: "Nghiệp vụ Sao đỏ", ds: [
-        {n:"SĐ không băng/Trực trễ", d:-10}, // 
-        {n:"SĐ không đi trực", d:-20}, // 
-        {n:"SĐ không tổng kết cuối tuần", d:-50} // 
+        {n:"SĐ không đeo băng/Trực trễ", d:-10}, [cite: 5]
+        {n:"SĐ không đi trực", d:-20}, [cite: 5]
+        {n:"SĐ không tổng kết cuối tuần", d:-50} [cite: 5]
     ]}
 ];
 
 const DATA_GV = [
     {h: "Học tập", ds: [
-        {n:"Tiết A", d:10}, {n:"Tiết B", d:5}, // 
-        {n:"Tiết C", d:-5}, {n:"Tiết D", d:-10}, // 
-        {n:"Điểm 10", d:10}, {n:"Điểm 8,9", d:9}, // 
-        {n:"Điểm 7", d:5}, {n:"Điểm 4", d:-5}, // 
-        {n:"Điểm 0,1,2,3", d:-10}, // 
-        {n:"Không thuộc bài/Làm bài tập", d:-10}, // 
-        {n:"Mất/Xé bài kiểm tra", d:-20} // 
+        {n:"Tiết A", d:10}, {n:"Tiết B", d:5}, [cite: 5]
+        {n:"Tiết C", d:-5}, {n:"Tiết D", d:-10}, [cite: 5]
+        {n:"Điểm 10", d:10}, {n:"Điểm 8,9", d:9}, [cite: 5]
+        {n:"Điểm 7", d:5}, {n:"Điểm 4", d:-5}, [cite: 5]
+        {n:"Điểm 0,1,2,3", d:-10}, [cite: 5]
+        {n:"Không thuộc bài/Làm bài tập", d:-10} [cite: 5]
     ]},
     {h: "Phong trào", ds: [
-        {n:"Hạng Nhất phong trào", d:50}, // 
-        {n:"Hạng Nhì phong trào", d:40}, // 
-        {n:"Hạng Ba phong trào", d:30}, // 
-        {n:"Nhặt được của rơi trả lại", d:5} // 
+        {n:"Hạng Nhất/Nhì/Ba phong trào", d:50}, [cite: 5]
+        {n:"Nhặt được của rơi trả lại", d:5} [cite: 5]
     ]}
 ];
 
@@ -152,26 +163,17 @@ function init(r){
 
 function renderUserList(){
     let list = (role==='GV'?DS_GV:DS_SD).sort();
-    let h=""; list.forEach(n => h+=`<div class="user-item" onclick="selU(this)">${n}</div>`);
+    let h=""; list.forEach(n => h+=`<div style="padding:12px; border-bottom:1px solid #eee; cursor:pointer;" onclick="selU(this)">${n}</div>`);
     document.getElementById('user-list').innerHTML=h;
 }
 
-function filterUser(){
-    let val = document.getElementById('user-search').value.toLowerCase();
-    let items = document.querySelectorAll('.user-item');
-    items.forEach(it => {
-        it.style.display = it.innerText.toLowerCase().includes(val) ? 'block' : 'none';
-    });
-}
-
 function selU(el){
-    document.querySelectorAll('.user-item').forEach(i=>i.classList.remove('selected'));
-    el.classList.add('selected'); user=el.innerText;
+    Array.from(el.parentNode.children).forEach(i=>i.style.background="white");
+    el.style.background="#e8f0fe"; user=el.innerText;
 }
 
 function verifyUser(){
     if(!user) return alert("Vui lòng chọn tên!");
-    if(role==='SD' && document.getElementById('pin-input').value!=='1234') return alert("Sai mã PIN!");
     showScreen('score-screen');
     let h=""; DANH_SACH_LOP.forEach(l => h+=`<button class="btn-cl" onclick="selLop('${l}',this)">${l}</button>`);
     document.getElementById('class-btns').innerHTML=h;
@@ -179,63 +181,98 @@ function verifyUser(){
 
 function selLop(l, b){
     currentLop=l; document.querySelectorAll('.btn-cl').forEach(i=>i.classList.remove('active'));
-    b.classList.add('active'); document.getElementById('info-lop').innerText="Lớp: "+l;
-    document.getElementById('main-input').style.display='block'; renderCriteria();
+    b.classList.add('active'); document.getElementById('info-header').innerText="Người trực: "+user+" | Lớp: "+l;
+    document.getElementById('input-area').style.display='block'; renderCriteria();
 }
 
 function renderCriteria(){
     let h="", data=(role==='GV'?DATA_GV:DATA_SD);
     data.forEach((g,gi)=>{
-        h+=`<h4 style="margin:15px 0 5px; color:#666; border-bottom: 1px solid #eee;">${g.h}</h4>`;
+        h+=`<h5 style="margin:10px 0 5px 0; color:#888;">${g.h}</h5>`;
         g.ds.forEach((item,ii)=>{
             let id=`row-${gi}-${ii}`;
-            h+=`<div class="item-row" onclick="toggle('${id}')"><span>${item.n}</span><b style="color:${item.d>0?'green':'red'}">${item.d>0?'+'+item.d:item.d}</b></div>
+            h+=`<div class="item-row" onclick="toggle('${id}')"><span>${item.n}</span><b>${item.d}</b></div>
                 <div class="detail-area" id="${id}">
-                    <input type="text" placeholder="Tên HS/Lý do..." id="hs-${id}">
+                    <input type="text" placeholder="Nhập tên HS (ví dụ: An, Bình, Chi...)" id="hs-${id}">
                     <input type="number" value="1" id="sl-${id}" placeholder="Số lần">
-                    <button onclick="addLS('${item.n}',${item.d},'${id}')" style="background:var(--blue); color:#fff; border:none; padding:10px; border-radius:8px">Xác nhận thêm</button>
+                    <button class="btn-main" style="background:var(--blue); padding:10px; font-size:0.9rem" onclick="addLS('${item.n}',${item.d},'${id}')">Xác nhận</button>
                 </div>`;
         });
     });
     document.getElementById('criteria-list').innerHTML=h;
 }
 
+// Hàm thêm vào lịch sử - Đúng như image_62db9e.png
 function addLS(name, score, id){
-    let hs=document.getElementById('hs-'+id).value || "Cả lớp", sl=document.getElementById('sl-'+id).value || 1;
-    lsTemp.push({time: new Date().toLocaleString('vi-VN'), lop: currentLop, loi: name, info: hs, sl: sl, diem: score*sl, nguoi: user});
-    renderLS(); toggle(id);
+    let hs = document.getElementById('hs-'+id).value || "Cả lớp";
+    let sl = parseInt(document.getElementById('sl-'+id).value) || 1;
+    lsTemp.push({
+        time: new Date().toLocaleString(),
+        lop: currentLop,
+        loi: name,
+        info: hs,
+        sl: sl,
+        diem: score,
+        tong: score * sl,
+        nguoi: user
+    });
+    renderLS();
+    toggle(id);
+    document.getElementById('hs-'+id).value = "";
 }
 
 function renderLS(){
-    let h=""; lsTemp.forEach((item, idx)=> h+=`<tr><td>${item.lop}</td><td>${item.loi}</td><td>${item.info}(x${item.sl})</td><td>${item.diem}</td><td onclick="lsTemp.splice(${idx},1);renderLS()" style="color:red; font-weight:bold;">X</td></tr>`);
+    let h="", total=0;
+    lsTemp.forEach((item, idx)=>{
+        total += item.tong;
+        h += `<tr>
+            <td>${item.loi}</td>
+            <td>${item.diem}</td>
+            <td>${item.info}</td>
+            <td>${item.sl}</td>
+            <td style="font-weight:bold; color:${item.tong<0?'red':'green'}">${item.tong}</td>
+            <td class="btn-del" onclick="lsTemp.splice(${idx},1);renderLS()">✕</td>
+        </tr>`;
+    });
     document.getElementById('ls-body').innerHTML=h;
+    document.getElementById('total-preview').innerText = (total > 0 ? "+" : "") + total;
 }
 
 async function syncToCloud(){
-    if(lsTemp.length===0) return alert("Không có dữ liệu!");
+    if(lsTemp.length===0) return alert("Chưa có lỗi nào để lưu!");
     document.getElementById('sync-status').style.display='block';
-    document.getElementById('sync-status').innerText="Đang gửi dữ liệu lên Google Sheets...";
     try {
         await fetch(SCRIPT_URL, {method: 'POST', body: JSON.stringify(lsTemp)});
-        alert("Đồng bộ thành công!"); lsTemp=[]; renderLS(); goHome();
-    } catch(e) { alert("Lỗi mạng! Hãy kiểm tra kết nối."); }
+        alert("Đã gửi dữ liệu thành công!");
+        lsTemp=[]; renderLS(); goHome();
+    } catch(e) { alert("Lỗi kết nối máy chủ!"); }
     document.getElementById('sync-status').style.display='none';
 }
 
 async function renderBXH(){
     showScreen('bxh-screen');
-    document.getElementById('bxh-date').innerText = "Ngày: " + new Date().toLocaleDateString('vi-VN');
-    document.getElementById('bxh-content').innerHTML="<p>Đang tải bảng xếp hạng từ Tivi...</p>";
+    document.getElementById('bxh-content').innerHTML="Đang tải dữ liệu...";
     try {
         const res = await fetch(SCRIPT_URL); const data = await res.json();
         let bxh={}; DANH_SACH_LOP.forEach(l => bxh[l]=100);
         data.slice(1).forEach(r => { if(bxh[r[1]]!==undefined) bxh[r[1]]+=parseFloat(r[5]); });
         let sorted = Object.entries(bxh).sort((a,b)=>b[1]-a[1]);
-        let h=""; sorted.forEach((item,idx)=> h+=`<div class="rank-row ${idx===0?'rank-1':''}"><span>${idx+1}. Lớp ${item[0]}</span><span style="margin-left:auto">${item[1]} đ</span></div>`);
+        let h=""; 
+        sorted.forEach((item,idx)=> {
+            h+=`<div style="display:flex; padding:15px; margin:10px; background:rgba(255,255,255,0.1); border-radius:10px; align-items:center;">
+                <span style="font-size:1.5rem; width:40px">${idx+1}</span>
+                <span style="flex:1; font-size:1.2rem">Lớp ${item[0]}</span>
+                <span style="font-size:1.3rem; font-weight:bold">${item[1]} đ</span>
+            </div>`;
+        });
         document.getElementById('bxh-content').innerHTML=h;
-    } catch(e) { document.getElementById('bxh-content').innerHTML="Lỗi tải dữ liệu. Hãy dán đúng link SCRIPT_URL!"; }
+    } catch(e) { document.getElementById('bxh-content').innerHTML="Lỗi tải dữ liệu!"; }
 }
 
+function filterUser(){
+    let v=document.getElementById('user-search').value.toLowerCase();
+    document.querySelectorAll('#user-list div').forEach(it=>it.style.display=it.innerText.toLowerCase().includes(v)?'block':'none');
+}
 function toggle(id){ let e=document.getElementById(id); e.style.display=(e.style.display==='flex'?'none':'flex'); }
 function showScreen(id){ document.querySelectorAll('.screen').forEach(s=>s.style.display='none'); document.getElementById(id).style.display='block'; }
 function goHome(){ location.reload(); }
