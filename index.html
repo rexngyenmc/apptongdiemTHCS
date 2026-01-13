@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WEB SAO ĐỎ PHƯỚC AN</title>
     <style>
-        :root { --p: #0056b3; --s: #28a745; --a: #dc3545; --bg: #f0f2f5; --grad: linear-gradient(135deg, #0056b3 0%, #00a2ff 100%); }
+        :root { 
+            --p: #0056b3; --s: #28a745; --a: #dc3545; --bg: #f0f2f5; 
+            --grad: linear-gradient(135deg, #0056b3 0%, #00a2ff 100%); 
+        }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 10px; color: #333; }
         
-        /* HIỆU ỨNG RUNG KHI SAI PIN */
+        /* 1. HIỆU ỨNG RUNG & PIN */
         .shake { animation: shake 0.3s; border: 3px solid var(--a) !important; }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -18,68 +21,88 @@
 
         #login-screen { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: var(--grad); 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            z-index: 9999; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            transition: 0.5s;
+            background: var(--grad); display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            z-index: 9999; color: white; transition: 0.5s;
         }
+        /* Họa tiết nền màn hình PIN */
+        #login-screen::before { content: "★"; position: absolute; top: 10%; left: 10%; font-size: 5rem; opacity: 0.1; transform: rotate(-20deg); }
+        #login-screen::after { content: "❤"; position: absolute; bottom: 15%; right: 10%; font-size: 6rem; opacity: 0.1; }
+
         .pin-input { 
             width: 180px; padding: 15px; border-radius: 20px; border: 3px solid rgba(255,255,255,0.5); 
             font-size: 2rem; text-align: center; letter-spacing: 5px; font-weight: bold; 
-            margin-top: 20px; outline: none; background: rgba(255,255,255,0.9); color: var(--p);
+            background: rgba(255,255,255,0.9); color: var(--p); outline: none;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
+        /* 2. TRANG TRÍ CHÍNH */
         .header { 
             background: white; padding: 20px; border-radius: 20px; text-align: center; margin-bottom: 15px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-top: 6px solid var(--p);
+            position: relative; overflow: hidden;
         }
-        .card { background: white; padding: 18px; border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 15px; border: 1px solid #eee; }
+        .header::after { content: "✦"; position: absolute; top: 5px; right: 15px; color: var(--p); opacity: 0.2; font-size: 1.5rem; }
+
+        .card { background: white; padding: 18px; border-radius: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-bottom: 15px; border: 1px solid #eee; position: relative; }
         
+        /* Bảng xếp hạng */
         table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; border-radius: 10px; overflow: hidden; }
         th, td { border: 1px solid #f0f0f0; padding: 12px 5px; text-align: center; font-size: 0.85rem; font-weight: bold; }
-        th { background: #f8f9fa; color: var(--p); }
-        
+        th { background: #f8f9fa; color: var(--p); font-size: 0.7rem; text-transform: uppercase; }
+        .rank-badge { background: #e9ecef; border-radius: 8px; width: 25px; height: 25px; display: inline-block; line-height: 25px; }
+        .top1 { background: #ffed4a; color: #856404; }
+
+        /* Nhập lỗi */
         .search-box { 
-            width: 100%; padding: 12px 15px; border: 2px solid #eee; border-radius: 15px; 
-            box-sizing: border-box; font-size: 1rem; margin-bottom: 15px; outline: none;
+            width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 15px; 
+            box-sizing: border-box; font-size: 0.95rem; margin-bottom: 15px; outline: none;
+            background: #fdfdfd;
         }
+        .search-box:focus { border-color: var(--p); }
 
         .scroll-form { max-height: 380px; overflow-y: auto; border: 1px solid #f0f0f0; border-radius: 15px; }
-        .group-title { background: #f1f3f5; padding: 10px; font-weight: 800; font-size: 0.75rem; color: #666; position: sticky; top: 0; z-index: 10; border-left: 5px solid var(--p); text-align: left; }
+        .group-title { background: #f1f3f5; padding: 10px; font-weight: 800; font-size: 0.7rem; color: #666; position: sticky; top: 0; z-index: 10; border-left: 5px solid var(--p); text-align: left; }
         
-        .loi-item { display: flex; align-items: center; padding: 14px 10px; border-bottom: 1px solid #f8f9fa; gap: 8px; cursor: pointer; }
-        .loi-name { flex: 1.5; font-size: 0.85rem; text-align: left; }
+        .loi-item { display: flex; align-items: center; padding: 14px 10px; border-bottom: 1px solid #f8f9fa; gap: 8px; cursor: pointer; transition: 0.2s; }
+        .loi-name { flex: 1.5; font-size: 0.85rem; text-align: left; color: #444; }
         
-        .input-container { flex: 2; display: none; align-items: center; gap: 5px; }
+        .input-container { flex: 2; display: none; align-items: center; gap: 5px; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+        
         .name-for-loi { width: 100%; padding: 10px; border: 2px solid var(--p); border-radius: 10px; font-size: 0.85rem; outline: none; }
         .btn-clear-row { color: #ccc; border: none; background: none; font-size: 1.5rem; padding: 0 5px; cursor: pointer; }
         
         .loi-item.active { background: #f0f7ff; }
         .loi-item.active .input-container { display: flex; }
 
-        .btn { width: 100%; padding: 16px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1rem; }
-        .btn-apply { background: var(--grad); color: white; margin-top: 15px; }
-        .btn-reset { background: #fff; color: #aaa; border: 1px dashed #ccc; font-size: 0.7rem; margin-top: 20px; padding: 8px; }
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+        .btn-apply { background: var(--grad); color: white; margin-top: 15px; box-shadow: 0 4px 12px rgba(0,86,179,0.3); }
+        .btn-reset { background: #fff; color: #bbb; border: 1px dashed #ccc; font-size: 0.7rem; margin-top: 20px; padding: 8px; border-radius: 10px; }
+        .btn-reset:hover { color: var(--a); border-color: var(--a); }
 
         .minus { color: var(--a); } .plus { color: var(--s); }
+        .footer-decor { text-align: center; opacity: 0.1; font-size: 2rem; margin: 15px 0; }
     </style>
 </head>
 <body>
 
 <div id="login-screen">
-    <div style="font-size: 3rem;">🛡️</div>
-    <h2 style="margin:10px 0 0 0; letter-spacing: 2px;">MẬT MÃ SAO ĐỎ</h2>
+    <div style="font-size: 3.5rem; margin-bottom: 10px;">🛡️</div>
+    <h2 style="margin:0; letter-spacing: 2px; font-size: 1.2rem;">MẬT MÃ SAO ĐỎ</h2>
+    <p style="opacity: 0.7; font-size: 0.75rem; margin-bottom: 20px;">Hệ thống Liên đội Phước An</p>
     <input type="password" id="pin-input" class="pin-input" placeholder="••••" maxlength="4" oninput="checkPin()">
 </div>
 
 <div id="main-content" style="display:none">
     <div class="header">
         <h1 style="font-size: 1.1rem; margin:0; color:var(--p);">LIÊN ĐỘI TH & THCS PHƯỚC AN</h1>
+        <div style="font-size: 0.6rem; color: #999; margin-top: 5px;">HỆ THỐNG GHI CHÉP THI ĐUA NỘI BỘ</div>
     </div>
 
     <div class="card">
-        <h3 style="margin:0 0 10px 0; font-size:0.9rem;">🏆 BẢNG XẾP HẠNG TUẦN</h3>
+        <h3 style="margin:0 0 10px 0; font-size:0.9rem; display: flex; align-items: center; gap: 5px;">
+            <span>🏆</span> BẢNG XẾP HẠNG TUẦN
+        </h3>
         <table>
             <thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm</th></tr></thead>
             <tbody id="bxh-body"></tbody>
@@ -88,11 +111,17 @@
     </div>
 
     <div id="input-area" class="card" style="display:none">
-        <h3 id="current-lop-label" style="color:var(--p); text-align:center;"></h3>
-        <input type="text" id="search-loi" class="search-box" placeholder="Tìm nhanh lỗi..." onkeyup="filterLoi()">
+        <h3 id="current-lop-label" style="color:var(--p); text-align:center; font-size: 1rem; margin-bottom: 15px;"></h3>
+        
+        <input type="text" id="search-loi" class="search-box" placeholder="🔍 Tìm tên lỗi nhanh..." onkeyup="filterLoi()">
+        
         <div class="scroll-form" id="error-list"></div>
-        <button class="btn btn-apply" onclick="luuDuLieu()">💾 LƯU DỮ LIỆU VÀO LS</button>
-        <h3 style="font-size:0.85rem; margin-top:20px;">📜 LỊCH SỬ CHẤM</h3>
+        
+        <button class="btn btn-apply" onclick="luuDuLieu()">💾 LƯU DỮ LIỆU CHẤM</button>
+
+        <div class="footer-decor">✦ ✦ ✦</div>
+
+        <h3 style="font-size:0.85rem; margin:0 0 10px 0; color: var(--p);">📜 LỊCH SỬ CHI TIẾT</h3>
         <div style="overflow-x: auto;">
             <table>
                 <thead>
@@ -108,13 +137,13 @@
     const PIN = "1234";
     const LOP_LIST = ['6A1','6A2','6A3','7A1','7A2','8A1','8A2','9A1','9A2'];
     
-    // ĐÃ SỬA LỖI KHAI BÁO TRÙNG Ở ĐÂY
+    // BẠN TỰ ĐIỀN LỖI Ở ĐÂY
     const ERROR_DATA = [
         { g: "TÁC PHONG - ĐỒNG PHỤC", i: [
             { n: "Không Khăn quàng/Huy hiệu", d: -5 },
             { n: "Không bỏ áo vào quần", d: -5 },
-            { n: "Mặc áo khoác trong trường", d: -5 },
-            { n: "Tóc dài/Nhuộm/Sai quy định", d: -5 }
+            { n: "Tóc dài/Nhuộm/Sai quy định", d: -5 },
+            { n: "Đi dép lê/Chân đất", d: -5 }
         ]},
         { g: "KỶ LUẬT - ĐẠO ĐỨC", i: [
             { n: "Nói tục, chửi thề", d: -10 },
@@ -182,9 +211,9 @@
         body.innerHTML = '';
         sorted.forEach((l, i) => {
             body.innerHTML += `
-                <tr class="rank-row" onclick="chonLop('${l}')">
-                    <td>${i+1}</td>
-                    <td>Lớp ${l}</td>
+                <tr class="rank-row" onclick="chonLop('${l}')" style="cursor:pointer">
+                    <td><span class="rank-badge ${i==0?'top1':''}">${i+1}</span></td>
+                    <td style="color:var(--p)">Lớp ${l}</td>
                     <td class="${db[l].total<100?'minus':'plus'}">${db[l].total}</td>
                 </tr>`;
         });
@@ -194,8 +223,9 @@
     function chonLop(l) {
         curLop = l;
         document.getElementById('input-area').style.display = 'block';
-        document.getElementById('current-lop-label').innerText = `Đang chấm lớp: ${l}`;
+        document.getElementById('current-lop-label').innerHTML = `Đang chấm: <b>Lớp ${l}</b>`;
         renderLS();
+        window.scrollTo({ top: document.getElementById('input-area').offsetTop - 20, behavior: 'smooth' });
     }
 
     function activeRow(id) {
@@ -232,7 +262,7 @@
                 hasData = true;
             }
         });
-        if(hasData) { renderBXH(); renderLS(); alert("Đã lưu!"); }
+        if(hasData) { renderBXH(); renderLS(); alert("Đã cập nhật!"); }
     }
 
     function renderLS() {
@@ -247,12 +277,13 @@
                     <td>${log.hs}</td>
                     <td>${log.sl}</td>
                     <td class="${parseInt(log.t)<0?'minus':'plus'}">${log.t}</td>
-                    <td><button style="color:red; border:none; background:none; font-weight:bold" onclick="xoaLog('${log.id}')">✕</button></td>
+                    <td><button style="color:var(--a); border:none; background:none; font-weight:bold" onclick="xoaLog('${log.id}')">✕</button></td>
                 </tr>`;
         });
     }
 
     function xoaLog(id) {
+        if(!confirm("Xóa dòng này?")) return;
         const idx = db[curLop].logs.findIndex(x => x.id == id);
         db[curLop].total -= parseInt(db[curLop].logs[idx].t);
         db[curLop].logs.splice(idx, 1);
@@ -260,7 +291,7 @@
     }
 
     function resetTuan() {
-        if(confirm("Xóa hết dữ liệu tuần này?")) {
+        if(confirm("XÓA TOÀN BỘ dữ liệu để sang tuần mới?")) {
             localStorage.removeItem('PA_PRO_2026');
             location.reload();
         }
