@@ -12,46 +12,41 @@
         }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 10px; color: #333; }
         
-        /* 1. MÀN HÌNH MẬT MÃ (Theo Ảnh 1) */
+        /* MÀN HÌNH PIN (Theo mẫu ảnh 1) */
         #login-screen { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: var(--grad); display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            z-index: 9999; color: white; transition: 0.5s;
+            z-index: 9999; color: white;
         }
-        #login-screen .icon-shield { font-size: 3.5rem; margin-bottom: 10px; }
+        .icon-shield { font-size: 3.5rem; margin-bottom: 15px; }
         .pin-input { 
             width: 200px; padding: 15px; border-radius: 15px; border: none;
             font-size: 2rem; text-align: center; letter-spacing: 5px; font-weight: bold; 
             background: rgba(255,255,255,0.9); color: var(--p); outline: none;
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
-        .shake { animation: shake 0.3s; border: 2px solid var(--a) !important; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
 
-        /* 2. GIAO DIỆN CHÍNH */
+        /* GIAO DIỆN CHÍNH */
         .card { background: white; padding: 15px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 15px; border: 1px solid #eee; }
         
-        /* Bảng xếp hạng */
-        .bxh-table { width: 100%; border-collapse: collapse; text-align: center; margin-top: 10px; }
+        /* BẢNG XẾP HẠNG */
+        .bxh-table { width: 100%; border-collapse: collapse; text-align: center; }
         .bxh-table th, .bxh-table td { padding: 10px; border: 1px solid #eee; font-size: 0.9rem; }
         .bxh-table th { background: #f8f9fa; color: var(--p); }
 
-        /* DANH SÁCH CHẤM ĐIỂM (Theo Ảnh 3, 5) */
-        .group-header { 
-            background: #f1f3f8; padding: 10px; font-size: 0.75rem; font-weight: bold; 
-            color: #5a6d80; text-transform: uppercase; border-bottom: 1px solid #e0e6ed; margin-top: 10px;
-        }
+        /* DANH SÁCH LỖI PHẲNG (Không chia loại - Theo yêu cầu mới) */
+        .error-container { border: 1px solid #eee; border-radius: 10px; overflow: hidden; max-height: 450px; overflow-y: auto; }
         .loi-row { 
-            display: flex; align-items: center; padding: 12px 10px; border-bottom: 1px solid #f8f9fa; gap: 10px;
+            display: flex; align-items: center; padding: 12px 10px; border-bottom: 1px solid #f8f9fa; gap: 8px;
         }
         .loi-name { flex: 1.5; font-size: 0.9rem; font-weight: 500; text-align: left; }
-        .loi-score { width: 40px; font-weight: bold; text-align: right; margin-right: 5px; }
+        .loi-score { width: 40px; font-weight: bold; text-align: right; }
 
-        /* Nhập tên & số lần trực tiếp */
+        /* Ô NHẬP TÊN & SỐ LẦN TRỰC TIẾP */
         .input-name { flex: 2; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem; outline: none; }
-        .input-qty { width: 45px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; text-align: center; font-size: 0.85rem; }
+        .input-qty { width: 40px; padding: 8px; border: 1px solid #ddd; border-radius: 6px; text-align: center; font-size: 0.85rem; }
 
-        /* 3. BẢNG KẾT QUẢ 5 CỘT (Theo Ảnh 2, 4, 6, 7) */
+        /* BẢNG KẾT QUẢ 5 CỘT (Theo mẫu ảnh 2, 4, 6, 7) */
         .res-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.8rem; border: 1px solid #333; }
         .res-table th, .res-table td { border: 1px solid #333; padding: 8px 4px; text-align: center; }
         .res-table th { background: #f2f2f2; }
@@ -59,6 +54,7 @@
 
         .btn-confirm { width: 100%; padding: 15px; background: var(--grad); color: white; border: none; border-radius: 10px; font-weight: bold; margin-top: 15px; cursor: pointer; }
         .minus { color: var(--a); } .plus { color: var(--s); }
+        .search-box { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; outline: none; }
     </style>
 </head>
 <body>
@@ -71,7 +67,7 @@
 
 <div id="main-content" style="display:none">
     <div class="card">
-        <h3 style="margin-top:0; color:var(--p); font-size:0.9rem; display:flex; align-items:center; gap:5px;">🏆 BẢNG XẾP HẠNG TUẦN</h3>
+        <h3 style="margin-top:0; color:var(--p); font-size:0.9rem;">🏆 BẢNG XẾP HẠNG TUẦN</h3>
         <table class="bxh-table">
             <thead><tr><th width="20%">Hạng</th><th width="50%">Lớp</th><th width="30%">Điểm</th></tr></thead>
             <tbody id="bxh-body"></tbody>
@@ -81,12 +77,14 @@
     <div id="input-area" class="card" style="display:none">
         <h3 id="current-lop-label" style="text-align:center; color:var(--p); margin:0 0 15px 0; font-size:1.1rem;"></h3>
         
-        <div id="error-list">
+        <input type="text" class="search-box" id="search-loi" placeholder="🔍 Tìm nhanh tên lỗi..." onkeyup="filterLoi()">
+
+        <div class="error-container" id="error-list">
             </div>
         
-        <button class="btn-confirm" onclick="processData()">💾 XÁC NHẬN & CẬP NHẬT</button>
+        <button class="btn-confirm" onclick="updateTable()">💾 XÁC NHẬN & CẬP NHẬT BẢNG</button>
 
-        <h3 style="margin: 25px 0 10px 0; font-size: 0.85rem; color:#555;">📊 CHI TIẾT VI PHẠM (Bấm dòng để xóa):</h3>
+        <h3 style="margin: 25px 0 10px 0; font-size: 0.85rem; color:#555;">📊 CHI TIẾT VI PHẠM (Bấm vào dòng để xóa):</h3>
         <table class="res-table">
             <thead>
                 <tr>
@@ -99,69 +97,74 @@
             </thead>
             <tbody id="res-body"></tbody>
             <tr class="total-row">
-                <td colspan="4" style="text-align: right; border:1px solid #333;">Tổng điểm:</td>
-                <td id="total-val" style="border:1px solid #333;">0</td>
+                <td colspan="4" style="text-align: right; border: 1px solid #333;">Tổng điểm:</td>
+                <td id="total-val" style="border: 1px solid #333;">0</td>
             </tr>
         </table>
         
         <div style="text-align:center; margin-top:20px;">
-            <button onclick="resetLopData()" style="color:red; background:none; border:1px solid red; padding:5px 10px; border-radius:5px; font-size:0.7rem;">Xóa trắng bảng này</button>
+            <button onclick="clearCurrentLop()" style="color:red; background:none; border:1px solid red; padding:5px 10px; border-radius:5px; font-size:0.7rem;">Xóa trắng bảng này</button>
         </div>
     </div>
 </div>
 
 <script>
-    const PIN_CODE = "1234";
+    const PIN = "1234";
     const LOP_LIST = ['6A1','6A2','6A3','7A1','7A2','8A1','8A2','9A1','9A2'];
     
-    const ERROR_DB = [
-        { g: "KỶ LUẬT - ĐẠO ĐỨC", i: [
-            { n: "Nói tục, chửi thề", d: -10 },
-            { n: "Vô lễ với giáo viên", d: -50 },
-            { n: "Xả rác bừa bãi", d: -20 },
-            { n: "Đánh nhau", d: -50 }
-        ]},
-        { g: "TÁC PHONG - ĐỒNG PHỤC", i: [
-            { n: "Không đeo Khăn quàng/Huy hiệu", d: -5 },
-            { n: "Không bỏ áo vào quần", d: -5 },
-            { n: "Mặc sai đồng phục", d: -10 }
-        ]},
-        { g: "HỌC TẬP (VIỆC TỐT)", i: [
-            { n: "Điểm số: 10", d: 10 },
-            { n: "Phát biểu xây dựng bài", d: 5 }
-        ]}
+    // Đầy đủ bảng lỗi đã cho, không phân loại
+    const FLAT_ERRORS = [
+        { n: "Nói tục, chửi thề", d: -10 },
+        { n: "Đánh nhau", d: -50 },
+        { n: "Vô lễ với giáo viên", d: -50 },
+        { n: "Xả rác bừa bãi", d: -20 },
+        { n: "Không đeo Khăn quàng/Huy hiệu", d: -5 },
+        { n: "Không bỏ áo vào quần", d: -5 },
+        { n: "Mặc sai đồng phục", d: -10 },
+        { n: "Tóc nhuộm/sai quy định", d: -20 },
+        { n: "Đi trễ", d: -2 },
+        { n: "Không truy bài", d: -5 },
+        { n: "Ăn quà vặt", d: -10 },
+        { n: "Điểm số: 10", d: 10 },
+        { n: "Phát biểu xây dựng bài", d: 5 },
+        { n: "Tiết học loại A", d: 10 },
+        { n: "Việc tử tế", d: 20 }
     ];
 
-    let db = JSON.parse(localStorage.getItem('PHUOCAN_FINAL_DB')) || {};
+    let db = JSON.parse(localStorage.getItem('PA_SAODO_FINAL')) || {};
     let curLop = "";
 
     function checkPin() {
         let el = document.getElementById('pin-input');
-        if(el.value === PIN_CODE) {
+        if(el.value === PIN) {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
             renderBXH();
         } else if(el.value.length === 4) {
-            el.classList.add('shake');
-            setTimeout(() => { el.classList.remove('shake'); el.value = ""; }, 300);
+            el.value = "";
+            alert("Sai mật mã!");
         }
     }
 
     function init() {
         LOP_LIST.forEach(l => { if(!db[l]) db[l] = { total: 100, logs: [] }; });
         const listEl = document.getElementById('error-list');
-        ERROR_DB.forEach(group => {
-            listEl.innerHTML += `<div class="group-header">${group.g}</div>`;
-            group.i.forEach(item => {
-                const id = 'id' + Math.random().toString(36).substr(2, 5);
-                listEl.innerHTML += `
-                    <div class="loi-row">
-                        <span class="loi-name">${item.n}</span>
-                        <span class="loi-score ${item.d < 0 ? 'minus' : 'plus'}">${item.d > 0 ? '+' : ''}${item.d}</span>
-                        <input type="text" class="input-name" placeholder="Tên HS..." id="n-${id}" data-n="${item.n}" data-d="${item.d}">
-                        <input type="number" class="input-qty" value="1" min="1" id="q-${id}">
-                    </div>`;
-            });
+        FLAT_ERRORS.forEach(item => {
+            const id = 'id' + Math.random().toString(36).substr(2, 5);
+            listEl.innerHTML += `
+                <div class="loi-row" data-name="${item.n.toLowerCase()}">
+                    <span class="loi-name">${item.n}</span>
+                    <span class="loi-score ${item.d < 0 ? 'minus' : 'plus'}">${item.d > 0 ? '+' : ''}${item.d}</span>
+                    <input type="text" class="input-name" placeholder="Tên HS..." id="n-${id}" data-n="${item.n}" data-d="${item.d}">
+                    <input type="number" class="input-qty" value="1" min="1" id="q-${id}">
+                </div>`;
+        });
+    }
+
+    function filterLoi() {
+        let val = document.getElementById('search-loi').value.toLowerCase();
+        document.querySelectorAll('.loi-row').forEach(row => {
+            row.style.display = row.dataset.name.includes(val) ? 'flex' : 'none';
         });
     }
 
@@ -176,20 +179,20 @@
                 <td class="${db[l].total<100?'minus':'plus'}">${db[l].total}</td>
             </tr>`;
         });
-        localStorage.setItem('PHUOCAN_FINAL_DB', JSON.stringify(db));
+        localStorage.setItem('PA_SAODO_FINAL', JSON.stringify(db));
     }
 
     function selectLop(l) {
         curLop = l;
         document.getElementById('input-area').style.display = 'block';
-        document.getElementById('current-lop-label').innerHTML = "✏️ CHẤM ĐIỂM: " + l;
+        document.getElementById('current-lop-label').innerText = "✏️ CHẤM ĐIỂM LỚP: " + l;
         renderResultTable();
         window.scrollTo({ top: document.getElementById('input-area').offsetTop - 20, behavior: 'smooth' });
     }
 
-    function processData() {
+    function updateTable() {
         const rows = document.querySelectorAll('.loi-row');
-        let hasNew = false;
+        let hasData = false;
         rows.forEach(row => {
             const nInp = row.querySelector('.input-name');
             const qInp = row.querySelector('.input-qty');
@@ -205,10 +208,10 @@
                 });
                 db[curLop].total += (baseD * qty);
                 nInp.value = ""; qInp.value = "1";
-                hasNew = true;
+                hasData = true;
             }
         });
-        if(hasNew) { renderBXH(); renderResultTable(); alert("Đã cập nhật!"); }
+        if(hasData) { renderBXH(); renderResultTable(); alert("Đã cập nhật bảng!"); }
     }
 
     function renderResultTable() {
@@ -217,7 +220,7 @@
         let sum = 0;
         db[curLop].logs.forEach((log, i) => {
             sum += log.total;
-            body.innerHTML += `<tr onclick="removeEntry(${i})">
+            body.innerHTML += `<tr onclick="deleteRow(${i})">
                 <td style="text-align:left">${log.name}</td>
                 <td>${log.base > 0 ? '+' : ''}${log.base}</td>
                 <td style="color:var(--p)">${log.target}</td>
@@ -229,7 +232,7 @@
         document.getElementById('total-val').className = sum < 0 ? 'minus' : 'plus';
     }
 
-    function removeEntry(i) {
+    function deleteRow(i) {
         if(confirm("Xóa dòng này?")) {
             db[curLop].total -= db[curLop].logs[i].total;
             db[curLop].logs.splice(i, 1);
@@ -237,8 +240,8 @@
         }
     }
 
-    function resetLopData() {
-        if(confirm("Xóa toàn bộ dữ liệu của lớp này?")) {
+    function clearCurrentLop() {
+        if(confirm("Xóa sạch bảng chấm điểm hiện tại của lớp này?")) {
             db[curLop].logs.forEach(l => db[curLop].total -= l.total);
             db[curLop].logs = [];
             renderBXH(); renderResultTable();
