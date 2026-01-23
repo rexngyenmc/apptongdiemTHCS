@@ -14,7 +14,7 @@ body{margin:0;padding:10px;font-family:Arial;background:var(--bg)}
  position:fixed;inset:0;
  background:linear-gradient(135deg,#2563eb,#38bdf8);
  display:flex;flex-direction:column;
- justify-content:center;align-items:center;color:white
+ justify-content:center;align-items:center;color:white;z-index:9
 }
 #login input{
  width:160px;padding:14px;font-size:2rem;
@@ -27,17 +27,16 @@ body{margin:0;padding:10px;font-family:Arial;background:var(--bg)}
  box-shadow:0 4px 10px rgba(0,0,0,.08)
 }
 
-table{width:100%;border-collapse:collapse}
-th,td{padding:8px;border-bottom:1px solid #eee;text-align:center}
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th,td{border:1px solid #333;padding:6px;text-align:center}
+th{background:#f2f2f2}
 
-.search{width:100%;padding:8px;border-radius:8px;border:1px solid #ccc;margin-bottom:8px}
-
-input.name{width:100%;padding:6px}
-input.qty{width:45px;text-align:center}
+input.name{width:100%;padding:5px}
+input.qty{width:50px;text-align:center}
 
 button{
  width:100%;padding:12px;border:none;border-radius:10px;
- background:#2563eb;color:white;font-weight:bold
+ background:#2563eb;color:white;font-weight:bold;margin-top:8px
 }
 
 .minus{color:#dc2626;font-weight:bold}
@@ -47,6 +46,7 @@ button{
 
 <body>
 
+<!-- LOGIN -->
 <div id="login">
  <h2>🔐 MẬT MÃ SAO ĐỎ</h2>
  <input id="pin" type="password" maxlength="4" placeholder="••••">
@@ -54,6 +54,7 @@ button{
 
 <div id="app" style="display:none">
 
+<!-- BXH -->
 <div class="card">
 <h3>🏆 BẢNG XẾP HẠNG</h3>
 <table>
@@ -62,30 +63,28 @@ button{
 </table>
 </div>
 
+<!-- NHẬP LIỆU -->
 <div id="panel" class="card" style="display:none">
 <h3 id="lopTitle"></h3>
 
-<input class="search" id="search" placeholder="Tìm lỗi...">
-
 <table>
 <thead>
-<tr><th>Nội dung</th><th>Điểm</th><th>HS</th><th>SL</th></tr>
+<tr>
+ <th>Nội dung</th>
+ <th>Biểu điểm</th>
+ <th>Việc làm tốt / không tốt</th>
+ <th>Số lần</th>
+ <th>Điểm</th>
+</tr>
 </thead>
-<tbody id="loiList"></tbody>
+<tbody id="inputBody"></tbody>
+<tr>
+ <td colspan="4" style="text-align:right">Tổng:</td>
+ <td id="tong">0</td>
+</tr>
 </table>
 
-<button onclick="addLoi()">XÁC NHẬN</button>
-
-<h4>CHI TIẾT</h4>
-<table>
-<thead>
-<tr><th>Nội dung</th><th>HS</th><th>SL</th><th>Điểm</th></tr>
-</thead>
-<tbody id="logList"></tbody>
-<tr><td colspan="3">Tổng</td><td id="tong">0</td></tr>
-</table>
-
-<button style="background:#dc2626" onclick="resetLop()">XÓA LỚP</button>
+<button onclick="saveData()">💾 LƯU VÀO LỚP</button>
 </div>
 
 </div>
@@ -96,36 +95,37 @@ const PIN="1234";
 const LOPS=["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
 
 const LOIS=[
- {n:"Không đeo khăn quàng",d:-5},
+ {n:"Không đeo Khăn quàng/Huy hiệu",d:-5},
  {n:"Không bỏ áo vào quần",d:-5},
  {n:"Đi trễ",d:-2},
- {n:"Nói tục",d:-10},
+ {n:"Nói tục, chửi thề",d:-10},
  {n:"Đánh nhau",d:-10},
- {n:"Không làm bài",d:-10},
- {n:"Điểm 10",d:10},
- {n:"Nhặt của rơi trả lại",d:5},
+ {n:"Không làm bài tập",d:-10},
+ {n:"Điểm số: 10",d:10},
+ {n:"Nhặt được của rơi trả lại",d:5},
 ];
 
 // ===== BIẾN =====
-let db=JSON.parse(localStorage.getItem("SAODO"))||{};
+let db=JSON.parse(localStorage.getItem("SAODO_V2"))||{};
 let cur="";
 
-// ===== PIN =====
-pin.oninput=()=>{
- if(pin.value===PIN){
+// ===== LOGIN =====
+document.getElementById("pin").addEventListener("input",()=>{
+ let v=pin.value;
+ if(v===PIN){
   login.style.display="none";
   app.style.display="block";
   init();
- }else if(pin.value.length===4){
+ }else if(v.length===4){
   alert("Sai PIN"); pin.value="";
  }
-};
+});
 
 // ===== KHỞI TẠO =====
 function init(){
  LOPS.forEach(l=>{ if(!db[l]) db[l]={total:100,logs:[]}; });
  renderBXH();
- renderLoi();
+ renderInput();
 }
 
 // ===== BXH =====
@@ -138,7 +138,7 @@ function renderBXH(){
 <td class="${db[l].total<100?'minus':'plus'}">${db[l].total}</td>
 </tr>`;
  });
- localStorage.setItem("SAODO",JSON.stringify(db));
+ localStorage.setItem("SAODO_V2",JSON.stringify(db));
 }
 
 // ===== CHỌN LỚP =====
@@ -146,70 +146,62 @@ function chonLop(l){
  cur=l;
  panel.style.display="block";
  lopTitle.innerText="CHẤM ĐIỂM LỚP "+l;
- renderLog();
+ resetInput();
 }
 
-// ===== DANH SÁCH LỖI =====
-function renderLoi(){
- loiList.innerHTML="";
+// ===== TẠO BẢNG NHẬP =====
+function renderInput(){
+ inputBody.innerHTML="";
  LOIS.forEach((e,i)=>{
-  loiList.innerHTML+=`
+  inputBody.innerHTML+=`
 <tr>
-<td>${e.n}</td>
+<td style="text-align:left">${e.n}</td>
 <td class="${e.d<0?'minus':'plus'}">${e.d}</td>
-<td><input class="name" id="n${i}"></td>
-<td><input class="qty" id="q${i}" type="number" value="1" min="1"></td>
+<td><input class="name" id="n${i}" placeholder="Tên HS..."></td>
+<td><input class="qty" id="q${i}" type="number" value="1" min="1" oninput="calc()"></td>
+<td id="s${i}">0</td>
 </tr>`;
  });
 }
 
-// ===== THÊM LỖI =====
-function addLoi(){
+// ===== RESET FORM =====
+function resetInput(){
+ LOIS.forEach((_,i)=>{
+  document.getElementById("n"+i).value="";
+  document.getElementById("q"+i).value=1;
+  document.getElementById("s"+i).innerText=0;
+ });
+ document.getElementById("tong").innerText=0;
+}
+
+// ===== TÍNH ĐIỂM =====
+function calc(){
+ let t=0;
+ LOIS.forEach((e,i)=>{
+  let sl=parseInt(document.getElementById("q"+i).value)||0;
+  let diem=e.d*sl;
+  document.getElementById("s"+i).innerText=diem;
+  t+=diem;
+ });
+ document.getElementById("tong").innerText=t;
+}
+
+// ===== LƯU =====
+function saveData(){
  LOIS.forEach((e,i)=>{
   let name=document.getElementById("n"+i).value.trim();
-  let sl=parseInt(document.getElementById("q"+i).value)||1;
-  if(name){
+  let sl=parseInt(document.getElementById("q"+i).value)||0;
+  if(name && sl>0){
    let diem=e.d*sl;
    db[cur].logs.push({n:e.n,hs:name,sl,diem});
    db[cur].total+=diem;
-   document.getElementById("n"+i).value="";
-   document.getElementById("q"+i).value=1;
   }
  });
- renderBXH(); renderLog();
-}
-
-// ===== CHI TIẾT =====
-function renderLog(){
- logList.innerHTML="";
- let t=0;
- db[cur].logs.forEach((l,i)=>{
-  t+=l.diem;
-  logList.innerHTML+=`
-<tr onclick="xoa(${i})">
-<td>${l.n}</td><td>${l.hs}</td><td>${l.sl}</td>
-<td class="${l.diem<0?'minus':'plus'}">${l.diem}</td>
-</tr>`;
- });
- tong.innerText=t;
-}
-
-// ===== XÓA DÒNG =====
-function xoa(i){
- if(confirm("Xóa dòng này?")){
-  db[cur].total-=db[cur].logs[i].diem;
-  db[cur].logs.splice(i,1);
-  renderBXH(); renderLog();
- }
-}
-
-// ===== RESET LỚP =====
-function resetLop(){
- if(confirm("Xóa toàn bộ điểm lớp này?")){
-  db[cur]={total:100,logs:[]};
-  renderBXH(); renderLog();
- }
+ renderBXH();
+ resetInput();
+ alert("Đã lưu vào lớp "+cur);
 }
 </script>
+
 </body>
 </html>
