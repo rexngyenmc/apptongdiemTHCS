@@ -6,45 +6,58 @@
 <title>SAO ĐỎ PHƯỚC AN</title>
 
 <style>
-:root{--p:#2563eb;--s:#16a34a;--a:#dc2626;--bg:#f1f5f9}
+:root{
+ --p:#2563eb; --s:#16a34a; --a:#dc2626; --bg:#f1f5f9;
+}
 *{box-sizing:border-box}
 body{margin:0;padding:10px;font-family:Arial;background:var(--bg)}
 
 #login{
- position:fixed;inset:0;
+ position:fixed; inset:0;
  background:linear-gradient(135deg,#2563eb,#38bdf8);
- display:flex;flex-direction:column;
- justify-content:center;align-items:center;color:white;z-index:9
+ display:flex;flex-direction:column;justify-content:center;align-items:center;
+ color:white; z-index:10;
 }
 #login input{
- width:160px;padding:14px;font-size:2rem;
- border:none;border-radius:12px;text-align:center
+ width:170px;padding:14px;font-size:2rem;
+ border:none;border-radius:14px;text-align:center;
 }
 
+h2,h3{text-align:center;color:#1e40af}
+
 .card{
- background:white;border-radius:14px;
+ background:white;border-radius:16px;
  padding:12px;margin-bottom:12px;
- box-shadow:0 4px 10px rgba(0,0,0,.08)
+ box-shadow:0 6px 14px rgba(0,0,0,.1);
+ animation:fade .3s ease;
 }
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
 
 table{width:100%;border-collapse:collapse;font-size:.8rem}
 th,td{border:1px solid #333;padding:6px;text-align:center}
 th{background:#f2f2f2}
 
-input.name{width:100%;padding:5px}
-input.qty{width:50px;text-align:center}
+input.name{width:100%;padding:6px;border:1px solid #aaa;border-radius:6px}
+input.qty{width:50px;padding:6px;border:1px solid #aaa;border-radius:6px;text-align:center}
 
 button{
- width:100%;padding:12px;border:none;border-radius:10px;
- background:#2563eb;color:white;font-weight:bold;margin-top:8px
+ width:100%;padding:12px;border:none;border-radius:12px;
+ background:linear-gradient(135deg,#2563eb,#38bdf8);
+ color:white;font-weight:bold;margin-top:8px;
+ transition:.15s;
 }
+button:active{transform:scale(.95)}
 
-.minus{color:#dc2626;font-weight:bold}
-.plus{color:#16a34a;font-weight:bold}
+.minus{color:var(--a);font-weight:bold}
+.plus{color:var(--s);font-weight:bold}
 </style>
 </head>
 
 <body>
+
+<!-- ÂM THANH -->
+<audio id="clickSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<audio id="saveSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
 
 <!-- LOGIN -->
 <div id="login">
@@ -84,12 +97,16 @@ button{
 </tr>
 </table>
 
-<button onclick="saveData()">💾 LƯU VÀO LỚP</button>
+<button onclick="playSave(); saveData()">💾 LƯU VÀO LỚP</button>
 </div>
 
 </div>
 
 <script>
+// ===== ÂM THANH =====
+function playClick(){ document.getElementById("clickSound").play(); }
+function playSave(){ document.getElementById("saveSound").play(); }
+
 // ===== CẤU HÌNH =====
 const PIN="1234";
 const LOPS=["6A1","6A2","6A3","7A1","7A2","8A1","8A2","9A1","9A2"];
@@ -106,11 +123,11 @@ const LOIS=[
 ];
 
 // ===== BIẾN =====
-let db=JSON.parse(localStorage.getItem("SAODO_V2"))||{};
+let db=JSON.parse(localStorage.getItem("SAODO_FULL"))||{};
 let cur="";
 
 // ===== LOGIN =====
-document.getElementById("pin").addEventListener("input",()=>{
+pin.addEventListener("input",()=>{
  let v=pin.value;
  if(v===PIN){
   login.style.display="none";
@@ -133,12 +150,12 @@ function renderBXH(){
  bxh.innerHTML="";
  [...LOPS].sort((a,b)=>db[b].total-db[a].total).forEach((l,i)=>{
   bxh.innerHTML+=`
-<tr onclick="chonLop('${l}')">
+<tr onclick="playClick(); chonLop('${l}')">
 <td>${i+1}</td><td>${l}</td>
 <td class="${db[l].total<100?'minus':'plus'}">${db[l].total}</td>
 </tr>`;
  });
- localStorage.setItem("SAODO_V2",JSON.stringify(db));
+ localStorage.setItem("SAODO_FULL",JSON.stringify(db));
 }
 
 // ===== CHỌN LỚP =====
@@ -149,7 +166,7 @@ function chonLop(l){
  resetInput();
 }
 
-// ===== TẠO BẢNG NHẬP =====
+// ===== TẠO BẢNG =====
 function renderInput(){
  inputBody.innerHTML="";
  LOIS.forEach((e,i)=>{
@@ -164,17 +181,17 @@ function renderInput(){
  });
 }
 
-// ===== RESET FORM =====
+// ===== RESET =====
 function resetInput(){
  LOIS.forEach((_,i)=>{
   document.getElementById("n"+i).value="";
   document.getElementById("q"+i).value=1;
   document.getElementById("s"+i).innerText=0;
  });
- document.getElementById("tong").innerText=0;
+ tong.innerText=0;
 }
 
-// ===== TÍNH ĐIỂM =====
+// ===== TÍNH =====
 function calc(){
  let t=0;
  LOIS.forEach((e,i)=>{
@@ -183,7 +200,7 @@ function calc(){
   document.getElementById("s"+i).innerText=diem;
   t+=diem;
  });
- document.getElementById("tong").innerText=t;
+ tong.innerText=t;
 }
 
 // ===== LƯU =====
@@ -199,7 +216,7 @@ function saveData(){
  });
  renderBXH();
  resetInput();
- alert("Đã lưu vào lớp "+cur);
+ alert("Đã lưu cho lớp "+cur);
 }
 </script>
 
