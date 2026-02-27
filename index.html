@@ -3,199 +3,236 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAO ĐỎ PRO</title>
+<title>TH & THCS PHƯỚC AN - SAO ĐỎ</title>
 
 <style>
 :root{
-    --bg:#0f172a;
-    --card:#1e293b;
-    --blue:#3b82f6;
-    --red:#ef4444;
-    --green:#22c55e;
+--bg:#0f172a;
+--card:#1e293b;
+--blue:#3b82f6;
+--red:#ef4444;
+--green:#22c55e;
 }
 
+*{box-sizing:border-box}
 body{
-    margin:0;
-    font-family:Segoe UI, sans-serif;
-    background:var(--bg);
-    color:white;
-    display:flex;
+margin:0;
+font-family:Segoe UI,sans-serif;
+background:var(--bg);
+color:white;
 }
 
-/* SIDEBAR */
-.sidebar{
-    width:230px;
-    background:#0b1220;
-    padding:20px;
-    min-height:100vh;
+/* LOGIN */
+#login{
+position:fixed;
+inset:0;
+background:linear-gradient(135deg,#1e3a8a,#2563eb);
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:10;
 }
 
-.sidebar h3{
-    margin-top:0;
+#login input{
+padding:15px;
+font-size:22px;
+border-radius:10px;
+border:none;
+text-align:center;
 }
 
-.class-btn{
-    width:100%;
-    padding:10px;
-    margin-bottom:8px;
-    background:#1e293b;
-    border:none;
-    color:white;
-    border-radius:8px;
-    cursor:pointer;
-    transition:0.2s;
-}
-
-.class-btn:hover{
-    background:var(--blue);
-}
-
-/* MAIN */
-.main{
-    flex:1;
-    padding:20px;
-}
+/* APP */
+#app{display:none;padding:15px;}
 
 .topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+margin-bottom:15px;
 }
 
-.score-box{
-    background:var(--card);
-    padding:10px 15px;
-    border-radius:10px;
-    font-size:18px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
+.menu button{
+margin-right:10px;
+padding:10px 15px;
+border:none;
+border-radius:8px;
+background:var(--blue);
+color:white;
+cursor:pointer;
 }
 
 .card{
-    background:var(--card);
-    padding:15px;
-    border-radius:15px;
+background:var(--card);
+padding:15px;
+border-radius:15px;
+margin-bottom:20px;
+animation:fade 0.3s ease;
 }
 
-.item{
-    background:#0f172a;
-    padding:10px;
-    border-radius:8px;
-    margin-bottom:10px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    cursor:pointer;
-    transition:0.2s;
+@keyframes fade{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
 }
 
-.item:hover{
-    transform:scale(1.02);
+table{
+width:100%;
+border-collapse:collapse;
+font-size:14px;
 }
 
-.minus{color:var(--red);}
-.plus{color:var(--green);}
+th,td{
+border:1px solid #334155;
+padding:8px;
+text-align:center;
+}
 
-/* MOBILE */
-@media(max-width:900px){
-    body{flex-direction:column;}
-    .sidebar{width:100%; min-height:auto; display:flex; flex-wrap:wrap;}
-    .class-btn{flex:1 1 30%;}
-    .grid{grid-template-columns:1fr;}
+input{
+width:100%;
+padding:6px;
+border-radius:6px;
+border:none;
+}
+
+.minus{color:var(--red)}
+.plus{color:var(--green)}
+
+.class-select{
+margin-bottom:10px;
+padding:8px;
+border-radius:8px;
+}
+
+@media(max-width:768px){
+table{font-size:12px}
 }
 </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <h3>LỚP</h3>
-    <div id="classList"></div>
+<div id="login">
+<h2>SAO ĐỎ PHƯỚC AN</h2>
+<input type="password" id="pin" placeholder="Nhập PIN">
 </div>
 
-<div class="main">
-    <div class="topbar">
-        <h2 id="lopTitle">Chọn lớp</h2>
-        <div class="score-box">Tổng: <span id="tongDiem">0</span></div>
-    </div>
+<div id="app">
 
-    <div class="grid">
-        <div class="card">
-            <h3 class="minus">Vi phạm (Trừ điểm)</h3>
-            <div id="viPham"></div>
-        </div>
+<div class="topbar">
+<h2>TH & THCS PHƯỚC AN</h2>
+<div class="menu">
+<button onclick="showRank()">Bảng xếp hạng</button>
+<button onclick="showScore()">Sổ tính điểm</button>
+</div>
+</div>
 
-        <div class="card">
-            <h3 class="plus">Tích cực (Cộng điểm)</h3>
-            <div id="tichCuc"></div>
-        </div>
-    </div>
+<div id="rankView" class="card"></div>
+<div id="scoreView" class="card" style="display:none"></div>
+
 </div>
 
 <script>
-const LOPS=["6A","6B","7A","7B","8A","8B","9A","9B"];
-const DATA=JSON.parse(localStorage.getItem("SAODO_V2"))||{};
-let lopHienTai="";
+const PIN="1234";
 
-const DANH_SACH=[
-{n:"Đi học muộn",d:-3},
-{n:"Nghỉ không phép",d:-5},
-{n:"Đánh nhau",d:-10},
-{n:"Không làm bài",d:-3},
-{n:"Phát biểu xây dựng bài",d:3},
-{n:"Đạt điểm 10",d:10},
-{n:"Hoàn thành tốt nhiệm vụ",d:5}
+const LOPS=["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
+
+const LOIS=[
+{n:"Không đeo Khăn quàng/Huy hiệu",d:-5},
+{n:"Không bỏ áo vào quần",d:-5},
+{n:"Đi trễ",d:-2},
+{n:"Nói tục, chửi thề",d:-10},
+{n:"Đánh nhau",d:-50},
+{n:"Xả rác bừa bãi",d:-20},
+{n:"Điểm 10",d:10},
+{n:"Phát biểu xây dựng bài",d:5}
 ];
 
-LOPS.forEach(l=>{
-    if(!DATA[l]) DATA[l]={total:100};
+let DB=JSON.parse(localStorage.getItem("PHUOCAN_DB"))||{};
+LOPS.forEach(l=>{if(!DB[l])DB[l]={total:100,logs:[]}});
+
+document.getElementById("pin").addEventListener("input",function(){
+if(this.value===PIN){
+login.style.display="none";
+app.style.display="block";
+renderRank();
+renderScore();
+}
 });
 
-function renderClasses(){
-    const box=document.getElementById("classList");
-    box.innerHTML="";
-    LOPS.forEach(l=>{
-        box.innerHTML+=`<button class="class-btn" onclick="chonLop('${l}')">
-        ${l} (${DATA[l].total})
-        </button>`;
-    });
+function showRank(){
+rankView.style.display="block";
+scoreView.style.display="none";
 }
 
-function chonLop(l){
-    lopHienTai=l;
-    document.getElementById("lopTitle").innerText="Lớp "+l;
-    document.getElementById("tongDiem").innerText=DATA[l].total;
+function showScore(){
+rankView.style.display="none";
+scoreView.style.display="block";
 }
 
-function renderItems(){
-    const vp=document.getElementById("viPham");
-    const tc=document.getElementById("tichCuc");
-    vp.innerHTML=""; tc.innerHTML="";
-    DANH_SACH.forEach(item=>{
-        const html=`<div class="item ${item.d<0?'minus':'plus'}"
-        onclick="capNhatDiem(${item.d})">
-        <span>${item.n}</span>
-        <b>${item.d>0?'+':''}${item.d}</b>
-        </div>`;
-        if(item.d<0) vp.innerHTML+=html;
-        else tc.innerHTML+=html;
-    });
+function renderRank(){
+let html="<h3>BẢNG XẾP HẠNG</h3><table><tr><th>Hạng</th><th>Lớp</th><th>Tổng điểm</th></tr>";
+[...LOPS].sort((a,b)=>DB[b].total-DB[a].total)
+.forEach((l,i)=>{
+html+=`<tr><td>${i+1}</td><td>${l}</td><td class="${DB[l].total<100?'minus':'plus'}">${DB[l].total}</td></tr>`;
+});
+html+="</table>";
+rankView.innerHTML=html;
+localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
 }
 
-function capNhatDiem(d){
-    if(!lopHienTai){alert("Chọn lớp trước!");return;}
-    DATA[lopHienTai].total+=d;
-    document.getElementById("tongDiem").innerText=DATA[lopHienTai].total;
-    localStorage.setItem("SAODO_V2",JSON.stringify(DATA));
-    renderClasses();
+function renderScore(){
+let html=`<h3>SỔ TÍNH ĐIỂM</h3>
+<select class="class-select" id="lopSelect">
+${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}
+</select>
+<table>
+<tr>
+<th>Nội dung</th>
+<th>Biểu điểm</th>
+<th>Tên người</th>
+<th>Số lần</th>
+<th>Điểm</th>
+</tr>`;
+
+LOIS.forEach((loi,i)=>{
+html+=`
+<tr>
+<td>${loi.n}</td>
+<td class="${loi.d<0?'minus':'plus'}">${loi.d>0?'+':''}${loi.d}</td>
+<td><input id="ten${i}"></td>
+<td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
+<td id="diem${i}">0</td>
+</tr>`;
+});
+
+html+=`<tr>
+<td colspan="4"><b>Tổng phiên</b></td>
+<td id="tongPhien">0</td>
+</tr>
+</table>
+<button onclick="save()">Lưu cuối tuần</button>`;
+
+scoreView.innerHTML=html;
 }
 
-renderClasses();
-renderItems();
+function calc(){
+let tong=0;
+LOIS.forEach((loi,i)=>{
+let sl=parseInt(document.getElementById("sl"+i).value)||0;
+let diem=sl*loi.d;
+document.getElementById("diem"+i).innerText=diem>0?`+${diem}`:diem;
+tong+=diem;
+});
+document.getElementById("tongPhien").innerText=tong>0?`+${tong}`:tong;
+}
+
+function save(){
+let lop=document.getElementById("lopSelect").value;
+let tong=parseInt(document.getElementById("tongPhien").innerText)||0;
+DB[lop].total+=tong;
+renderRank();
+alert("Đã cộng vào tổng lớp "+lop);
+}
 </script>
 
 </body>
