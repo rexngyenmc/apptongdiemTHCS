@@ -137,16 +137,61 @@ const PIN="1234";
 const LOPS=["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
 
 const LOIS=[
-{n:"Không đeo Khăn quàng/Huy hiệu",d:-5},
-{n:"Không bỏ áo vào quần",d:-5},
-{n:"Đi trễ",d:-2},
-{n:"Nói tục, chửi thề",d:-10},
-{n:"Đánh nhau",d:-50},
-{n:"Xả rác bừa bãi",d:-20},
-{n:"Điểm 10",d:10},
-{n:"Phát biểu xây dựng bài",d:5}
-];
+const thiDua = [
 
+  // ===== TRANG PHỤC - TÁC PHONG =====
+  { n: "Không đeo khăn quàng hoặc không đeo huy hiệu Đoàn", d: -5 },
+  { n: "Không bỏ áo vào quần (không tác phong)", d: -5 },
+  { n: "Mặc áo khoác trong trường (trừ trời lạnh/ốm)", d: -5 },
+  { n: "Đồng phục không đúng quy định", d: -5 },
+  { n: "Đi dép lê", d: -5 },
+  { n: "Tóc dài, không gọn gàng (nam)", d: -5 },
+  { n: "Nhuộm tóc, đánh phấn, sơn móng", d: -10 },
+
+  // ===== NỀ NẾP =====
+  { n: "Đi trễ", d: -2 },
+  { n: "Vắng không phép", d: -5 },
+  { n: "Trốn tiết", d: -10 },
+  { n: "Nói chuyện riêng trong giờ", d: -5 },
+  { n: "Không sinh hoạt 15 phút đầu giờ", d: -5 },
+  { n: "Không tập thể dục giữa giờ", d: -5 },
+  { n: "Ra khỏi cổng trường không phép", d: -10 },
+
+  // ===== ỨNG XỬ - KỶ LUẬT =====
+  { n: "Nói tục, chửi thề", d: -10 },
+  { n: "Vô lễ với giáo viên", d: -50 },
+  { n: "Đánh nhau", d: -50 },
+  { n: "Xả rác bừa bãi", d: -20 },
+  { n: "Ăn quà trong lớp", d: -10 },
+  { n: "Hút thuốc", d: -30 },
+
+  // ===== CƠ SỞ VẬT CHẤT =====
+  { n: "Làm hư hỏng bàn ghế", d: -20 },
+  { n: "Viết vẽ bậy lên bàn ghế, tường", d: -10 },
+  { n: "Không trực nhật", d: -10 },
+  { n: "Không đổ rác đúng nơi quy định", d: -10 },
+
+  // ===== HỌC TẬP =====
+  { n: "Không thuộc bài", d: -10 },
+  { n: "Không làm bài tập", d: -10 },
+  { n: "Điểm 0-3", d: -10 },
+  { n: "Điểm 4", d: -5 },
+  { n: "Điểm 7", d: 5 },
+  { n: "Điểm 8-9", d: 7 },
+  { n: "Điểm 10", d: 10 },
+
+  // ===== PHONG TRÀO - CỘNG ĐIỂM =====
+  { n: "Phát biểu xây dựng bài", d: 5 },
+  { n: "Tham gia phong trào", d: 10 },
+  { n: "Đạt giải phong trào cấp trường", d: 30 },
+  { n: "Đạt giải cấp huyện/tỉnh", d: 50 },
+
+  // ===== TRỰC TUẦN =====
+  { n: "Không tham gia trực tuần", d: -20 },
+  { n: "Sao đỏ báo cáo tốt", d: 10 },
+  { n: "Sao đỏ không trung thực", d: -20 }
+
+];
 let DB=JSON.parse(localStorage.getItem("PHUOCAN_DB"))||{};
 LOPS.forEach(l=>{if(!DB[l])DB[l]={total:100,logs:[]}});
 
