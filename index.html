@@ -13,7 +13,6 @@
 --red:#ef4444;
 --green:#22c55e;
 }
-
 *{box-sizing:border-box}
 body{
 margin:0;
@@ -21,8 +20,6 @@ font-family:Segoe UI,sans-serif;
 background:var(--bg);
 color:white;
 }
-
-/* LOGIN */
 #login{
 position:fixed;
 inset:0;
@@ -33,7 +30,6 @@ align-items:center;
 flex-direction:column;
 z-index:10;
 }
-
 #login input{
 padding:15px;
 font-size:22px;
@@ -41,10 +37,7 @@ border-radius:10px;
 border:none;
 text-align:center;
 }
-
-/* APP */
 #app{display:none;padding:15px;}
-
 .topbar{
 display:flex;
 justify-content:space-between;
@@ -52,7 +45,6 @@ align-items:center;
 flex-wrap:wrap;
 margin-bottom:15px;
 }
-
 .menu button{
 margin-right:10px;
 padding:10px 15px;
@@ -62,7 +54,6 @@ background:var(--blue);
 color:white;
 cursor:pointer;
 }
-
 .card{
 background:var(--card);
 padding:15px;
@@ -70,42 +61,32 @@ border-radius:15px;
 margin-bottom:20px;
 animation:fade 0.3s ease;
 }
-
 @keyframes fade{
 from{opacity:0;transform:translateY(10px)}
 to{opacity:1;transform:translateY(0)}
 }
-
 table{
 width:100%;
 border-collapse:collapse;
 font-size:14px;
 }
-
 th,td{
 border:1px solid #334155;
 padding:8px;
 text-align:center;
 }
-
 input{
 width:100%;
 padding:6px;
 border-radius:6px;
 border:none;
 }
-
 .minus{color:var(--red)}
 .plus{color:var(--green)}
-
 .class-select{
 margin-bottom:10px;
 padding:8px;
 border-radius:8px;
-}
-
-@media(max-width:768px){
-table{font-size:12px}
 }
 </style>
 </head>
@@ -117,7 +98,6 @@ table{font-size:12px}
 </div>
 
 <div id="app">
-
 <div class="topbar">
 <h2>TH & THCS PHƯỚC AN</h2>
 <div class="menu">
@@ -128,7 +108,6 @@ table{font-size:12px}
 
 <div id="rankView" class="card"></div>
 <div id="scoreView" class="card" style="display:none"></div>
-
 </div>
 
 <script>
@@ -137,62 +116,33 @@ const PIN="1234";
 const LOPS=["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
 
 const LOIS=[
-const thiDua = 
-  // ===== TRANG PHỤC - TÁC PHONG =====
-  { n: "Không đeo khăn quàng hoặc không đeo huy hiệu Đoàn", d: -5 },
-  { n: "Không bỏ áo vào quần (không tác phong)", d: -5 },
-  { n: "Mặc áo khoác trong trường (trừ trời lạnh/ốm)", d: -5 },
-  { n: "Đồng phục không đúng quy định", d: -5 },
-  { n: "Đi dép lê", d: -5 },
-  { n: "Tóc dài, không gọn gàng (nam)", d: -5 },
-  { n: "Nhuộm tóc, đánh phấn, sơn móng", d: -10 },
-
-  // ===== NỀ NẾP =====
-  { n: "Đi trễ", d: -2 },
-  { n: "Vắng không phép", d: -5 },
-  { n: "Trốn tiết", d: -10 },
-  { n: "Nói chuyện riêng trong giờ", d: -5 },
-  { n: "Không sinh hoạt 15 phút đầu giờ", d: -5 },
-  { n: "Không tập thể dục giữa giờ", d: -5 },
-  { n: "Ra khỏi cổng trường không phép", d: -10 },
-
-  // ===== ỨNG XỬ - KỶ LUẬT =====
-  { n: "Nói tục, chửi thề", d: -10 },
-  { n: "Vô lễ với giáo viên", d: -50 },
-  { n: "Đánh nhau", d: -50 },
-  { n: "Xả rác bừa bãi", d: -20 },
-  { n: "Ăn quà trong lớp", d: -10 },
-  { n: "Hút thuốc", d: -30 },
-
-  // ===== CƠ SỞ VẬT CHẤT =====
-  { n: "Làm hư hỏng bàn ghế", d: -20 },
-  { n: "Viết vẽ bậy lên bàn ghế, tường", d: -10 },
-  { n: "Không trực nhật", d: -10 },
-  { n: "Không đổ rác đúng nơi quy định", d: -10 },
-
-  // ===== HỌC TẬP =====
-  { n: "Không thuộc bài", d: -10 },
-  { n: "Không làm bài tập", d: -10 },
-  { n: "Điểm 0-3", d: -10 },
-  { n: "Điểm 4", d: -5 },
-  { n: "Điểm 7", d: 5 },
-  { n: "Điểm 8-9", d: 7 },
-  { n: "Điểm 10", d: 10 },
-
-  // ===== PHONG TRÀO - CỘNG ĐIỂM =====
-  { n: "Phát biểu xây dựng bài", d: 5 },
-  { n: "Tham gia phong trào", d: 10 },
-  { n: "Đạt giải phong trào cấp trường", d: 30 },
-  { n: "Đạt giải cấp huyện/tỉnh", d: 50 },
-
-  // ===== TRỰC TUẦN =====
-  { n: "Không tham gia trực tuần", d: -20 },
-  { n: "Sao đỏ báo cáo tốt", d: 10 },
-  { n: "Sao đỏ không trung thực", d: -20 }
-
+{ n:"Không đeo khăn quàng hoặc huy hiệu", d:-5 },
+{ n:"Không bỏ áo vào quần", d:-5 },
+{ n:"Đi trễ", d:-2 },
+{ n:"Vắng không phép", d:-5 },
+{ n:"Nói tục", d:-10 },
+{ n:"Đánh nhau", d:-50 },
+{ n:"Xả rác", d:-20 },
+{ n:"Không trực nhật", d:-10 },
+{ n:"Không thuộc bài", d:-10 },
+{ n:"Điểm 7", d:5 },
+{ n:"Điểm 8-9", d:7 },
+{ n:"Điểm 10", d:10 },
+{ n:"Tham gia phong trào", d:10 }
 ];
-let DB=JSON.parse(localStorage.getItem("PHUOCAN_DB"))||{};
-LOPS.forEach(l=>{if(!DB[l])DB[l]={total:100,logs:[]}});
+
+let DB = JSON.parse(localStorage.getItem("PHUOCAN_DB")) || {};
+
+LOPS.forEach(l=>{
+if(!DB[l]){
+DB[l]={
+total:100,
+weeks:[],
+months:[],
+years:[]
+};
+}
+});
 
 document.getElementById("pin").addEventListener("input",function(){
 if(this.value===PIN){
@@ -217,7 +167,11 @@ function renderRank(){
 let html="<h3>BẢNG XẾP HẠNG</h3><table><tr><th>Hạng</th><th>Lớp</th><th>Tổng điểm</th></tr>";
 [...LOPS].sort((a,b)=>DB[b].total-DB[a].total)
 .forEach((l,i)=>{
-html+=`<tr><td>${i+1}</td><td>${l}</td><td class="${DB[l].total<100?'minus':'plus'}">${DB[l].total}</td></tr>`;
+html+=`<tr>
+<td>${i+1}</td>
+<td>${l}</td>
+<td class="${DB[l].total<100?'minus':'plus'}">${DB[l].total}</td>
+</tr>`;
 });
 html+="</table>";
 rankView.innerHTML=html;
@@ -233,7 +187,6 @@ ${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}
 <tr>
 <th>Nội dung</th>
 <th>Biểu điểm</th>
-<th>Tên người</th>
 <th>Số lần</th>
 <th>Điểm</th>
 </tr>`;
@@ -243,14 +196,13 @@ html+=`
 <tr>
 <td>${loi.n}</td>
 <td class="${loi.d<0?'minus':'plus'}">${loi.d>0?'+':''}${loi.d}</td>
-<td><input id="ten${i}"></td>
 <td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
 <td id="diem${i}">0</td>
 </tr>`;
 });
 
 html+=`<tr>
-<td colspan="4"><b>Tổng phiên</b></td>
+<td colspan="3"><b>Tổng phiên</b></td>
 <td id="tongPhien">0</td>
 </tr>
 </table>
@@ -273,163 +225,30 @@ document.getElementById("tongPhien").innerText=tong>0?`+${tong}`:tong;
 function save(){
 let lop=document.getElementById("lopSelect").value;
 let tong=parseInt(document.getElementById("tongPhien").innerText)||0;
+
 DB[lop].total+=tong;
+
+// Lưu tuần
+DB[lop].weeks.push(tong);
+
+// Đủ 4 tuần -> tạo tháng
+if(DB[lop].weeks.length===4){
+let tongThang=DB[lop].weeks.reduce((a,b)=>a+b,0);
+DB[lop].months.push(tongThang);
+DB[lop].weeks=[];
+}
+
+// Đủ 12 tháng -> tạo năm
+if(DB[lop].months.length===12){
+let tongNam=DB[lop].months.reduce((a,b)=>a+b,0);
+DB[lop].years.push(tongNam);
+DB[lop].months=[];
+}
+
+localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
+
 renderRank();
-alert("Đã cộng vào tổng lớp "+lop);
-}
-</script><script>
-const PIN="1234";
-
-const LOPS=["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
-
-const LOIS = [
-  // ===== TRANG PHỤC - TÁC PHONG =====
-  { n: "Không đeo khăn quàng hoặc huy hiệu", d: -5 },
-  { n: "Không bỏ áo vào quần", d: -5 },
-  { n: "Mặc áo khoác trong trường", d: -5 },
-  { n: "Đồng phục không đúng quy định", d: -5 },
-  { n: "Đi dép lê", d: -5 },
-  { n: "Tóc không gọn gàng", d: -5 },
-  { n: "Nhuộm tóc / sơn móng", d: -10 },
-
-  // ===== NỀ NẾP =====
-  { n: "Đi trễ", d: -2 },
-  { n: "Vắng không phép", d: -5 },
-  { n: "Trốn tiết", d: -10 },
-  { n: "Nói chuyện riêng", d: -5 },
-  { n: "Không sinh hoạt 15 phút đầu giờ", d: -5 },
-  { n: "Không tập thể dục giữa giờ", d: -5 },
-  { n: "Ra khỏi cổng không phép", d: -10 },
-
-  // ===== ỨNG XỬ =====
-  { n: "Nói tục", d: -10 },
-  { n: "Vô lễ giáo viên", d: -50 },
-  { n: "Đánh nhau", d: -50 },
-  { n: "Xả rác", d: -20 },
-  { n: "Ăn quà trong lớp", d: -10 },
-  { n: "Hút thuốc", d: -30 },
-
-  // ===== CƠ SỞ VẬT CHẤT =====
-  { n: "Làm hư hỏng bàn ghế", d: -20 },
-  { n: "Viết vẽ bậy", d: -10 },
-  { n: "Không trực nhật", d: -10 },
-  { n: "Không đổ rác đúng nơi", d: -10 },
-
-  // ===== HỌC TẬP =====
-  { n: "Không thuộc bài", d: -10 },
-  { n: "Không làm bài tập", d: -10 },
-  { n: "Điểm 0-3", d: -10 },
-  { n: "Điểm 4", d: -5 },
-  { n: "Điểm 7", d: 5 },
-  { n: "Điểm 8-9", d: 7 },
-  { n: "Điểm 10", d: 10 },
-
-  // ===== PHONG TRÀO =====
-  { n: "Phát biểu xây dựng bài", d: 5 },
-  { n: "Tham gia phong trào", d: 10 },
-  { n: "Đạt giải cấp trường", d: 30 },
-  { n: "Đạt giải cấp huyện/tỉnh", d: 50 },
-
-  // ===== TRỰC TUẦN =====
-  { n: "Không tham gia trực tuần", d: -20 },
-  { n: "Sao đỏ báo cáo tốt", d: 10 },
-  { n: "Sao đỏ không trung thực", d: -20 }
-];
-
-let DB = JSON.parse(localStorage.getItem("PHUOCAN_DB")) || {};
-LOPS.forEach(l=>{
-  if(!DB[l]) DB[l] = { total:100 };
-});
-
-document.getElementById("pin").addEventListener("input",function(){
-  if(this.value===PIN){
-    document.getElementById("login").style.display="none";
-    document.getElementById("app").style.display="block";
-    renderRank();
-    renderScore();
-  }
-});
-
-function showRank(){
-  document.getElementById("rankView").style.display="block";
-  document.getElementById("scoreView").style.display="none";
-}
-
-function showScore(){
-  document.getElementById("rankView").style.display="none";
-  document.getElementById("scoreView").style.display="block";
-}
-
-function renderRank(){
-  let html="<h3>BẢNG XẾP HẠNG</h3><table><tr><th>Hạng</th><th>Lớp</th><th>Tổng điểm</th></tr>";
-
-  [...LOPS].sort((a,b)=>DB[b].total-DB[a].total)
-  .forEach((l,i)=>{
-    html+=`<tr>
-      <td>${i+1}</td>
-      <td>${l}</td>
-      <td class="${DB[l].total<100?'minus':'plus'}">${DB[l].total}</td>
-    </tr>`;
-  });
-
-  html+="</table>";
-  document.getElementById("rankView").innerHTML=html;
-  localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
-}
-
-function renderScore(){
-  let html=`<h3>SỔ TÍNH ĐIỂM</h3>
-  <select class="class-select" id="lopSelect">
-  ${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}
-  </select>
-  <table>
-  <tr>
-  <th>Nội dung</th>
-  <th>Biểu điểm</th>
-  <th>Số lần</th>
-  <th>Điểm</th>
-  </tr>`;
-
-  LOIS.forEach((loi,i)=>{
-    html+=`
-    <tr>
-    <td>${loi.n}</td>
-    <td class="${loi.d<0?'minus':'plus'}">${loi.d>0?'+':''}${loi.d}</td>
-    <td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
-    <td id="diem${i}">0</td>
-    </tr>`;
-  });
-
-  html+=`<tr>
-  <td colspan="3"><b>Tổng phiên</b></td>
-  <td id="tongPhien">0</td>
-  </tr>
-  </table>
-  <button onclick="save()">Lưu cuối tuần</button>`;
-
-  document.getElementById("scoreView").innerHTML=html;
-}
-
-function calc(){
-  let tong=0;
-  LOIS.forEach((loi,i)=>{
-    let sl=parseInt(document.getElementById("sl"+i).value)||0;
-    let diem=sl*loi.d;
-    document.getElementById("diem"+i).innerText=
-      diem>0?`+${diem}`:diem;
-    tong+=diem;
-  });
-  document.getElementById("tongPhien").innerText=
-    tong>0?`+${tong}`:tong;
-}
-
-function save(){
-  let lop=document.getElementById("lopSelect").value;
-  let tong=parseInt(document.getElementById("tongPhien").innerText)||0;
-  DB[lop].total+=tong;
-  localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
-  renderRank();
-  alert("Đã cộng điểm vào lớp "+lop);
+alert("Đã lưu tuần cho lớp "+lop);
 }
 </script>
 
