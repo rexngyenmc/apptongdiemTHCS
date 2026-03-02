@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Thi Đua Lớp</title>
+
 <style>
 body{
   font-family: Arial;
@@ -22,7 +23,7 @@ th,td{
 }
 button{
   padding:6px 12px;
-  margin:5px 0;
+  margin:5px 3px;
   cursor:pointer;
 }
 .box{
@@ -30,17 +31,16 @@ button{
   padding:10px;
   margin-top:10px;
 }
-h3{
-  margin-top:30px;
-}
 hr{
   border:1px solid #334155;
 }
 </style>
+
 </head>
 <body>
 
 <h2>BẢNG XẾP HẠNG</h2>
+
 <table id="rankTable">
 <thead>
 <tr>
@@ -53,6 +53,8 @@ hr{
 </table>
 
 <button onclick="saveWeek()">Chốt tuần</button>
+<button onclick="saveMonth()">Chốt tháng</button>
+<button onclick="saveYear()">Chốt năm</button>
 
 <h3>Lịch sử tuần</h3>
 <div id="weekHistory" class="box"></div>
@@ -63,10 +65,11 @@ hr{
 <h3>Lịch sử năm</h3>
 <div id="yearHistory" class="box"></div>
 
-<h3>Lịch sử chấm điểm</h3>
+<h3>Lịch sử chấm điểm (20 dòng gần nhất)</h3>
 <div id="historyBox" class="box"></div>
 
 <script>
+
 const LOPS=["6A","6B","6C","7A","7B","8A","8B","9A"];
 
 const LOIS=[
@@ -111,10 +114,10 @@ function renderTable(){
 }
 
 function chamDiem(lop){
- let ten=prompt("Nhập tên người:");
+ let ten=prompt("Nhập tên người chấm:");
  if(!ten) return;
  
- let text="Chọn lỗi:\n";
+ let text="Chọn mục:\n";
  LOIS.forEach((l,i)=>{
    text+=`${i+1}. ${l.n} (${l.d})\n`;
  });
@@ -167,34 +170,60 @@ function saveWeek(){
  
  DB.weekHistory.push(weekData);
  
- // 4 tuần = 1 tháng
- if(DB.weekHistory.length%4===0){
-   let monthData={time:new Date().toLocaleDateString(),data:{}};
-   LOPS.forEach(l=>{
-     monthData.data[l]=0;
-     for(let i=DB.weekHistory.length-4;i<DB.weekHistory.length;i++){
-       monthData.data[l]+=DB.weekHistory[i].data[l];
-     }
-   });
-   DB.monthHistory.push(monthData);
-   
-   // 12 tháng = 1 năm
-   if(DB.monthHistory.length%12===0){
-     let yearData={time:new Date().toLocaleDateString(),data:{}};
-     LOPS.forEach(l=>{
-       yearData.data[l]=0;
-       for(let i=DB.monthHistory.length-12;i<DB.monthHistory.length;i++){
-         yearData.data[l]+=DB.monthHistory[i].data[l];
-       }
-     });
-     DB.yearHistory.push(yearData);
-   }
- }
- 
  saveDB();
  renderTable();
  renderWeekHistory();
+}
+
+function saveMonth(){
+ if(DB.weekHistory.length < 4){
+   alert("Chưa đủ 4 tuần!");
+   return;
+ }
+
+ let monthData={
+   time:new Date().toLocaleDateString(),
+   data:{}
+ };
+
+ let start=DB.weekHistory.length-4;
+
+ LOPS.forEach(l=>{
+   monthData.data[l]=0;
+   for(let i=start;i<DB.weekHistory.length;i++){
+     monthData.data[l]+=DB.weekHistory[i].data[l];
+   }
+ });
+
+ DB.monthHistory.push(monthData);
+
+ saveDB();
  renderMonthHistory();
+}
+
+function saveYear(){
+ if(DB.monthHistory.length < 12){
+   alert("Chưa đủ 12 tháng!");
+   return;
+ }
+
+ let yearData={
+   time:new Date().toLocaleDateString(),
+   data:{}
+ };
+
+ let start=DB.monthHistory.length-12;
+
+ LOPS.forEach(l=>{
+   yearData.data[l]=0;
+   for(let i=start;i<DB.monthHistory.length;i++){
+     yearData.data[l]+=DB.monthHistory[i].data[l];
+   }
+ });
+
+ DB.yearHistory.push(yearData);
+
+ saveDB();
  renderYearHistory();
 }
 
@@ -239,6 +268,7 @@ renderHistory();
 renderWeekHistory();
 renderMonthHistory();
 renderYearHistory();
+
 </script>
 
 </body>
