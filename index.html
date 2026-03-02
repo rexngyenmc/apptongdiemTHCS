@@ -133,15 +133,19 @@ const LOIS=[
 
 let DB = JSON.parse(localStorage.getItem("PHUOCAN_DB")) || {};
 
+// Khởi tạo dữ liệu
 LOPS.forEach(l=>{
 if(!DB[l]){
 DB[l]={
 total:100,
-weeks:[],
-months:[],
-years:[]
+weekHistory:[],
+monthHistory:[],
+yearHistory:[]
 };
 }
+if(!DB[l].weekHistory) DB[l].weekHistory=[];
+if(!DB[l].monthHistory) DB[l].monthHistory=[];
+if(!DB[l].yearHistory) DB[l].yearHistory=[];
 });
 
 document.getElementById("pin").addEventListener("input",function(){
@@ -226,23 +230,24 @@ function save(){
 let lop=document.getElementById("lopSelect").value;
 let tong=parseInt(document.getElementById("tongPhien").innerText)||0;
 
+// Cộng vào bảng xếp hạng
 DB[lop].total+=tong;
 
 // Lưu tuần
-DB[lop].weeks.push(tong);
+DB[lop].weekHistory.push(tong);
 
 // Đủ 4 tuần -> tạo tháng
-if(DB[lop].weeks.length===4){
-let tongThang=DB[lop].weeks.reduce((a,b)=>a+b,0);
-DB[lop].months.push(tongThang);
-DB[lop].weeks=[];
+if(DB[lop].weekHistory.length % 4===0){
+let last4=DB[lop].weekHistory.slice(-4);
+let tongThang=last4.reduce((a,b)=>a+b,0);
+DB[lop].monthHistory.push(tongThang);
 }
 
 // Đủ 12 tháng -> tạo năm
-if(DB[lop].months.length===12){
-let tongNam=DB[lop].months.reduce((a,b)=>a+b,0);
-DB[lop].years.push(tongNam);
-DB[lop].months=[];
+if(DB[lop].monthHistory.length % 12===0 && DB[lop].monthHistory.length!==0){
+let last12=DB[lop].monthHistory.slice(-12);
+let tongNam=last12.reduce((a,b)=>a+b,0);
+DB[lop].yearHistory.push(tongNam);
 }
 
 localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
