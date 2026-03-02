@@ -1,273 +1,223 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Thi Đua Lớp</title>
+<title>SỔ TÍNH ĐIỂM</title>
 
 <style>
 body{
-  font-family: Arial;
-  background:#0f172a;
-  color:white;
-  padding:20px;
+    font-family: Arial;
+    background:#0f172a;
+    color:white;
+    padding:20px;
 }
+
 table{
-  width:100%;
-  border-collapse: collapse;
-  margin-bottom:20px;
+    width:100%;
+    border-collapse: collapse;
+    margin-top:15px;
 }
+
 th,td{
-  border:1px solid #334155;
-  padding:8px;
-  text-align:center;
+    border:1px solid #334155;
+    padding:8px;
+    text-align:center;
 }
+
+th{
+    background:#1e293b;
+}
+
+input{
+    padding:5px;
+    border-radius:5px;
+    border:none;
+}
+
 button{
-  padding:6px 12px;
-  margin:5px 3px;
-  cursor:pointer;
+    padding:8px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:10px;
 }
+
 .box{
-  background:#1e293b;
-  padding:10px;
-  margin-top:10px;
-}
-hr{
-  border:1px solid #334155;
+    background:#1e293b;
+    padding:15px;
+    border-radius:10px;
+    margin-top:20px;
+    max-height:250px;
+    overflow-y:auto;
 }
 </style>
-
 </head>
 <body>
 
-<h2>BẢNG XẾP HẠNG</h2>
+<h2>📘 SỔ TÍNH ĐIỂM</h2>
 
-<table id="rankTable">
+Chọn lớp:
+<select id="lop">
+    <option>6A</option>
+    <option>6B</option>
+    <option>7A</option>
+    <option>7B</option>
+</select>
+
+<table id="bangDiem">
 <thead>
 <tr>
-<th>Lớp</th>
-<th>Điểm</th>
-<th>Chấm</th>
+    <th>Nội dung</th>
+    <th>Biểu điểm</th>
+    <th>Tên học sinh</th>
+    <th>Số lần</th>
+    <th>Điểm</th>
 </tr>
 </thead>
-<tbody></tbody>
+
+<tbody>
+
+<tr>
+<td>Không đeo khăn quàng</td>
+<td data-diem="-5">-5</td>
+<td><input type="text" class="tenHS"></td>
+<td><input type="number" min="0" value="0" class="soLan"></td>
+<td class="diem">0</td>
+</tr>
+
+<tr>
+<td>Đi trễ</td>
+<td data-diem="-2">-2</td>
+<td><input type="text" class="tenHS"></td>
+<td><input type="number" min="0" value="0" class="soLan"></td>
+<td class="diem">0</td>
+</tr>
+
+<tr>
+<td>Đánh nhau</td>
+<td data-diem="-50">-50</td>
+<td><input type="text" class="tenHS"></td>
+<td><input type="number" min="0" value="0" class="soLan"></td>
+<td class="diem">0</td>
+</tr>
+
+</tbody>
 </table>
 
-<button onclick="saveWeek()">Chốt tuần</button>
-<button onclick="saveMonth()">Chốt tháng</button>
-<button onclick="saveYear()">Chốt năm</button>
+<h3>Tổng điểm lớp: <span id="tongDiem">0</span></h3>
 
-<h3>Lịch sử tuần</h3>
-<div id="weekHistory" class="box"></div>
+<button onclick="luuTuan()">💾 Lưu tuần</button>
 
-<h3>Lịch sử tháng</h3>
-<div id="monthHistory" class="box"></div>
+<!-- LỊCH SỬ CHẤM ĐIỂM -->
+<div class="box">
+<h3>📜 Lịch sử chấm điểm</h3>
+<div id="lichSuChamDiem"></div>
+</div>
 
-<h3>Lịch sử năm</h3>
-<div id="yearHistory" class="box"></div>
+<!-- BẢNG XẾP HẠNG -->
+<div class="box">
+<h3>🏆 Bảng xếp hạng lớp</h3>
+<div id="bangXepHang"></div>
+</div>
 
-<h3>Lịch sử chấm điểm (20 dòng gần nhất)</h3>
-<div id="historyBox" class="box"></div>
+<!-- LỊCH SỬ TUẦN -->
+<div class="box">
+<h3>📅 Lịch sử các tuần</h3>
+<div id="lichSuTuan"></div>
+</div>
 
 <script>
 
-const LOPS=["6A","6B","6C","7A","7B","8A","8B","9A"];
+let tuan = 1;
 
-const LOIS=[
- {n:"Không đồng phục",d:-5},
- {n:"Đi trễ",d:-2},
- {n:"Nói chuyện",d:-5},
- {n:"Điểm 10",d:10},
- {n:"Tham gia phong trào",d:10}
-];
-
-let DB=JSON.parse(localStorage.getItem("THIDUA_DB"))||{};
-
-LOPS.forEach(l=>{
- if(!DB[l]) DB[l]={diem:0};
+// Tính điểm tự động
+document.querySelectorAll(".soLan").forEach(input=>{
+    input.addEventListener("input", tinhDiem);
 });
 
-if(!DB.historyLogs) DB.historyLogs=[];
-if(!DB.weekHistory) DB.weekHistory=[];
-if(!DB.monthHistory) DB.monthHistory=[];
-if(!DB.yearHistory) DB.yearHistory=[];
+function tinhDiem(){
 
-function saveDB(){
- localStorage.setItem("THIDUA_DB",JSON.stringify(DB));
+    let tong = 0;
+
+    document.querySelectorAll("#bangDiem tbody tr").forEach(row=>{
+        const diemGoc = parseInt(row.children[1].dataset.diem);
+        const tenHS = row.querySelector(".tenHS").value;
+        const soLan = parseInt(row.querySelector(".soLan").value) || 0;
+
+        const diem = diemGoc * soLan;
+
+        row.querySelector(".diem").innerText = diem;
+        tong += diem;
+
+        if(soLan > 0){
+            luuLichSu(row.children[0].innerText, diem, tenHS);
+        }
+    });
+
+    document.getElementById("tongDiem").innerText = tong;
 }
 
-function renderTable(){
- const tbody=document.querySelector("#rankTable tbody");
- tbody.innerHTML="";
- 
- let arr=LOPS.map(l=>({lop:l,diem:DB[l].diem}));
- arr.sort((a,b)=>b.diem-a.diem);
- 
- arr.forEach(l=>{
-   let tr=document.createElement("tr");
-   tr.innerHTML=`
-   <td>${l.lop}</td>
-   <td>${l.diem}</td>
-   <td><button onclick="chamDiem('${l.lop}')">+</button></td>
-   `;
-   tbody.appendChild(tr);
- });
+// Lưu lịch sử chấm điểm
+function luuLichSu(noiDung, diem, tenHS){
+
+    const lichSu = document.getElementById("lichSuChamDiem");
+    const tg = new Date().toLocaleString();
+
+    const div = document.createElement("div");
+    div.innerHTML = `
+        <b>${tg}</b> - ${tenHS || "Không ghi tên"} 
+        bị trừ ${Math.abs(diem)} điểm (${noiDung})
+        <hr>
+    `;
+
+    lichSu.prepend(div);
 }
 
-function chamDiem(lop){
- let ten=prompt("Nhập tên người chấm:");
- if(!ten) return;
- 
- let text="Chọn mục:\n";
- LOIS.forEach((l,i)=>{
-   text+=`${i+1}. ${l.n} (${l.d})\n`;
- });
- 
- let chon=prompt(text);
- if(!chon) return;
- 
- let loi=LOIS[chon-1];
- if(!loi) return;
- 
- DB[lop].diem+=loi.d;
- 
- DB.historyLogs.unshift({
-   time:new Date().toLocaleString(),
-   lop,
-   ten,
-   loi:loi.n,
-   diem:loi.d
- });
- 
- if(DB.historyLogs.length>20){
-   DB.historyLogs.pop();
- }
- 
- saveDB();
- renderTable();
- renderHistory();
+// Lưu tuần
+function luuTuan(){
+
+    const lop = document.getElementById("lop").value;
+    const tong = document.getElementById("tongDiem").innerText;
+
+    // Lưu lịch sử tuần
+    const lichSuTuan = document.getElementById("lichSuTuan");
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+        <b>Tuần ${tuan}</b> - Lớp ${lop} - Tổng điểm: ${tong}
+        <hr>
+    `;
+
+    lichSuTuan.prepend(div);
+
+    // Cập nhật bảng xếp hạng
+    capNhatXepHang(lop, tong);
+
+    tuan++;
 }
 
-function renderHistory(){
- const box=document.getElementById("historyBox");
- box.innerHTML="";
- DB.historyLogs.forEach(log=>{
-   box.innerHTML+=`
-   <div>${log.time} - ${log.lop} - ${log.ten} - ${log.loi} (${log.diem})</div>
-   `;
- });
+// Bảng xếp hạng
+let xepHang = {};
+
+function capNhatXepHang(lop, diem){
+
+    if(!xepHang[lop]){
+        xepHang[lop] = 0;
+    }
+
+    xepHang[lop] += parseInt(diem);
+
+    let html = "";
+
+    Object.entries(xepHang)
+        .sort((a,b)=> b[1] - a[1])
+        .forEach((item,index)=>{
+            html += `${index+1}. Lớp ${item[0]} - ${item[1]} điểm<br>`;
+        });
+
+    document.getElementById("bangXepHang").innerHTML = html;
 }
-
-function saveWeek(){
- let weekData={
-   time:new Date().toLocaleDateString(),
-   data:{}
- };
- 
- LOPS.forEach(l=>{
-   weekData.data[l]=DB[l].diem;
-   DB[l].diem=0;
- });
- 
- DB.weekHistory.push(weekData);
- 
- saveDB();
- renderTable();
- renderWeekHistory();
-}
-
-function saveMonth(){
- if(DB.weekHistory.length < 4){
-   alert("Chưa đủ 4 tuần!");
-   return;
- }
-
- let monthData={
-   time:new Date().toLocaleDateString(),
-   data:{}
- };
-
- let start=DB.weekHistory.length-4;
-
- LOPS.forEach(l=>{
-   monthData.data[l]=0;
-   for(let i=start;i<DB.weekHistory.length;i++){
-     monthData.data[l]+=DB.weekHistory[i].data[l];
-   }
- });
-
- DB.monthHistory.push(monthData);
-
- saveDB();
- renderMonthHistory();
-}
-
-function saveYear(){
- if(DB.monthHistory.length < 12){
-   alert("Chưa đủ 12 tháng!");
-   return;
- }
-
- let yearData={
-   time:new Date().toLocaleDateString(),
-   data:{}
- };
-
- let start=DB.monthHistory.length-12;
-
- LOPS.forEach(l=>{
-   yearData.data[l]=0;
-   for(let i=start;i<DB.monthHistory.length;i++){
-     yearData.data[l]+=DB.monthHistory[i].data[l];
-   }
- });
-
- DB.yearHistory.push(yearData);
-
- saveDB();
- renderYearHistory();
-}
-
-function renderWeekHistory(){
- const box=document.getElementById("weekHistory");
- box.innerHTML="";
- DB.weekHistory.forEach((w,i)=>{
-   box.innerHTML+=`<h4>Tuần ${i+1}</h4>`;
-   LOPS.forEach(l=>{
-     box.innerHTML+=`<div>${l}: ${w.data[l]}</div>`;
-   });
-   box.innerHTML+="<hr>";
- });
-}
-
-function renderMonthHistory(){
- const box=document.getElementById("monthHistory");
- box.innerHTML="";
- DB.monthHistory.forEach((m,i)=>{
-   box.innerHTML+=`<h4>Tháng ${i+1}</h4>`;
-   LOPS.forEach(l=>{
-     box.innerHTML+=`<div>${l}: ${m.data[l]}</div>`;
-   });
-   box.innerHTML+="<hr>";
- });
-}
-
-function renderYearHistory(){
- const box=document.getElementById("yearHistory");
- box.innerHTML="";
- DB.yearHistory.forEach((y,i)=>{
-   box.innerHTML+=`<h4>Năm ${i+1}</h4>`;
-   LOPS.forEach(l=>{
-     box.innerHTML+=`<div>${l}: ${y.data[l]}</div>`;
-   });
-   box.innerHTML+="<hr>";
- });
-}
-
-renderTable();
-renderHistory();
-renderWeekHistory();
-renderMonthHistory();
-renderYearHistory();
 
 </script>
 
