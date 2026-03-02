@@ -2,259 +2,222 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TH & THCS PHƯỚC AN - SAO ĐỎ</title>
+<title>SỔ TÍNH ĐIỂM</title>
 
 <style>
-:root{
---bg:#0f172a;
---card:#1e293b;
---blue:#3b82f6;
---red:#ef4444;
---green:#22c55e;
-}
-*{box-sizing:border-box}
 body{
-margin:0;
-font-family:Segoe UI,sans-serif;
-background:var(--bg);
-color:white;
+    font-family: Arial;
+    background:#0f172a;
+    color:white;
+    padding:20px;
 }
-#login{
-position:fixed;
-inset:0;
-background:linear-gradient(135deg,#1e3a8a,#2563eb);
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:10;
-}
-#login input{
-padding:15px;
-font-size:22px;
-border-radius:10px;
-border:none;
-text-align:center;
-}
-#app{display:none;padding:15px;}
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-margin-bottom:15px;
-}
-.menu button{
-margin-right:10px;
-padding:10px 15px;
-border:none;
-border-radius:8px;
-background:var(--blue);
-color:white;
-cursor:pointer;
-}
-.card{
-background:var(--card);
-padding:15px;
-border-radius:15px;
-margin-bottom:20px;
-animation:fade 0.3s ease;
-}
-@keyframes fade{
-from{opacity:0;transform:translateY(10px)}
-to{opacity:1;transform:translateY(0)}
-}
+
 table{
-width:100%;
-border-collapse:collapse;
-font-size:14px;
+    width:100%;
+    border-collapse: collapse;
+    margin-top:15px;
 }
+
 th,td{
-border:1px solid #334155;
-padding:8px;
-text-align:center;
+    border:1px solid #334155;
+    padding:8px;
+    text-align:center;
 }
+
+th{
+    background:#1e293b;
+}
+
 input{
-width:100%;
-padding:6px;
-border-radius:6px;
-border:none;
+    padding:5px;
+    border-radius:5px;
+    border:none;
 }
-.minus{color:var(--red)}
-.plus{color:var(--green)}
-.class-select{
-margin-bottom:10px;
-padding:8px;
-border-radius:8px;
+
+button{
+    padding:8px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.box{
+    background:#1e293b;
+    padding:15px;
+    border-radius:10px;
+    margin-top:20px;
+    max-height:250px;
+    overflow-y:auto;
 }
 </style>
 </head>
 <body>
 
-<div id="login">
-<h2>SAO ĐỎ PHƯỚC AN</h2>
-<input type="password" id="pin" placeholder="Nhập PIN">
+<h2>📘 SỔ TÍNH ĐIỂM</h2>
+
+Chọn lớp:
+<select id="lop">
+    <option>6A</option>
+    <option>6B</option>
+    <option>7A</option>
+    <option>7B</option>
+</select>
+
+<table id="bangDiem">
+<thead>
+<tr>
+    <th>Nội dung</th>
+    <th>Biểu điểm</th>
+    <th>Tên học sinh</th>
+    <th>Số lần</th>
+    <th>Điểm</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>Không đeo khăn quàng</td>
+<td data-diem="-5">-5</td>
+<td><input type="text" class="tenHS"></td>
+<td><input type="number" min="0" value="0" class="soLan"></td>
+<td class="diem">0</td>
+</tr>
+
+<tr>
+<td>Đi trễ</td>
+<td data-diem="-2">-2</td>
+<td><input type="text" class="tenHS"></td>
+<td><input type="number" min="0" value="0" class="soLan"></td>
+<td class="diem">0</td>
+</tr>
+
+<tr>
+<td>Đánh nhau</td>
+<td data-diem="-50">-50</td>
+<td><input type="text" class="tenHS"></td>
+<td><input type="number" min="0" value="0" class="soLan"></td>
+<td class="diem">0</td>
+</tr>
+
+</tbody>
+</table>
+
+<h3>Tổng điểm lớp: <span id="tongDiem">0</span></h3>
+
+<button onclick="luuTuan()">💾 Lưu tuần</button>
+
+<!-- LỊCH SỬ CHẤM ĐIỂM -->
+<div class="box">
+<h3>📜 Lịch sử chấm điểm</h3>
+<div id="lichSuChamDiem"></div>
 </div>
 
-<div id="app">
-<div class="topbar">
-<h2>TH & THCS PHƯỚC AN</h2>
-<div class="menu">
-<button onclick="showRank()">Bảng xếp hạng</button>
-<button onclick="showScore()">Sổ tính điểm</button>
-</div>
+<!-- BẢNG XẾP HẠNG -->
+<div class="box">
+<h3>🏆 Bảng xếp hạng lớp</h3>
+<div id="bangXepHang"></div>
 </div>
 
-<div id="rankView" class="card"></div>
-<div id="scoreView" class="card" style="display:none"></div>
+<!-- LỊCH SỬ TUẦN -->
+<div class="box">
+<h3>📅 Lịch sử các tuần</h3>
+<div id="lichSuTuan"></div>
 </div>
 
 <script>
-const PIN="1234";
 
-const LOPS=["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
+let tuan = 1;
 
-const LOIS=[
-{ n:"Không đeo khăn quàng hoặc huy hiệu", d:-5 },
-{ n:"Không bỏ áo vào quần", d:-5 },
-{ n:"Đi trễ", d:-2 },
-{ n:"Vắng không phép", d:-5 },
-{ n:"Nói tục", d:-10 },
-{ n:"Đánh nhau", d:-50 },
-{ n:"Xả rác", d:-20 },
-{ n:"Không trực nhật", d:-10 },
-{ n:"Không thuộc bài", d:-10 },
-{ n:"Điểm 7", d:5 },
-{ n:"Điểm 8-9", d:7 },
-{ n:"Điểm 10", d:10 },
-{ n:"Tham gia phong trào", d:10 }
-];
-
-let DB = JSON.parse(localStorage.getItem("PHUOCAN_DB")) || {};
-
-// Khởi tạo dữ liệu
-LOPS.forEach(l=>{
-if(!DB[l]){
-DB[l]={
-total:100,
-weekHistory:[],
-monthHistory:[],
-yearHistory:[]
-};
-}
-if(!DB[l].weekHistory) DB[l].weekHistory=[];
-if(!DB[l].monthHistory) DB[l].monthHistory=[];
-if(!DB[l].yearHistory) DB[l].yearHistory=[];
+// Tính điểm tự động
+document.querySelectorAll(".soLan").forEach(input=>{
+    input.addEventListener("input", tinhDiem);
 });
 
-document.getElementById("pin").addEventListener("input",function(){
-if(this.value===PIN){
-login.style.display="none";
-app.style.display="block";
-renderRank();
-renderScore();
-}
-});
+function tinhDiem(){
 
-function showRank(){
-rankView.style.display="block";
-scoreView.style.display="none";
-}
+    let tong = 0;
 
-function showScore(){
-rankView.style.display="none";
-scoreView.style.display="block";
-}
+    document.querySelectorAll("#bangDiem tbody tr").forEach(row=>{
+        const diemGoc = parseInt(row.children[1].dataset.diem);
+        const tenHS = row.querySelector(".tenHS").value;
+        const soLan = parseInt(row.querySelector(".soLan").value) || 0;
 
-function renderRank(){
-let html="<h3>BẢNG XẾP HẠNG</h3><table><tr><th>Hạng</th><th>Lớp</th><th>Tổng điểm</th></tr>";
-[...LOPS].sort((a,b)=>DB[b].total-DB[a].total)
-.forEach((l,i)=>{
-html+=`<tr>
-<td>${i+1}</td>
-<td>${l}</td>
-<td class="${DB[l].total<100?'minus':'plus'}">${DB[l].total}</td>
-</tr>`;
-});
-html+="</table>";
-rankView.innerHTML=html;
-localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
+        const diem = diemGoc * soLan;
+
+        row.querySelector(".diem").innerText = diem;
+        tong += diem;
+
+        if(soLan > 0){
+            luuLichSu(row.children[0].innerText, diem, tenHS);
+        }
+    });
+
+    document.getElementById("tongDiem").innerText = tong;
 }
 
-function renderScore(){
-let html=`<h3>SỔ TÍNH ĐIỂM</h3>
-<select class="class-select" id="lopSelect">
-${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}
-</select>
-<table>
-<tr>
-<th>Nội dung</th>
-<th>Biểu điểm</th>
-<th>Số lần</th>
-<th>Điểm</th>
-</tr>`;
+// Lưu lịch sử chấm điểm
+function luuLichSu(noiDung, diem, tenHS){
 
-LOIS.forEach((loi,i)=>{
-html+=`
-<tr>
-<td>${loi.n}</td>
-<td class="${loi.d<0?'minus':'plus'}">${loi.d>0?'+':''}${loi.d}</td>
-<td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
-<td id="diem${i}">0</td>
-</tr>`;
-});
+    const lichSu = document.getElementById("lichSuChamDiem");
+    const tg = new Date().toLocaleString();
 
-html+=`<tr>
-<td colspan="3"><b>Tổng phiên</b></td>
-<td id="tongPhien">0</td>
-</tr>
-</table>
-<button onclick="save()">Lưu cuối tuần</button>`;
+    const div = document.createElement("div");
+    div.innerHTML = `
+        <b>${tg}</b> - ${tenHS || "Không ghi tên"} 
+        bị trừ ${Math.abs(diem)} điểm (${noiDung})
+        <hr>
+    `;
 
-scoreView.innerHTML=html;
+    lichSu.prepend(div);
 }
-
-function calc(){
-let tong=0;
-LOIS.forEach((loi,i)=>{
-let sl=parseInt(document.getElementById("sl"+i).value)||0;
-let diem=sl*loi.d;
-document.getElementById("diem"+i).innerText=diem>0?`+${diem}`:diem;
-tong+=diem;
-});
-document.getElementById("tongPhien").innerText=tong>0?`+${tong}`:tong;
-}
-
-function save(){
-let lop=document.getElementById("lopSelect").value;
-let tong=parseInt(document.getElementById("tongPhien").innerText)||0;
-
-// Cộng vào bảng xếp hạng
-DB[lop].total+=tong;
 
 // Lưu tuần
-DB[lop].weekHistory.push(tong);
+function luuTuan(){
 
-// Đủ 4 tuần -> tạo tháng
-if(DB[lop].weekHistory.length % 4===0){
-let last4=DB[lop].weekHistory.slice(-4);
-let tongThang=last4.reduce((a,b)=>a+b,0);
-DB[lop].monthHistory.push(tongThang);
+    const lop = document.getElementById("lop").value;
+    const tong = document.getElementById("tongDiem").innerText;
+
+    // Lưu lịch sử tuần
+    const lichSuTuan = document.getElementById("lichSuTuan");
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+        <b>Tuần ${tuan}</b> - Lớp ${lop} - Tổng điểm: ${tong}
+        <hr>
+    `;
+
+    lichSuTuan.prepend(div);
+
+    // Cập nhật bảng xếp hạng
+    capNhatXepHang(lop, tong);
+
+    tuan++;
 }
 
-// Đủ 12 tháng -> tạo năm
-if(DB[lop].monthHistory.length % 12===0 && DB[lop].monthHistory.length!==0){
-let last12=DB[lop].monthHistory.slice(-12);
-let tongNam=last12.reduce((a,b)=>a+b,0);
-DB[lop].yearHistory.push(tongNam);
+// Bảng xếp hạng
+let xepHang = {};
+
+function capNhatXepHang(lop, diem){
+
+    if(!xepHang[lop]){
+        xepHang[lop] = 0;
+    }
+
+    xepHang[lop] += parseInt(diem);
+
+    let html = "";
+
+    Object.entries(xepHang)
+        .sort((a,b)=> b[1] - a[1])
+        .forEach((item,index)=>{
+            html += `${index+1}. Lớp ${item[0]} - ${item[1]} điểm<br>`;
+        });
+
+    document.getElementById("bangXepHang").innerHTML = html;
 }
 
-localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
-
-renderRank();
-alert("Đã lưu tuần cho lớp "+lop);
-}
 </script>
 
 </body>
