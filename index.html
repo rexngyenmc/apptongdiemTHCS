@@ -1,255 +1,218 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TH & THCS PHƯỚC AN - SAO ĐỎ</title>
+<title>Sổ Tính Điểm</title>
 
 <style>
-:root{
---bg:#0f172a;
---card:#1e293b;
---blue:#3b82f6;
---red:#ef4444;
---green:#22c55e;
-}
-*{box-sizing:border-box}
 body{
-margin:0;
-font-family:Segoe UI,sans-serif;
-background:var(--bg);
+background:#0f172a;
 color:white;
+font-family:Arial;
+padding:20px;
 }
-#login{
-position:fixed;
-inset:0;
-background:linear-gradient(135deg,#1e3a8a,#2563eb);
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:10;
+
+h3{
+margin-bottom:10px;
 }
-#login input{
-padding:15px;
-font-size:22px;
-border-radius:10px;
-border:none;
-text-align:center;
-}
-#app{display:none;padding:15px;}
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-margin-bottom:15px;
-}
-.menu button{
-margin-right:10px;
-padding:10px 15px;
-border:none;
-border-radius:8px;
-background:var(--blue);
-color:white;
-cursor:pointer;
-}
-.card{
-background:var(--card);
-padding:15px;
-border-radius:15px;
-margin-bottom:20px;
-animation:fade 0.3s ease;
-}
-@keyframes fade{
-from{opacity:0;transform:translateY(10px)}
-to{opacity:1;transform:translateY(0)}
-}
+
 table{
 width:100%;
 border-collapse:collapse;
-font-size:14px;
+margin-top:10px;
+background:#1e293b;
 }
+
 th,td{
 border:1px solid #334155;
-padding:8px;
+padding:10px;
 text-align:center;
 }
+
 input{
-width:100%;
 padding:6px;
 border-radius:6px;
 border:none;
 }
-.minus{color:var(--red)}
-.plus{color:var(--green)}
-.class-select{
-margin-bottom:10px;
-padding:8px;
+
+button{
+margin-top:15px;
+padding:10px 20px;
+border:none;
 border-radius:8px;
+background:#2563eb;
+color:white;
+cursor:pointer;
+}
+
+.total-box{
+margin-top:15px;
+font-size:20px;
+font-weight:bold;
+}
+
+.history-box{
+margin-top:30px;
+background:#1e293b;
+padding:15px;
+border-radius:10px;
 }
 </style>
 </head>
+
 <body>
 
-<div id="login">
-<h2>SAO ĐỎ PHƯỚC AN</h2>
-<input type="password" id="pin" placeholder="Nhập PIN">
-</div>
-
-<div id="app">
-<div class="topbar">
-<h2>TH & THCS PHƯỚC AN</h2>
-<div class="menu">
-<button onclick="showRank()">Bảng xếp hạng</button>
-<button onclick="showScore()">Sổ tính điểm</button>
-</div>
-</div>
-
-<div id="rankView" class="card"></div>
-<div id="scoreView" class="card" style="display:none"></div>
-</div>
+<div id="main"></div>
 
 <script>
-const PIN="1234";
 
-const LOPS=["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
+const LOPS = ["6A","6B","7A","7B"];
 
-const LOIS=[
-{ n:"Không đeo khăn quàng hoặc huy hiệu", d:-5 },
-{ n:"Không bỏ áo vào quần", d:-5 },
-{ n:"Đi trễ", d:-2 },
-{ n:"Vắng không phép", d:-5 },
-{ n:"Nói tục", d:-10 },
-{ n:"Đánh nhau", d:-50 },
-{ n:"Xả rác", d:-20 },
-{ n:"Không trực nhật", d:-10 },
-{ n:"Không thuộc bài", d:-10 },
-{ n:"Điểm 7", d:5 },
-{ n:"Điểm 8-9", d:7 },
-{ n:"Điểm 10", d:10 },
-{ n:"Tham gia phong trào", d:10 }
+const LOIS = [
+{ten:"Không đeo khăn quàng hoặc huy hiệu",diem:-5},
+{ten:"Không bỏ áo vào quần",diem:-5},
+{ten:"Đi trễ",diem:-2},
+{ten:"Vắng không phép",diem:-5},
+{ten:"Nói tục",diem:-10},
+{ten:"Đánh nhau",diem:-50},
+{ten:"Xả rác",diem:-20},
+{ten:"Không trực nhật",diem:-10}
 ];
 
-let DB = JSON.parse(localStorage.getItem("PHUOCAN_DB")) || {};
-
-LOPS.forEach(l=>{
-if(!DB[l]){
-DB[l]={
-total:100,
-weeks:[],
-months:[],
-years:[]
-};
-}
-});
-
-document.getElementById("pin").addEventListener("input",function(){
-if(this.value===PIN){
-login.style.display="none";
-app.style.display="block";
-renderRank();
-renderScore();
-}
-});
-
-function showRank(){
-rankView.style.display="block";
-scoreView.style.display="none";
-}
-
-function showScore(){
-rankView.style.display="none";
-scoreView.style.display="block";
-}
-
-function renderRank(){
-let html="<h3>BẢNG XẾP HẠNG</h3><table><tr><th>Hạng</th><th>Lớp</th><th>Tổng điểm</th></tr>";
-[...LOPS].sort((a,b)=>DB[b].total-DB[a].total)
-.forEach((l,i)=>{
-html+=`<tr>
-<td>${i+1}</td>
-<td>${l}</td>
-<td class="${DB[l].total<100?'minus':'plus'}">${DB[l].total}</td>
-</tr>`;
-});
-html+="</table>";
-rankView.innerHTML=html;
-localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
-}
+let lichSu = JSON.parse(localStorage.getItem("lichSu")) || [];
+let lichSuTuan = JSON.parse(localStorage.getItem("lichSuTuan")) || [];
 
 function renderScore(){
-let html=`<h3>SỔ TÍNH ĐIỂM</h3>
 
-<input type="text" id="tenNguoi" placeholder="Nhập tên người ghi điểm"
-style="margin-bottom:10px;padding:8px;border-radius:8px;border:none;width:100%">
+let html = `
+<h3>SỔ TÍNH ĐIỂM</h3>
 
-<select class="class-select" id="lopSelect">
+<select id="lopSelect">
 ${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}
 </select>
 
 <table>
+
+<tr>
+<th colspan="4" style="text-align:left">
+Tên người ghi điểm:
+<input type="text" id="tenNguoi" style="margin-top:6px;width:100%">
+</th>
+</tr>
+
 <tr>
 <th>Nội dung</th>
 <th>Biểu điểm</th>
 <th>Số lần</th>
 <th>Điểm</th>
-</tr>`;
+</tr>
+`;
 
-LOIS.forEach((loi,i)=>{
+LOIS.forEach((l,i)=>{
 html+=`
 <tr>
-<td>${loi.n}</td>
-<td class="${loi.d<0?'minus':'plus'}">${loi.d>0?'+':''}${loi.d}</td>
-<td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
-<td id="diem${i}">0</td>
-</tr>`;
-});
-
-html+=`<tr>
-<td colspan="3"><b>Tổng phiên</b></td>
-<td id="tongPhien">0</td>
+<td>${l.ten}</td>
+<td style="color:${l.diem<0?'#ff5252':'#00e676'}">${l.diem}</td>
+<td><input type="number" min="0" value="0" id="sl${i}" oninput="updateRow(${i})"></td>
+<td id="row${i}">0</td>
 </tr>
-</table>
-<button onclick="save()">Lưu cuối tuần</button>`;
-
-scoreView.innerHTML=html;
-}
-
-function calc(){
-let tong=0;
-LOIS.forEach((loi,i)=>{
-let sl=parseInt(document.getElementById("sl"+i).value)||0;
-let diem=sl*loi.d;
-document.getElementById("diem"+i).innerText=diem>0?`+${diem}`:diem;
-tong+=diem;
+`;
 });
-document.getElementById("tongPhien").innerText=tong>0?`+${tong}`:tong;
+
+html+=`
+</table>
+
+<div class="total-box">
+TỔNG ĐIỂM: <span id="tongDiem">0</span>
+</div>
+
+<button onclick="luuDiem()">LƯU ĐIỂM</button>
+
+<div class="history-box">
+<h3>Lịch sử chấm điểm</h3>
+<div id="lichSuBox"></div>
+</div>
+
+<div class="history-box">
+<h3>Lịch sử tuần</h3>
+<div id="lichSuTuanBox"></div>
+</div>
+`;
+
+document.getElementById("main").innerHTML = html;
+
+renderHistory();
+renderWeekHistory();
 }
 
-function save(){
+function updateRow(i){
+let sl = parseInt(document.getElementById("sl"+i).value) || 0;
+let diem = sl * LOIS[i].diem;
+document.getElementById("row"+i).innerText = diem;
+updateTotal();
+}
+
+function updateTotal(){
+let tong=0;
+LOIS.forEach((l,i)=>{
+tong+=parseInt(document.getElementById("row"+i).innerText)||0;
+});
+document.getElementById("tongDiem").innerText=tong;
+}
+
+function luuDiem(){
+
 let lop=document.getElementById("lopSelect").value;
-let tong=parseInt(document.getElementById("tongPhien").innerText)||0;
+let ten=document.getElementById("tenNguoi").value.trim();
+let tong=parseInt(document.getElementById("tongDiem").innerText);
 
-DB[lop].total+=tong;
-DB[lop].weeks.push(tong);
-
-if(DB[lop].weeks.length===4){
-let tongThang=DB[lop].weeks.reduce((a,b)=>a+b,0);
-DB[lop].months.push(tongThang);
-DB[lop].weeks=[];
+if(ten===""){
+alert("Nhập tên người ghi điểm!");
+return;
 }
 
-if(DB[lop].months.length===12){
-let tongNam=DB[lop].months.reduce((a,b)=>a+b,0);
-DB[lop].years.push(tongNam);
-DB[lop].months=[];
+let now=new Date().toLocaleString();
+
+let entry={
+lop,
+ten,
+tong,
+time:now
+};
+
+lichSu.unshift(entry);
+if(lichSu.length>20) lichSu.pop();
+
+lichSuTuan.unshift(entry);
+
+localStorage.setItem("lichSu",JSON.stringify(lichSu));
+localStorage.setItem("lichSuTuan",JSON.stringify(lichSuTuan));
+
+renderHistory();
+renderWeekHistory();
+alert("Đã lưu!");
 }
 
-localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
-renderRank();
-alert("Đã lưu tuần cho lớp "+lop);
+function renderHistory(){
+let box=document.getElementById("lichSuBox");
+if(!box) return;
+
+box.innerHTML=lichSu.map(e=>
+`<div>${e.lop} - ${e.ten} (${e.tong}) - ${e.time}</div>`
+).join("");
 }
+
+function renderWeekHistory(){
+let box=document.getElementById("lichSuTuanBox");
+if(!box) return;
+
+box.innerHTML=lichSuTuan.map(e=>
+`<div>${e.lop} - ${e.ten} (${e.tong}) - ${e.time}</div>`
+).join("");
+}
+
+renderScore();
+
 </script>
 
 </body>
