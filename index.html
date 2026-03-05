@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -13,6 +12,7 @@
 --blue:#3b82f6;
 --red:#ef4444;
 --green:#22c55e;
+--gray:#94a3b8;
 }
 *{box-sizing:border-box}
 body{
@@ -37,6 +37,7 @@ font-size:22px;
 border-radius:10px;
 border:none;
 text-align:center;
+box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
 }
 #app{display:none;padding:15px;}
 .topbar{
@@ -54,6 +55,7 @@ border-radius:8px;
 background:var(--blue);
 color:white;
 cursor:pointer;
+font-weight: bold;
 }
 .card{
 background:var(--card);
@@ -69,41 +71,73 @@ to{opacity:1;transform:translateY(0)}
 table{
 width:100%;
 border-collapse:collapse;
-font-size:14px;
+font-size:13px;
 }
 th,td{
 border:1px solid #334155;
 padding:8px;
 text-align:center;
 }
+th{background:#0f172a}
 input{
 width:100%;
 padding:6px;
 border-radius:6px;
-border:none;
+border:1px solid #334155;
+background:#0f172a;
+color:white;
 }
 .minus{color:var(--red)}
 .plus{color:var(--green)}
 .class-select{
-margin-bottom:10px;
-padding:8px;
+width:100%;
+margin-bottom:15px;
+padding:12px;
 border-radius:8px;
+background:var(--blue);
+color:white;
+font-weight:bold;
+border:none;
+}
+.history-item{
+background:#334155;
+padding:10px;
+border-radius:8px;
+margin-top:10px;
+font-size:12px;
+line-height:1.6;
+}
+.btn-save{
+width:100%;
+padding:15px;
+background:var(--green);
+color:white;
+border:none;
+border-radius:10px;
+font-weight:bold;
+font-size:16px;
+margin-top:15px;
+cursor:pointer;
 }
 </style>
 </head>
 <body>
 
 <div id="login">
-<h2>SAO ĐỎ PHƯỚC AN</h2>
-<input type="password" id="pin" placeholder="Nhập PIN">
+<h1 style="margin-bottom:20px">SAO ĐỎ PHƯỚC AN</h1>
+<input type="password" id="pin" placeholder="Nhập mã PIN">
+<p style="margin-top:10px; font-size:14px; opacity:0.8">Hệ thống chấm điểm thi đua nội bộ</p>
 </div>
 
 <div id="app">
 <div class="topbar">
-<h2>TH & THCS PHƯỚC AN</h2>
+<div>
+<h2 style="margin:0">PHƯỚC AN</h2>
+<small style="color:var(--gray)">Hệ thống lưu trữ 4 tuần - 12 tháng</small>
+</div>
 <div class="menu">
-<button onclick="showRank()">Bảng xếp hạng</button>
-<button onclick="showScore()">Sổ tính điểm</button>
+<button onclick="showRank()">Xếp hạng</button>
+<button onclick="showScore()">Chấm điểm</button>
 </div>
 </div>
 
@@ -112,40 +146,34 @@ border-radius:8px;
 </div>
 
 <script>
-<script>
 const PIN="1234";
-
 const LOPS=["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
 
 const LOIS=[
-    { n:"Không đeo khăn quàng hoặc huy hiệu", d:-5 },
-    { n:"Không bỏ áo vào quần", d:-5 },
+    { n:"Khăn quàng/Huy hiệu", d:-5 },
+    { n:"Đồng phục/Bỏ áo vào quần", d:-5 },
     { n:"Đi trễ", d:-2 },
     { n:"Vắng không phép", d:-5 },
-    { n:"Nói tục", d:-10 },
+    { n:"Nói tục/Chửi thề", d:-10 },
     { n:"Đánh nhau", d:-50 },
-    { n:"Xả rác", d:-20 },
-    { n:"Không trực nhật", d:-10 },
+    { n:"Xả rác/Vệ sinh", d:-20 },
+    { n:"Trực nhật bẩn", d:-10 },
     { n:"Không thuộc bài", d:-10 },
-    { n:"Điểm 7", d:5 },
-    { n:"Điểm 8-9", d:7 },
-    { n:"Điểm 10", d:10 },
-    { n:"Tham gia phong trào", d:10 }
+    { n:"Điểm 7 (Khuyến khích)", d:5 },
+    { n:"Điểm 8-9 (Tốt)", d:7 },
+    { n:"Điểm 10 (Xuất sắc)", d:10 },
+    { n:"Phong trào trường/lớp", d:10 }
 ];
 
+// Khởi tạo hoặc tải dữ liệu
 let DB = JSON.parse(localStorage.getItem("PHUOCAN_DB")) || {};
-
 LOPS.forEach(l=>{
     if(!DB[l]){
-        DB[l]={
-            total:100,
-            weeks:[],
-            months:[],
-            years:[]
-        };
+        DB[l]={ total:100, weeks:[], months:[], years:[] };
     }
 });
 
+// Xử lý Login
 document.getElementById("pin").addEventListener("input",function(){
     if(this.value===PIN){
         document.getElementById("login").style.display="none";
@@ -168,30 +196,30 @@ function showScore(){
 }
 
 function renderRank(){
-    // Phần Bảng xếp hạng hiện tại
-    let html="<h3>BẢNG XẾP HẠNG</h3><table><tr><th>Hạng</th><th>Lớp</th><th>Tổng điểm</th></tr>";
+    let html="<h3>BẢNG XẾP HẠNG HIỆN TẠI</h3><table><tr><th>Hạng</th><th>Lớp</th><th>Tổng điểm</th></tr>";
     [...LOPS].sort((a,b)=>DB[b].total-DB[a].total)
     .forEach((l,i)=>{
         html+=`<tr>
-        <td>${i+1}</td>
-        <td>${l}</td>
-        <td class="${DB[l].total<100?'minus':'plus'}">${DB[l].total}</td>
+            <td>${i+1}</td>
+            <td><b>${l}</b></td>
+            <td class="${DB[l].total<100?'minus':'plus'}"><b>${DB[l].total}</b></td>
         </tr>`;
     });
     html+="</table>";
 
-    // PHẦN LỊCH SỬ TRƯỜNG (Mới thêm)
-    html+="<h3 style='margin-top:20px'>LỊCH SỬ LƯU TRỮ</h3>";
+    // HIỂN THỊ LỊCH SỬ TRƯỜNG
+    html+="<h3 style='margin-top:25px'>LỊCH SỬ LƯU TRỮ</h3>";
     LOPS.forEach(l => {
         if(DB[l].weeks.length > 0 || DB[l].months.length > 0 || DB[l].years.length > 0) {
-            html += `<div style='background:#334155; padding:10px; border-radius:8px; margin-bottom:10px; font-size:12px;'>
-                <b>Lớp ${l}</b><br>
-                • Tuần hiện tại: ${DB[l].weeks.join(", ") || "0"}<br>
-                • Đã lưu: ${DB[l].months.length} tháng | ${DB[l].years.length} năm
+            html += `<div class="history-item">
+                <b style="color:var(--blue)">Lớp ${l}</b><br>
+                • Điểm các tuần (trong tháng): ${DB[l].weeks.length > 0 ? DB[l].weeks.join(" | ") : "Chưa có"}<br>
+                • Số tháng đã chốt: ${DB[l].months.length}/12<br>
+                • Số năm đã hoàn thành: ${DB[l].years.length}
             </div>`;
         }
     });
-
+    
     document.getElementById("rankView").innerHTML=html;
     localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
 }
@@ -199,32 +227,32 @@ function renderRank(){
 function renderScore(){
     let html=`<h3>SỔ TÍNH ĐIỂM</h3>
     <select class="class-select" id="lopSelect">
-    ${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}
+        ${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}
     </select>
     <table>
-    <tr>
-    <th>Nội dung</th>
-    <th>Tên HS vi phạm</th>
-    <th>Số lần</th>
-    <th>Điểm</th>
-    </tr>`;
+        <tr>
+            <th>Nội dung lỗi/khen</th>
+            <th>Tên HS vi phạm</th>
+            <th>Số lần</th>
+            <th>Điểm</th>
+        </tr>`;
 
     LOIS.forEach((loi,i)=>{
         html+=`
         <tr>
-        <td>${loi.n}</td>
-        <td><input type="text" placeholder="Họ tên..." id="ten${i}" style="font-size:11px"></td>
-        <td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
-        <td id="diem${i}">0</td>
+            <td style="text-align:left">${loi.n}</td>
+            <td><input type="text" placeholder="..." id="ten${i}"></td>
+            <td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
+            <td id="diem${i}" style="font-weight:bold">0</td>
         </tr>`;
     });
 
     html+=`<tr>
-    <td colspan="3"><b>Tổng phiên chấm</b></td>
-    <td id="tongPhien">0</td>
+        <td colspan="3"><b>TỔNG ĐIỂM PHIÊN CHẤM</b></td>
+        <td id="tongPhien" style="font-size:18px; color:var(--blue)">0</td>
     </tr>
     </table>
-    <button onclick="save()" style="margin-top:15px; width:100%; background:var(--green); padding:10px; border-radius:8px; border:none; color:white; font-weight:bold;">LƯU CHỐT TUẦN</button>`;
+    <button class="btn-save" onclick="save()">LƯU VÀ CHỐT TUẦN</button>`;
 
     document.getElementById("scoreView").innerHTML=html;
 }
@@ -235,6 +263,7 @@ function calc(){
         let sl=parseInt(document.getElementById("sl"+i).value)||0;
         let diem=sl*loi.d;
         document.getElementById("diem"+i).innerText=diem>0?`+${diem}`:diem;
+        document.getElementById("diem"+i).className = diem<0?'minus':'plus';
         tong+=diem;
     });
     document.getElementById("tongPhien").innerText=tong>0?`+${tong}`:tong;
@@ -244,35 +273,37 @@ function save(){
     let lop=document.getElementById("lopSelect").value;
     let tong=parseInt(document.getElementById("tongPhien").innerText)||0;
 
-    // 1. Cộng vào tổng điểm thi đua hiện tại
-    DB[lop].total+=tong;
+    if(!confirm(`Xác nhận lưu ${tong} điểm cho lớp ${lop}?`)) return;
 
-    // 2. Lưu vào lịch sử tuần
+    // 1. Cộng vào tổng chung
+    DB[lop].total += tong;
+
+    // 2. Lưu lịch sử tuần
     DB[lop].weeks.push(tong);
 
-    // 3. Kiểm tra đủ 4 tuần -> Gom thành 1 tháng
-    if(DB[lop].weeks.length === 4){
+    // 3. Xử lý logic 4 tuần -> 1 tháng
+    if(DB[lop].weeks.length >= 4){
         let tongThang = DB[lop].weeks.reduce((a,b)=>a+b,0);
         DB[lop].months.push(tongThang);
-        DB[lop].weeks = []; // Reset tuần sau khi đã lưu tháng
-        alert("Thông báo: Lớp " + lop + " đã đủ 4 tuần và được lưu vào Lịch sử Tháng.");
+        DB[lop].weeks = []; // Reset tuần
+        alert(`Lớp ${lop} đã đủ 4 tuần. Hệ thống tự động gom lại thành 1 tháng!`);
     }
 
-    // 4. Kiểm tra đủ 12 tháng -> Gom thành 1 năm
-    if(DB[lop].months.length === 12){
+    // 4. Xử lý logic 12 tháng -> 1 năm
+    if(DB[lop].months.length >= 12){
         let tongNam = DB[lop].months.reduce((a,b)=>a+b,0);
         DB[lop].years.push(tongNam);
-        DB[lop].months = []; // Reset tháng sau khi đã lưu năm
-        alert("Thông báo: Lớp " + lop + " đã đủ 12 tháng và được lưu vào Lịch sử Năm.");
+        DB[lop].months = []; // Reset tháng
+        alert(`Chúc mừng! Lớp ${lop} đã hoàn thành 12 tháng thi đua. Dữ liệu đã được lưu vào lịch sử năm.`);
     }
 
     localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
-
-    renderRank();
-    renderScore(); // Reset lại bảng điểm
-    alert("Đã chốt điểm tuần thành công cho lớp "+lop);
+    
+    // Reset bảng điểm và về trang xếp hạng
+    renderScore();
+    showRank();
+    alert("Đã lưu dữ liệu thành công!");
 }
-</script>
 </script>
 
 </body>
