@@ -3,216 +3,331 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QUẢN LÝ THI ĐUA - PHƯỚC AN</title>
+<title>TH & THCS PHƯỚC AN - SAO ĐỎ</title>
 
 <style>
 :root{
---bg:#0f172a; --card:#1e293b; --blue:#3b82f6; --red:#ef4444; --green:#22c55e; --gray:#94a3b8;
+--bg:#0f172a;
+--card:#1e293b;
+--blue:#3b82f6;
+--red:#ef4444;
+--green:#22c55e;
+--gray:#94a3b8;
 }
 *{box-sizing:border-box}
-body{ margin:0; font-family:Segoe UI,sans-serif; background:var(--bg); color:white; overflow-x:hidden; }
-
-/* Điều hướng Slide */
-.slide { display: none; padding: 15px; min-height: 100vh; animation: fadeIn 0.4s ease; }
-.active { display: block; }
-@keyframes fadeIn { from{opacity:0} to{opacity:1} }
-
-/* Topbar Fixed */
-.topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #334155; padding-bottom:10px; }
-.menu { display:flex; gap:8px; }
-.menu button { padding:10px 12px; border:none; border-radius:8px; background:var(--blue); color:white; cursor:pointer; font-weight:bold; font-size:13px; }
-
-/* Login */
-#login{ position:fixed; inset:0; background:linear-gradient(135deg,#1e3a8a,#2563eb); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:1000; }
-#login input{ padding:15px; font-size:22px; border-radius:10px; border:none; text-align:center; margin-top:15px; }
-
-/* Tables */
-.card { background:var(--card); padding:15px; border-radius:15px; margin-bottom:15px; }
-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:10px; background: rgba(0,0,0,0.2); }
-th,td { border:1px solid #334155; padding:12px 8px; text-align:center; }
-th { background:#0f172a; color:var(--gray); }
-.minus { color:var(--red); font-weight:bold; }
-.plus { color:var(--green); font-weight:bold; }
-
-/* Form chấm điểm */
-.class-select { width:100%; padding:12px; border-radius:8px; background:var(--blue); color:white; font-weight:bold; border:none; margin-bottom:10px; }
-input[type="text"], input[type="number"] { width:100%; padding:8px; border-radius:6px; border:1px solid #475569; background:#0f172a; color:white; }
-.btn-save { width:100%; padding:15px; background:var(--green); color:white; border:none; border-radius:10px; font-weight:bold; font-size:16px; cursor:pointer; margin-top:10px; }
-
-/* Lịch sử */
-.history-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; }
-.badge { background:var(--blue); padding:4px 8px; border-radius:5px; font-size:12px; }
+body{
+margin:0;
+font-family:Segoe UI,sans-serif;
+background:var(--bg);
+color:white;
+}
+#login{
+position:fixed;
+inset:0;
+background:linear-gradient(135deg,#1e3a8a,#2563eb);
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:100;
+}
+#login input{
+padding:15px;
+font-size:22px;
+border-radius:10px;
+border:none;
+text-align:center;
+}
+#app{display:none;padding:15px;}
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+.menu button{
+margin-left:10px;
+padding:10px 15px;
+border:none;
+border-radius:8px;
+background:var(--blue);
+color:white;
+cursor:pointer;
+font-weight: bold;
+}
+.card{
+background:var(--card);
+padding:15px;
+border-radius:15px;
+margin-bottom:20px;
+animation:fade 0.3s ease;
+}
+@keyframes fade{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
+}
+table{
+width:100%;
+border-collapse:collapse;
+font-size:13px;
+margin-top:10px;
+}
+th,td{
+border:1px solid #334155;
+padding:10px;
+text-align:center;
+}
+th{background:#0f172a}
+input{
+width:100%;
+padding:6px;
+border-radius:6px;
+border:1px solid #334155;
+background:#0f172a;
+color:white;
+}
+.minus{color:var(--red)}
+.plus{color:var(--green)}
+.class-select{
+width:100%;
+margin-bottom:15px;
+padding:12px;
+border-radius:8px;
+background:var(--blue);
+color:white;
+font-weight:bold;
+border:none;
+}
+/* Modal (Màn hình lịch sử mới) */
+#modalHistory {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+}
+.modal-content {
+    background: var(--card);
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 15px;
+    position: relative;
+}
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+.btn-view {
+    background: #475569;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 11px;
+}
+.btn-save {
+    width: 100%;
+    padding: 15px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
 
 <div id="login">
-    <h1>SAO ĐỎ PHƯỚC AN</h1>
-    <input type="password" id="pin" placeholder="Nhập PIN">
+<h1>SAO ĐỎ PHƯỚC AN</h1>
+<input type="password" id="pin" placeholder="Nhập PIN">
 </div>
 
 <div id="app">
-    <div style="padding:15px 15px 0 15px">
-        <div class="topbar">
-            <h2 style="margin:0; font-size:18px;">PHƯỚC AN</h2>
-            <div class="menu">
-                <button onclick="nav('rank')">Xếp hạng</button>
-                <button onclick="nav('score')">Chấm điểm</button>
-                <button onclick="nav('history')" style="background:#6366f1">Lịch sử năm</button>
-            </div>
+    <div class="topbar">
+        <h2>PHƯỚC AN</h2>
+        <div class="menu">
+            <button onclick="showRank()">Xếp hạng</button>
+            <button onclick="showScore()">Chấm điểm</button>
         </div>
     </div>
 
-    <div id="slide-rank" class="slide active">
-        <div class="card">
-            <h3>BẢNG XẾP HẠNG THI ĐUA</h3>
-            <div id="rankContent"></div>
-        </div>
-    </div>
+    <div id="rankView" class="card"></div>
+    <div id="scoreView" class="card" style="display:none"></div>
+</div>
 
-    <div id="slide-score" class="slide">
-        <div class="card">
-            <h3>PHIÊN CHẤM ĐIỂM TUẦN</h3>
-            <div id="scoreContent"></div>
-        </div>
-    </div>
-
-    <div id="slide-history" class="slide">
-        <div class="card">
-            <div class="history-header">
-                <h3>TRA CỨU LỊCH SỬ NĂM</h3>
-                <select id="histLopSelect" onchange="renderHistoryTable()" style="padding:8px; border-radius:5px; background:var(--blue); color:white; border:none;">
-                    </select>
-            </div>
-            <div id="historyTableContainer">
-                <p style="text-align:center; color:var(--gray)">Chọn lớp để xem chi tiết thi đua cả năm.</p>
-            </div>
-        </div>
+<div id="modalHistory">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle" style="color:var(--blue)"></h2>
+        <div id="modalBody"></div>
     </div>
 </div>
 
 <script>
 const PIN="1234";
 const LOPS=["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
+
 const LOIS=[
-    { n:"Khăn quàng/Huy hiệu", d:-5 }, { n:"Đồng phục", d:-5 }, { n:"Đi trễ", d:-2 },
-    { n:"Vắng không phép", d:-5 }, { n:"Nói tục", d:-10 }, { n:"Đánh nhau", d:-50 },
-    { n:"Xả rác", d:-20 }, { n:"Trực nhật", d:-10 }, { n:"Không thuộc bài", d:-10 },
-    { n:"Điểm 7", d:5 }, { n:"Điểm 8-9", d:7 }, { n:"Điểm 10", d:10 }, { n:"Phong trào", d:10 }
+    { n:"Khăn quàng/Huy hiệu", d:-5 },
+    { n:"Đồng phục/Bỏ áo vào quần", d:-5 },
+    { n:"Đi trễ", d:-2 },
+    { n:"Vắng không phép", d:-5 },
+    { n:"Nói tục/Chửi thề", d:-10 },
+    { n:"Đánh nhau", d:-50 },
+    { n:"Xả rác/Vệ sinh", d:-20 },
+    { n:"Trực nhật bẩn", d:-10 },
+    { n:"Không thuộc bài", d:-10 },
+    { n:"Điểm 7", d:5 },
+    { n:"Điểm 8-9", d:7 },
+    { n:"Điểm 10", d:10 },
+    { n:"Phong trào", d:10 }
 ];
 
 let DB = JSON.parse(localStorage.getItem("PHUOCAN_DB")) || {};
-LOPS.forEach(l => { if(!DB[l]) DB[l] = { total:100, weeks:[], months:[], years:[] }; });
+LOPS.forEach(l=>{ if(!DB[l]) DB[l]={ total:100, weeks:[], months:[], years:[] }; });
 
-// Chuyển slide
-function nav(target) {
-    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
-    document.getElementById('slide-' + target).classList.add('active');
-    if(target === 'rank') renderRank();
-    if(target === 'score') renderScore();
-    if(target === 'history') {
-        const sel = document.getElementById('histLopSelect');
-        if(sel.innerHTML==="") sel.innerHTML = LOPS.map(l=>`<option value="${l}">${l}</option>`).join("");
-        renderHistoryTable();
-    }
-}
-
-// Login
-document.getElementById("pin").addEventListener("input", function() {
-    if(this.value===PIN) {
+document.getElementById("pin").addEventListener("input",function(){
+    if(this.value===PIN){
         document.getElementById("login").style.display="none";
         document.getElementById("app").style.display="block";
-        nav('rank');
+        renderRank();
+        renderScore();
     }
 });
 
-function renderRank() {
-    let html="<table><tr><th>Hạng</th><th>Lớp</th><th>Tổng Điểm</th></tr>";
-    [...LOPS].sort((a,b)=>DB[b].total - DB[a].total).forEach((l,i)=>{
-        html+=`<tr><td>${i+1}</td><td><b>${l}</b></td><td class="${DB[l].total<100?'minus':'plus'}">${DB[l].total}</td></tr>`;
-    });
-    document.getElementById("rankContent").innerHTML = html + "</table>";
-    localStorage.setItem("PHUOCAN_DB", JSON.stringify(DB));
+function showRank(){
+    document.getElementById("rankView").style.display="block";
+    document.getElementById("scoreView").style.display="none";
+    renderRank();
 }
 
-function renderScore() {
-    let html = `<select class="class-select" id="lopSelect">${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}</select>
-    <table><tr><th>Nội dung</th><th>Tên HS</th><th>Lần</th><th>Điểm</th></tr>`;
+function showScore(){
+    document.getElementById("rankView").style.display="none";
+    document.getElementById("scoreView").style.display="block";
+    renderScore();
+}
+
+function renderRank(){
+    let html="<h3>BẢNG XẾP HẠNG</h3><table><tr><th>Hạng</th><th>Lớp</th><th>Điểm</th><th>Lịch sử</th></tr>";
+    [...LOPS].sort((a,b)=>DB[b].total-DB[a].total)
+    .forEach((l,i)=>{
+        html+=`<tr>
+            <td>${i+1}</td>
+            <td><b>${l}</b></td>
+            <td class="${DB[l].total<100?'minus':'plus'}"><b>${DB[l].total}</b></td>
+            <td><button class="btn-view" onclick="openModal('${l}')">Xem</button></td>
+        </tr>`;
+    });
+    html+="</table>";
+    document.getElementById("rankView").innerHTML=html;
+    localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
+}
+
+function renderScore(){
+    let html=`<h3>SỔ TÍNH ĐIỂM</h3>
+    <select class="class-select" id="lopSelect">
+        ${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}
+    </select>
+    <table>
+        <tr><th>Nội dung</th><th>Tên HS</th><th>Số lần</th><th>Điểm</th></tr>`;
+
     LOIS.forEach((loi,i)=>{
-        html+=`<tr><td style="text-align:left">${loi.n}</td>
-        <td><input type="text" id="ten${i}" placeholder="..."></td>
-        <td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
-        <td id="diem${i}" style="font-weight:bold">0</td></tr>`;
+        html+=`<tr>
+            <td style="text-align:left">${loi.n}</td>
+            <td><input type="text" placeholder="..." id="ten${i}"></td>
+            <td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
+            <td id="diem${i}">0</td>
+        </tr>`;
     });
-    html += `<tr><td colspan="3"><b>TỔNG PHIÊN</b></td><td id="tongPhien" style="color:var(--blue); font-size:18px">0</td></tr></table>
-    <button class="btn-save" onclick="save()">XÁC NHẬN LƯU TUẦN</button>`;
-    document.getElementById("scoreContent").innerHTML = html;
+
+    html+=`<tr><td colspan="3"><b>TỔNG PHIÊN</b></td><td id="tongPhien" style="color:var(--blue)">0</td></tr></table>
+    <button class="btn-save" onclick="save()">CHỐT VÀ LƯU TUẦN</button>`;
+
+    document.getElementById("scoreView").innerHTML=html;
 }
 
-function calc() {
+function calc(){
     let tong=0;
     LOIS.forEach((loi,i)=>{
         let sl=parseInt(document.getElementById("sl"+i).value)||0;
-        let d = sl*loi.d;
-        document.getElementById("diem"+i).innerText = d;
-        document.getElementById("diem"+i).className = d<0?'minus':'plus';
-        tong+=d;
+        let diem=sl*loi.d;
+        document.getElementById("diem"+i).innerText=diem;
+        document.getElementById("diem"+i).className = diem<0?'minus':'plus';
+        tong+=diem;
     });
-    document.getElementById("tongPhien").innerText = tong;
+    document.getElementById("tongPhien").innerText=tong;
 }
 
-function save() {
-    let lop = document.getElementById("lopSelect").value;
-    let tong = parseInt(document.getElementById("tongPhien").innerText)||0;
-    if(!confirm(`Chốt tuần cho lớp ${lop} với ${tong} điểm?`)) return;
+function openModal(lop){
+    document.getElementById("modalHistory").style.display="block";
+    document.getElementById("modalTitle").innerText = "Lịch sử lớp " + lop;
+    
+    let data = DB[lop];
+    let html = `<h4>1. CHI TIẾT CÁC TUẦN (Trong tháng hiện tại)</h4>`;
+    
+    if(data.weeks.length === 0) html += "<p>Chưa có dữ liệu tuần.</p>";
+    else {
+        html += "<table><tr><th>Tuần</th><th>Điểm chốt</th></tr>";
+        data.weeks.forEach((d, idx) => {
+            html += `<tr><td>Tuần ${idx+1}</td><td class="${d<0?'minus':'plus'}">${d}</td></tr>`;
+        });
+        html += "</table>";
+    }
+
+    html += `<h4 style="margin-top:20px">2. LỊCH SỬ THÁNG</h4>`;
+    if(data.months.length === 0) html += "<p>Chưa có tháng nào được chốt.</p>";
+    else {
+        html += "<table><tr><th>Tháng</th><th>Tổng điểm</th></tr>";
+        data.months.forEach((d, idx) => {
+            html += `<tr><td>Tháng ${idx+1}</td><td class="${d<0?'minus':'plus'}">${d}</td></tr>`;
+        });
+        html += "</table>";
+    }
+
+    html += `<h4 style="margin-top:20px">3. LỊCH SỬ NĂM</h4>`;
+    html += `<p>Số năm đã hoàn thành: <b>${data.years.length}</b></p>`;
+    
+    document.getElementById("modalBody").innerHTML = html;
+}
+
+function closeModal(){ document.getElementById("modalHistory").style.display="none"; }
+
+function save(){
+    let lop=document.getElementById("lopSelect").value;
+    let tong=parseInt(document.getElementById("tongPhien").innerText)||0;
+
+    if(!confirm(`Lưu ${tong} điểm tuần cho lớp ${lop}?`)) return;
 
     DB[lop].total += tong;
-    DB[lop].weeks.push({ d: tong, date: new Date().toLocaleDateString('vi-VN') });
+    DB[lop].weeks.push(tong);
 
-    if(DB[lop].weeks.length >= 4) {
-        let sum = DB[lop].weeks.reduce((a,b)=> a + b.d, 0);
-        DB[lop].months.push(sum);
-        DB[lop].weeks = [];
-        alert("Đã đủ 4 tuần -> Gom thành 1 tháng!");
+    if(DB[lop].weeks.length === 4){
+        let tongThang = DB[lop].weeks.reduce((a,b)=>a+b,0);
+        DB[lop].months.push(tongThang);
+        DB[lop].weeks = []; 
+        alert(`Lớp ${lop} đã đủ 4 tuần. Đã tự động chốt thành 1 Tháng!`);
     }
-    if(DB[lop].months.length >= 12) {
-        DB[lop].years.push(DB[lop].months.reduce((a,b)=>a+b,0));
+
+    if(DB[lop].months.length === 12){
+        let tongNam = DB[lop].months.reduce((a,b)=>a+b,0);
+        DB[lop].years.push(tongNam);
         DB[lop].months = [];
-        alert("Đã đủ 12 tháng -> Gom thành 1 năm!");
+        alert(`Lớp ${lop} đã đủ 12 tháng. Đã tự động chốt thành 1 Năm!`);
     }
-    localStorage.setItem("PHUOCAN_DB", JSON.stringify(DB));
+
+    localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
     renderScore();
-    nav('rank');
-}
-
-function renderHistoryTable() {
-    let lop = document.getElementById("histLopSelect").value;
-    let data = DB[lop];
-    let html = `<h4>Lịch sử chi tiết: Lớp ${lop}</h4>`;
-    
-    // Bảng tuần hiện tại
-    html += `<p><b>1. Các tuần trong tháng này:</b></p><table><tr><th>STT</th><th>Ngày chốt</th><th>Điểm tuần</th></tr>`;
-    if(data.weeks.length===0) html += `<tr><td colspan="3">Chưa có dữ liệu</td></tr>`;
-    data.weeks.forEach((w,i)=>{
-        html += `<tr><td>Tuần ${i+1}</td><td>${w.date}</td><td class="${w.d<0?'minus':'plus'}">${w.d}</td></tr>`;
-    });
-    html += `</table>`;
-
-    // Bảng tháng trong năm
-    html += `<p style="margin-top:20px"><b>2. Các tháng trong năm:</b></p><table><tr><th>Tháng</th><th>Tổng điểm tháng</th></tr>`;
-    if(data.months.length===0) html += `<tr><td colspan="2">Chưa có tháng nào được chốt</td></tr>`;
-    data.months.forEach((m,i)=>{
-        html += `<tr><td>Tháng ${i+1}</td><td class="${m<0?'minus':'plus'}">${m}</td></tr>`;
-    });
-    html += `</table>`;
-
-    // Tổng kết năm
-    html += `<div class="card" style="margin-top:20px; background:#0f172a; border:1px dashed var(--blue)">
-        <p>Số năm đã lưu trữ: <span class="badge">${data.years.length} năm</span></p>
-        <p>Tổng điểm thi đua hiện tại: <b class="plus">${data.total}</b></p>
-    </div>`;
-
-    document.getElementById("historyTableContainer").innerHTML = html;
+    showRank();
 }
 </script>
 </body>
