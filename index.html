@@ -112,145 +112,167 @@ border-radius:8px;
 </div>
 
 <script>
+<script>
 const PIN="1234";
 
 const LOPS=["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
 
 const LOIS=[
-{ n:"Không đeo khăn quàng hoặc huy hiệu", d:-5 },
-{ n:"Không bỏ áo vào quần", d:-5 },
-{ n:"Đi trễ", d:-2 },
-{ n:"Vắng không phép", d:-5 },
-{ n:"Nói tục", d:-10 },
-{ n:"Đánh nhau", d:-50 },
-{ n:"Xả rác", d:-20 },
-{ n:"Không trực nhật", d:-10 },
-{ n:"Không thuộc bài", d:-10 },
-{ n:"Điểm 7", d:5 },
-{ n:"Điểm 8-9", d:7 },
-{ n:"Điểm 10", d:10 },
-{ n:"Tham gia phong trào", d:10 }
+    { n:"Không đeo khăn quàng hoặc huy hiệu", d:-5 },
+    { n:"Không bỏ áo vào quần", d:-5 },
+    { n:"Đi trễ", d:-2 },
+    { n:"Vắng không phép", d:-5 },
+    { n:"Nói tục", d:-10 },
+    { n:"Đánh nhau", d:-50 },
+    { n:"Xả rác", d:-20 },
+    { n:"Không trực nhật", d:-10 },
+    { n:"Không thuộc bài", d:-10 },
+    { n:"Điểm 7", d:5 },
+    { n:"Điểm 8-9", d:7 },
+    { n:"Điểm 10", d:10 },
+    { n:"Tham gia phong trào", d:10 }
 ];
 
 let DB = JSON.parse(localStorage.getItem("PHUOCAN_DB")) || {};
 
 LOPS.forEach(l=>{
-if(!DB[l]){
-DB[l]={
-total:100,
-weeks:[],
-months:[],
-years:[]
-};
-}
+    if(!DB[l]){
+        DB[l]={
+            total:100,
+            weeks:[],
+            months:[],
+            years:[]
+        };
+    }
 });
 
 document.getElementById("pin").addEventListener("input",function(){
-if(this.value===PIN){
-login.style.display="none";
-app.style.display="block";
-renderRank();
-renderScore();
-}
+    if(this.value===PIN){
+        document.getElementById("login").style.display="none";
+        document.getElementById("app").style.display="block";
+        renderRank();
+        renderScore();
+    }
 });
 
 function showRank(){
-rankView.style.display="block";
-scoreView.style.display="none";
+    document.getElementById("rankView").style.display="block";
+    document.getElementById("scoreView").style.display="none";
+    renderRank();
 }
 
 function showScore(){
-rankView.style.display="none";
-scoreView.style.display="block";
+    document.getElementById("rankView").style.display="none";
+    document.getElementById("scoreView").style.display="block";
+    renderScore();
 }
 
 function renderRank(){
-let html="<h3>BẢNG XẾP HẠNG</h3><table><tr><th>Hạng</th><th>Lớp</th><th>Tổng điểm</th></tr>";
-[...LOPS].sort((a,b)=>DB[b].total-DB[a].total)
-.forEach((l,i)=>{
-html+=`<tr>
-<td>${i+1}</td>
-<td>${l}</td>
-<td class="${DB[l].total<100?'minus':'plus'}">${DB[l].total}</td>
-</tr>`;
-});
-html+="</table>";
-rankView.innerHTML=html;
-localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
+    // Phần Bảng xếp hạng hiện tại
+    let html="<h3>BẢNG XẾP HẠNG</h3><table><tr><th>Hạng</th><th>Lớp</th><th>Tổng điểm</th></tr>";
+    [...LOPS].sort((a,b)=>DB[b].total-DB[a].total)
+    .forEach((l,i)=>{
+        html+=`<tr>
+        <td>${i+1}</td>
+        <td>${l}</td>
+        <td class="${DB[l].total<100?'minus':'plus'}">${DB[l].total}</td>
+        </tr>`;
+    });
+    html+="</table>";
+
+    // PHẦN LỊCH SỬ TRƯỜNG (Mới thêm)
+    html+="<h3 style='margin-top:20px'>LỊCH SỬ LƯU TRỮ</h3>";
+    LOPS.forEach(l => {
+        if(DB[l].weeks.length > 0 || DB[l].months.length > 0 || DB[l].years.length > 0) {
+            html += `<div style='background:#334155; padding:10px; border-radius:8px; margin-bottom:10px; font-size:12px;'>
+                <b>Lớp ${l}</b><br>
+                • Tuần hiện tại: ${DB[l].weeks.join(", ") || "0"}<br>
+                • Đã lưu: ${DB[l].months.length} tháng | ${DB[l].years.length} năm
+            </div>`;
+        }
+    });
+
+    document.getElementById("rankView").innerHTML=html;
+    localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
 }
 
 function renderScore(){
-let html=`<h3>SỔ TÍNH ĐIỂM</h3>
-<select class="class-select" id="lopSelect">
-${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}
-</select>
-<table>
-<tr>
-<th>Nội dung</th>
-<th>Biểu điểm</th>
-<th>Số lần</th>
-<th>Điểm</th>
-</tr>`;
+    let html=`<h3>SỔ TÍNH ĐIỂM</h3>
+    <select class="class-select" id="lopSelect">
+    ${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}
+    </select>
+    <table>
+    <tr>
+    <th>Nội dung</th>
+    <th>Tên HS vi phạm</th>
+    <th>Số lần</th>
+    <th>Điểm</th>
+    </tr>`;
 
-LOIS.forEach((loi,i)=>{
-html+=`
-<tr>
-<td>${loi.n}</td>
-<td class="${loi.d<0?'minus':'plus'}">${loi.d>0?'+':''}${loi.d}</td>
-<td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
-<td id="diem${i}">0</td>
-</tr>`;
-});
+    LOIS.forEach((loi,i)=>{
+        html+=`
+        <tr>
+        <td>${loi.n}</td>
+        <td><input type="text" placeholder="Họ tên..." id="ten${i}" style="font-size:11px"></td>
+        <td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
+        <td id="diem${i}">0</td>
+        </tr>`;
+    });
 
-html+=`<tr>
-<td colspan="3"><b>Tổng phiên</b></td>
-<td id="tongPhien">0</td>
-</tr>
-</table>
-<button onclick="save()">Lưu cuối tuần</button>`;
+    html+=`<tr>
+    <td colspan="3"><b>Tổng phiên chấm</b></td>
+    <td id="tongPhien">0</td>
+    </tr>
+    </table>
+    <button onclick="save()" style="margin-top:15px; width:100%; background:var(--green); padding:10px; border-radius:8px; border:none; color:white; font-weight:bold;">LƯU CHỐT TUẦN</button>`;
 
-scoreView.innerHTML=html;
+    document.getElementById("scoreView").innerHTML=html;
 }
 
 function calc(){
-let tong=0;
-LOIS.forEach((loi,i)=>{
-let sl=parseInt(document.getElementById("sl"+i).value)||0;
-let diem=sl*loi.d;
-document.getElementById("diem"+i).innerText=diem>0?`+${diem}`:diem;
-tong+=diem;
-});
-document.getElementById("tongPhien").innerText=tong>0?`+${tong}`:tong;
+    let tong=0;
+    LOIS.forEach((loi,i)=>{
+        let sl=parseInt(document.getElementById("sl"+i).value)||0;
+        let diem=sl*loi.d;
+        document.getElementById("diem"+i).innerText=diem>0?`+${diem}`:diem;
+        tong+=diem;
+    });
+    document.getElementById("tongPhien").innerText=tong>0?`+${tong}`:tong;
 }
 
 function save(){
-let lop=document.getElementById("lopSelect").value;
-let tong=parseInt(document.getElementById("tongPhien").innerText)||0;
+    let lop=document.getElementById("lopSelect").value;
+    let tong=parseInt(document.getElementById("tongPhien").innerText)||0;
 
-DB[lop].total+=tong;
+    // 1. Cộng vào tổng điểm thi đua hiện tại
+    DB[lop].total+=tong;
 
-// Lưu tuần
-DB[lop].weeks.push(tong);
+    // 2. Lưu vào lịch sử tuần
+    DB[lop].weeks.push(tong);
 
-// Đủ 4 tuần -> tạo tháng
-if(DB[lop].weeks.length===4){
-let tongThang=DB[lop].weeks.reduce((a,b)=>a+b,0);
-DB[lop].months.push(tongThang);
-DB[lop].weeks=[];
+    // 3. Kiểm tra đủ 4 tuần -> Gom thành 1 tháng
+    if(DB[lop].weeks.length === 4){
+        let tongThang = DB[lop].weeks.reduce((a,b)=>a+b,0);
+        DB[lop].months.push(tongThang);
+        DB[lop].weeks = []; // Reset tuần sau khi đã lưu tháng
+        alert("Thông báo: Lớp " + lop + " đã đủ 4 tuần và được lưu vào Lịch sử Tháng.");
+    }
+
+    // 4. Kiểm tra đủ 12 tháng -> Gom thành 1 năm
+    if(DB[lop].months.length === 12){
+        let tongNam = DB[lop].months.reduce((a,b)=>a+b,0);
+        DB[lop].years.push(tongNam);
+        DB[lop].months = []; // Reset tháng sau khi đã lưu năm
+        alert("Thông báo: Lớp " + lop + " đã đủ 12 tháng và được lưu vào Lịch sử Năm.");
+    }
+
+    localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
+
+    renderRank();
+    renderScore(); // Reset lại bảng điểm
+    alert("Đã chốt điểm tuần thành công cho lớp "+lop);
 }
-
-// Đủ 12 tháng -> tạo năm
-if(DB[lop].months.length===12){
-let tongNam=DB[lop].months.reduce((a,b)=>a+b,0);
-DB[lop].years.push(tongNam);
-DB[lop].months=[];
-}
-
-localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
-
-renderRank();
-alert("Đã lưu tuần cho lớp "+lop);
-}
+</script>
 </script>
 
 </body>
