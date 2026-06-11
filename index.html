@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TH & THCS PHƯỚC AN - SAO ĐỎ PRO</title>
+
+<title>TH & THCS PHƯỚC AN - SAO ĐỎ</title>
 
 <style>
+
 :root{
 --bg:#0f172a;
 --card:#1e293b;
@@ -13,20 +15,16 @@
 --red:#ef4444;
 --green:#22c55e;
 --gray:#94a3b8;
---gold:#facc15;
---silver:#cbd5e1;
---bronze:#d97706;
 }
 
 *{
-margin:0;
-padding:0;
 box-sizing:border-box;
 }
 
 body{
-background:var(--bg);
+margin:0;
 font-family:Segoe UI,sans-serif;
+background:var(--bg);
 color:white;
 }
 
@@ -38,19 +36,19 @@ display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-z-index:1000;
+z-index:9999;
 }
 
 #login h1{
-margin-bottom:20px;
 font-size:35px;
+margin-bottom:20px;
 }
 
 #login input{
 padding:15px;
 font-size:22px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 text-align:center;
 }
 
@@ -63,33 +61,23 @@ padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:20px;
-flex-wrap:wrap;
-gap:10px;
-}
-
-.topbar h2{
-font-size:28px;
+margin-bottom:15px;
 }
 
 .menu{
 display:flex;
-gap:8px;
+gap:10px;
 flex-wrap:wrap;
 }
 
 .menu button{
 padding:10px 15px;
-background:var(--blue);
 border:none;
-border-radius:10px;
+border-radius:8px;
+background:var(--blue);
 color:white;
-cursor:pointer;
 font-weight:bold;
-}
-
-.menu button:hover{
-opacity:.8;
+cursor:pointer;
 }
 
 .card{
@@ -131,9 +119,9 @@ background:#0f172a;
 input{
 width:100%;
 padding:6px;
-border-radius:6px;
-border:1px solid #334155;
 background:#0f172a;
+border:1px solid #334155;
+border-radius:6px;
 color:white;
 }
 
@@ -142,7 +130,7 @@ width:100%;
 padding:12px;
 margin-bottom:15px;
 border:none;
-border-radius:10px;
+border-radius:8px;
 background:var(--blue);
 color:white;
 font-weight:bold;
@@ -158,37 +146,23 @@ color:var(--red);
 font-weight:bold;
 }
 
-.rank1{
-color:var(--gold);
-font-weight:bold;
-}
-
-.rank2{
-color:var(--silver);
-font-weight:bold;
-}
-
-.rank3{
-color:var(--bronze);
-font-weight:bold;
-}
-
 .btn-save{
 width:100%;
 padding:15px;
+border:none;
+border-radius:10px;
 background:var(--green);
 color:white;
 font-weight:bold;
-border:none;
-border-radius:10px;
+font-size:16px;
 cursor:pointer;
 margin-top:15px;
 }
 
 .btn-view{
-padding:5px 10px;
+padding:6px 12px;
 border:none;
-border-radius:5px;
+border-radius:6px;
 background:#475569;
 color:white;
 cursor:pointer;
@@ -199,7 +173,7 @@ display:none;
 position:fixed;
 inset:0;
 background:rgba(0,0,0,.9);
-z-index:9999;
+z-index:10000;
 overflow-y:auto;
 padding:20px;
 }
@@ -207,7 +181,7 @@ padding:20px;
 .modal-content{
 background:var(--card);
 max-width:900px;
-margin:auto;
+margin:30px auto;
 padding:20px;
 border-radius:15px;
 position:relative;
@@ -215,102 +189,184 @@ position:relative;
 
 .close-modal{
 position:absolute;
-top:10px;
 right:15px;
+top:10px;
 font-size:30px;
 cursor:pointer;
 }
 
-.stat-box{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+.history-menu{
+display:flex;
 gap:10px;
-margin-bottom:20px;
+margin-bottom:15px;
+flex-wrap:wrap;
 }
 
-.stat{
-background:#0f172a;
-padding:15px;
-border-radius:10px;
-text-align:center;
+.history-menu button{
+padding:10px;
+border:none;
+border-radius:8px;
+background:var(--blue);
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
-.stat h3{
-margin-bottom:5px;
-color:var(--blue);
+.rank-title{
+font-size:22px;
+font-weight:bold;
+color:#60a5fa;
+margin-bottom:10px;
 }
+
 </style>
 </head>
 <body>
 
 <div id="login">
+
 <h1>SAO ĐỎ PHƯỚC AN</h1>
-<input type="password" id="pin" placeholder="Nhập PIN">
+
+<input
+type="password"
+id="pin"
+placeholder="Nhập PIN">
+
 </div>
 
 <div id="app">
 
 <div class="topbar">
 
-<h2>PHƯỚC AN</h2>
+<h2>TH & THCS PHƯỚC AN</h2>
 
 <div class="menu">
-<button onclick="showRank()">BXH Tổng</button>
-<button onclick="showMonthRank()">BXH Tháng</button>
-<button onclick="showYearRank()">BXH Năm</button>
-<button onclick="showScore()">Chấm Điểm</button>
+
+<button onclick="showRank()">
+BXH Tuần
+</button>
+
+<button onclick="showMonthRank()">
+BXH Tháng
+</button>
+
+<button onclick="showYearRank()">
+BXH Năm
+</button>
+
+<button onclick="showScore()">
+Chấm điểm
+</button>
+
 </div>
 
 </div>
 
 <div id="rankView" class="card"></div>
-<div id="scoreView" class="card" style="display:none"></div>
+
+<div id="monthRankView"
+class="card"
+style="display:none">
+</div>
+
+<div id="yearRankView"
+class="card"
+style="display:none">
+</div>
+
+<div id="scoreView"
+class="card"
+style="display:none">
+</div>
 
 </div>
 
 <div id="modalHistory">
+
 <div class="modal-content">
 
-<span class="close-modal" onclick="closeModal()">&times;</span>
+<span
+class="close-modal"
+onclick="closeModal()">
+
+&times;
+
+</span>
 
 <h2 id="modalTitle"></h2>
 
-<div id="modalBody"></div>
+<div class="history-menu">
+
+<button onclick="showWeekHistory()">
+📅 Tuần
+</button>
+
+<button onclick="showMonthHistory()">
+📆 Tháng
+</button>
+
+<button onclick="showYearHistory()">
+🏆 Năm
+</button>
 
 </div>
-</div>
-    <script>
 
-const PIN="1234";
+<div id="historyContent"></div>
+
+</div>
+
+</div>
+
+<script>
+    const PIN="1234";
 
 const LOPS=[
+
 "6A","6B","6C","6D",
+
 "7A","7B","7C","7D",
+
 "8A","8B","8C",
+
 "9A","9B"
+
 ];
 
 const LOIS=[
 
 {n:"Khăn quàng/Huy hiệu",d:-5},
+
 {n:"Đồng phục/Bỏ áo vào quần",d:-5},
+
 {n:"Đi trễ",d:-2},
+
 {n:"Vắng không phép",d:-5},
+
 {n:"Nói tục/Chửi thề",d:-10},
+
 {n:"Đánh nhau",d:-50},
+
 {n:"Xả rác/Vệ sinh",d:-20},
+
 {n:"Trực nhật bẩn",d:-10},
+
 {n:"Không thuộc bài",d:-10},
+
 {n:"Điểm 7",d:5},
+
 {n:"Điểm 8-9",d:7},
+
 {n:"Điểm 10",d:10},
+
 {n:"Phong trào",d:10}
 
 ];
 
 let DB=
 JSON.parse(
-localStorage.getItem("PHUOCAN_DB")
+localStorage.getItem(
+"PHUOCAN_DB"
+)
 )||{};
 
 LOPS.forEach(l=>{
@@ -322,12 +378,14 @@ DB[l]={
 total:100,
 
 weeks:[],
+
 months:[],
+
 years:[],
 
-rankWeeks:[],
-rankMonths:[],
-rankYears:[]
+monthPoint:0,
+
+yearPoint:0
 
 };
 
@@ -335,9 +393,21 @@ rankYears:[]
 
 });
 
-document
+let currentClass="";
+
+function saveDB(){
+
+localStorage.setItem(
+"PHUOCAN_DB",
+JSON.stringify(DB)
+);
+
+}
+    document
 .getElementById("pin")
-.addEventListener("input",function(){
+.addEventListener(
+"input",
+function(){
 
 if(this.value===PIN){
 
@@ -350,120 +420,140 @@ document
 .style.display="block";
 
 renderRank();
+
+renderMonthRank();
+
+renderYearRank();
+
 renderScore();
 
 }
 
-});
-
-function saveDB(){
-
-localStorage.setItem(
-"PHUOCAN_DB",
-JSON.stringify(DB)
+}
 );
+
+function hideAll(){
+
+document.getElementById(
+"rankView"
+).style.display="none";
+
+document.getElementById(
+"monthRankView"
+).style.display="none";
+
+document.getElementById(
+"yearRankView"
+).style.display="none";
+
+document.getElementById(
+"scoreView"
+).style.display="none";
 
 }
 
 function showRank(){
 
-document
-.getElementById("rankView")
-.style.display="block";
+hideAll();
 
-document
-.getElementById("scoreView")
-.style.display="none";
+document.getElementById(
+"rankView"
+).style.display="block";
 
 renderRank();
 
 }
 
+function showMonthRank(){
+
+hideAll();
+
+document.getElementById(
+"monthRankView"
+).style.display="block";
+
+renderMonthRank();
+
+}
+
+function showYearRank(){
+
+hideAll();
+
+document.getElementById(
+"yearRankView"
+).style.display="block";
+
+renderYearRank();
+
+}
+
 function showScore(){
 
-document
-.getElementById("rankView")
-.style.display="none";
+hideAll();
 
-document
-.getElementById("scoreView")
-.style.display="block";
+document.getElementById(
+"scoreView"
+).style.display="block";
 
 renderScore();
 
 }
-
-function renderRank(){
-
-let arr=[...LOPS];
-
-arr.sort(
-(a,b)=>DB[b].total-DB[a].total
-);
+    function renderRank(){
 
 let html=`
 
-<h2>BẢNG XẾP HẠNG TỔNG</h2>
+<div class="rank-title">
 
-<div class="stat-box">
-
-<div class="stat">
-<h3>Hạng 1</h3>
-<div>${arr[0]}</div>
-</div>
-
-<div class="stat">
-<h3>Hạng 2</h3>
-<div>${arr[1]}</div>
-</div>
-
-<div class="stat">
-<h3>Hạng 3</h3>
-<div>${arr[2]}</div>
-</div>
+BXH TUẦN
 
 </div>
 
 <table>
 
 <tr>
+
 <th>Hạng</th>
+
 <th>Lớp</th>
+
 <th>Điểm</th>
+
 <th>Lịch sử</th>
+
 </tr>
 
 `;
 
-arr.forEach((lop,index)=>{
+let arr=[...LOPS];
 
-let cls="";
+arr.sort(
+(a,b)=>
+DB[b].total-
+DB[a].total
+);
 
-if(index===0) cls="rank1";
-if(index===1) cls="rank2";
-if(index===2) cls="rank3";
+arr.forEach((l,i)=>{
 
 html+=`
 
 <tr>
 
-<td class="${cls}">
-${index+1}
-</td>
+<td>${i+1}</td>
+
+<td><b>${l}</b></td>
 
 <td>
-<b>${lop}</b>
-</td>
 
-<td>
-${DB[lop].total}
+${DB[l].total}
+
 </td>
 
 <td>
 
 <button
 class="btn-view"
-onclick="openModal('${lop}')">
+onclick="openModal('${l}')">
 
 Xem
 
@@ -480,80 +570,52 @@ Xem
 html+="</table>";
 
 document
-.getElementById("rankView")
+.getElementById(
+"rankView"
+)
 .innerHTML=html;
 
 saveDB();
 
 }
-
-function showMonthRank(){
-
-document
-.getElementById("scoreView")
-.style.display="none";
-
-document
-.getElementById("rankView")
-.style.display="block";
-
-let arr=[...LOPS];
-
-arr.sort((a,b)=>{
-
-let ta=
-DB[a].months.length
-?
-DB[a].months[
-DB[a].months.length-1
-]
-:0;
-
-let tb=
-DB[b].months.length
-?
-DB[b].months[
-DB[b].months.length-1
-]
-:0;
-
-return tb-ta;
-
-});
+    function renderMonthRank(){
 
 let html=`
 
-<h2>BẢNG XẾP HẠNG THÁNG</h2>
+<div class="rank-title">
+BXH THÁNG
+</div>
 
 <table>
-
 <tr>
 <th>Hạng</th>
 <th>Lớp</th>
-<th>Điểm Tháng</th>
+<th>Điểm tháng</th>
 </tr>
 
 `;
 
-arr.forEach((lop,index)=>{
+let arr=[...LOPS];
 
-let diem=
-DB[lop].months.length
-?
-DB[lop].months[
-DB[lop].months.length-1
-]
-:0;
+arr.sort(
+(a,b)=>
+(DB[b].monthPoint||0)-
+(DB[a].monthPoint||0)
+);
+
+arr.forEach((l,i)=>{
 
 html+=`
 
 <tr>
 
-<td>${index+1}</td>
+<td>${i+1}</td>
 
-<td>${lop}</td>
+<td>${l}</td>
 
-<td>${diem}</td>
+<td>
+${DB[l].monthPoint||0}
+</td>
 
 </tr>
 
@@ -564,78 +626,56 @@ html+=`
 html+="</table>";
 
 document
-.getElementById("rankView")
+.getElementById(
+"monthRankView"
+)
 .innerHTML=html;
 
 }
 
-function showYearRank(){
-
-document
-.getElementById("scoreView")
-.style.display="none";
-
-document
-.getElementById("rankView")
-.style.display="block";
-
-let arr=[...LOPS];
-
-arr.sort((a,b)=>{
-
-let ta=
-DB[a].years.length
-?
-DB[a].years[
-DB[a].years.length-1
-]
-:0;
-
-let tb=
-DB[b].years.length
-?
-DB[b].years[
-DB[b].years.length-1
-]
-:0;
-
-return tb-ta;
-
-});
+function renderYearRank(){
 
 let html=`
 
-<h2>BẢNG XẾP HẠNG NĂM</h2>
+<div class="rank-title">
+BXH NĂM
+</div>
 
 <table>
 
 <tr>
+
 <th>Hạng</th>
+
 <th>Lớp</th>
-<th>Điểm Năm</th>
+
+<th>Điểm năm</th>
+
 </tr>
 
 `;
 
-arr.forEach((lop,index)=>{
+let arr=[...LOPS];
 
-let diem=
-DB[lop].years.length
-?
-DB[lop].years[
-DB[lop].years.length-1
-]
-:0;
+arr.sort(
+(a,b)=>
+(DB[b].yearPoint||0)-
+(DB[a].yearPoint||0)
+);
+
+arr.forEach((l,i)=>{
 
 html+=`
 
 <tr>
 
-<td>${index+1}</td>
+<td>${i+1}</td>
 
-<td>${lop}</td>
+<td>${l}</td>
 
-<td>${diem}</td>
+<td>
+${DB[l].yearPoint||0}
+</td>
 
 </tr>
 
@@ -646,22 +686,24 @@ html+=`
 html+="</table>";
 
 document
-.getElementById("rankView")
+.getElementById(
+"yearRankView"
+)
 .innerHTML=html;
 
 }
-        function renderScore(){
+    function renderScore(){
 
 let html=`
 
-<h2>SỔ CHẤM ĐIỂM</h2>
+<h3>SỔ CHẤM ĐIỂM</h3>
 
 <select
 class="class-select"
 id="lopSelect">
 
-${LOPS.map(
-l=>`<option value="${l}">
+${LOPS.map(l=>
+`<option value="${l}">
 ${l}
 </option>`
 ).join("")}
@@ -671,10 +713,15 @@ ${l}
 <table>
 
 <tr>
+
 <th>Nội dung</th>
+
 <th>Tên HS</th>
+
 <th>Số lần</th>
+
 <th>Điểm</th>
+
 </tr>
 
 `;
@@ -686,23 +733,28 @@ html+=`
 <tr>
 
 <td style="text-align:left">
+
 ${loi.n}
+
 </td>
 
 <td>
+
 <input
-type="text"
-placeholder="Tên học sinh"
-id="ten${i}">
+id="ten${i}"
+type="text">
+
 </td>
 
 <td>
+
 <input
-type="number"
-min="0"
-value="0"
 id="sl${i}"
+type="number"
+value="0"
+min="0"
 oninput="calc()">
+
 </td>
 
 <td id="diem${i}">
@@ -720,12 +772,12 @@ html+=`
 <tr>
 
 <td colspan="3">
-<b>TỔNG PHIÊN</b>
+
+<b>TỔNG TUẦN</b>
+
 </td>
 
-<td
-id="tongPhien"
-style="color:#3b82f6">
+<td id="tongPhien">
 
 0
 
@@ -737,16 +789,18 @@ style="color:#3b82f6">
 
 <button
 class="btn-save"
-onclick="save()">
+onclick="saveWeek()">
 
-CHỐT VÀ LƯU TUẦN
+XÁC NHẬN LƯU TUẦN
 
 </button>
 
 `;
 
 document
-.getElementById("scoreView")
+.getElementById(
+"scoreView"
+)
 .innerHTML=html;
 
 }
@@ -771,17 +825,6 @@ document
 )
 .innerText=diem;
 
-document
-.getElementById(
-"diem"+i
-)
-.className=
-diem<0
-?
-"minus"
-:
-"plus";
-
 tong+=diem;
 
 });
@@ -793,101 +836,9 @@ document
 .innerText=tong;
 
 }
-
-function saveWeeklyRanking(){
-
-let ranking=[...LOPS]
-
-.sort(
-(a,b)=>
-DB[b].total-
-DB[a].total
-)
-
-.map(
-(lop,index)=>({
-
-rank:index+1,
-lop:lop,
-diem:DB[lop].total
-
-})
-);
-
-LOPS.forEach(l=>{
-
-DB[l]
-.rankWeeks
-.push(ranking);
-
-});
-
-}
-
-function saveMonthlyRanking(){
-
-let ranking=[...LOPS]
-
-.sort(
-(a,b)=>
-DB[b].total-
-DB[a].total
-)
-
-.map(
-(lop,index)=>({
-
-rank:index+1,
-lop:lop,
-diem:DB[lop].total
-
-})
-);
-
-LOPS.forEach(l=>{
-
-DB[l]
-.rankMonths
-.push(ranking);
-
-});
-
-}
-
-function saveYearlyRanking(){
-
-let ranking=[...LOPS]
-
-.sort(
-(a,b)=>
-DB[b].total-
-DB[a].total
-)
-
-.map(
-(lop,index)=>({
-
-rank:index+1,
-lop:lop,
-diem:DB[lop].total
-
-})
-);
-
-LOPS.forEach(l=>{
-
-DB[l]
-.rankYears
-.push(ranking);
-
-});
-
-}
-
-function save(){
+    function saveWeek(){
 
 let lop=
-
 document
 .getElementById(
 "lopSelect"
@@ -895,7 +846,6 @@ document
 .value;
 
 let tong=
-
 parseInt(
 document
 .getElementById(
@@ -906,104 +856,132 @@ document
 
 if(
 !confirm(
-`Lưu ${tong} điểm cho lớp ${lop}?`
+`Lưu ${tong} điểm cho ${lop}?`
 )
-) return;
+){
+return;
+}
 
 DB[lop].total+=tong;
 
-DB[lop]
-.weeks
-.push(tong);
+DB[lop].weeks.push({
 
-saveWeeklyRanking();
+date:new Date()
+.toLocaleDateString(
+"vi-VN"
+),
+
+score:tong
+
+});
 
 if(
-DB[lop]
-.weeks
-.length>=4
+DB[lop].weeks.length>35
 ){
 
-let tongThang=
+DB[lop].weeks.shift();
 
-DB[lop]
-.weeks
-.reduce(
-(a,b)=>a+b,
+}
+
+let weekCount=
+DB[lop].weeks.length;
+
+if(
+weekCount%4===0
+){
+
+let last4=
+DB[lop].weeks
+.slice(-4);
+
+let monthScore=
+last4.reduce(
+(a,b)=>
+a+b.score,
 0
 );
 
-DB[lop]
-.months
-.push(
-tongThang
-);
+DB[lop].monthPoint=
+monthScore;
 
-saveMonthlyRanking();
+DB[lop].months.push({
 
-DB[lop]
-.weeks=[];
+date:new Date()
+.toLocaleDateString(
+"vi-VN"
+),
+
+score:monthScore
+
+});
 
 alert(
-
-`Lớp ${lop}
-đã đủ 4 tuần.
-
-Đã tạo BXH tháng!`
-
+`${lop} đã đủ 4 tuần và được tạo tháng mới`
 );
 
 }
 
 if(
-DB[lop]
-.months
-.length>=12
+DB[lop].months.length>12
 ){
 
-let tongNam=
+DB[lop].months.shift();
 
-DB[lop]
-.months
-.reduce(
-(a,b)=>a+b,
+}
+
+if(
+DB[lop].months.length>0
+&&
+DB[lop].months.length%12===0
+){
+
+let last12=
+DB[lop].months
+.slice(-12);
+
+let yearScore=
+last12.reduce(
+(a,b)=>
+a+b.score,
 0
 );
 
-DB[lop]
-.years
-.push(
-tongNam
-);
+DB[lop].yearPoint=
+yearScore;
 
-saveYearlyRanking();
+DB[lop].years.push({
 
-DB[lop]
-.months=[];
+date:new Date()
+.toLocaleDateString(
+"vi-VN"
+),
+
+score:yearScore
+
+});
 
 alert(
-
-`Lớp ${lop}
-đã đủ 12 tháng.
-
-Đã tạo BXH năm!`
-
+`${lop} đã đủ 12 tháng và được tạo năm mới`
 );
 
 }
 
 saveDB();
 
+renderRank();
+
+renderMonthRank();
+
+renderYearRank();
+
 renderScore();
 
 showRank();
 
-alert(
-"Lưu thành công!"
-);
-
 }
-        function openModal(lop){
+    function openModal(lop){
+
+currentClass=lop;
 
 document
 .getElementById(
@@ -1016,243 +994,9 @@ document
 "modalTitle"
 )
 .innerText=
-"Lịch sử lớp " + lop;
+"Lịch sử lớp "+lop;
 
-let data=DB[lop];
-
-let html="";
-
-html+=`
-
-<h3>Điểm hiện tại:
-<span class="plus">
-${data.total}
-</span>
-</h3>
-
-`;
-
-html+=`
-
-<h3 style="margin-top:20px">
-1. LỊCH SỬ TUẦN
-</h3>
-
-`;
-
-if(data.weeks.length===0){
-
-html+=`
-<p>
-Chưa có dữ liệu tuần.
-</p>
-`;
-
-}else{
-
-html+=`
-
-<table>
-
-<tr>
-<th>Tuần</th>
-<th>Điểm</th>
-</tr>
-
-`;
-
-data.weeks.forEach((d,i)=>{
-
-html+=`
-
-<tr>
-
-<td>
-Tuần ${i+1}
-</td>
-
-<td class="${
-d<0
-?
-'minus'
-:
-'plus'
-}">
-${d}
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+=`
-</table>
-`;
-
-}
-
-html+=`
-
-<h3 style="margin-top:20px">
-2. LỊCH SỬ THÁNG
-</h3>
-
-`;
-
-if(data.months.length===0){
-
-html+=`
-<p>
-Chưa có dữ liệu tháng.
-</p>
-`;
-
-}else{
-
-html+=`
-
-<table>
-
-<tr>
-<th>Tháng</th>
-<th>Điểm</th>
-</tr>
-
-`;
-
-data.months.forEach((d,i)=>{
-
-html+=`
-
-<tr>
-
-<td>
-Tháng ${i+1}
-</td>
-
-<td class="${
-d<0
-?
-'minus'
-:
-'plus'
-}">
-${d}
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+=`
-</table>
-`;
-
-}
-
-html+=`
-
-<h3 style="margin-top:20px">
-3. LỊCH SỬ NĂM
-</h3>
-
-`;
-
-if(data.years.length===0){
-
-html+=`
-<p>
-Chưa có dữ liệu năm.
-</p>
-`;
-
-}else{
-
-html+=`
-
-<table>
-
-<tr>
-<th>Năm</th>
-<th>Điểm</th>
-</tr>
-
-`;
-
-data.years.forEach((d,i)=>{
-
-html+=`
-
-<tr>
-
-<td>
-Năm ${i+1}
-</td>
-
-<td class="${
-d<0
-?
-'minus'
-:
-'plus'
-}">
-${d}
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+=`
-</table>
-`;
-
-}
-
-html+=`
-
-<h3 style="margin-top:20px">
-4. THỐNG KÊ
-</h3>
-
-<div class="stat-box">
-
-<div class="stat">
-<h3>Số tuần</h3>
-<div>
-${data.weeks.length}
-</div>
-</div>
-
-<div class="stat">
-<h3>Số tháng</h3>
-<div>
-${data.months.length}
-</div>
-</div>
-
-<div class="stat">
-<h3>Số năm</h3>
-<div>
-${data.years.length}
-</div>
-</div>
-
-</div>
-
-`;
-
-document
-.getElementById(
-"modalBody"
-)
-.innerHTML=html;
+showWeekHistory();
 
 }
 
@@ -1266,22 +1010,158 @@ document
 
 }
 
-window.onclick=function(e){
+function showWeekHistory(){
 
-if(
-e.target===
-document.getElementById(
-"modalHistory"
+let data=
+DB[currentClass];
+
+let html=`
+
+<h3>📅 Lịch sử tuần</h3>
+
+<table>
+
+<tr>
+
+<th>STT</th>
+
+<th>Ngày</th>
+
+<th>Điểm</th>
+
+</tr>
+
+`;
+
+data.weeks.forEach((w,i)=>{
+
+html+=`
+
+<tr>
+
+<td>${i+1}</td>
+
+<td>${w.date}</td>
+
+<td>${w.score}</td>
+
+</tr>
+
+`;
+
+});
+
+html+="</table>";
+
+document
+.getElementById(
+"historyContent"
 )
-){
-
-closeModal();
+.innerHTML=html;
 
 }
 
-};
+function showMonthHistory(){
 
-renderRank();
+let data=
+DB[currentClass];
+
+let html=`
+
+<h3>📆 Lịch sử tháng</h3>
+
+<table>
+
+<tr>
+
+<th>STT</th>
+
+<th>Ngày</th>
+
+<th>Điểm</th>
+
+</tr>
+
+`;
+
+data.months.forEach((m,i)=>{
+
+html+=`
+
+<tr>
+
+<td>${i+1}</td>
+
+<td>${m.date}</td>
+
+<td>${m.score}</td>
+
+</tr>
+
+`;
+
+});
+
+html+="</table>";
+
+document
+.getElementById(
+"historyContent"
+)
+.innerHTML=html;
+
+}
+
+function showYearHistory(){
+
+let data=
+DB[currentClass];
+
+let html=`
+
+<h3>🏆 Lịch sử năm</h3>
+
+<table>
+
+<tr>
+
+<th>STT</th>
+
+<th>Ngày</th>
+
+<th>Điểm</th>
+
+</tr>
+
+`;
+
+data.years.forEach((y,i)=>{
+
+html+=`
+
+<tr>
+
+<td>${i+1}</td>
+
+<td>${y.date}</td>
+
+<td>${y.score}</td>
+
+</tr>
+
+`;
+
+});
+
+html+="</table>";
+
+document
+.getElementById(
+"historyContent"
+)
+.innerHTML=html;
+
+}
 
 </script>
 
