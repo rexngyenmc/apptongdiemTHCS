@@ -1,287 +1,266 @@
-function openModal(lop){
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-document
-.getElementById(
-"modalHistory"
-)
-.style.display="block";
+<title>SAO ĐỎ PHƯỚC AN PRO</title>
 
-document
-.getElementById(
-"modalTitle"
-)
-.innerText=
-"Lịch sử lớp " + lop;
+<style>
 
-let data=DB[lop];
+:root{
+--bg:#0f172a;
+--card:#1e293b;
+--blue:#3b82f6;
+--green:#22c55e;
+--red:#ef4444;
+--gray:#94a3b8;
+}
 
-let html="";
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-html+=`
+body{
+background:var(--bg);
+color:white;
+font-family:Segoe UI,sans-serif;
+}
 
-<h3>Điểm hiện tại:
-<span class="plus">
-${data.total}
+#login{
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:linear-gradient(
+135deg,
+#1e3a8a,
+#2563eb
+);
+z-index:9999;
+}
+
+#login h1{
+margin-bottom:20px;
+}
+
+#login input{
+padding:15px;
+font-size:22px;
+border:none;
+border-radius:10px;
+text-align:center;
+}
+
+#app{
+display:none;
+padding:15px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:15px;
+}
+
+.menu{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+
+.menu button{
+padding:10px 15px;
+border:none;
+border-radius:8px;
+background:var(--blue);
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
+
+.card{
+background:var(--card);
+padding:15px;
+border-radius:15px;
+margin-bottom:15px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+font-size:13px;
+}
+
+th,td{
+border:1px solid #334155;
+padding:10px;
+text-align:center;
+}
+
+th{
+background:#0f172a;
+}
+
+input{
+width:100%;
+padding:6px;
+border-radius:6px;
+border:1px solid #334155;
+background:#0f172a;
+color:white;
+}
+
+.class-select{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:var(--blue);
+color:white;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.plus{
+color:var(--green);
+font-weight:bold;
+}
+
+.minus{
+color:var(--red);
+font-weight:bold;
+}
+
+.btn-save{
+width:100%;
+padding:15px;
+background:var(--green);
+border:none;
+border-radius:10px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+}
+
+.btn-view{
+padding:5px 10px;
+border:none;
+border-radius:5px;
+background:#475569;
+color:white;
+cursor:pointer;
+}
+
+#modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.9);
+z-index:999;
+overflow:auto;
+padding:20px;
+}
+
+.modal-content{
+background:var(--card);
+max-width:900px;
+margin:auto;
+padding:20px;
+border-radius:15px;
+position:relative;
+}
+
+.close{
+position:absolute;
+right:15px;
+top:10px;
+font-size:30px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="login">
+
+<h1>SAO ĐỎ PHƯỚC AN</h1>
+
+<input
+type="password"
+id="pin"
+placeholder="Nhập PIN">
+
+</div>
+
+<div id="app">
+
+<div class="topbar">
+
+<h2>PHƯỚC AN</h2>
+
+<div class="menu">
+
+<button onclick="showWeekRank()">
+BXH TUẦN
+</button>
+
+<button onclick="showMonthRank()">
+BXH THÁNG
+</button>
+
+<button onclick="showWeekHistory()">
+LỊCH SỬ TUẦN
+</button>
+
+<button onclick="showScore()">
+CHẤM ĐIỂM
+</button>
+
+</div>
+
+</div>
+
+<div id="mainView"
+class="card">
+</div>
+
+<div id="scoreView"
+class="card"
+style="display:none">
+</div>
+
+</div>
+
+<div id="modal">
+
+<div class="modal-content">
+
+<span
+class="close"
+onclick="closeModal()">
+
+&times;
+
 </span>
-</h3>
 
-`;
-
-html+=`
-
-<h3 style="margin-top:20px">
-1. LỊCH SỬ TUẦN
-</h3>
-
-`;
-
-if(data.weeks.length===0){
-
-html+=`
-<p>
-Chưa có dữ liệu tuần.
-</p>
-`;
-
-}else{
-
-html+=`
-
-<table>
-
-<tr>
-<th>Tuần</th>
-<th>Điểm</th>
-</tr>
-
-`;
-
-data.weeks.forEach((d,i)=>{
-
-html+=`
-
-<tr>
-
-<td>
-Tuần ${i+1}
-</td>
-
-<td class="${
-d<0
-?
-'minus'
-:
-'plus'
-}">
-${d}
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+=`
-</table>
-`;
-
-}
-
-html+=`
-
-<h3 style="margin-top:20px">
-2. LỊCH SỬ THÁNG
-</h3>
-
-`;
-
-if(data.months.length===0){
-
-html+=`
-<p>
-Chưa có dữ liệu tháng.
-</p>
-`;
-
-}else{
-
-html+=`
-
-<table>
-
-<tr>
-<th>Tháng</th>
-<th>Điểm</th>
-</tr>
-
-`;
-
-data.months.forEach((d,i)=>{
-
-html+=`
-
-<tr>
-
-<td>
-Tháng ${i+1}
-</td>
-
-<td class="${
-d<0
-?
-'minus'
-:
-'plus'
-}">
-${d}
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+=`
-</table>
-`;
-
-}
-
-html+=`
-
-<h3 style="margin-top:20px">
-3. LỊCH SỬ NĂM
-</h3>
-
-`;
-
-if(data.years.length===0){
-
-html+=`
-<p>
-Chưa có dữ liệu năm.
-</p>
-`;
-
-}else{
-
-html+=`
-
-<table>
-
-<tr>
-<th>Năm</th>
-<th>Điểm</th>
-</tr>
-
-`;
-
-data.years.forEach((d,i)=>{
-
-html+=`
-
-<tr>
-
-<td>
-Năm ${i+1}
-</td>
-
-<td class="${
-d<0
-?
-'minus'
-:
-'plus'
-}">
-${d}
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+=`
-</table>
-`;
-
-}
-
-html+=`
-
-<h3 style="margin-top:20px">
-4. THỐNG KÊ
-</h3>
-
-<div class="stat-box">
-
-<div class="stat">
-<h3>Số tuần</h3>
-<div>
-${data.weeks.length}
-</div>
-</div>
-
-<div class="stat">
-<h3>Số tháng</h3>
-<div>
-${data.months.length}
-</div>
-</div>
-
-<div class="stat">
-<h3>Số năm</h3>
-<div>
-${data.years.length}
-</div>
+<div id="modalBody">
 </div>
 
 </div>
 
-`;
-
-document
-.getElementById(
-"modalBody"
-)
-.innerHTML=html;
-
-}
-
-function closeModal(){
-
-document
-.getElementById(
-"modalHistory"
-)
-.style.display="none";
-
-}
-
-window.onclick=function(e){
-
-if(
-e.target===
-document.getElementById(
-"modalHistory"
-)
-){
-
-closeModal();
-
-}
-
-};
-
-renderRank();
-
-</script>
-
-</body>
-</html>
+</div>
 <script>
 
 const PIN="1234";
