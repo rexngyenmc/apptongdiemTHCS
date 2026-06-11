@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TH & THCS PHƯỚC AN - SAO ĐỎ</title>
+<title>TH & THCS PHƯỚC AN - SAO ĐỎ PRO</title>
 
 <style>
 :root{
@@ -13,14 +13,23 @@
 --red:#ef4444;
 --green:#22c55e;
 --gray:#94a3b8;
+--gold:#facc15;
+--silver:#cbd5e1;
+--bronze:#d97706;
 }
-*{box-sizing:border-box}
-body{
+
+*{
 margin:0;
-font-family:Segoe UI,sans-serif;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
 background:var(--bg);
+font-family:Segoe UI,sans-serif;
 color:white;
 }
+
 #login{
 position:fixed;
 inset:0;
@@ -29,55 +38,96 @@ display:flex;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-z-index:100;
+z-index:1000;
 }
+
+#login h1{
+margin-bottom:20px;
+font-size:35px;
+}
+
 #login input{
 padding:15px;
 font-size:22px;
-border-radius:10px;
 border:none;
+border-radius:10px;
 text-align:center;
 }
-#app{display:none;padding:15px;}
+
+#app{
+display:none;
+padding:15px;
+}
+
 .topbar{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:15px;
+margin-bottom:20px;
+flex-wrap:wrap;
+gap:10px;
 }
+
+.topbar h2{
+font-size:28px;
+}
+
+.menu{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+
 .menu button{
-margin-left:10px;
 padding:10px 15px;
-border:none;
-border-radius:8px;
 background:var(--blue);
+border:none;
+border-radius:10px;
 color:white;
 cursor:pointer;
-font-weight: bold;
+font-weight:bold;
 }
+
+.menu button:hover{
+opacity:.8;
+}
+
 .card{
 background:var(--card);
 padding:15px;
 border-radius:15px;
 margin-bottom:20px;
-animation:fade 0.3s ease;
+animation:fade .3s ease;
 }
+
 @keyframes fade{
-from{opacity:0;transform:translateY(10px)}
-to{opacity:1;transform:translateY(0)}
+from{
+opacity:0;
+transform:translateY(10px);
 }
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
 table{
 width:100%;
 border-collapse:collapse;
-font-size:13px;
 margin-top:10px;
+font-size:13px;
 }
+
 th,td{
 border:1px solid #334155;
 padding:10px;
 text-align:center;
 }
-th{background:#0f172a}
+
+th{
+background:#0f172a;
+}
+
 input{
 width:100%;
 padding:6px;
@@ -86,62 +136,108 @@ border:1px solid #334155;
 background:#0f172a;
 color:white;
 }
-.minus{color:var(--red)}
-.plus{color:var(--green)}
+
 .class-select{
 width:100%;
-margin-bottom:15px;
 padding:12px;
-border-radius:8px;
+margin-bottom:15px;
+border:none;
+border-radius:10px;
 background:var(--blue);
 color:white;
 font-weight:bold;
+}
+
+.plus{
+color:var(--green);
+font-weight:bold;
+}
+
+.minus{
+color:var(--red);
+font-weight:bold;
+}
+
+.rank1{
+color:var(--gold);
+font-weight:bold;
+}
+
+.rank2{
+color:var(--silver);
+font-weight:bold;
+}
+
+.rank3{
+color:var(--bronze);
+font-weight:bold;
+}
+
+.btn-save{
+width:100%;
+padding:15px;
+background:var(--green);
+color:white;
+font-weight:bold;
 border:none;
+border-radius:10px;
+cursor:pointer;
+margin-top:15px;
 }
-/* Modal (Màn hình lịch sử mới) */
-#modalHistory {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.9);
-    z-index: 1000;
-    padding: 20px;
-    overflow-y: auto;
+
+.btn-view{
+padding:5px 10px;
+border:none;
+border-radius:5px;
+background:#475569;
+color:white;
+cursor:pointer;
 }
-.modal-content {
-    background: var(--card);
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
-    border-radius: 15px;
-    position: relative;
+
+#modalHistory{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.9);
+z-index:9999;
+overflow-y:auto;
+padding:20px;
 }
-.close-modal {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
+
+.modal-content{
+background:var(--card);
+max-width:900px;
+margin:auto;
+padding:20px;
+border-radius:15px;
+position:relative;
 }
-.btn-view {
-    background: #475569;
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 11px;
+
+.close-modal{
+position:absolute;
+top:10px;
+right:15px;
+font-size:30px;
+cursor:pointer;
 }
-.btn-save {
-    width: 100%;
-    padding: 15px;
-    background: var(--green);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    margin-top: 15px;
-    cursor: pointer;
+
+.stat-box{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:10px;
+margin-bottom:20px;
+}
+
+.stat{
+background:#0f172a;
+padding:15px;
+border-radius:10px;
+text-align:center;
+}
+
+.stat h3{
+margin-bottom:5px;
+color:var(--blue);
 }
 </style>
 </head>
@@ -153,182 +249,1041 @@ border:none;
 </div>
 
 <div id="app">
-    <div class="topbar">
-        <h2>PHƯỚC AN</h2>
-        <div class="menu">
-            <button onclick="showRank()">Xếp hạng</button>
-            <button onclick="showScore()">Chấm điểm</button>
-        </div>
-    </div>
 
-    <div id="rankView" class="card"></div>
-    <div id="scoreView" class="card" style="display:none"></div>
+<div class="topbar">
+
+<h2>PHƯỚC AN</h2>
+
+<div class="menu">
+<button onclick="showRank()">BXH Tổng</button>
+<button onclick="showMonthRank()">BXH Tháng</button>
+<button onclick="showYearRank()">BXH Năm</button>
+<button onclick="showScore()">Chấm Điểm</button>
+</div>
+
+</div>
+
+<div id="rankView" class="card"></div>
+<div id="scoreView" class="card" style="display:none"></div>
+
 </div>
 
 <div id="modalHistory">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h2 id="modalTitle" style="color:var(--blue)"></h2>
-        <div id="modalBody"></div>
-    </div>
+<div class="modal-content">
+
+<span class="close-modal" onclick="closeModal()">&times;</span>
+
+<h2 id="modalTitle"></h2>
+
+<div id="modalBody"></div>
+
 </div>
+</div>
+    <script>
 
-<script>
 const PIN="1234";
-const LOPS=["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
 
-const LOIS=[
-    { n:"Khăn quàng/Huy hiệu", d:-5 },
-    { n:"Đồng phục/Bỏ áo vào quần", d:-5 },
-    { n:"Đi trễ", d:-2 },
-    { n:"Vắng không phép", d:-5 },
-    { n:"Nói tục/Chửi thề", d:-10 },
-    { n:"Đánh nhau", d:-50 },
-    { n:"Xả rác/Vệ sinh", d:-20 },
-    { n:"Trực nhật bẩn", d:-10 },
-    { n:"Không thuộc bài", d:-10 },
-    { n:"Điểm 7", d:5 },
-    { n:"Điểm 8-9", d:7 },
-    { n:"Điểm 10", d:10 },
-    { n:"Phong trào", d:10 }
+const LOPS=[
+"6A","6B","6C","6D",
+"7A","7B","7C","7D",
+"8A","8B","8C",
+"9A","9B"
 ];
 
-let DB = JSON.parse(localStorage.getItem("PHUOCAN_DB")) || {};
-LOPS.forEach(l=>{ if(!DB[l]) DB[l]={ total:100, weeks:[], months:[], years:[] }; });
+const LOIS=[
 
-document.getElementById("pin").addEventListener("input",function(){
-    if(this.value===PIN){
-        document.getElementById("login").style.display="none";
-        document.getElementById("app").style.display="block";
-        renderRank();
-        renderScore();
-    }
+{n:"Khăn quàng/Huy hiệu",d:-5},
+{n:"Đồng phục/Bỏ áo vào quần",d:-5},
+{n:"Đi trễ",d:-2},
+{n:"Vắng không phép",d:-5},
+{n:"Nói tục/Chửi thề",d:-10},
+{n:"Đánh nhau",d:-50},
+{n:"Xả rác/Vệ sinh",d:-20},
+{n:"Trực nhật bẩn",d:-10},
+{n:"Không thuộc bài",d:-10},
+{n:"Điểm 7",d:5},
+{n:"Điểm 8-9",d:7},
+{n:"Điểm 10",d:10},
+{n:"Phong trào",d:10}
+
+];
+
+let DB=
+JSON.parse(
+localStorage.getItem("PHUOCAN_DB")
+)||{};
+
+LOPS.forEach(l=>{
+
+if(!DB[l]){
+
+DB[l]={
+
+total:100,
+
+weeks:[],
+months:[],
+years:[],
+
+rankWeeks:[],
+rankMonths:[],
+rankYears:[]
+
+};
+
+}
+
 });
 
+document
+.getElementById("pin")
+.addEventListener("input",function(){
+
+if(this.value===PIN){
+
+document
+.getElementById("login")
+.style.display="none";
+
+document
+.getElementById("app")
+.style.display="block";
+
+renderRank();
+renderScore();
+
+}
+
+});
+
+function saveDB(){
+
+localStorage.setItem(
+"PHUOCAN_DB",
+JSON.stringify(DB)
+);
+
+}
+
 function showRank(){
-    document.getElementById("rankView").style.display="block";
-    document.getElementById("scoreView").style.display="none";
-    renderRank();
+
+document
+.getElementById("rankView")
+.style.display="block";
+
+document
+.getElementById("scoreView")
+.style.display="none";
+
+renderRank();
+
 }
 
 function showScore(){
-    document.getElementById("rankView").style.display="none";
-    document.getElementById("scoreView").style.display="block";
-    renderScore();
+
+document
+.getElementById("rankView")
+.style.display="none";
+
+document
+.getElementById("scoreView")
+.style.display="block";
+
+renderScore();
+
 }
 
 function renderRank(){
-    let html="<h3>BẢNG XẾP HẠNG</h3><table><tr><th>Hạng</th><th>Lớp</th><th>Điểm</th><th>Lịch sử</th></tr>";
-    [...LOPS].sort((a,b)=>DB[b].total-DB[a].total)
-    .forEach((l,i)=>{
-        html+=`<tr>
-            <td>${i+1}</td>
-            <td><b>${l}</b></td>
-            <td class="${DB[l].total<100?'minus':'plus'}"><b>${DB[l].total}</b></td>
-            <td><button class="btn-view" onclick="openModal('${l}')">Xem</button></td>
-        </tr>`;
-    });
-    html+="</table>";
-    document.getElementById("rankView").innerHTML=html;
-    localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
+
+let arr=[...LOPS];
+
+arr.sort(
+(a,b)=>DB[b].total-DB[a].total
+);
+
+let html=`
+
+<h2>BẢNG XẾP HẠNG TỔNG</h2>
+
+<div class="stat-box">
+
+<div class="stat">
+<h3>Hạng 1</h3>
+<div>${arr[0]}</div>
+</div>
+
+<div class="stat">
+<h3>Hạng 2</h3>
+<div>${arr[1]}</div>
+</div>
+
+<div class="stat">
+<h3>Hạng 3</h3>
+<div>${arr[2]}</div>
+</div>
+
+</div>
+
+<table>
+
+<tr>
+<th>Hạng</th>
+<th>Lớp</th>
+<th>Điểm</th>
+<th>Lịch sử</th>
+</tr>
+
+`;
+
+arr.forEach((lop,index)=>{
+
+let cls="";
+
+if(index===0) cls="rank1";
+if(index===1) cls="rank2";
+if(index===2) cls="rank3";
+
+html+=`
+
+<tr>
+
+<td class="${cls}">
+${index+1}
+</td>
+
+<td>
+<b>${lop}</b>
+</td>
+
+<td>
+${DB[lop].total}
+</td>
+
+<td>
+
+<button
+class="btn-view"
+onclick="openModal('${lop}')">
+
+Xem
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+html+="</table>";
+
+document
+.getElementById("rankView")
+.innerHTML=html;
+
+saveDB();
+
 }
 
-function renderScore(){
-    let html=`<h3>SỔ TÍNH ĐIỂM</h3>
-    <select class="class-select" id="lopSelect">
-        ${LOPS.map(l=>`<option value="${l}">${l}</option>`).join("")}
-    </select>
-    <table>
-        <tr><th>Nội dung</th><th>Tên HS</th><th>Số lần</th><th>Điểm</th></tr>`;
+function showMonthRank(){
 
-    LOIS.forEach((loi,i)=>{
-        html+=`<tr>
-            <td style="text-align:left">${loi.n}</td>
-            <td><input type="text" placeholder="..." id="ten${i}"></td>
-            <td><input type="number" value="0" min="0" id="sl${i}" oninput="calc()"></td>
-            <td id="diem${i}">0</td>
-        </tr>`;
-    });
+document
+.getElementById("scoreView")
+.style.display="none";
 
-    html+=`<tr><td colspan="3"><b>TỔNG PHIÊN</b></td><td id="tongPhien" style="color:var(--blue)">0</td></tr></table>
-    <button class="btn-save" onclick="save()">CHỐT VÀ LƯU TUẦN</button>`;
+document
+.getElementById("rankView")
+.style.display="block";
 
-    document.getElementById("scoreView").innerHTML=html;
+let arr=[...LOPS];
+
+arr.sort((a,b)=>{
+
+let ta=
+DB[a].months.length
+?
+DB[a].months[
+DB[a].months.length-1
+]
+:0;
+
+let tb=
+DB[b].months.length
+?
+DB[b].months[
+DB[b].months.length-1
+]
+:0;
+
+return tb-ta;
+
+});
+
+let html=`
+
+<h2>BẢNG XẾP HẠNG THÁNG</h2>
+
+<table>
+
+<tr>
+<th>Hạng</th>
+<th>Lớp</th>
+<th>Điểm Tháng</th>
+</tr>
+
+`;
+
+arr.forEach((lop,index)=>{
+
+let diem=
+DB[lop].months.length
+?
+DB[lop].months[
+DB[lop].months.length-1
+]
+:0;
+
+html+=`
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${lop}</td>
+
+<td>${diem}</td>
+
+</tr>
+
+`;
+
+});
+
+html+="</table>";
+
+document
+.getElementById("rankView")
+.innerHTML=html;
+
+}
+
+function showYearRank(){
+
+document
+.getElementById("scoreView")
+.style.display="none";
+
+document
+.getElementById("rankView")
+.style.display="block";
+
+let arr=[...LOPS];
+
+arr.sort((a,b)=>{
+
+let ta=
+DB[a].years.length
+?
+DB[a].years[
+DB[a].years.length-1
+]
+:0;
+
+let tb=
+DB[b].years.length
+?
+DB[b].years[
+DB[b].years.length-1
+]
+:0;
+
+return tb-ta;
+
+});
+
+let html=`
+
+<h2>BẢNG XẾP HẠNG NĂM</h2>
+
+<table>
+
+<tr>
+<th>Hạng</th>
+<th>Lớp</th>
+<th>Điểm Năm</th>
+</tr>
+
+`;
+
+arr.forEach((lop,index)=>{
+
+let diem=
+DB[lop].years.length
+?
+DB[lop].years[
+DB[lop].years.length-1
+]
+:0;
+
+html+=`
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${lop}</td>
+
+<td>${diem}</td>
+
+</tr>
+
+`;
+
+});
+
+html+="</table>";
+
+document
+.getElementById("rankView")
+.innerHTML=html;
+
+}
+        function renderScore(){
+
+let html=`
+
+<h2>SỔ CHẤM ĐIỂM</h2>
+
+<select
+class="class-select"
+id="lopSelect">
+
+${LOPS.map(
+l=>`<option value="${l}">
+${l}
+</option>`
+).join("")}
+
+</select>
+
+<table>
+
+<tr>
+<th>Nội dung</th>
+<th>Tên HS</th>
+<th>Số lần</th>
+<th>Điểm</th>
+</tr>
+
+`;
+
+LOIS.forEach((loi,i)=>{
+
+html+=`
+
+<tr>
+
+<td style="text-align:left">
+${loi.n}
+</td>
+
+<td>
+<input
+type="text"
+placeholder="Tên học sinh"
+id="ten${i}">
+</td>
+
+<td>
+<input
+type="number"
+min="0"
+value="0"
+id="sl${i}"
+oninput="calc()">
+</td>
+
+<td id="diem${i}">
+0
+</td>
+
+</tr>
+
+`;
+
+});
+
+html+=`
+
+<tr>
+
+<td colspan="3">
+<b>TỔNG PHIÊN</b>
+</td>
+
+<td
+id="tongPhien"
+style="color:#3b82f6">
+
+0
+
+</td>
+
+</tr>
+
+</table>
+
+<button
+class="btn-save"
+onclick="save()">
+
+CHỐT VÀ LƯU TUẦN
+
+</button>
+
+`;
+
+document
+.getElementById("scoreView")
+.innerHTML=html;
+
 }
 
 function calc(){
-    let tong=0;
-    LOIS.forEach((loi,i)=>{
-        let sl=parseInt(document.getElementById("sl"+i).value)||0;
-        let diem=sl*loi.d;
-        document.getElementById("diem"+i).innerText=diem;
-        document.getElementById("diem"+i).className = diem<0?'minus':'plus';
-        tong+=diem;
-    });
-    document.getElementById("tongPhien").innerText=tong;
+
+let tong=0;
+
+LOIS.forEach((loi,i)=>{
+
+let sl=parseInt(
+document.getElementById(
+"sl"+i
+).value
+)||0;
+
+let diem=sl*loi.d;
+
+document
+.getElementById(
+"diem"+i
+)
+.innerText=diem;
+
+document
+.getElementById(
+"diem"+i
+)
+.className=
+diem<0
+?
+"minus"
+:
+"plus";
+
+tong+=diem;
+
+});
+
+document
+.getElementById(
+"tongPhien"
+)
+.innerText=tong;
+
 }
 
-function openModal(lop){
-    document.getElementById("modalHistory").style.display="block";
-    document.getElementById("modalTitle").innerText = "Lịch sử lớp " + lop;
-    
-    let data = DB[lop];
-    let html = `<h4>1. CHI TIẾT CÁC TUẦN (Trong tháng hiện tại)</h4>`;
-    
-    if(data.weeks.length === 0) html += "<p>Chưa có dữ liệu tuần.</p>";
-    else {
-        html += "<table><tr><th>Tuần</th><th>Điểm chốt</th></tr>";
-        data.weeks.forEach((d, idx) => {
-            html += `<tr><td>Tuần ${idx+1}</td><td class="${d<0?'minus':'plus'}">${d}</td></tr>`;
-        });
-        html += "</table>";
-    }
+function saveWeeklyRanking(){
 
-    html += `<h4 style="margin-top:20px">2. LỊCH SỬ THÁNG</h4>`;
-    if(data.months.length === 0) html += "<p>Chưa có tháng nào được chốt.</p>";
-    else {
-        html += "<table><tr><th>Tháng</th><th>Tổng điểm</th></tr>";
-        data.months.forEach((d, idx) => {
-            html += `<tr><td>Tháng ${idx+1}</td><td class="${d<0?'minus':'plus'}">${d}</td></tr>`;
-        });
-        html += "</table>";
-    }
+let ranking=[...LOPS]
 
-    html += `<h4 style="margin-top:20px">3. LỊCH SỬ NĂM</h4>`;
-    html += `<p>Số năm đã hoàn thành: <b>${data.years.length}</b></p>`;
-    
-    document.getElementById("modalBody").innerHTML = html;
+.sort(
+(a,b)=>
+DB[b].total-
+DB[a].total
+)
+
+.map(
+(lop,index)=>({
+
+rank:index+1,
+lop:lop,
+diem:DB[lop].total
+
+})
+);
+
+LOPS.forEach(l=>{
+
+DB[l]
+.rankWeeks
+.push(ranking);
+
+});
+
 }
 
-function closeModal(){ document.getElementById("modalHistory").style.display="none"; }
+function saveMonthlyRanking(){
+
+let ranking=[...LOPS]
+
+.sort(
+(a,b)=>
+DB[b].total-
+DB[a].total
+)
+
+.map(
+(lop,index)=>({
+
+rank:index+1,
+lop:lop,
+diem:DB[lop].total
+
+})
+);
+
+LOPS.forEach(l=>{
+
+DB[l]
+.rankMonths
+.push(ranking);
+
+});
+
+}
+
+function saveYearlyRanking(){
+
+let ranking=[...LOPS]
+
+.sort(
+(a,b)=>
+DB[b].total-
+DB[a].total
+)
+
+.map(
+(lop,index)=>({
+
+rank:index+1,
+lop:lop,
+diem:DB[lop].total
+
+})
+);
+
+LOPS.forEach(l=>{
+
+DB[l]
+.rankYears
+.push(ranking);
+
+});
+
+}
 
 function save(){
-    let lop=document.getElementById("lopSelect").value;
-    let tong=parseInt(document.getElementById("tongPhien").innerText)||0;
 
-    if(!confirm(`Lưu ${tong} điểm tuần cho lớp ${lop}?`)) return;
+let lop=
 
-    DB[lop].total += tong;
-    DB[lop].weeks.push(tong);
+document
+.getElementById(
+"lopSelect"
+)
+.value;
 
-    if(DB[lop].weeks.length === 4){
-        let tongThang = DB[lop].weeks.reduce((a,b)=>a+b,0);
-        DB[lop].months.push(tongThang);
-        DB[lop].weeks = []; 
-        alert(`Lớp ${lop} đã đủ 4 tuần. Đã tự động chốt thành 1 Tháng!`);
-    }
+let tong=
 
-    if(DB[lop].months.length === 12){
-        let tongNam = DB[lop].months.reduce((a,b)=>a+b,0);
-        DB[lop].years.push(tongNam);
-        DB[lop].months = [];
-        alert(`Lớp ${lop} đã đủ 12 tháng. Đã tự động chốt thành 1 Năm!`);
-    }
+parseInt(
+document
+.getElementById(
+"tongPhien"
+)
+.innerText
+)||0;
 
-    localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
-    renderScore();
-    showRank();
+if(
+!confirm(
+`Lưu ${tong} điểm cho lớp ${lop}?`
+)
+) return;
+
+DB[lop].total+=tong;
+
+DB[lop]
+.weeks
+.push(tong);
+
+saveWeeklyRanking();
+
+if(
+DB[lop]
+.weeks
+.length>=4
+){
+
+let tongThang=
+
+DB[lop]
+.weeks
+.reduce(
+(a,b)=>a+b,
+0
+);
+
+DB[lop]
+.months
+.push(
+tongThang
+);
+
+saveMonthlyRanking();
+
+DB[lop]
+.weeks=[];
+
+alert(
+
+`Lớp ${lop}
+đã đủ 4 tuần.
+
+Đã tạo BXH tháng!`
+
+);
+
 }
+
+if(
+DB[lop]
+.months
+.length>=12
+){
+
+let tongNam=
+
+DB[lop]
+.months
+.reduce(
+(a,b)=>a+b,
+0
+);
+
+DB[lop]
+.years
+.push(
+tongNam
+);
+
+saveYearlyRanking();
+
+DB[lop]
+.months=[];
+
+alert(
+
+`Lớp ${lop}
+đã đủ 12 tháng.
+
+Đã tạo BXH năm!`
+
+);
+
+}
+
+saveDB();
+
+renderScore();
+
+showRank();
+
+alert(
+"Lưu thành công!"
+);
+
+}
+        function openModal(lop){
+
+document
+.getElementById(
+"modalHistory"
+)
+.style.display="block";
+
+document
+.getElementById(
+"modalTitle"
+)
+.innerText=
+"Lịch sử lớp " + lop;
+
+let data=DB[lop];
+
+let html="";
+
+html+=`
+
+<h3>Điểm hiện tại:
+<span class="plus">
+${data.total}
+</span>
+</h3>
+
+`;
+
+html+=`
+
+<h3 style="margin-top:20px">
+1. LỊCH SỬ TUẦN
+</h3>
+
+`;
+
+if(data.weeks.length===0){
+
+html+=`
+<p>
+Chưa có dữ liệu tuần.
+</p>
+`;
+
+}else{
+
+html+=`
+
+<table>
+
+<tr>
+<th>Tuần</th>
+<th>Điểm</th>
+</tr>
+
+`;
+
+data.weeks.forEach((d,i)=>{
+
+html+=`
+
+<tr>
+
+<td>
+Tuần ${i+1}
+</td>
+
+<td class="${
+d<0
+?
+'minus'
+:
+'plus'
+}">
+${d}
+</td>
+
+</tr>
+
+`;
+
+});
+
+html+=`
+</table>
+`;
+
+}
+
+html+=`
+
+<h3 style="margin-top:20px">
+2. LỊCH SỬ THÁNG
+</h3>
+
+`;
+
+if(data.months.length===0){
+
+html+=`
+<p>
+Chưa có dữ liệu tháng.
+</p>
+`;
+
+}else{
+
+html+=`
+
+<table>
+
+<tr>
+<th>Tháng</th>
+<th>Điểm</th>
+</tr>
+
+`;
+
+data.months.forEach((d,i)=>{
+
+html+=`
+
+<tr>
+
+<td>
+Tháng ${i+1}
+</td>
+
+<td class="${
+d<0
+?
+'minus'
+:
+'plus'
+}">
+${d}
+</td>
+
+</tr>
+
+`;
+
+});
+
+html+=`
+</table>
+`;
+
+}
+
+html+=`
+
+<h3 style="margin-top:20px">
+3. LỊCH SỬ NĂM
+</h3>
+
+`;
+
+if(data.years.length===0){
+
+html+=`
+<p>
+Chưa có dữ liệu năm.
+</p>
+`;
+
+}else{
+
+html+=`
+
+<table>
+
+<tr>
+<th>Năm</th>
+<th>Điểm</th>
+</tr>
+
+`;
+
+data.years.forEach((d,i)=>{
+
+html+=`
+
+<tr>
+
+<td>
+Năm ${i+1}
+</td>
+
+<td class="${
+d<0
+?
+'minus'
+:
+'plus'
+}">
+${d}
+</td>
+
+</tr>
+
+`;
+
+});
+
+html+=`
+</table>
+`;
+
+}
+
+html+=`
+
+<h3 style="margin-top:20px">
+4. THỐNG KÊ
+</h3>
+
+<div class="stat-box">
+
+<div class="stat">
+<h3>Số tuần</h3>
+<div>
+${data.weeks.length}
+</div>
+</div>
+
+<div class="stat">
+<h3>Số tháng</h3>
+<div>
+${data.months.length}
+</div>
+</div>
+
+<div class="stat">
+<h3>Số năm</h3>
+<div>
+${data.years.length}
+</div>
+</div>
+
+</div>
+
+`;
+
+document
+.getElementById(
+"modalBody"
+)
+.innerHTML=html;
+
+}
+
+function closeModal(){
+
+document
+.getElementById(
+"modalHistory"
+)
+.style.display="none";
+
+}
+
+window.onclick=function(e){
+
+if(
+e.target===
+document.getElementById(
+"modalHistory"
+)
+){
+
+closeModal();
+
+}
+
+};
+
+renderRank();
+
 </script>
+
 </body>
 </html>
