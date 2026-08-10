@@ -1,1169 +1,519 @@
+Thư viện
+/
+SaoDo_PhuocAn_NangCap_ToanDien.html
+
+
+
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>TH & THCS PHƯỚC AN - SAO ĐỎ</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TH & THCS PHƯỚC AN - SAO ĐỎ | Bản nâng cấp</title>
 <style>
-
 :root{
---bg:#0f172a;
---card:#1e293b;
---blue:#3b82f6;
---red:#ef4444;
---green:#22c55e;
---gray:#94a3b8;
+  --bg:#0b1220;--card:#162033;--card2:#1e293b;--text:#f8fafc;--muted:#94a3b8;
+  --primary:#3b82f6;--primary2:#2563eb;--success:#22c55e;--danger:#ef4444;
+  --warning:#f59e0b;--border:#334155;--shadow:0 12px 35px rgba(0,0,0,.25);
 }
-
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-font-family:Segoe UI,sans-serif;
-background:var(--bg);
-color:white;
-}
-
-#login{
-position:fixed;
-inset:0;
-background:linear-gradient(135deg,#1e3a8a,#2563eb);
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:9999;
-}
-
-#login h1{
-font-size:35px;
-margin-bottom:20px;
-}
-
-#login input{
-padding:15px;
-font-size:22px;
-border:none;
-border-radius:12px;
-text-align:center;
-}
-
-#app{
-display:none;
-padding:15px;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
-}
-
-.menu{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.menu button{
-padding:10px 15px;
-border:none;
-border-radius:8px;
-background:var(--blue);
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-.card{
-background:var(--card);
-padding:15px;
-border-radius:15px;
-margin-bottom:20px;
-animation:fade .3s ease;
-}
-
-@keyframes fade{
-from{
-opacity:0;
-transform:translateY(10px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-font-size:13px;
-}
-
-th,td{
-border:1px solid #334155;
-padding:10px;
-text-align:center;
-}
-
-th{
-background:#0f172a;
-}
-
-input{
-width:100%;
-padding:6px;
-background:#0f172a;
-border:1px solid #334155;
-border-radius:6px;
-color:white;
-}
-
-.class-select{
-width:100%;
-padding:12px;
-margin-bottom:15px;
-border:none;
-border-radius:8px;
-background:var(--blue);
-color:white;
-font-weight:bold;
-}
-
-.plus{
-color:var(--green);
-font-weight:bold;
-}
-
-.minus{
-color:var(--red);
-font-weight:bold;
-}
-
-.btn-save{
-width:100%;
-padding:15px;
-border:none;
-border-radius:10px;
-background:var(--green);
-color:white;
-font-weight:bold;
-font-size:16px;
-cursor:pointer;
-margin-top:15px;
-}
-
-.btn-view{
-padding:6px 12px;
-border:none;
-border-radius:6px;
-background:#475569;
-color:white;
-cursor:pointer;
-}
-
-#modalHistory{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.9);
-z-index:10000;
-overflow-y:auto;
-padding:20px;
-}
-
-.modal-content{
-background:var(--card);
-max-width:900px;
-margin:30px auto;
-padding:20px;
-border-radius:15px;
-position:relative;
-}
-
-.close-modal{
-position:absolute;
-right:15px;
-top:10px;
-font-size:30px;
-cursor:pointer;
-}
-
-.history-menu{
-display:flex;
-gap:10px;
-margin-bottom:15px;
-flex-wrap:wrap;
-}
-
-.history-menu button{
-padding:10px;
-border:none;
-border-radius:8px;
-background:var(--blue);
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-.rank-title{
-font-size:22px;
-font-weight:bold;
-color:#60a5fa;
-margin-bottom:10px;
-}
-
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+#login{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+ background:radial-gradient(circle at top,#2563eb,#0f172a 65%);padding:20px}
+.login-box{width:min(430px,100%);background:rgba(15,23,42,.9);border:1px solid #ffffff20;border-radius:22px;
+ padding:32px;box-shadow:var(--shadow);text-align:center;backdrop-filter:blur(12px)}
+.logo{font-size:48px}.login-box h1{margin:8px 0}.login-box p{color:#cbd5e1}
+#pin{width:100%;padding:14px;border-radius:12px;border:1px solid var(--border);background:#0f172a;color:#fff;text-align:center;font-size:20px}
+#app{max-width:1500px;margin:auto;padding:16px}
+.topbar{display:flex;gap:15px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+.brand h2{margin:0}.brand small{color:var(--muted)}
+.menu{display:flex;gap:7px;flex-wrap:wrap}
+.btn{border:0;border-radius:10px;padding:10px 13px;color:#fff;background:var(--primary);font-weight:700}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn.secondary{background:#475569}.btn.success{background:var(--success)}.btn.danger{background:var(--danger)}
+.btn.warning{background:var(--warning);color:#111827}.btn.ghost{background:transparent;border:1px solid var(--border)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:16px;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:25px;margin-top:5px}.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:15px;box-shadow:var(--shadow);animation:fade .2s}
+@keyframes fade{from{opacity:.2;transform:translateY(5px)}to{opacity:1;transform:none}}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.toolbar input,.toolbar select,.form-control{background:#0f172a;color:#fff;border:1px solid var(--border);border-radius:9px;padding:10px}
+table{width:100%;border-collapse:collapse;min-width:650px}
+.table-wrap{overflow:auto}
+th,td{border:1px solid var(--border);padding:9px;text-align:center}
+th{background:#0f172a;position:sticky;top:0;z-index:1}
+tr:hover td{background:#ffffff05}
+.rank-title{font-size:22px;font-weight:800;color:#60a5fa;margin-bottom:12px}
+.rank-1{font-weight:800}.plus{color:var(--success);font-weight:700}.minus{color:var(--danger);font-weight:700}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#334155;font-size:12px}
+.section{display:none}.section.active{display:block}
+.score-layout{display:grid;grid-template-columns:1fr 340px;gap:15px}
+.rule-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rule{background:#0f172a;border:1px solid var(--border);border-radius:10px;padding:10px}
+.rule strong{display:block;margin-bottom:7px}
+.rule .row{display:grid;grid-template-columns:1fr 90px;gap:8px;align-items:center}
+.rule input{width:100%;padding:8px;background:#162033;color:#fff;border:1px solid var(--border);border-radius:7px}
+.total-box{position:sticky;top:12px;height:max-content}
+.big-score{font-size:42px;font-weight:900;margin:8px 0}
+.modal{position:fixed;inset:0;background:#000b;z-index:5000;overflow:auto;padding:20px}
+.modal-content{max-width:1100px;margin:30px auto;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;position:relative}
+.close{position:absolute;right:15px;top:8px;font-size:28px;background:none;border:0;color:#fff}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.notice{padding:10px;border-radius:10px;background:#0f172a;border:1px solid var(--border);margin:8px 0}
+.danger-text{color:#fca5a5}.success-text{color:#86efac}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.score-layout{grid-template-columns:1fr}.rule-list{grid-template-columns:1fr}.total-box{position:static}}
+@media(max-width:600px){#app{padding:9px}.grid{grid-template-columns:1fr 1fr}.menu .btn{flex:1}.topbar{align-items:stretch}.brand{width:100%}}
 </style>
 </head>
 <body>
 
 <div id="login">
-
-<h1>SAO ĐỎ PHƯỚC AN</h1>
-
-<input
-type="password"
-id="pin"
-placeholder="Nhập PIN">
-
+  <div class="login-box">
+    <div class="logo">⭐</div>
+    <h1>SAO ĐỎ PHƯỚC AN</h1>
+    <p>Hệ thống chấm điểm và xếp hạng nề nếp</p>
+    <input id="pin" type="password" inputmode="numeric" maxlength="12" placeholder="Nhập PIN">
+    <p class="muted">PIN mặc định của bản gốc: <b>1234</b></p>
+  </div>
 </div>
 
-<div id="app">
+<div id="app" class="hidden">
+  <header class="topbar">
+    <div class="brand">
+      <h2>TH & THCS PHƯỚC AN</h2>
+      <small>SAO ĐỎ • Bảng xếp hạng & sổ chấm điểm</small>
+    </div>
+    <div class="menu">
+      <button class="btn" onclick="showSection('week')">BXH Tuần</button>
+      <button class="btn" onclick="showSection('month')">BXH Tháng</button>
+      <button class="btn" onclick="showSection('year')">BXH Năm</button>
+      <button class="btn success" onclick="showSection('score')">Chấm điểm</button>
+      <button class="btn secondary" onclick="showSection('tools')">Tiện ích</button>
+      <button class="btn secondary" onclick="logout()">Khóa</button>
+    </div>
+  </header>
 
-<div class="topbar">
+  <div id="stats" class="grid"></div>
 
-<h2>TH & THCS PHƯỚC AN</h2>
-
-<div class="menu">
-
-<button onclick="showRank()">
-BXH Tuần
-</button>
-
-<button onclick="showMonthRank()">
-BXH Tháng
-</button>
-
-<button onclick="showYearRank()">
-BXH Năm
-</button>
-
-<button onclick="showScore()">
-Chấm điểm
-</button>
-
+  <section id="week" class="section active card"></section>
+  <section id="month" class="section card"></section>
+  <section id="year" class="section card"></section>
+  <section id="score" class="section card"></section>
+  <section id="tools" class="section card"></section>
 </div>
 
-</div>
-
-<div id="rankView" class="card"></div>
-
-<div id="monthRankView"
-class="card"
-style="display:none">
-</div>
-
-<div id="yearRankView"
-class="card"
-style="display:none">
-</div>
-
-<div id="scoreView"
-class="card"
-style="display:none">
-</div>
-
-</div>
-
-<div id="modalHistory">
-
-<div class="modal-content">
-
-<span
-class="close-modal"
-onclick="closeModal()">
-
-&times;
-
-</span>
-
-<h2 id="modalTitle"></h2>
-
-<div class="history-menu">
-
-<button onclick="showWeekHistory()">
-📅 Tuần
-</button>
-
-<button onclick="showMonthHistory()">
-📆 Tháng
-</button>
-
-<button onclick="showYearHistory()">
-🏆 Năm
-</button>
-
-</div>
-
-<div id="historyContent"></div>
-
-</div>
-
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal()">×</button>
+    <h2 id="modalTitle"></h2>
+    <div id="modalBody"></div>
+  </div>
 </div>
 
 <script>
-    const PIN="1234";
+"use strict";
 
-const LOPS=[
-
-"6A","6B","6C","6D",
-
-"7A","7B","7C","7D",
-
-"8A","8B","8C",
-
-"9A","9B"
-
-];
-
+/* =========================
+   DỮ LIỆU GỐC - GIỮ NGUYÊN
+   ========================= */
+const PIN="1234";
+const LOPS=["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
 const LOIS=[
-
-{n:"Khăn quàng/Huy hiệu",d:-5},
-
-{n:"Đồng phục/Bỏ áo vào quần",d:-5},
-
-{n:"Đi trễ",d:-2},
-
-{n:"Vắng không phép",d:-5},
-
-{n:"Nói tục/Chửi thề",d:-10},
-
-{n:"Đánh nhau",d:-50},
-
-{n:"Xả rác/Vệ sinh",d:-20},
-
-{n:"Trực nhật bẩn",d:-10},
-
-{n:"Không thuộc bài",d:-10},
-
-{n:"Điểm 7",d:5},
-
-{n:"Điểm 8-9",d:7},
-
-{n:"Điểm 10",d:10},
-
-{n:"Phong trào",d:10}
-
+ {n:"Khăn quàng/Huy hiệu",d:-5},
+ {n:"Đồng phục/Bỏ áo vào quần",d:-5},
+ {n:"Đi trễ",d:-2},
+ {n:"Vắng không phép",d:-5},
+ {n:"Nói tục/Chửi thề",d:-10},
+ {n:"Đánh nhau",d:-50},
+ {n:"Xả rác/Vệ sinh",d:-20},
+ {n:"Trực nhật bẩn",d:-10},
+ {n:"Không thuộc bài",d:-10},
+ {n:"Điểm 7",d:5},
+ {n:"Điểm 8-9",d:7},
+ {n:"Điểm 10",d:10},
+ {n:"Phong trào",d:10}
 ];
 
-let DB=
-JSON.parse(
-localStorage.getItem(
-"PHUOCAN_DB"
-)
-)||{};
+const DEFAULT_DB={};
+LOPS.forEach(l=>DEFAULT_DB[l]={total:100,weeks:[],months:[],years:[],monthPoint:0,yearPoint:0});
 
-LOPS.forEach(l=>{
-
-if(!DB[l]){
-
-DB[l]={
-
-total:100,
-
-weeks:[],
-
-months:[],
-
-years:[],
-
-monthPoint:0,
-
-yearPoint:0
-
-};
-
-}
-
-});
-
+/* =========================
+   TƯƠNG THÍCH DỮ LIỆU CŨ
+   ========================= */
+let DB=loadDB();
 let currentClass="";
+let selectedScoreClass=LOPS[0];
+let currentHistoryTab="week";
 
+function loadDB(){
+  try{
+    const raw=localStorage.getItem("PHUOCAN_DB");
+    const db=raw?JSON.parse(raw):{};
+    LOPS.forEach(l=>{
+      if(!db[l]) db[l]=structuredClone(DEFAULT_DB[l]);
+      db[l].total=Number(db[l].total??100);
+      db[l].weeks=Array.isArray(db[l].weeks)?db[l].weeks:[];
+      db[l].months=Array.isArray(db[l].months)?db[l].months:[];
+      db[l].years=Array.isArray(db[l].years)?db[l].years:[];
+      db[l].monthPoint=Number(db[l].monthPoint??0);
+      db[l].yearPoint=Number(db[l].yearPoint??0);
+      db[l].weekDetails=Array.isArray(db[l].weekDetails)?db[l].weekDetails:[];
+    });
+    return db;
+  }catch(e){
+    alert("Dữ liệu cũ bị lỗi. Hệ thống sẽ tạo dữ liệu mới an toàn.");
+    return structuredClone(DEFAULT_DB);
+  }
+}
 function saveDB(){
-
-localStorage.setItem(
-"PHUOCAN_DB",
-JSON.stringify(DB)
-);
-
-}
-    document
-.getElementById("pin")
-.addEventListener(
-"input",
-function(){
-
-if(this.value===PIN){
-
-document
-.getElementById("login")
-.style.display="none";
-
-document
-.getElementById("app")
-.style.display="block";
-
-renderRank();
-
-renderMonthRank();
-
-renderYearRank();
-
-renderScore();
-
+  localStorage.setItem("PHUOCAN_DB",JSON.stringify(DB));
+  renderAll();
 }
 
-}
-);
-
-function hideAll(){
-
-document.getElementById(
-"rankView"
-).style.display="none";
-
-document.getElementById(
-"monthRankView"
-).style.display="none";
-
-document.getElementById(
-"yearRankView"
-).style.display="none";
-
-document.getElementById(
-"scoreView"
-).style.display="none";
-
-}
-
-function showRank(){
-
-hideAll();
-
-document.getElementById(
-"rankView"
-).style.display="block";
-
-renderRank();
-
-}
-
-function showMonthRank(){
-
-hideAll();
-
-document.getElementById(
-"monthRankView"
-).style.display="block";
-
-renderMonthRank();
-
-}
-
-function showYearRank(){
-
-hideAll();
-
-document.getElementById(
-"yearRankView"
-).style.display="block";
-
-renderYearRank();
-
-}
-
-function showScore(){
-
-hideAll();
-
-document.getElementById(
-"scoreView"
-).style.display="block";
-
-renderScore();
-
-}
-    function renderRank(){
-
-let html=`
-
-<div class="rank-title">
-
-BXH TUẦN
-
-</div>
-
-<table>
-
-<tr>
-
-<th>Hạng</th>
-
-<th>Lớp</th>
-
-<th>Điểm</th>
-
-<th>Lịch sử</th>
-
-</tr>
-
-`;
-
-let arr=[...LOPS];
-
-arr.sort(
-(a,b)=>
-DB[b].total-
-DB[a].total
-);
-
-arr.forEach((l,i)=>{
-
-html+=`
-
-<tr>
-
-<td>${i+1}</td>
-
-<td><b>${l}</b></td>
-
-<td>
-
-${DB[l].total}
-
-</td>
-
-<td>
-
-<button
-class="btn-view"
-onclick="openModal('${l}')">
-
-Xem
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
+/* =========================
+   ĐĂNG NHẬP / KHÓA
+   ========================= */
+document.getElementById("pin").addEventListener("input",function(){
+  if(this.value===PIN){
+    sessionStorage.setItem("SAODO_AUTH","1");
+    unlock();
+  }
 });
-
-html+="</table>";
-
-document
-.getElementById(
-"rankView"
-)
-.innerHTML=html;
-
-saveDB();
-
+function unlock(){
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  renderAll();
 }
-    function renderMonthRank(){
+function logout(){
+  sessionStorage.removeItem("SAODO_AUTH");
+  document.getElementById("pin").value="";
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("login").classList.remove("hidden");
+}
+if(sessionStorage.getItem("SAODO_AUTH")==="1") unlock();
 
-let html=`
-
-<div class="rank-title">
-BXH THÁNG
-</div>
-
-<table>
-<tr>
-<th>Hạng</th>
-<th>Lớp</th>
-<th>Điểm tháng</th>
-</tr>
-
-`;
-
-let arr=[...LOPS];
-
-arr.sort(
-(a,b)=>
-(DB[b].monthPoint||0)-
-(DB[a].monthPoint||0)
-);
-
-arr.forEach((l,i)=>{
-
-html+=`
-
-<tr>
-
-<td>${i+1}</td>
-
-<td>${l}</td>
-
-<td>
-${DB[l].monthPoint||0}
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+="</table>";
-
-document
-.getElementById(
-"monthRankView"
-)
-.innerHTML=html;
-
+/* =========================
+   ĐIỀU HƯỚNG
+   ========================= */
+function showSection(id){
+  document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  if(id==="week") renderRank();
+  if(id==="month") renderMonthRank();
+  if(id==="year") renderYearRank();
+  if(id==="score") renderScore();
+  if(id==="tools") renderTools();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function renderAll(){
+  renderStats(); renderRank(); renderMonthRank(); renderYearRank();
+  if(document.getElementById("score").classList.contains("active")) renderScore();
+  if(document.getElementById("tools").classList.contains("active")) renderTools();
 }
 
+/* =========================
+   THỐNG KÊ
+   ========================= */
+function renderStats(){
+  const arr=LOPS.map(l=>({l,score:DB[l].total}));
+  arr.sort((a,b)=>b.score-a.score);
+  const top=arr[0];
+  const weeks=LOPS.reduce((s,l)=>s+DB[l].weeks.length,0);
+  const months=LOPS.reduce((s,l)=>s+DB[l].months.length,0);
+  document.getElementById("stats").innerHTML=`
+    <div class="stat"><span class="muted">🥇 Dẫn đầu tuần</span><b>${top.l}</b><small>${top.score} điểm</small></div>
+    <div class="stat"><span class="muted">📅 Tuần đã lưu</span><b>${weeks}</b><small>Tối đa 35 tuần/lớp</small></div>
+    <div class="stat"><span class="muted">📆 Tháng đã tạo</span><b>${months}</b><small>Tối đa 12 tháng/lớp</small></div>
+    <div class="stat"><span class="muted">🏆 Lớp đang quản lý</span><b>${LOPS.length}</b><small>Giữ nguyên danh sách gốc</small></div>`;
+}
+
+/* =========================
+   BXH TUẦN - GIỮ CHỨC NĂNG CŨ
+   ========================= */
+function renderRank(){
+  const arr=[...LOPS].sort((a,b)=>DB[b].total-DB[a].total);
+  let html=`<div class="rank-title">📊 BXH TUẦN</div>
+  <div class="toolbar">
+    <input id="weekSearch" placeholder="Tìm lớp..." oninput="filterTable('weekTable',this.value)">
+    <button class="btn secondary" onclick="exportRanking('week')">⬇ Xuất BXH tuần</button>
+  </div>
+  <div class="table-wrap"><table id="weekTable"><thead><tr>
+  <th>Hạng</th><th>Lớp</th><th>Điểm</th><th>Số tuần</th><th>Lịch sử</th></tr></thead><tbody>`;
+  arr.forEach((l,i)=>{
+    html+=`<tr><td class="${i===0?'rank-1':''}">${i+1}</td><td><b>${l}</b></td>
+    <td>${DB[l].total}</td><td>${DB[l].weeks.length}/35</td>
+    <td><button class="btn secondary" onclick="openModal('${l}')">Xem</button></td></tr>`;
+  });
+  html+=`</tbody></table></div>`;
+  document.getElementById("week").innerHTML=html;
+}
+
+/* =========================
+   BXH THÁNG - GIỮ CHỨC NĂNG CŨ
+   ========================= */
+function renderMonthRank(){
+  const arr=[...LOPS].sort((a,b)=>(DB[b].monthPoint||0)-(DB[a].monthPoint||0));
+  let html=`<div class="rank-title">📆 BXH THÁNG</div>
+  <div class="toolbar"><button class="btn secondary" onclick="exportRanking('month')">⬇ Xuất BXH tháng</button></div>
+  <div class="table-wrap"><table><thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm tháng</th><th>Đã lưu</th></tr></thead><tbody>`;
+  arr.forEach((l,i)=>html+=`<tr><td>${i+1}</td><td><b>${l}</b></td><td>${DB[l].monthPoint||0}</td><td>${DB[l].months.length}/12</td></tr>`);
+  html+=`</tbody></table></div>`;
+  document.getElementById("month").innerHTML=html;
+}
+
+/* =========================
+   BXH NĂM - GIỮ CHỨC NĂNG CŨ
+   ========================= */
 function renderYearRank(){
-
-let html=`
-
-<div class="rank-title">
-BXH NĂM
-</div>
-
-<table>
-
-<tr>
-
-<th>Hạng</th>
-
-<th>Lớp</th>
-
-<th>Điểm năm</th>
-
-</tr>
-
-`;
-
-let arr=[...LOPS];
-
-arr.sort(
-(a,b)=>
-(DB[b].yearPoint||0)-
-(DB[a].yearPoint||0)
-);
-
-arr.forEach((l,i)=>{
-
-html+=`
-
-<tr>
-
-<td>${i+1}</td>
-
-<td>${l}</td>
-
-<td>
-${DB[l].yearPoint||0}
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+="</table>";
-
-document
-.getElementById(
-"yearRankView"
-)
-.innerHTML=html;
-
-}
-    function renderScore(){
-
-let html=`
-
-<h3>SỔ CHẤM ĐIỂM</h3>
-
-<select
-class="class-select"
-id="lopSelect">
-
-${LOPS.map(l=>
-`<option value="${l}">
-${l}
-</option>`
-).join("")}
-
-</select>
-
-<table>
-
-<tr>
-
-<th>Nội dung</th>
-
-<th>Tên HS</th>
-
-<th>Số lần</th>
-
-<th>Điểm</th>
-
-</tr>
-
-`;
-
-LOIS.forEach((loi,i)=>{
-
-html+=`
-
-<tr>
-
-<td style="text-align:left">
-
-${loi.n}
-
-</td>
-
-<td>
-
-<input
-id="ten${i}"
-type="text">
-
-</td>
-
-<td>
-
-<input
-id="sl${i}"
-type="number"
-value="0"
-min="0"
-oninput="calc()">
-
-</td>
-
-<td id="diem${i}">
-0
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+=`
-
-<tr>
-
-<td colspan="3">
-
-<b>TỔNG TUẦN</b>
-
-</td>
-
-<td id="tongPhien">
-
-0
-
-</td>
-
-</tr>
-
-</table>
-
-<button
-class="btn-save"
-onclick="saveWeek()">
-
-XÁC NHẬN LƯU TUẦN
-
-</button>
-
-`;
-
-document
-.getElementById(
-"scoreView"
-)
-.innerHTML=html;
-
+  const arr=[...LOPS].sort((a,b)=>(DB[b].yearPoint||0)-(DB[a].yearPoint||0));
+  let html=`<div class="rank-title">🏆 BXH NĂM</div>
+  <div class="toolbar"><button class="btn secondary" onclick="exportRanking('year')">⬇ Xuất BXH năm</button></div>
+  <div class="table-wrap"><table><thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm năm</th><th>Đã lưu</th></tr></thead><tbody>`;
+  arr.forEach((l,i)=>html+=`<tr><td>${i+1}</td><td><b>${l}</b></td><td>${DB[l].yearPoint||0}</td><td>${DB[l].years.length}</td></tr>`);
+  html+=`</tbody></table></div>`;
+  document.getElementById("year").innerHTML=html;
 }
 
+/* =========================
+   SỔ CHẤM ĐIỂM
+   ========================= */
+function renderScore(){
+  const lop=selectedScoreClass;
+  let html=`<div class="rank-title">📝 SỔ CHẤM ĐIỂM</div>
+  <div class="toolbar">
+    <select id="lopSelect" class="form-control" onchange="selectedScoreClass=this.value;renderScore()">
+      ${LOPS.map(l=>`<option value="${l}" ${l===lop?"selected":""}>${l}</option>`).join("")}
+    </select>
+    <button class="btn ghost" onclick="resetScoreForm()">Xóa phiếu</button>
+  </div>
+  <div class="score-layout">
+    <div>
+      <div class="notice">Điểm nền của mỗi lớp là <b>100</b>. Nhập số lần vi phạm/thành tích để hệ thống tự tính.</div>
+      <div class="rule-list">`;
+  LOIS.forEach((loi,i)=>{
+    html+=`<div class="rule">
+      <strong>${loi.n} <span class="${loi.d>=0?'plus':'minus'}">(${loi.d>0?'+':''}${loi.d})</span></strong>
+      <div class="row"><input id="ten${i}" type="text" placeholder="Tên HS (không bắt buộc)">
+      <input id="sl${i}" type="number" min="0" step="1" value="0" oninput="calc()"></div>
+      <div class="muted">Điểm dòng: <span id="diem${i}">0</span></div>
+    </div>`;
+  });
+  html+=`</div></div>
+  <div class="total-box">
+    <div class="stat"><span class="muted">Lớp</span><b>${lop}</b>
+    <div class="muted">Điểm hiện tại: ${DB[lop].total}</div>
+    <hr>
+    <span class="muted">Điểm phiên chấm</span>
+    <div id="tongPhien" class="big-score">0</div>
+    <div class="muted">Điểm sau khi lưu: <b id="afterScore">${DB[lop].total}</b></div>
+    <button class="btn success" style="width:100%;margin-top:12px" onclick="saveWeek()">XÁC NHẬN LƯU TUẦN</button>
+    </div>
+  </div>`;
+  document.getElementById("score").innerHTML=html;
+}
 function calc(){
-
-let tong=0;
-
-LOIS.forEach((loi,i)=>{
-
-let sl=parseInt(
-document.getElementById(
-"sl"+i
-).value
-)||0;
-
-let diem=sl*loi.d;
-
-document
-.getElementById(
-"diem"+i
-)
-.innerText=diem;
-
-tong+=diem;
-
-});
-
-document
-.getElementById(
-"tongPhien"
-)
-.innerText=tong;
-
+  let tong=0;
+  LOIS.forEach((loi,i)=>{
+    const sl=Math.max(0,parseInt(document.getElementById("sl"+i)?.value)||0);
+    const diem=sl*loi.d;tong+=diem;
+    const el=document.getElementById("diem"+i);if(el)el.textContent=diem;
+  });
+  const total=document.getElementById("tongPhien");if(total)total.textContent=tong;
+  const after=document.getElementById("afterScore");if(after)after.textContent=(DB[selectedScoreClass].total+tong);
 }
-    function saveWeek(){
+function resetScoreForm(){renderScore()}
 
-let lop=
-document
-.getElementById(
-"lopSelect"
-)
-.value;
+/* =========================
+   LƯU TUẦN + TẠO THÁNG/NĂM
+   ========================= */
+function saveWeek(){
+  const lop=selectedScoreClass;
+  let tong=parseInt(document.getElementById("tongPhien")?.textContent)||0;
+  if(!confirm(`Lưu ${tong} điểm cho ${lop}?`))return;
 
-let tong=
-parseInt(
-document
-.getElementById(
-"tongPhien"
-)
-.innerText
-)||0;
+  const details=[];
+  LOIS.forEach((loi,i)=>{
+    const sl=parseInt(document.getElementById("sl"+i)?.value)||0;
+    const ten=(document.getElementById("ten"+i)?.value||"").trim();
+    if(sl>0)details.push({rule:loi.n,count:sl,student:ten,point:sl*loi.d});
+  });
 
-if(
-!confirm(
-`Lưu ${tong} điểm cho ${lop}?`
-)
-){
-return;
-}
+  DB[lop].total+=tong;
+  DB[lop].weeks.push({date:new Date().toLocaleDateString("vi-VN"),score:tong});
+  DB[lop].weekDetails.push({
+    date:new Date().toISOString(),score:tong,details
+  });
 
-DB[lop].total+=tong;
+  if(DB[lop].weeks.length>35){
+    DB[lop].weeks.shift();
+    if(DB[lop].weekDetails.length>35)DB[lop].weekDetails.shift();
+  }
 
-DB[lop].weeks.push({
+  let messages=[];
+  if(DB[lop].weeks.length%4===0){
+    const last4=DB[lop].weeks.slice(-4);
+    const monthScore=last4.reduce((a,b)=>a+b.score,0);
+    DB[lop].monthPoint=monthScore;
+    DB[lop].months.push({date:new Date().toLocaleDateString("vi-VN"),score:monthScore,weeks:4});
+    if(DB[lop].months.length>12)DB[lop].months.shift();
+    messages.push(`${lop} đủ 4 tuần → tạo tháng mới (${monthScore} điểm).`);
 
-date:new Date()
-.toLocaleDateString(
-"vi-VN"
-),
+    if(DB[lop].months.length>0 && DB[lop].months.length%12===0){
+      const last12=DB[lop].months.slice(-12);
+      const yearScore=last12.reduce((a,b)=>a+b.score,0);
+      DB[lop].yearPoint=yearScore;
+      DB[lop].years.push({date:new Date().toLocaleDateString("vi-VN"),score:yearScore});
+      messages.push(`${lop} đủ 12 tháng → tạo năm mới (${yearScore} điểm).`);
+    }
+  }
 
-score:tong
-
-});
-
-if(
-DB[lop].weeks.length>35
-){
-
-DB[lop].weeks.shift();
-
+  saveDB();
+  alert(`Đã lưu tuần cho ${lop}.${messages.length?"\n\n"+messages.join("\n"):""}`);
+  showSection("week");
 }
 
-let weekCount=
-DB[lop].weeks.length;
-
-if(
-weekCount%4===0
-){
-
-let last4=
-DB[lop].weeks
-.slice(-4);
-
-let monthScore=
-last4.reduce(
-(a,b)=>
-a+b.score,
-0
-);
-
-DB[lop].monthPoint=
-monthScore;
-
-DB[lop].months.push({
-
-date:new Date()
-.toLocaleDateString(
-"vi-VN"
-),
-
-score:monthScore
-
-});
-
-alert(
-`${lop} đã đủ 4 tuần và được tạo tháng mới`
-);
-
+/* =========================
+   LỊCH SỬ
+   ========================= */
+function openModal(lop){
+  currentClass=lop;currentHistoryTab="week";
+  document.getElementById("modal").classList.remove("hidden");
+  document.getElementById("modalTitle").textContent="Lịch sử lớp "+lop;
+  renderHistory();
+}
+function closeModal(){document.getElementById("modal").classList.add("hidden")}
+function renderHistory(){
+  const d=DB[currentClass];
+  let tabs=`<div class="tabs">
+    <button class="btn ${currentHistoryTab==='week'?'success':'secondary'}" onclick="currentHistoryTab='week';renderHistory()">📅 Tuần</button>
+    <button class="btn ${currentHistoryTab==='month'?'success':'secondary'}" onclick="currentHistoryTab='month';renderHistory()">📆 Tháng</button>
+    <button class="btn ${currentHistoryTab==='year'?'success':'secondary'}" onclick="currentHistoryTab='year';renderHistory()">🏆 Năm</button>
+  </div>`;
+  let body="";
+  if(currentHistoryTab==="week"){
+    body=`<div class="table-wrap"><table><tr><th>STT</th><th>Ngày</th><th>Điểm</th><th>Chi tiết</th></tr>`;
+    d.weeks.forEach((w,i)=>body+=`<tr><td>${i+1}</td><td>${w.date}</td><td>${w.score}</td>
+      <td><button class="btn secondary" onclick="showWeekDetail(${i})">Xem</button></td></tr>`);
+    body+=`</table></div><p class="muted">Tối đa 35 tuần; khi vượt giới hạn, tuần cũ nhất được loại khỏi bộ nhớ hoạt động.</p>`;
+  }else if(currentHistoryTab==="month"){
+    body=`<div class="table-wrap"><table><tr><th>STT</th><th>Ngày</th><th>Điểm</th></tr>`;
+    d.months.forEach((m,i)=>body+=`<tr><td>${i+1}</td><td>${m.date}</td><td>${m.score}</td></tr>`);
+    body+=`</table></div>`;
+  }else{
+    body=`<div class="table-wrap"><table><tr><th>STT</th><th>Ngày</th><th>Điểm</th></tr>`;
+    d.years.forEach((y,i)=>body+=`<tr><td>${i+1}</td><td>${y.date}</td><td>${y.score}</td></tr>`);
+    body+=`</table></div>`;
+  }
+  document.getElementById("modalBody").innerHTML=tabs+body;
+}
+function showWeekDetail(i){
+  const details=DB[currentClass].weekDetails?.[i]?.details||[];
+  let h=`<h3>Chi tiết tuần ${i+1} - ${currentClass}</h3>`;
+  if(!details.length){h+=`<div class="notice">Không có dữ liệu chi tiết cho tuần này (có thể là dữ liệu được tạo từ phiên bản cũ).</div>`}
+  else{
+    h+=`<div class="table-wrap"><table><tr><th>Nội dung</th><th>HS</th><th>Số lần</th><th>Điểm</th></tr>`;
+    details.forEach(x=>h+=`<tr><td style="text-align:left">${escapeHTML(x.rule)}</td><td>${escapeHTML(x.student||"—")}</td><td>${x.count}</td><td>${x.point}</td></tr>`);
+    h+=`</table></div>`;
+  }
+  document.getElementById("modalBody").innerHTML=h+`<br><button class="btn secondary" onclick="renderHistory()">← Quay lại</button>`;
 }
 
-if(
-DB[lop].months.length>12
-){
-
-DB[lop].months.shift();
-
+/* =========================
+   TIỆN ÍCH NÂNG CẤP
+   ========================= */
+function renderTools(){
+  document.getElementById("tools").innerHTML=`
+  <div class="rank-title">🧰 Trung tâm tiện ích</div>
+  <div class="grid">
+    <div class="stat"><b>💾 Sao lưu</b><p class="muted">Tải toàn bộ dữ liệu hiện tại thành JSON.</p><button class="btn success" onclick="backupJSON()">Sao lưu JSON</button></div>
+    <div class="stat"><b>📥 Khôi phục</b><p class="muted">Nạp lại dữ liệu JSON đã sao lưu.</p><input id="restoreFile" type="file" accept=".json" onchange="restoreJSON(event)"></div>
+    <div class="stat"><b>📊 Excel/CSV</b><p class="muted">Xuất bảng điểm để mở bằng Excel.</p><button class="btn" onclick="exportAllCSV()">Xuất toàn bộ CSV</button></div>
+    <div class="stat"><b>🧹 Dọn dữ liệu</b><p class="muted">Xóa dữ liệu có kiểm soát.</p><button class="btn danger" onclick="resetAll()">Đặt lại toàn bộ</button></div>
+  </div>
+  <div class="card" style="background:#0f172a">
+    <h3>🔎 Kiểm tra dữ liệu</h3>
+    <p>Tổng lớp: <b>${LOPS.length}</b> • Tổng tuần: <b>${LOPS.reduce((s,l)=>s+DB[l].weeks.length,0)}</b> • Tổng tháng: <b>${LOPS.reduce((s,l)=>s+DB[l].months.length,0)}</b></p>
+    <button class="btn secondary" onclick="runIntegrityCheck()">Kiểm tra & sửa cấu trúc</button>
+  </div>`;
 }
 
-if(
-DB[lop].months.length>0
-&&
-DB[lop].months.length%12===0
-){
-
-let last12=
-DB[lop].months
-.slice(-12);
-
-let yearScore=
-last12.reduce(
-(a,b)=>
-a+b.score,
-0
-);
-
-DB[lop].yearPoint=
-yearScore;
-
-DB[lop].years.push({
-
-date:new Date()
-.toLocaleDateString(
-"vi-VN"
-),
-
-score:yearScore
-
-});
-
-alert(
-`${lop} đã đủ 12 tháng và được tạo năm mới`
-);
-
+function backupJSON(){
+  const blob=new Blob([JSON.stringify(DB,null,2)],{type:"application/json"});
+  downloadBlob(blob,"SAODO_PHUOCAN_backup_"+dateStamp()+".json");
+}
+function restoreJSON(ev){
+  const file=ev.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const incoming=JSON.parse(reader.result);
+      if(!incoming || typeof incoming!=="object")throw new Error();
+      if(!confirm("Khôi phục sẽ thay dữ liệu hiện tại. Bạn đã sao lưu dữ liệu chưa?"))return;
+      DB=incoming;saveDB();alert("Khôi phục dữ liệu thành công.");
+    }catch(e){alert("File JSON không hợp lệ.");}
+  };
+  reader.readAsText(file);
+}
+function exportAllCSV(){
+  let rows=[["Lớp","Điểm hiện tại","Tuần đã lưu","Điểm tháng","Tháng đã lưu","Điểm năm","Năm đã lưu"]];
+  LOPS.forEach(l=>rows.push([l,DB[l].total,DB[l].weeks.length,DB[l].monthPoint,DB[l].months.length,DB[l].yearPoint,DB[l].years.length]));
+  downloadBlob(new Blob(["\uFEFF"+rows.map(r=>r.map(csvCell).join(",")).join("\n")],{type:"text/csv;charset=utf-8"}),"SAODO_PHUOCAN_tonghop.csv");
+}
+function exportRanking(type){
+  let arr=[...LOPS];
+  let header,rows;
+  if(type==="week"){
+    arr.sort((a,b)=>DB[b].total-DB[a].total);header=["Hạng","Lớp","Điểm","Số tuần"];
+    rows=arr.map((l,i)=>[i+1,l,DB[l].total,DB[l].weeks.length]);
+  }else if(type==="month"){
+    arr.sort((a,b)=>(DB[b].monthPoint||0)-(DB[a].monthPoint||0));header=["Hạng","Lớp","Điểm tháng","Số tháng"];
+    rows=arr.map((l,i)=>[i+1,l,DB[l].monthPoint||0,DB[l].months.length]);
+  }else{
+    arr.sort((a,b)=>(DB[b].yearPoint||0)-(DB[a].yearPoint||0));header=["Hạng","Lớp","Điểm năm","Số năm"];
+    rows=arr.map((l,i)=>[i+1,l,DB[l].yearPoint||0,DB[l].years.length]);
+  }
+  downloadBlob(new Blob(["\uFEFF"+[header,...rows].map(r=>r.map(csvCell).join(",")).join("\n")],{type:"text/csv;charset=utf-8"}),"BXH_"+type+"_"+dateStamp()+".csv");
+}
+function downloadBlob(blob,name){
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function csvCell(v){return `"${String(v??"").replaceAll('"','""')}"`}
+function dateStamp(){return new Date().toISOString().slice(0,10)}
+function filterTable(id,q){
+  const term=q.toLowerCase();
+  document.querySelectorAll("#"+id+" tbody tr").forEach(tr=>tr.style.display=tr.innerText.toLowerCase().includes(term)?"":"none");
+}
+function runIntegrityCheck(){
+  LOPS.forEach(l=>{
+    if(!DB[l])DB[l]=structuredClone(DEFAULT_DB[l]);
+    DB[l].total=Number(DB[l].total??100);
+    if(!Array.isArray(DB[l].weeks))DB[l].weeks=[];
+    if(!Array.isArray(DB[l].months))DB[l].months=[];
+    if(!Array.isArray(DB[l].years))DB[l].years=[];
+    if(!Array.isArray(DB[l].weekDetails))DB[l].weekDetails=[];
+    DB[l].monthPoint=Number(DB[l].monthPoint??0);
+    DB[l].yearPoint=Number(DB[l].yearPoint??0);
+  });
+  saveDB();alert("Đã kiểm tra và chuẩn hóa cấu trúc dữ liệu.");
+}
+function resetAll(){
+  if(!confirm("CẢNH BÁO: Xóa toàn bộ dữ liệu chấm điểm của tất cả lớp?"))return;
+  if(!confirm("Xác nhận lần cuối: dữ liệu hiện tại sẽ mất nếu chưa sao lưu."))return;
+  DB=structuredClone(DEFAULT_DB);saveDB();alert("Đã đặt lại hệ thống.");
+}
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 }
 
-saveDB();
-
-renderRank();
-
-renderMonthRank();
-
-renderYearRank();
-
-renderScore();
-
-showRank();
-
-}
-    function openModal(lop){
-
-currentClass=lop;
-
-document
-.getElementById(
-"modalHistory"
-)
-.style.display="block";
-
-document
-.getElementById(
-"modalTitle"
-)
-.innerText=
-"Lịch sử lớp "+lop;
-
-showWeekHistory();
-
-}
-
-function closeModal(){
-
-document
-.getElementById(
-"modalHistory"
-)
-.style.display="none";
-
-}
-
-function showWeekHistory(){
-
-let data=
-DB[currentClass];
-
-let html=`
-
-<h3>📅 Lịch sử tuần</h3>
-
-<table>
-
-<tr>
-
-<th>STT</th>
-
-<th>Ngày</th>
-
-<th>Điểm</th>
-
-</tr>
-
-`;
-
-data.weeks.forEach((w,i)=>{
-
-html+=`
-
-<tr>
-
-<td>${i+1}</td>
-
-<td>${w.date}</td>
-
-<td>${w.score}</td>
-
-</tr>
-
-`;
-
-});
-
-html+="</table>";
-
-document
-.getElementById(
-"historyContent"
-)
-.innerHTML=html;
-
-}
-
-function showMonthHistory(){
-
-let data=
-DB[currentClass];
-
-let html=`
-
-<h3>📆 Lịch sử tháng</h3>
-
-<table>
-
-<tr>
-
-<th>STT</th>
-
-<th>Ngày</th>
-
-<th>Điểm</th>
-
-</tr>
-
-`;
-
-data.months.forEach((m,i)=>{
-
-html+=`
-
-<tr>
-
-<td>${i+1}</td>
-
-<td>${m.date}</td>
-
-<td>${m.score}</td>
-
-</tr>
-
-`;
-
-});
-
-html+="</table>";
-
-document
-.getElementById(
-"historyContent"
-)
-.innerHTML=html;
-
-}
-
-function showYearHistory(){
-
-let data=
-DB[currentClass];
-
-let html=`
-
-<h3>🏆 Lịch sử năm</h3>
-
-<table>
-
-<tr>
-
-<th>STT</th>
-
-<th>Ngày</th>
-
-<th>Điểm</th>
-
-</tr>
-
-`;
-
-data.years.forEach((y,i)=>{
-
-html+=`
-
-<tr>
-
-<td>${i+1}</td>
-
-<td>${y.date}</td>
-
-<td>${y.score}</td>
-
-</tr>
-
-`;
-
-});
-
-html+="</table>";
-
-document
-.getElementById(
-"historyContent"
-)
-.innerHTML=html;
-
-}
-
+/* Đóng modal khi bấm nền */
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
 </script>
-
 </body>
 </html>
