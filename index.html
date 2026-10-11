@@ -1,742 +1,335 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TH & THCS PHƯỚC AN - SAO ĐỎ | Bản Chuẩn</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>TH &amp; THCS PHƯỚC AN – SAO ĐỎ</title>
 <style>
-:root {
-  --bg: #0b1220;
-  --card: #162033;
-  --card2: #1e293b;
-  --text: #f8fafc;
-  --muted: #94a3b8;
-  --primary: #3b82f6;
-  --primary2: #2563eb;
-  --success: #22c55e;
-  --danger: #ef4444;
-  --warning: #f59e0b;
-  --border: #334155;
-  --shadow: 0 12px 35px rgba(0,0,0,.25);
-}
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); }
-body { min-height: 100vh; }
-button, input, select, textarea { font: inherit; }
-button { cursor: pointer; }
-.hidden { display: none !important; }
-
-/* LOGIN SCREEN */
-#login {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at top, #2563eb, #0f172a 65%);
-  padding: 20px;
-}
-.login-box {
-  width: min(430px, 100%);
-  background: rgba(15, 23, 42, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 22px;
-  padding: 32px;
-  box-shadow: var(--shadow);
-  text-align: center;
-  backdrop-filter: blur(12px);
-}
-.logo { font-size: 48px; }
-.login-box h1 { margin: 8px 0; font-size: 22px; }
-.login-box p { color: #cbd5e1; }
-#pin {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: #0f172a;
-  color: #fff;
-  text-align: center;
-  font-size: 20px;
-  margin-top: 10px;
-}
-#loginMsg { min-height: 22px; margin: 10px 0 0; }
-
-/* APP LAYOUT */
-#app { max-width: 1500px; margin: auto; padding: 16px; }
-.topbar {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
-}
-.brand h2 { margin: 0; }
-.brand small { color: var(--muted); }
-.menu { display: flex; gap: 7px; flex-wrap: wrap; }
-.btn {
-  border: 0;
-  border-radius: 10px;
-  padding: 10px 13px;
-  color: #fff;
-  background: var(--primary);
-  font-weight: 700;
-  transition: 0.15s;
-}
-.btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
-.btn.secondary { background: #475569; }
-.btn.success { background: var(--success); }
-.btn.danger { background: var(--danger); }
-.btn.warning { background: var(--warning); color: #111827; }
-.btn.ghost { background: transparent; border: 1px solid var(--border); }
-
-/* STATS GRID */
-.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 14px; }
-.stat { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 16px; box-shadow: var(--shadow); }
-.stat b { display: block; font-size: 25px; margin-top: 5px; }
-.muted { color: var(--muted); }
-
-/* CONTENT SECTIONS */
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 15px;
-  box-shadow: var(--shadow);
-  animation: fade 0.2s;
-}
-@keyframes fade {
-  from { opacity: 0.2; transform: translateY(5px); }
-  to { opacity: 1; transform: none; }
-}
-.toolbar { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
-.toolbar input, .toolbar select, .form-control {
-  background: #0f172a;
-  color: #fff;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  padding: 10px;
-}
-table { width: 100%; border-collapse: collapse; min-width: 650px; }
-.table-wrap { overflow: auto; }
-th, td { border: 1px solid var(--border); padding: 9px; text-align: center; }
-th { background: #0f172a; position: sticky; top: 0; z-index: 1; }
-tr:hover td { background: rgba(255, 255, 255, 0.03); }
-
-.rank-title { font-size: 22px; font-weight: 800; color: #60a5fa; margin-bottom: 12px; }
-.rank-1 { font-weight: 800; color: #f59e0b; }
-.plus { color: var(--success); font-weight: 700; }
-.minus { color: var(--danger); font-weight: 700; }
-.section { display: none; }
-.section.active { display: block; }
-
-/* SCORE FORM */
-.score-layout { display: grid; grid-template-columns: 1fr 340px; gap: 15px; }
-.rule-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.rule { background: #0f172a; border: 1px solid var(--border); border-radius: 10px; padding: 10px; }
-.rule strong { display: block; margin-bottom: 7px; }
-.rule .row { display: grid; grid-template-columns: 1fr 90px; gap: 8px; align-items: center; }
-.rule input { width: 100%; padding: 8px; background: #162033; color: #fff; border: 1px solid var(--border); border-radius: 7px; }
-.total-box { position: sticky; top: 12px; height: max-content; }
-.big-score { font-size: 42px; font-weight: 900; margin: 8px 0; }
-
-/* MODAL & TOAST */
-.modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); z-index: 5000; overflow: auto; padding: 20px; }
-.modal-content { max-width: 1100px; margin: 30px auto; background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 20px; position: relative; }
-.close { position: absolute; right: 15px; top: 8px; font-size: 28px; background: none; border: 0; color: #fff; }
-.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-.notice { padding: 10px; border-radius: 10px; background: #0f172a; border: 1px solid var(--border); margin: 8px 0; }
-.danger-text { color: #fca5a5; }
-.success-text { color: #86efac; }
-.empty { text-align: center; padding: 22px; color: var(--muted); }
-.toast { position: fixed; right: 18px; bottom: 18px; z-index: 10000; max-width: 420px; }
-.toast-item { margin-top: 8px; background: #0f172a; border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; box-shadow: var(--shadow); }
-
-@media(max-width:900px){ .grid { grid-template-columns: repeat(2,1fr); } .score-layout { grid-template-columns: 1fr; } .rule-list { grid-template-columns: 1fr; } .total-box { position: static; } }
-@media(max-width:600px){ #app { padding: 9px; } .grid { grid-template-columns: 1fr 1fr; } .menu .btn { flex: 1; } .topbar { align-items: stretch; } .brand { width: 100%; } }
+:root{--bg:#0b1220;--card:#162033;--card2:#1e293b;--text:#f8fafc;--muted:#94a3b8;--primary:#3b82f6;--primary2:#2563eb;--success:#22c55e;--danger:#ef4444;--warning:#f59e0b;--border:#334155;--shadow:0 12px 35px rgba(0,0,0,.25)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55;transform:none!important;filter:none!important}.hidden{display:none!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+#login{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#2563eb,#0f172a 65%);padding:20px}
+.login-box{width:min(430px,100%);background:rgba(15,23,42,.94);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:30px;box-shadow:var(--shadow);text-align:center;backdrop-filter:blur(12px)}
+.logo{font-size:46px}.login-box h1{margin:8px 0;font-size:22px}.login-box p{color:#cbd5e1}.login-box label{display:block;text-align:left;margin-top:12px;color:#cbd5e1;font-size:14px}
+#pin,#pinConfirm{width:100%;padding:14px;border-radius:12px;border:1px solid var(--border);background:#0f172a;color:#fff;text-align:center;font-size:20px;margin-top:7px;letter-spacing:.18em}
+#loginMsg{min-height:24px;margin:10px 0 0}.login-actions{display:grid;gap:9px;margin-top:14px}
+#app{max-width:1500px;margin:auto;padding:16px}.topbar{display:flex;gap:15px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}.brand h2{margin:0}.brand small{color:var(--muted)}.menu{display:flex;gap:7px;flex-wrap:wrap}
+.btn{border:0;border-radius:10px;padding:10px 13px;color:#fff;background:var(--primary);font-weight:700;transition:filter .15s,transform .15s,box-shadow .15s}.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.btn:active{transform:translateY(1px);filter:brightness(.94)}.btn.secondary{background:#475569}.btn.success{background:var(--success);color:#052e16}.btn.danger{background:var(--danger)}.btn.warning{background:var(--warning);color:#111827}.btn.ghost{background:transparent;border:1px solid var(--border)}.btn.small{padding:7px 10px;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}.stat{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:16px;box-shadow:var(--shadow);min-width:0}.stat b{display:block;font-size:25px;margin-top:5px;overflow-wrap:anywhere}.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:15px;box-shadow:var(--shadow);animation:fade .18s ease-out}.card .card{box-shadow:none}.section{display:none}.section.active{display:block}.rank-title{font-size:22px;font-weight:800;color:#60a5fa;margin-bottom:12px}.rank-1{font-weight:800;color:#f59e0b}.plus{color:var(--success);font-weight:700}.minus{color:var(--danger);font-weight:700}
+@keyframes fade{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.toolbar input,.toolbar select,.form-control,textarea.form-control{background:#0f172a;color:#fff;border:1px solid var(--border);border-radius:9px;padding:10px}.toolbar input::placeholder,.rule input::placeholder{color:#94a3b8}.table-wrap{overflow:auto;max-width:100%;border-radius:9px}table{width:100%;border-collapse:collapse;min-width:650px}th,td{border:1px solid var(--border);padding:9px;text-align:center}th{background:#0f172a;position:sticky;top:0;z-index:1}tbody tr:hover td{background:rgba(255,255,255,.035)}td.text-left{text-align:left}.medal{font-size:18px;white-space:nowrap}
+.notice{padding:11px 12px;border-radius:10px;background:#0f172a;border:1px solid var(--border);margin:8px 0}.notice.danger-notice{border-color:#7f1d1d;background:#2a121a;color:#fecaca}.notice.success-notice{border-color:#14532d;color:#bbf7d0}.danger-text{color:#fca5a5}.success-text{color:#86efac}.empty{text-align:center;padding:22px;color:var(--muted)}.toolbar-spacer{flex:1}
+.score-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:15px;align-items:start}.rule-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.rule{background:#0f172a;border:1px solid var(--border);border-radius:10px;padding:10px;min-width:0}.rule strong{display:block;margin-bottom:7px;line-height:1.4}.rule .row{display:grid;grid-template-columns:minmax(0,1fr) 100px;gap:8px;align-items:center}.rule input{width:100%;min-width:0;padding:8px;background:#162033;color:#fff;border:1px solid var(--border);border-radius:7px}.rule input[type=number]{text-align:center}.rule .muted{font-size:13px;margin-top:7px}.total-box{position:sticky;top:12px;height:max-content}.big-score{font-size:42px;font-weight:900;margin:8px 0;line-height:1.1}.score-total-card{padding:18px}.score-total-card hr{border:0;border-top:1px solid var(--border);margin:14px 0}.score-note{font-size:13px;line-height:1.5}.draft-indicator{font-size:13px;color:#fde68a;min-height:20px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:5000;overflow:auto;padding:18px}.modal-content{max-width:1100px;margin:24px auto;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;position:relative;min-height:160px}.close{position:absolute;right:14px;top:8px;font-size:28px;background:none;border:0;color:#fff}.modal-content h2{padding-right:38px}.toast{position:fixed;right:18px;bottom:18px;z-index:10000;max-width:min(420px,calc(100vw - 36px))}.toast-item{margin-top:8px;background:#0f172a;border:1px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow)}
+.tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.tool-card p{line-height:1.5}.inline-form{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pin-change-grid{display:grid;gap:10px;max-width:440px}.pin-change-grid input{background:#0f172a;color:#fff;border:1px solid var(--border);border-radius:9px;padding:11px}.footer-note{font-size:12px;color:var(--muted);margin-top:12px}.data-banner{margin:0 0 12px}.data-banner .btn{margin-top:8px}
+@media(max-width:1000px){.score-layout{grid-template-columns:1fr}.total-box{position:static}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){#app{padding:10px}.topbar{align-items:stretch}.brand{width:100%}.menu .btn{flex:1 1 30%;padding:9px 8px;font-size:13px}.rule-list{grid-template-columns:1fr}.tool-grid{grid-template-columns:1fr}.card{padding:13px}.modal{padding:9px}.modal-content{margin:12px auto;padding:16px}.rank-title{font-size:19px}.toolbar input{flex:1 1 190px}}
+@media(max-width:420px){.grid{gap:8px}.stat{padding:11px}.stat b{font-size:20px}.menu .btn{flex:1 1 44%}.rule .row{grid-template-columns:minmax(0,1fr) 82px}.big-score{font-size:36px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
-
-<div id="login">
+<div id="login" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
   <div class="login-box">
-    <div class="logo">⭐</div>
-    <h1>SAO ĐỎ PHƯỚC AN</h1>
-    <p>Hệ thống chấm điểm & xếp hạng nề nếp</p>
-    <input id="pin" type="password" inputmode="numeric" maxlength="12" placeholder="Nhập PIN đăng nhập" autocomplete="off">
-    <p class="muted">Mã PIN mặc định: <b>1234</b></p>
-    <div id="loginMsg" class="danger-text"></div>
+    <div class="logo" aria-hidden="true">⭐</div>
+    <h1 id="loginTitle">SAO ĐỎ PHƯỚC AN</h1>
+    <p id="loginSubtitle">Hệ thống chấm điểm &amp; xếp hạng nề nếp</p>
+    <form id="loginForm" novalidate>
+      <label id="pinLabel" for="pin">Mã PIN</label>
+      <input id="pin" type="password" inputmode="numeric" maxlength="12" autocomplete="current-password" placeholder="Nhập PIN" required>
+      <div id="pinConfirmWrap" class="hidden"><label for="pinConfirm">Nhập lại PIN mới</label><input id="pinConfirm" type="password" inputmode="numeric" maxlength="12" autocomplete="new-password" placeholder="Xác nhận PIN"></div>
+      <div class="login-actions"><button id="loginSubmit" class="btn success" type="submit">Mở hệ thống</button></div>
+    </form>
+    <p id="loginMsg" class="danger-text" aria-live="polite"></p>
+    <p class="footer-note">PIN chỉ khóa giao diện trên thiết bị này; không thay thế tài khoản và bảo mật phía máy chủ.</p>
   </div>
 </div>
 
 <div id="app" class="hidden">
   <header class="topbar">
-    <div class="brand">
-      <h2>TH & THCS PHƯỚC AN</h2>
-      <small>ĐỘI SAO ĐỎ • Quản lý nề nếp học sinh</small>
-    </div>
-    <div class="menu">
-      <button class="btn" data-section="week">BXH Tuần</button>
-      <button class="btn" data-section="month">BXH Tháng</button>
-      <button class="btn" data-section="year">BXH Năm</button>
-      <button class="btn success" data-section="score">Chấm điểm</button>
-      <button class="btn secondary" data-section="tools">Tiện ích</button>
-      <button id="logoutBtn" class="btn secondary">Khóa</button>
-    </div>
+    <div class="brand"><h2>TH &amp; THCS PHƯỚC AN</h2><small>ĐỘI SAO ĐỎ • Quản lý nề nếp học sinh</small></div>
+    <nav class="menu" aria-label="Điều hướng chính">
+      <button class="btn" data-section="week">BXH Tuần</button><button class="btn" data-section="month">BXH Tháng</button><button class="btn" data-section="year">BXH Năm</button><button class="btn success" data-section="score">Chấm điểm</button><button class="btn secondary" data-section="tools">Tiện ích</button><button id="logoutBtn" class="btn secondary" data-action="logout">Khóa</button>
+    </nav>
   </header>
-
-  <div id="stats" class="grid"></div>
-  <section id="week" class="section active card"></section>
-  <section id="month" class="section card"></section>
-  <section id="year" class="section card"></section>
-  <section id="score" class="section card"></section>
-  <section id="tools" class="section card"></section>
+  <div id="dataAlert" class="data-banner" aria-live="polite"></div>
+  <div id="stats" class="grid" aria-live="polite"></div>
+  <section id="week" class="section active card" aria-labelledby="weekHeading"></section>
+  <section id="month" class="section card" aria-labelledby="monthHeading"></section>
+  <section id="year" class="section card" aria-labelledby="yearHeading"></section>
+  <section id="score" class="section card" aria-labelledby="scoreHeading"></section>
+  <section id="tools" class="section card" aria-labelledby="toolsHeading"></section>
 </div>
 
-<div id="modal" class="modal hidden">
-  <div class="modal-content">
-    <button id="closeModalBtn" class="close">&times;</button>
-    <h2 id="modalTitle"></h2>
-    <div id="modalBody"></div>
-  </div>
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-content"><button id="closeModalBtn" class="close" type="button" data-action="close-modal" aria-label="Đóng">&times;</button><h2 id="modalTitle"></h2><div id="modalBody"></div></div>
 </div>
-<div id="toast" class="toast"></div>
+<div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
+<input id="restoreFile" class="hidden" type="file" accept=".json,application/json" aria-label="Chọn tệp sao lưu JSON">
 
 <script>
 "use strict";
 
-const PIN = "1234";
-const STORAGE_KEY = "PHUOCAN_SAODO_STABLE_V1";
+const PIN_RECORD_KEY = "PHUOCAN_SAODO_PIN_V2";
+const STORAGE_KEY = "PHUOCAN_SAODO_DATA_V2";
+const LEGACY_KEYS = ["PHUOCAN_SAODO_STABLE_V1", "PHUOCAN_DB"];
+const APP_FORMAT = "PHUOCAN_SAODO_BACKUP";
+const SCHEMA_VERSION = 2;
 const LOPS = ["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
 const LOIS = [
-  { n: "Khăn quàng/Huy hiệu", d: -5 },
-  { n: "Đồng phục/Bỏ áo vào quần", d: -5 },
-  { n: "Đi trễ", d: -2 },
-  { n: "Vắng không phép", d: -5 },
-  { n: "Nói tục/Chửi thề", d: -10 },
-  { n: "Đánh nhau", d: -50 },
-  { n: "Xả rác/Vệ sinh", d: -20 },
-  { n: "Trực nhật bẩn", d: -10 },
-  { n: "Không thuộc bài", d: -10 },
-  { n: "Điểm 7", d: 5 },
-  { n: "Điểm 8-9", d: 7 },
-  { n: "Điểm 10", d: 10 },
-  { n: "Phong trào", d: 10 }
+  {n:"Khăn quàng/Huy hiệu",d:-5},{n:"Đồng phục/Bỏ áo vào quần",d:-5},{n:"Đi trễ",d:-2},{n:"Vắng không phép",d:-5},
+  {n:"Nói tục/Chửi thề",d:-10},{n:"Đánh nhau",d:-50},{n:"Xả rác/Vệ sinh",d:-20},{n:"Trực nhật bẩn",d:-10},
+  {n:"Không thuộc bài",d:-10},{n:"Điểm 7",d:5},{n:"Điểm 8-9",d:7},{n:"Điểm 10",d:10},{n:"Phong trào",d:10}
 ];
-
-function newClass() {
-  return {
-    total: 100,
-    weeks: [],
-    months: [],
-    years: [],
-    monthPoint: 0,
-    yearPoint: 0,
-    weeksSavedTotal: 0,
-    monthsSavedTotal: 0
-  };
-}
-
-function defaultDB() {
-  const db = {};
-  LOPS.forEach(l => db[l] = newClass());
-  return db;
-}
-
+const $ = id => document.getElementById(id);
+let loadIssue = null;
+let lastPersistedRaw = null;
+let sourceLegacyKey = null;
 let DB = loadDB();
 let selectedScoreClass = LOPS[0];
 let currentClass = "";
-let currentHistoryTab = "week";
+let currentHistoryTab = "sessions";
+let currentHistoryDetail = null;
+let pinBusy = false;
+let saveBusy = false;
+let pinMode = "login";
 
-function migrateClass(raw) {
-  const c = raw && typeof raw === "object" ? raw : {};
-  const out = newClass();
-  out.total = Number.isFinite(Number(c.total)) ? Number(c.total) : 100;
-  out.monthPoint = Number.isFinite(Number(c.monthPoint)) ? Number(c.monthPoint) : 0;
-  out.yearPoint = Number.isFinite(Number(c.yearPoint)) ? Number(c.yearPoint) : 0;
-  out.months = Array.isArray(c.months) ? c.months.filter(Boolean) : [];
-  out.years = Array.isArray(c.years) ? c.years.filter(Boolean) : [];
-  const oldWeeks = Array.isArray(c.weeks) ? c.weeks : [];
-  const oldDetails = Array.isArray(c.weekDetails) ? c.weekDetails : [];
-  out.weeks = oldWeeks.map((w, i) => {
-    const detail = oldDetails[i];
-    return {
-      id: String(w.id || ("w_" + Date.now() + "_" + i)),
-      date: String(w.date || ""),
-      score: Number(w.score || 0),
-      details: Array.isArray(w.details) ? w.details : (Array.isArray(detail?.details) ? detail.details : [])
-    };
-  });
-  out.weeksSavedTotal = Math.max(Number(c.weeksSavedTotal) || 0, out.weeks.length);
-  out.monthsSavedTotal = Math.max(Number(c.monthsSavedTotal) || 0, out.months.length);
+function isObject(v){return !!v && typeof v === "object" && !Array.isArray(v)}
+function deepClone(value){return typeof structuredClone === "function" ? structuredClone(value) : JSON.parse(JSON.stringify(value))}
+function safeNumber(value,fallback=0){if(value===null||value===undefined||value==="")return fallback;const n=Number(value);return Number.isFinite(n)?n:fallback}
+function newId(prefix="id"){const c=window.crypto;const u=c&&typeof c.randomUUID==="function"?c.randomUUID():Date.now().toString(36)+"_"+Math.random().toString(36).slice(2)+"_"+Math.random().toString(36).slice(2);return prefix+"_"+u}
+function localDateTime(date=new Date()){return new Intl.DateTimeFormat("vi-VN",{dateStyle:"short",timeStyle:"short"}).format(date)}
+function localDate(date=new Date()){return new Intl.DateTimeFormat("sv-SE").format(date)}
+function dateStamp(){return localDate().replaceAll("-","")}
+function displayDate(value){if(!value)return "—";const d=new Date(value);return Number.isNaN(d.getTime())?String(value):localDateTime(d)}
+function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]))}
+function csvCell(value){let s=String(value??"");if(typeof value==="string"&&/^[\s]*[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replaceAll('"','""')+'"'}
+function newClass(total=100){return {total}}
+function defaultDB(){const classes={};LOPS.forEach(l=>classes[l]=newClass());return {schemaVersion:SCHEMA_VERSION,revision:0,updatedAt:null,meta:{closedWeeksTotal:0,monthsCreatedTotal:0,yearsCreatedTotal:0},activeWeek:{id:"week_1",number:1,startedAt:new Date().toISOString()},classes,sessions:[],weeks:[],months:[],years:[],legacy:null}}
+
+function migrateClass(raw){const c=isObject(raw)?raw:{};const score=safeNumber(c.total,100);return newClass(score)}
+function migrateLegacy(parsed,sourceKey){
+  if(!isObject(parsed))throw new Error("Cấu trúc dữ liệu cũ không phải một đối tượng JSON.");
+  const root=isObject(parsed.data)?parsed.data:parsed;
+  const oldClasses=isObject(root.classes)?root.classes:root;
+  const out=defaultDB();
+  for(const l of LOPS)out.classes[l]=migrateClass(oldClasses[l]);
+  out.legacy={sourceKey:sourceKey||"tệp JSON",importedAt:new Date().toISOString(),original:deepClone(parsed)};
   return out;
 }
-
-function loadDB() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("PHUOCAN_DB");
-    if (!raw) return defaultDB();
-    const parsed = JSON.parse(raw);
-    const db = defaultDB();
-    LOPS.forEach(l => db[l] = migrateClass(parsed?.[l]));
-    return db;
-  } catch (e) {
-    return defaultDB();
-  }
-}
-
-function persist() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(DB));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-function saveAndRender() {
-  if (!persist()) {
-    toast("Không thể lưu dữ liệu vào trình duyệt.", "danger");
-    return false;
-  }
-  renderAll();
+function validateScoreMap(map,label){if(!isObject(map))throw new Error(label+": thiếu bảng điểm.");for(const l of LOPS){if(!Object.prototype.hasOwnProperty.call(map,l)||!Number.isFinite(Number(map[l])))throw new Error(label+": điểm lớp "+l+" không hợp lệ.")}}
+function validateDB(candidate){
+  if(!isObject(candidate)||candidate.schemaVersion!==SCHEMA_VERSION)throw new Error("Phiên bản cấu trúc dữ liệu không được hỗ trợ.");
+  if(!isObject(candidate.meta)||!Number.isInteger(candidate.meta.closedWeeksTotal)||candidate.meta.closedWeeksTotal<0||!Number.isInteger(candidate.meta.monthsCreatedTotal)||candidate.meta.monthsCreatedTotal<0||!Number.isInteger(candidate.meta.yearsCreatedTotal)||candidate.meta.yearsCreatedTotal<0)throw new Error("Bộ đếm kỳ không hợp lệ.");
+  if(!isObject(candidate.activeWeek)||!candidate.activeWeek.id||candidate.activeWeek.number!==candidate.meta.closedWeeksTotal+1)throw new Error("Kỳ tuần hiện tại không hợp lệ.");
+  if(!isObject(candidate.classes))throw new Error("Thiếu dữ liệu các lớp.");
+  for(const l of LOPS){if(!isObject(candidate.classes[l])||!Number.isFinite(Number(candidate.classes[l].total)))throw new Error("Điểm lớp "+l+" không hợp lệ.")}
+  for(const key of ["sessions","weeks","months","years"]){if(!Array.isArray(candidate[key]))throw new Error("Danh sách "+key+" không hợp lệ.")}
+  const ids=new Set();
+  for(const s of candidate.sessions){if(!isObject(s)||typeof s.id!=="string"||!s.id||ids.has("s:"+s.id))throw new Error("ID phiên chấm bị thiếu hoặc trùng.");ids.add("s:"+s.id);if(!LOPS.includes(s.className)||!Number.isFinite(Number(s.delta))||!Array.isArray(s.details))throw new Error("Phiên chấm có dữ liệu không hợp lệ.");for(const d of s.details){if(!isObject(d)||!Number.isInteger(Number(d.count))||Number(d.count)<0||!Number.isFinite(Number(d.point)))throw new Error("Chi tiết phiên chấm không hợp lệ.")}}
+  for(const w of candidate.weeks){if(!isObject(w)||typeof w.id!=="string"||!w.id||ids.has("w:"+w.id))throw new Error("ID tuần bị thiếu hoặc trùng.");ids.add("w:"+w.id);validateScoreMap(w.scores,"Tuần")}
+  for(const m of candidate.months){if(!isObject(m)||typeof m.id!=="string"||!m.id||ids.has("m:"+m.id)||!Array.isArray(m.weeks)||m.weeks.length!==4)throw new Error("Kỳ tháng không hợp lệ.");ids.add("m:"+m.id);validateScoreMap(m.scores,"Tháng")}
+  for(const y of candidate.years){if(!isObject(y)||typeof y.id!=="string"||!y.id||ids.has("y:"+y.id)||!Array.isArray(y.months)||y.months.length!==12)throw new Error("Kỳ năm không hợp lệ.");ids.add("y:"+y.id);validateScoreMap(y.scores,"Năm")}
   return true;
 }
-
-function toast(msg, type = "ok") {
-  const box = document.createElement("div");
-  box.className = "toast-item";
-  box.textContent = msg;
-  if (type === "danger") box.classList.add("danger-text");
-  if (type === "ok") box.classList.add("success-text");
-  document.getElementById("toast").appendChild(box);
-  setTimeout(() => box.remove(), 3200);
+function loadDB(){
+  let storage;
+  try{storage=window.localStorage}catch(e){loadIssue={type:"storage",message:"Trình duyệt không cho phép truy cập localStorage. Dữ liệu chưa được đọc hoặc lưu."};return defaultDB()}
+  try{
+    const current=storage.getItem(STORAGE_KEY);lastPersistedRaw=current;
+    if(current!==null){try{const parsed=JSON.parse(current);validateDB(parsed);return parsed}catch(e){loadIssue={type:"corrupt",message:"Dữ liệu phiên bản mới bị lỗi hoặc không hợp lệ. Bản lưu hiện tại chưa bị ghi đè.",raw:current};return defaultDB()}}
+    for(const key of LEGACY_KEYS){const raw=storage.getItem(key);if(raw===null)continue;sourceLegacyKey=key;try{return migrateLegacy(JSON.parse(raw),key)}catch(e){loadIssue={type:"corrupt",message:"Không thể đọc dữ liệu cũ trong “"+key+"”. Bản gốc vẫn còn nguyên; hãy khôi phục từ tệp sao lưu JSON.",raw};return defaultDB()}}
+    return defaultDB();
+  }catch(e){loadIssue={type:"storage",message:"Không thể đọc dữ liệu trình duyệt. Hãy kiểm tra quyền lưu trữ trước khi tiếp tục."};return defaultDB()}
 }
-
-function escapeHTML(s) {
-  return String(s ?? "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+function persist(candidate,{recovery=false}={}){
+  try{
+    if(loadIssue&&!recovery)throw new Error("Đang khóa ghi dữ liệu để tránh ghi đè bản lỗi. Hãy khôi phục JSON hợp lệ trước.");
+    const storage=window.localStorage;
+    const now=storage.getItem(STORAGE_KEY);
+    if(now!==lastPersistedRaw)throw new Error("Dữ liệu đã thay đổi trong một thẻ khác. Không ghi đè để tránh mất dữ liệu; hãy tải lại trang và kiểm tra bản mới nhất.");
+    validateDB(candidate);
+    const raw=JSON.stringify(candidate);
+    storage.setItem(STORAGE_KEY,raw);
+    if(storage.getItem(STORAGE_KEY)!==raw)throw new Error("Không xác nhận được dữ liệu sau khi ghi.");
+    lastPersistedRaw=raw;return true;
+  }catch(e){if(String(e.message).includes("thẻ khác"))loadIssue={type:"conflict",message:e.message};toast(e.message||"Không thể lưu dữ liệu vào trình duyệt.","danger");return false}
 }
+function saveAndRender(candidate=DB,options={}){if(!persist(candidate,options))return false;DB=candidate;loadIssue=null;renderAll();return true}
+function cloneForUpdate(){const next=deepClone(DB);next.revision=(Number(DB.revision)||0)+1;next.updatedAt=new Date().toISOString();return next}
+function toast(message,type="ok"){const box=document.createElement("div");box.className="toast-item "+(type==="danger"?"danger-text":"success-text");box.textContent=String(message);$("toast").appendChild(box);window.setTimeout(()=>box.remove(),3600)}
+function canWrite(){return !loadIssue}
 
-function scoreFromForm() {
-  let total = 0;
-  const details = [];
-  LOIS.forEach((loi, i) => {
-    const sl = Math.max(0, Number.parseInt(document.getElementById("sl" + i)?.value || "0", 10) || 0);
-    const student = (document.getElementById("ten" + i)?.value || "").trim();
-    const point = sl * loi.d;
-    total += point;
-    const line = document.getElementById("diem" + i);
-    if (line) line.textContent = point;
-    if (sl > 0) details.push({ rule: loi.n, count: sl, student, point });
+function rankClasses(scoreMap){return [...LOPS].sort((a,b)=>safeNumber(scoreMap[b],0)-safeNumber(scoreMap[a],0)||LOPS.indexOf(a)-LOPS.indexOf(b))}
+function medals(index){return index===0?"🥇":index===1?"🥈":index===2?"🥉":""}
+function currentWeekKey(date=new Date()){
+  const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));const day=d.getUTCDay()||7;d.setUTCDate(d.getUTCDate()+4-day);const yearStart=new Date(Date.UTC(d.getUTCFullYear(),0,1));const week=Math.ceil((((d-yearStart)/86400000)+1)/7);return d.getUTCFullYear()+"-W"+String(week).padStart(2,"0");
+}
+function sumWeekScores(weeks,className){return weeks.reduce((sum,w)=>sum+safeNumber(w.scores?.[className],0),0)}
+function currentMonth(){return DB.months.length?DB.months[DB.months.length-1]:null}
+function currentYear(){return DB.years.length?DB.years[DB.years.length-1]:null}
+function escapedName(className){return escapeHTML(className)}
+
+function renderDataAlert(){
+  const host=$("dataAlert");if(!loadIssue){host.innerHTML="";return}
+  const rawButton=loadIssue.raw?'<button class="btn secondary small" data-action="download-raw">Tải dữ liệu lỗi nguyên gốc</button> ':"";
+  host.innerHTML='<div class="notice danger-notice"><b>Không thể xác nhận dữ liệu an toàn.</b><br>'+escapeHTML(loadIssue.message)+'<br>Hệ thống đang chặn thao tác ghi để tránh làm mất dữ liệu. Hãy khôi phục một tệp JSON hợp lệ trong mục Tiện ích. '+rawButton+'<button class="btn warning small" data-action="open-tools">Mở Tiện ích</button></div>';
+}
+function renderStats(){
+  const scores={};LOPS.forEach(l=>scores[l]=DB.classes[l].total);const ordered=rankClasses(scores);const activeSessions=DB.sessions.filter(s=>s.periodId===DB.activeWeek.id).length;const monthProgress=DB.meta.closedWeeksTotal%4;const top=ordered[0];
+  $("stats").innerHTML='<div class="stat"><span class="muted">🥇 Dẫn đầu tuần</span><b>'+escapedName(top)+'</b><small>'+safeNumber(DB.classes[top].total)+' điểm</small></div><div class="stat"><span class="muted">📝 Phiên kỳ hiện tại</span><b>'+activeSessions+'</b><small>Tuần '+DB.activeWeek.number+'</small></div><div class="stat"><span class="muted">📆 Tiến độ tháng</span><b>'+monthProgress+'/4 tuần</b><small>'+DB.meta.monthsCreatedTotal+' kỳ tháng đã chốt</small></div><div class="stat"><span class="muted">🏆 Lớp quản lý</span><b>'+LOPS.length+'</b><small>Điểm mới: 100 điểm/lớp</small></div>';
+}
+function renderRank(){
+  const rows=rankClasses(Object.fromEntries(LOPS.map(l=>[l,DB.classes[l].total])));const alreadyClosed=DB.weeks.some(w=>w.weekKey===currentWeekKey());
+  let html='<div class="rank-title" id="weekHeading">📊 BẢNG XẾP HẠNG TUẦN</div><div class="notice">Kỳ tuần đang mở: <b>Tuần '+DB.activeWeek.number+'</b> · '+DB.sessions.filter(s=>s.periodId===DB.activeWeek.id).length+' phiên đã lưu. Mỗi tuần lịch chỉ chốt một lần; chốt tuần lưu điểm đủ 13 lớp rồi đặt kỳ mới về 100.</div>';
+  if(alreadyClosed)html+='<div class="notice success-notice">Tuần lịch '+escapeHTML(currentWeekKey())+' đã được chốt. Kỳ tuần tiếp theo có thể chốt từ tuần lịch kế tiếp.</div>';
+  html+='<div class="toolbar"><input id="weekSearch" type="search" placeholder="Tìm kiếm lớp..." aria-label="Tìm kiếm lớp"><button class="btn secondary" data-action="export-week">⬇ Xuất BXH CSV</button><span class="toolbar-spacer"></span><button class="btn warning" data-action="close-week" '+(!canWrite()||alreadyClosed?'disabled':'')+'>XÁC NHẬN CHỐT TUẦN</button></div><div class="table-wrap"><table id="weekTable"><thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm BXH</th><th>Phiên kỳ này</th><th>Lịch sử</th></tr></thead><tbody>';
+  rows.forEach((l,i)=>{const medal=medals(i);const count=DB.sessions.filter(s=>s.periodId===DB.activeWeek.id&&s.className===l).length;html+='<tr><td class="'+(i===0?'rank-1':'')+'">'+(medal?'<span class="medal">'+medal+'</span> ':'')+(i+1)+'</td><td><b>'+escapedName(l)+'</b></td><td><b class="'+(DB.classes[l].total>0?'':'minus')+'">'+safeNumber(DB.classes[l].total)+'</b></td><td>'+count+'</td><td><button class="btn secondary small" data-action="open-history" data-class="'+l+'">Xem chi tiết</button></td></tr>'});
+  html+='</tbody></table></div><p class="footer-note">Số phiên chấm không làm tăng số tuần. Việc chốt tuần là thao tác riêng và có xác nhận.</p>';$(("week")).innerHTML=html;
+}
+function renderPeriodRank(type){
+  const isMonth=type==="month";const period=isMonth?currentMonth():currentYear();const list=isMonth?DB.months:DB.years;const label=period?period.label:(isMonth?"Chưa có kỳ tháng":"Chưa có kỳ năm");const scoreMap=period?period.scores:Object.fromEntries(LOPS.map(l=>[l,0]));const rows=rankClasses(scoreMap);const title=isMonth?"📆 BẢNG XẾP HẠNG THÁNG":"🏆 BẢNG XẾP HẠNG NĂM";const id=isMonth?"month":"year";const heading=isMonth?"monthHeading":"yearHeading";const exp=isMonth?"export-month":"export-year";
+  let html='<div class="rank-title" id="'+heading+'">'+title+'</div><div class="notice">Đang hiển thị: <b>'+escapeHTML(label)+'</b> · '+list.length+' kỳ được lưu. '+(isMonth?'Một kỳ tháng được tạo sau 4 tuần toàn trường đã chốt.':'Một kỳ năm được tạo sau 12 kỳ tháng toàn trường.')+'</div><div class="toolbar"><button class="btn secondary" data-action="'+exp+'">⬇ Xuất BXH '+(isMonth?'tháng':'năm')+'</button></div>';
+  if(!period)html+='<div class="empty">Chưa có dữ liệu kỳ '+(isMonth?'tháng':'năm')+' mới. Dữ liệu tháng/năm của phiên bản cũ vẫn nằm trong lịch sử lưu trữ.</div>';
+  html+='<div class="table-wrap"><table><thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm '+(isMonth?'tháng':'năm')+'</th><th>Số kỳ đã lưu</th></tr></thead><tbody>';
+  rows.forEach((l,i)=>{html+='<tr><td>'+(medals(i)?'<span class="medal">'+medals(i)+'</span> ':'')+(i+1)+'</td><td><b>'+escapedName(l)+'</b></td><td><b>'+ (period?safeNumber(period.scores[l]):"—")+'</b></td><td>'+ (isMonth?DB.meta.monthsCreatedTotal:DB.meta.yearsCreatedTotal)+'</td></tr>'});
+  html+='</tbody></table></div>';
+  if(period){html+='<div class="notice">'+(isMonth?'Tuần thuộc kỳ tháng này':'Các tháng thuộc kỳ năm này')+': '+(isMonth?period.weeks.map(w=>escapeHTML(w.label)).join(' · '):period.months.map(m=>escapeHTML(m.label)).join(' · '))+'</div>'}
+  html+='<p class="footer-note">Điểm tháng là tổng điểm 4 tuần đã chốt; điểm năm là tổng điểm 12 kỳ tháng. Các kỳ cũ được giữ tối đa '+(isMonth?'12 tháng':'5 năm')+' gần nhất.</p>';$(id).innerHTML=html;
+}
+function renderMonthRank(){renderPeriodRank("month")}
+function renderYearRank(){renderPeriodRank("year")}
+
+function scoreFromForm(){
+  let total=0,valid=true;const details=[];
+  LOIS.forEach((rule,i)=>{const input=$("sl"+i);const raw=(input?.value??"0").trim();const count=raw===""?0:Number(raw);const line=$("diem"+i);const isValid=/^\d+$/.test(raw||"0")&&Number.isSafeInteger(count)&&count>=0&&Number.isSafeInteger(count*rule.d);
+    if(!isValid){valid=false;if(line)line.textContent="—";return}
+    const student=($("ten"+i)?.value||"").trim();const point=count*rule.d;total+=point;if(!Number.isSafeInteger(total)){valid=false;if(line)line.textContent="—";return}if(line)line.textContent=String(point);if(count>0)details.push({rule:rule.n,count,student,point});
   });
-  return { total, details };
+  const current=DB.classes[selectedScoreClass]?.total??100;const after=current+total;if(!Number.isSafeInteger(after))valid=false;
+  return {total,details,valid,after};
 }
-
-function calc() {
-  const result = scoreFromForm();
-  const total = document.getElementById("tongPhien");
-  const after = document.getElementById("afterScore");
-  const current = DB[selectedScoreClass]?.total ?? 100;
-  if (total) total.textContent = result.total;
-  if (after) after.textContent = current + result.total;
+function calc(){
+  const result=scoreFromForm();const total=$("tongPhien"),after=$("afterScore"),current=$("currentScore"),save=$("saveSessionBtn"),error=$("scoreError");const score=DB.classes[selectedScoreClass]?.total??100;
+  if(total)total.textContent=result.valid?String(result.total):"—";if(after)after.textContent=result.valid?String(result.after):"—";if(current)current.textContent=String(score);if(save)save.disabled=!result.valid||!result.details.length||!canWrite()||saveBusy;
+  if(error)error.textContent=result.valid?"":"Số lần phải là số nguyên không âm và điểm phải nằm trong giới hạn an toàn.";
   return result;
 }
-
-function renderScore() {
-  const lop = selectedScoreClass;
-  let html = `<div class="rank-title">📝 SỔ CHẤM ĐIỂM</div>
-  <div class="toolbar">
-    <label><b>Chọn lớp:</b></label>
-    <select id="lopSelect" class="form-control">
-      ${LOPS.map(l => `<option value="${l}" ${l === lop ? "selected" : ""}>${l}</option>`).join("")}
-    </select>
-    <button id="resetScoreBtn" class="btn ghost">Làm mới phiếu</button>
-  </div>
-  <div class="score-layout"><div>
-    <div class="notice">Điểm nền cơ bản của mỗi lớp là <b>100</b>. Nhập số lần vi phạm hoặc thành tích bên dưới:</div>
-    <div class="rule-list">`;
-  LOIS.forEach((loi, i) => {
-    html += `<div class="rule">
-      <strong>${escapeHTML(loi.n)} <span class="${loi.d >= 0 ? 'plus' : 'minus'}">(${loi.d > 0 ? '+' : ''}${loi.d})</span></strong>
-      <div class="row">
-        <input id="ten${i}" type="text" placeholder="Tên HS (nếu có)">
-        <input id="sl${i}" type="number" min="0" step="1" value="0">
-      </div>
-      <div class="muted">Điểm tiêu mục: <span id="diem${i}">0</span></div>
-    </div>`;
-  });
-  html += `</div></div>
-  <div class="total-box"><div class="stat">
-    <span class="muted">Lớp đang chọn</span><b>${lop}</b>
-    <div class="muted">Điểm hiện tại: <span id="currentScore">${DB[lop].total}</span></div>
-    <hr>
-    <span class="muted">Điểm phiên chấm hôm nay</span>
-    <div id="tongPhien" class="big-score">0</div>
-    <div class="muted">Điểm sau khi lưu: <b id="afterScore">${DB[lop].total}</b></div>
-    <button id="saveWeekBtn" class="btn success" style="width:100%;margin-top:12px;padding:12px">XÁC NHẬN LƯU</button>
-  </div></div></div>`;
-
-  document.getElementById("score").innerHTML = html;
-
-  document.getElementById("lopSelect").addEventListener("change", e => {
-    selectedScoreClass = e.target.value;
-    renderScore();
-  });
-  document.getElementById("resetScoreBtn").addEventListener("click", () => renderScore());
-  document.querySelectorAll("#score input").forEach(el => el.addEventListener("input", calc));
-  document.getElementById("saveWeekBtn").addEventListener("click", saveWeek);
-  calc();
+function renderScore(){
+  const lop=selectedScoreClass;const score=DB.classes[lop]?.total??100;let html='<div class="rank-title" id="scoreHeading">📝 SỔ CHẤM ĐIỂM</div><div class="toolbar"><label for="lopSelect"><b>Chọn lớp:</b></label><select id="lopSelect" class="form-control" data-role="score-class">'+LOPS.map(l=>'<option value="'+l+'" '+(l===lop?'selected':'')+'>'+l+'</option>').join("")+'</select><button class="btn ghost" data-action="reset-score">Làm mới phiếu</button><span class="toolbar-spacer"></span><span id="draftIndicator" class="draft-indicator" aria-live="polite"></span></div><div class="score-layout"><div><div class="notice">Điểm nền mỗi lớp đầu kỳ là <b>100</b>. Nhập số lần vi phạm hoặc thành tích. Có thể nhập tên học sinh cho từng tiêu chí.</div><form id="scoreForm" novalidate><div class="rule-list">';
+  LOIS.forEach((rule,i)=>{html+='<div class="rule"><strong>'+escapeHTML(rule.n)+' <span class="'+(rule.d>=0?'plus':'minus')+'">('+(rule.d>0?'+':'')+rule.d+')</span></strong><div class="row"><label class="sr-only" for="ten'+i+'">Tên học sinh – '+escapeHTML(rule.n)+'</label><input id="ten'+i+'" type="text" maxlength="120" autocomplete="off" placeholder="Tên HS (nếu có)"><label class="sr-only" for="sl'+i+'">Số lần – '+escapeHTML(rule.n)+'</label><input id="sl'+i+'" type="number" min="0" step="1" inputmode="numeric" value="0" aria-describedby="diemHint'+i+'"></div><div class="muted" id="diemHint'+i+'">Điểm tiêu mục: <span id="diem'+i+'">0</span></div></div>'});
+  html+='</div><p id="scoreError" class="danger-text" aria-live="polite"></p></form></div><aside class="total-box"><div class="stat score-total-card"><span class="muted">Lớp đang chọn</span><b>'+lop+'</b><div class="muted">Điểm hiện tại: <span id="currentScore">'+score+'</span></div><hr><span class="muted">Điểm phiên chấm</span><div id="tongPhien" class="big-score">0</div><div class="muted">Điểm dự kiến sau khi lưu: <b id="afterScore">'+score+'</b></div><button id="saveSessionBtn" class="btn success" data-action="save-session" style="width:100%;margin-top:12px;padding:12px" '+(!canWrite()?'disabled':'')+'>XÁC NHẬN LƯU PHIÊN</button><p class="score-note muted">Chọn ít nhất một tiêu chí để bật nút lưu. Lưu phiên không đồng nghĩa chốt tuần; BXH tuần cập nhật ngay sau khi lưu.</p></div></aside></div>';
+  $("score").innerHTML=html;calc();
 }
 
-function saveWeek() {
-  const lop = selectedScoreClass;
-  const c = DB[lop];
-  if (!c) { toast("Không tìm thấy lớp.", "danger"); return; }
+function saveWeek(){return closeWeek()}
+function saveSession(){
+  if(saveBusy)return;const result=calc();if(!result.valid){toast("Vui lòng sửa số lần không hợp lệ trước khi lưu.","danger");return}if(!result.details.length){toast("Phiếu chưa có tiêu chí nào; không tạo phiên rỗng.","danger");return}if(!canWrite()){toast("Dữ liệu đang được bảo vệ; hãy khôi phục JSON hợp lệ trước.","danger");return}
+  const className=selectedScoreClass;const current=DB.classes[className].total;const nextScore=current+result.total;const confirmed=window.confirm("XÁC NHẬN LƯU PHIÊN CHẤM\n\nLớp: "+className+"\nĐiểm phiên: "+(result.total>=0?"+":"")+result.total+"\nĐiểm hiện tại: "+current+" → "+nextScore+"\n\nPhiên này không chốt tuần.");if(!confirmed)return;
+  saveBusy=true;const candidate=cloneForUpdate();const session={id:newId("session"),periodId:candidate.activeWeek.id,className,savedAt:new Date().toISOString(),delta:result.total,before:current,after:nextScore,details:result.details.map(x=>({...x}))};candidate.classes[className].total=nextScore;candidate.sessions.push(session);
+  saveBusy=false;const ok=saveAndRender(candidate);if(!ok){if($("score").classList.contains("active"))renderScore();return}
+  toast("Đã lưu phiên chấm lớp "+className+": "+current+" → "+nextScore+" điểm.");
+}
+function closeWeek(){
+  if(saveBusy)return false;if(!canWrite()){toast("Không thể chốt tuần khi dữ liệu chưa được đọc/lưu an toàn.","danger");return false}
+  const key=currentWeekKey();if(DB.weeks.some(w=>w.weekKey===key)){toast("Tuần lịch "+key+" đã được chốt; không thể chốt trùng.","danger");renderAll();return false}
+  const scores=Object.fromEntries(LOPS.map(l=>[l,DB.classes[l].total]));const periodSessions=DB.sessions.filter(s=>s.periodId===DB.activeWeek.id);const weekNo=DB.meta.closedWeeksTotal+1;
+  const confirmed=window.confirm("XÁC NHẬN CHỐT TUẦN TOÀN TRƯỜNG\n\nKỳ: Tuần "+weekNo+" ("+key+")\nLưu điểm cuối của đủ "+LOPS.length+" lớp, sau đó khởi tạo điểm tuần mới về 100 cho mọi lớp.\n\nThao tác này chỉ có thể chốt một lần trong tuần lịch hiện tại.");if(!confirmed)return false;
+  saveBusy=true;const candidate=cloneForUpdate();const snapshot={id:newId("week"),activePeriodId:candidate.activeWeek.id,number:weekNo,weekKey:key,label:"Tuần "+weekNo,closedAt:new Date().toISOString(),scores,sessionIds:periodSessions.map(s=>s.id)};candidate.weeks.push(snapshot);candidate.meta.closedWeeksTotal=weekNo;
+  let createdMonth=null,createdYear=null;
+  if(weekNo%4===0){const lastFour=candidate.weeks.slice(-4);if(lastFour.length!==4){saveBusy=false;toast("Không đủ bốn ảnh chụp tuần để tạo kỳ tháng.","danger");return false}const monthNo=candidate.meta.monthsCreatedTotal+1;createdMonth={id:newId("month"),number:monthNo,label:"Kỳ tháng "+String(monthNo).padStart(2,"0"),createdAt:new Date().toISOString(),weekIds:lastFour.map(w=>w.id),weeks:deepClone(lastFour),scores:Object.fromEntries(LOPS.map(l=>[l,sumWeekScores(lastFour,l)]))};candidate.months.push(createdMonth);candidate.meta.monthsCreatedTotal=monthNo;while(candidate.months.length>12)candidate.months.shift();}
+  if(createdMonth&&candidate.meta.monthsCreatedTotal%12===0){const lastTwelve=candidate.months.slice(-12);if(lastTwelve.length===12){const yearNo=candidate.meta.yearsCreatedTotal+1;createdYear={id:newId("year"),number:yearNo,label:"Kỳ năm "+String(yearNo).padStart(2,"0"),createdAt:new Date().toISOString(),monthIds:lastTwelve.map(m=>m.id),months:deepClone(lastTwelve),scores:Object.fromEntries(LOPS.map(l=>[l,lastTwelve.reduce((sum,m)=>sum+safeNumber(m.scores[l]),0)]))};candidate.years.push(createdYear);candidate.meta.yearsCreatedTotal=yearNo;while(candidate.years.length>5)candidate.years.shift();}}
+  while(candidate.weeks.length>35)candidate.weeks.shift();LOPS.forEach(l=>candidate.classes[l].total=100);candidate.activeWeek={id:newId("week_live"),number:weekNo+1,startedAt:new Date().toISOString()};
+  const ok=saveAndRender(candidate);saveBusy=false;if(!ok)return false;let message="Đã chốt tuần "+weekNo+" cho toàn trường; điểm 13 lớp đã trở về 100.";if(createdMonth)message+=" Đã tạo "+createdMonth.label+".";if(createdYear)message+=" Đã tạo "+createdYear.label+".";toast(message);return true;
+}
 
-  const { total, details } = calc();
-  const oldTotal = Number(c.total) || 100;
-  const newTotal = oldTotal + total;
-
-  const ok = confirm(
-    `XÁC NHẬN LƯU ĐIỂM CHẤM\n\n` +
-    `Lớp: ${lop}\n` +
-    `Điểm phiên: ${total >= 0 ? "+" : ""}${total}\n` +
-    `Điểm BXH mới: ${oldTotal} → ${newTotal}`
-  );
-  if (!ok) return;
-
-  const now = new Date();
-  const week = {
-    id: "w_" + now.getTime() + "_" + Math.random().toString(36).slice(2, 8),
-    date: now.toLocaleDateString("vi-VN") + " " + now.toLocaleTimeString("vi-VN", { hour: '2-digit', minute: '2-digit' }),
-    score: total,
-    details: details
-  };
-
-  c.total = newTotal;
-  c.weeks.push(week);
-  c.weeksSavedTotal = (Number(c.weeksSavedTotal) || 0) + 1;
-
-  let msg = [];
-  if (c.weeksSavedTotal % 4 === 0) {
-    const last4 = c.weeks.slice(-4);
-    const monthScore = last4.reduce((s, w) => s + Number(w.score || 0), 0);
-    c.monthPoint = monthScore;
-    c.months.push({
-      id: "m_" + now.getTime(),
-      date: now.toLocaleDateString("vi-VN"),
-      score: monthScore,
-      weeks: 4
-    });
-    c.monthsSavedTotal = (Number(c.monthsSavedTotal) || 0) + 1;
-    if (c.months.length > 12) c.months.shift();
-    msg.push(`${lop} đủ 4 tuần → Tạo điểm tháng mới (${monthScore}đ).`);
-
-    if (c.monthsSavedTotal % 12 === 0) {
-      const last12 = c.months.slice(-12);
-      const yearScore = last12.reduce((s, m) => s + Number(m.score || 0), 0);
-      c.yearPoint = yearScore;
-      c.years.push({
-        id: "y_" + now.getTime(),
-        date: now.toLocaleDateString("vi-VN"),
-        score: yearScore
-      });
-      if (c.years.length > 5) c.years.shift();
-      msg.push(`${lop} đủ 12 tháng → Tạo điểm năm mới (${yearScore}đ).`);
-    }
+function getLegacyRoot(){const original=DB.legacy?.original;if(!isObject(original))return null;return isObject(original.data)?original.data:original}
+function getLegacyClass(className){const root=getLegacyRoot();if(!root)return null;const classes=isObject(root.classes)?root.classes:root;return isObject(classes[className])?classes[className]:null}
+function legacySessionsForClass(className){const c=getLegacyClass(className);if(!c)return[];const weeks=Array.isArray(c.weeks)?c.weeks:[];const oldDetails=Array.isArray(c.weekDetails)?c.weekDetails:[];return weeks.map((w,i)=>{const details=Array.isArray(w?.details)?w.details:(Array.isArray(oldDetails[i]?.details)?oldDetails[i].details:[]);const delta=safeNumber(w?.score,0);return {id:"legacy|"+className+"|"+String(w?.id||i),className,periodId:"legacy",savedAt:w?.date||"",delta,before:null,after:null,details:details.map(d=>({rule:String(d?.rule??"Nội dung cũ"),count:safeNumber(d?.count,0),student:String(d?.student??""),point:safeNumber(d?.point,0)})),legacy:true}})}
+function sessionsForClass(className){return [...DB.sessions.filter(s=>s.className===className).map(s=>({...s,legacy:false})),...legacySessionsForClass(className)].sort((a,b)=>String(b.savedAt).localeCompare(String(a.savedAt)))}
+function openModal(className){if(!LOPS.includes(className))return;currentClass=className;currentHistoryTab="sessions";currentHistoryDetail=null;$("modal").classList.remove("hidden");$("modalTitle").textContent="Lịch sử chấm điểm: Lớp "+className;renderHistory()}
+function closeModal(){$("modal").classList.add("hidden");currentHistoryDetail=null}
+function historyTabs(){const items=[["sessions","Phiên chấm"],["week","Tuần"],["month","Tháng"],["year","Năm"],["legacy","Dữ liệu cũ"]];return '<div class="tabs">'+items.map(([key,label])=>'<button class="btn '+(currentHistoryTab===key?'success':'secondary')+' small" data-action="history-tab" data-tab="'+key+'">'+label+'</button>').join("")+'</div>'}
+function renderHistory(){
+  if(!LOPS.includes(currentClass))return;const c=DB.classes[currentClass];let body=historyTabs();
+  if(currentHistoryTab==="sessions"){
+    const list=sessionsForClass(currentClass);body+=list.length?'<div class="table-wrap"><table><thead><tr><th>Thời gian</th><th>Kỳ</th><th>Điểm trước → sau</th><th>Điểm phiên</th><th>Chi tiết</th></tr></thead><tbody>'+list.map(s=>'<tr><td>'+escapeHTML(s.legacy?String(s.savedAt||"Ngày cũ không rõ"):displayDate(s.savedAt))+'</td><td>'+(s.legacy?'Dữ liệu cũ':escapeHTML(s.periodId===DB.activeWeek.id?'Tuần đang mở':periodLabelForSession(s.periodId)))+'</td><td>'+(s.before===null||s.before===undefined?'—':escapeHTML(String(s.before))+" → "+escapeHTML(String(s.after)))+'</td><td class="'+(s.delta>=0?'plus':'minus')+'">'+(s.delta>=0?'+':'')+safeNumber(s.delta)+'</td><td><button class="btn secondary small" data-action="session-detail" data-id="'+escapeHTML(s.id)+'">Xem</button></td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Chưa có phiên chấm được lưu.</div>';
+  }else if(currentHistoryTab==="week"){
+    const weeks=[...DB.weeks].reverse();body+=weeks.length?'<div class="table-wrap"><table><thead><tr><th>Tuần</th><th>Ngày chốt</th><th>Điểm cuối</th><th>Phiên</th><th>Chi tiết</th></tr></thead><tbody>'+weeks.map(w=>'<tr><td>'+escapeHTML(w.label)+' ('+escapeHTML(w.weekKey)+')</td><td>'+escapeHTML(displayDate(w.closedAt))+'</td><td><b>'+safeNumber(w.scores[currentClass])+'</b></td><td>'+w.sessionIds.filter(id=>DB.sessions.some(s=>s.id===id&&s.className===currentClass)).length+'</td><td><button class="btn secondary small" data-action="week-detail" data-id="'+escapeHTML(w.id)+'">Xem</button></td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Chưa có tuần toàn trường nào được chốt.</div>';
+  }else if(currentHistoryTab==="month"){
+    const months=[...DB.months].reverse();body+=months.length?'<div class="table-wrap"><table><thead><tr><th>Kỳ</th><th>Ngày tạo</th><th>Điểm tháng</th><th>Tuần thuộc kỳ</th></tr></thead><tbody>'+months.map(m=>'<tr><td>'+escapeHTML(m.label)+'</td><td>'+escapeHTML(displayDate(m.createdAt))+'</td><td><b>'+safeNumber(m.scores[currentClass])+'</b></td><td>'+m.weeks.map(w=>escapeHTML(w.label)+": "+safeNumber(w.scores?.[currentClass])).join(" · ")+'</td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Chưa chốt đủ 4 tuần để tạo kỳ tháng.</div>';
+  }else if(currentHistoryTab==="year"){
+    const years=[...DB.years].reverse();body+=years.length?'<div class="table-wrap"><table><thead><tr><th>Kỳ</th><th>Ngày tạo</th><th>Điểm năm</th><th>Điểm các kỳ tháng</th></tr></thead><tbody>'+years.map(y=>'<tr><td>'+escapeHTML(y.label)+'</td><td>'+escapeHTML(displayDate(y.createdAt))+'</td><td><b>'+safeNumber(y.scores[currentClass])+'</b></td><td>'+y.months.length+' · '+y.months.map(m=>escapeHTML(m.label)+': '+safeNumber(m.scores?.[currentClass])).join(' · ')+'</td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Chưa chốt đủ 12 kỳ tháng để tạo kỳ năm.</div>';
+  }else{
+    const old=getLegacyClass(currentClass);const oldMonths=Array.isArray(old?.months)?old.months:[];const oldYears=Array.isArray(old?.years)?old.years:[];body+='<div class="notice">Đây là dữ liệu được giữ nguyên từ phiên bản cũ. Các giá trị này không được cộng vào bộ đếm tuần/tháng/năm mới vì phiên bản cũ có thể tính lượt chấm như kỳ tuần.</div>';
+    body+=old?'<h3>Tháng cũ</h3>'+(oldMonths.length?'<div class="table-wrap"><table><thead><tr><th>Ngày/nhãn cũ</th><th>Điểm</th></tr></thead><tbody>'+oldMonths.map(m=>'<tr><td>'+escapeHTML(m?.date||"—")+'</td><td>'+safeNumber(m?.score)+'</td></tr>').join("")+'</tbody></table></div>':'<p class="muted">Không có bản ghi tháng chi tiết.</p>')+'<h3>Năm cũ</h3>'+(oldYears.length?'<div class="table-wrap"><table><thead><tr><th>Ngày/nhãn cũ</th><th>Điểm</th></tr></thead><tbody>'+oldYears.map(y=>'<tr><td>'+escapeHTML(y?.date||"—")+'</td><td>'+safeNumber(y?.score)+'</td></tr>').join("")+'</tbody></table></div>':'<p class="muted">Không có bản ghi năm chi tiết.</p>')+'<p class="muted">Điểm tháng/năm cũ gần nhất: '+safeNumber(old.monthPoint)+' / '+safeNumber(old.yearPoint)+' (chỉ lưu trữ).</p>':'<div class="empty">Không có dữ liệu cũ cho lớp này.</div>';
   }
-
-  while (c.weeks.length > 35) c.weeks.shift();
-
-  if (!saveAndRender()) return;
-
-  toast(`Đã lưu ${lop}: ${oldTotal} → ${newTotal} điểm.`, "ok");
-  alert(
-    `ĐÃ LƯU THÀNH CÔNG!\n\n` +
-    `${lop}: ${oldTotal} → ${newTotal} điểm\n` +
-    `Cập nhật điểm phiên: ${total >= 0 ? "+" : ""}${total}` +
-    `${msg.length ? "\n\n" + msg.join("\n") : ""}`
-  );
-  showSection("week");
+  $("modalBody").innerHTML=body;
+}
+function periodLabelForSession(periodId){const w=DB.weeks.find(x=>x.activePeriodId===periodId);if(w)return w.label;return "Kỳ "+String(periodId||"").replace(/^week_live_/,"")}
+function showSessionDetail(id){
+  const record=sessionsForClass(currentClass).find(s=>s.id===id);if(!record)return;currentHistoryDetail={type:"session",id};let html='<h3>Chi tiết phiên chấm · '+escapeHTML(currentClass)+'</h3><div class="notice">Thời gian: <b>'+escapeHTML(record.legacy?String(record.savedAt||"Ngày cũ không rõ"):displayDate(record.savedAt))+'</b><br>Điểm phiên: <b class="'+(record.delta>=0?'plus':'minus')+'">'+(record.delta>=0?'+':'')+safeNumber(record.delta)+'</b><br>Điểm trước/sau: <b>'+(record.before===null||record.before===undefined?'Không có trong dữ liệu cũ':escapeHTML(String(record.before))+" → "+escapeHTML(String(record.after)))+'</b></div>';
+  html+=record.details.length?'<div class="table-wrap"><table><thead><tr><th>Nội dung</th><th>Học sinh</th><th>Số lần</th><th>Điểm</th></tr></thead><tbody>'+record.details.map(d=>'<tr><td class="text-left">'+escapeHTML(d.rule)+'</td><td>'+escapeHTML(d.student||"—")+'</td><td>'+safeNumber(d.count)+'</td><td class="'+(safeNumber(d.point)>=0?'plus':'minus')+'">'+(safeNumber(d.point)>=0?'+':'')+safeNumber(d.point)+'</td></tr>').join("")+'</tbody></table></div>':'<div class="notice">Phiên không có chi tiết tiêu chí.</div>';
+  html+='<br><button class="btn secondary" data-action="history-back">← Quay lại danh sách</button>';$("modalBody").innerHTML=html;
+}
+function showWeekDetail(id){const w=DB.weeks.find(x=>x.id===id);if(!w)return;currentHistoryDetail={type:"week",id};const matching=DB.sessions.filter(s=>s.className===currentClass&&w.sessionIds.includes(s.id));let html='<h3>'+escapeHTML(w.label)+' · Lớp '+escapeHTML(currentClass)+'</h3><div class="notice">Tuần lịch '+escapeHTML(w.weekKey)+' · Chốt '+escapeHTML(displayDate(w.closedAt))+' · Điểm cuối: <b>'+safeNumber(w.scores[currentClass])+'</b></div>';
+  html+=matching.length?'<div class="table-wrap"><table><thead><tr><th>Thời gian</th><th>Điểm phiên</th><th>Điểm trước → sau</th><th>Chi tiết</th></tr></thead><tbody>'+matching.map(s=>'<tr><td>'+escapeHTML(displayDate(s.savedAt))+'</td><td class="'+(s.delta>=0?'plus':'minus')+'">'+(s.delta>=0?'+':'')+safeNumber(s.delta)+'</td><td>'+safeNumber(s.before)+' → '+safeNumber(s.after)+'</td><td><button class="btn secondary small" data-action="session-detail" data-id="'+escapeHTML(s.id)+'">Xem</button></td></tr>').join("")+'</tbody></table></div>':'<div class="notice">Không có phiên chấm mới trong tuần đã chốt; điểm cuối của lớp vẫn được lưu.</div>';
+  html+='<br><button class="btn secondary" data-action="history-back">← Quay lại danh sách</button>';$("modalBody").innerHTML=html;
 }
 
-function renderStats() {
-  const arr = LOPS.map(l => ({ l, score: DB[l].total })).sort((a, b) => b.score - a.score);
-  const top = arr[0];
-  const weeks = LOPS.reduce((s, l) => s + DB[l].weeks.length, 0);
-  const months = LOPS.reduce((s, l) => s + DB[l].months.length, 0);
-  document.getElementById("stats").innerHTML = `
-    <div class="stat"><span class="muted">🥇 Dẫn đầu tuần</span><b>${top.l}</b><small>${top.score} điểm</small></div>
-    <div class="stat"><span class="muted">📅 Lượt chấm tuần</span><b>${weeks}</b><small>Tối đa 35 tuần gần nhất</small></div>
-    <div class="stat"><span class="muted">📆 Tháng đã lưu</span><b>${months}</b><small>Tự động chốt mỗi 4 tuần</small></div>
-    <div class="stat"><span class="muted">🏆 Lớp quản lý</span><b>${LOPS.length}</b><small>Dữ liệu lưu trên trình duyệt</small></div>`;
+function renderTools(){
+  const count=DB.sessions.length;const state=loadIssue?'<span class="danger-text">Chưa xác nhận an toàn</span>':'<span class="success-text">Đang hoạt động</span>';
+  $("tools").innerHTML='<div class="rank-title" id="toolsHeading">🧰 Trung tâm quản trị &amp; Tiện ích</div><div class="tool-grid"><div class="stat tool-card"><b>💾 Sao lưu dữ liệu</b><p class="muted">Tải toàn bộ dữ liệu mới và hồ sơ cũ đã chuyển đổi thành tệp JSON.</p><button class="btn success" data-action="backup-json" '+(!canWrite()?'disabled':'')+'>Tải file sao lưu (.JSON)</button></div><div class="stat tool-card"><b>📥 Khôi phục dữ liệu</b><p class="muted">Kiểm tra cấu trúc trước khi xác nhận ghi đè dữ liệu hiện tại.</p><button class="btn secondary" data-action="choose-restore">Chọn tệp JSON</button><p class="footer-note">Hỗ trợ tệp sao lưu của phiên bản này và cấu trúc cũ TH &amp; THCS PHƯỚC AN.</p></div><div class="stat tool-card"><b>📊 Xuất báo cáo Excel</b><p class="muted">Xuất bảng tổng hợp, phiên chấm và các kỳ đã chốt ra CSV UTF‑8.</p><button class="btn" data-action="export-all">Xuất CSV toàn bộ</button></div><div class="stat tool-card"><b>🔐 PIN truy cập</b><p class="muted">Đổi mã PIN của giao diện trên thiết bị này. Mã PIN không bảo vệ dữ liệu trước người có quyền truy cập trình duyệt.</p><button class="btn secondary" data-action="change-pin">Đổi PIN</button></div><div class="stat tool-card"><b>🧹 Reset hệ thống</b><p class="muted">Xóa dữ liệu ứng dụng trên trình duyệt này để bắt đầu lại. Hãy tải bản sao lưu trước.</p><button class="btn danger" data-action="reset-all" '+(!canWrite()?'disabled':'')+'>Xóa tất cả dữ liệu</button></div><div class="stat tool-card"><b>🔎 Kiểm tra cấu trúc dữ liệu</b><p class="muted">Lớp: '+LOPS.length+' · Phiên mới: '+count+' · Tuần đã chốt: '+DB.meta.closedWeeksTotal+' · Tháng: '+DB.meta.monthsCreatedTotal+' · Năm: '+DB.meta.yearsCreatedTotal+'</p><p class="muted">Trạng thái lưu trữ: '+state+'</p><button class="btn secondary" data-action="integrity">Kiểm tra toàn vẹn</button></div></div><div class="notice"><b>Lưu ý lưu trữ:</b> Dữ liệu nằm trong localStorage của trình duyệt và thiết bị hiện tại. Hãy sao lưu định kỳ; không có đồng bộ máy chủ. Nếu trình duyệt chặn localStorage, thao tác ghi sẽ bị từ chối và dữ liệu đang có sẽ không bị thay thế.</div>';
 }
+function renderAll(){renderDataAlert();renderStats();renderRank();renderMonthRank();renderYearRank();if($("score").classList.contains("active"))renderScore();if($("tools").classList.contains("active"))renderTools()}
+function showSection(id){if(!["week","month","year","score","tools"].includes(id))return;document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===id));document.querySelectorAll("[data-section]").forEach(b=>b.setAttribute("aria-current",b.dataset.section===id?"page":"false"));if(id==="week")renderRank();if(id==="month")renderMonthRank();if(id==="year")renderYearRank();if(id==="score")renderScore();if(id==="tools")renderTools();window.scrollTo({top:0,behavior:"smooth"})}
 
-function renderRank() {
-  const arr = [...LOPS].sort((a, b) => DB[b].total - DB[a].total);
-  let html = `<div class="rank-title">📊 BẢNG XẾP HẠNG TUẦN</div>
-  <div class="toolbar"><input id="weekSearch" placeholder="Tìm kiếm lớp..."><button id="exportWeekBtn" class="btn secondary">⬇ Xuất BXH CSV</button></div>
-  <div class="table-wrap"><table id="weekTable"><thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm BXH</th><th>Lượt chấm</th><th>Lịch sử</th></tr></thead><tbody>`;
-  arr.forEach((l, i) => {
-    html += `<tr><td class="${i === 0 ? 'rank-1' : ''}">${i + 1}</td><td><b>${l}</b></td><td><b>${DB[l].total}</b></td><td>${DB[l].weeks.length} tuần</td><td><button class="btn secondary" data-history="${l}">Xem chi tiết</button></td></tr>`;
-  });
-  html += `</tbody></table></div>`;
-  document.getElementById("week").innerHTML = html;
+function downloadBlob(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1200)}
+function csvDownload(rows,name){const csv="\uFEFF"+rows.map(r=>r.map(csvCell).join(",")).join("\r\n");downloadBlob(new Blob([csv],{type:"text/csv;charset=utf-8"}),name)}
+function exportRanking(type){const source=type==="week"?Object.fromEntries(LOPS.map(l=>[l,DB.classes[l].total])):type==="month"?(currentMonth()?.scores||Object.fromEntries(LOPS.map(l=>[l,0]))):(currentYear()?.scores||Object.fromEntries(LOPS.map(l=>[l,0])));const rows=[["Hạng","Lớp","Điểm "+(type==="week"?"tuần":type==="month"?"tháng":"năm")]];rankClasses(source).forEach((l,i)=>rows.push([i+1,l,safeNumber(source[l])]));csvDownload(rows,"BXH_"+type+"_"+dateStamp()+".csv")}
+function exportAllCSV(){const rows=[["TỔNG HỢP LỚP"],["Lớp","Điểm tuần hiện tại","Phiên kỳ hiện tại","Kỳ tuần","Điểm tháng gần nhất","Điểm năm gần nhất"]];LOPS.forEach(l=>rows.push([l,DB.classes[l].total,DB.sessions.filter(s=>s.className===l&&s.periodId===DB.activeWeek.id).length,DB.activeWeek.number,currentMonth()?.scores[l]??"",currentYear()?.scores[l]??""]));rows.push([], ["PHIÊN CHẤM"],["ID","Thời gian","Lớp","Kỳ","Điểm trước","Điểm sau","Điểm phiên","Chi tiết"]);DB.sessions.forEach(s=>rows.push([s.id,displayDate(s.savedAt),s.className,s.periodId,s.before,s.after,s.delta,s.details.map(d=>d.rule+" x"+d.count+(d.student?" ("+d.student+")":"")).join("; ")]));rows.push([], ["TUẦN ĐÃ CHỐT"],["ID","Tuần","Tuần lịch","Ngày chốt",...LOPS]);DB.weeks.forEach(w=>rows.push([w.id,w.label,w.weekKey,displayDate(w.closedAt),...LOPS.map(l=>w.scores[l])]));rows.push([], ["THÁNG ĐÃ CHỐT"],["ID","Kỳ","Ngày tạo",...LOPS]);DB.months.forEach(m=>rows.push([m.id,m.label,displayDate(m.createdAt),...LOPS.map(l=>m.scores[l])]));rows.push([], ["NĂM ĐÃ CHỐT"],["ID","Kỳ","Ngày tạo",...LOPS]);DB.years.forEach(y=>rows.push([y.id,y.label,displayDate(y.createdAt),...LOPS.map(l=>y.scores[l])]));csvDownload(rows,"SAODO_PHUOCAN_BaoCao_"+dateStamp()+".csv")}
+function backupJSON(){if(!canWrite()){toast("Không thể tạo bản sao hợp lệ khi dữ liệu hiện tại chưa đọc an toàn.","danger");return}const envelope={format:APP_FORMAT,schemaVersion:SCHEMA_VERSION,exportedAt:new Date().toISOString(),data:DB};downloadBlob(new Blob([JSON.stringify(envelope,null,2)],{type:"application/json;charset=utf-8"}),"SAODO_PHUOCAN_Backup_"+dateStamp()+".json")}
+function downloadRaw(){if(!loadIssue?.raw){toast("Không có dữ liệu gốc để tải.","danger");return}downloadBlob(new Blob([loadIssue.raw],{type:"application/json;charset=utf-8"}),"SAODO_PHUOCAN_DataRaw_"+dateStamp()+".json")}
+function parseRestoreObject(value){if(!isObject(value))throw new Error("Tệp JSON phải chứa một đối tượng.");if(value.format===APP_FORMAT){if(value.schemaVersion!==SCHEMA_VERSION)throw new Error("Phiên bản tệp sao lưu không được hỗ trợ.");validateDB(value.data);return deepClone(value.data)}if(value.schemaVersion===SCHEMA_VERSION){validateDB(value);return deepClone(value)}if(Number.isInteger(value.schemaVersion)&&value.schemaVersion>SCHEMA_VERSION)throw new Error("Tệp được tạo bởi phiên bản mới hơn.");return migrateLegacy(value,"tệp JSON đã khôi phục")}
+function restoreJSON(event){const file=event.target.files?.[0];if(!file)return;if(file.size>10*1024*1024){toast("Tệp lớn hơn giới hạn 10 MB.","danger");event.target.value="";return}const reader=new FileReader();reader.onerror=()=>{toast("Không đọc được tệp JSON.","danger");event.target.value=""};reader.onload=()=>{try{const parsed=JSON.parse(String(reader.result||""));const restored=parseRestoreObject(parsed);const ok=window.confirm("Tệp JSON hợp lệ. Khôi phục sẽ thay thế toàn bộ dữ liệu hiện tại trên trình duyệt này. Tiếp tục?");if(!ok)return;restored.revision=(Number(DB.revision)||0)+1;restored.updatedAt=new Date().toISOString();if(saveAndRender(restored,{recovery:true})){toast("Đã khôi phục và lưu dữ liệu thành công.");showSection("week")}}catch(e){window.alert("Không thể khôi phục: "+(e.message||"Tệp JSON không hợp lệ."))}finally{event.target.value=""}};reader.readAsText(file)}
+function runIntegrityCheck(){try{validateDB(DB);const ids=new Set();for(const s of DB.sessions){if(ids.has(s.id))throw new Error("Phát hiện ID phiên bị trùng: "+s.id);ids.add(s.id);const sum=s.details.reduce((n,d)=>n+safeNumber(d.point),0);if(sum!==safeNumber(s.delta))throw new Error("Tổng chi tiết không khớp điểm phiên "+s.id)}toast("Toàn vẹn dữ liệu đạt: "+LOPS.length+" lớp, "+DB.sessions.length+" phiên, "+DB.weeks.length+" tuần gần nhất.");window.alert("Kiểm tra hoàn tất. Không phát hiện lỗi cấu trúc hoặc tổng điểm phiên.")}catch(e){toast("Kiểm tra phát hiện lỗi: "+e.message,"danger");window.alert("Dữ liệu có vấn đề: "+e.message)}}
+function resetAll(){if(!canWrite()){toast("Không thể reset khi dữ liệu chưa được đọc an toàn.","danger");return}if(!window.confirm("CẢNH BÁO: Xóa toàn bộ phiên, điểm, tuần/tháng/năm và hồ sơ cũ trong ứng dụng này? Hãy chắc chắn đã tải bản sao lưu."))return;if(!window.confirm("Xác nhận lần cuối: dữ liệu đã xóa không thể phục hồi nếu không có file sao lưu. Tiếp tục?"))return;const fresh=defaultDB();fresh.revision=(Number(DB.revision)||0)+1;if(saveAndRender(fresh)){try{LEGACY_KEYS.forEach(k=>localStorage.removeItem(k))}catch(e){toast("Dữ liệu mới đã reset; không xóa được khóa dữ liệu cũ.","danger")}toast("Hệ thống đã được đặt lại.");showSection("week")}}
+function makeSalt(){const bytes=new Uint8Array(16);if(window.crypto?.getRandomValues)window.crypto.getRandomValues(bytes);else for(let i=0;i<bytes.length;i++)bytes[i]=Math.floor(Math.random()*256);return Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}
+async function hashPin(pin,salt){const input=pin+"|"+salt;if(window.crypto?.subtle&&window.TextEncoder){const bytes=new TextEncoder().encode(input);const digest=await window.crypto.subtle.digest("SHA-256",bytes);return Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,"0")).join("")}let h=2166136261;for(let i=0;i<input.length;i++){h^=input.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16).padStart(8,"0")}
+function readPinRecord(){try{const raw=window.localStorage.getItem(PIN_RECORD_KEY);if(!raw)return null;const p=JSON.parse(raw);return isObject(p)&&typeof p.salt==="string"&&typeof p.hash==="string"?p:null}catch(e){return null}}
+async function setPin(pin){const salt=makeSalt(),hash=await hashPin(pin,salt);window.localStorage.setItem(PIN_RECORD_KEY,JSON.stringify({salt,hash,updatedAt:new Date().toISOString()}))}
+function paintLoginMode(){const record=readPinRecord();pinMode=record?"login":"setup";$("pinConfirmWrap").classList.toggle("hidden",pinMode!=="setup");$("pinLabel").textContent=pinMode==="setup"?"Tạo PIN mới (4–12 chữ số)":"Mã PIN";$("pin").placeholder=pinMode==="setup"?"Tạo PIN mới":"Nhập PIN";$("pin").autocomplete=pinMode==="setup"?"new-password":"current-password";$("loginSubmit").textContent=pinMode==="setup"?"Thiết lập PIN và mở hệ thống":"Mở hệ thống";$("loginSubtitle").textContent=pinMode==="setup"?"Thiết lập PIN riêng cho thiết bị này":"Hệ thống chấm điểm & xếp hạng nề nếp"}
+async function handleLogin(event){event.preventDefault();if(pinBusy)return;const pin=$("pin").value;const msg=$("loginMsg");msg.textContent="";if(!/^\d{4,12}$/.test(pin)){msg.textContent="PIN phải gồm từ 4 đến 12 chữ số.";return}pinBusy=true;$("loginSubmit").disabled=true;try{if(pinMode==="setup"){if(pin!==$("pinConfirm").value){msg.textContent="Hai lần nhập PIN chưa khớp.";return}await setPin(pin);unlock();return}const record=readPinRecord();if(!record){paintLoginMode();msg.textContent="Chưa có PIN. Hãy thiết lập PIN mới.";return}const candidate=await hashPin(pin,record.salt);if(candidate!==record.hash){msg.textContent="Mã PIN không đúng.";return}unlock()}catch(e){msg.textContent="Không lưu/xác minh được PIN. Hãy kiểm tra quyền lưu trữ của trình duyệt."}finally{pinBusy=false;$("loginSubmit").disabled=false}}
+function unlock(){$("login").classList.add("hidden");$("app").classList.remove("hidden");$("pin").value="";$("pinConfirm").value="";$("loginMsg").textContent="";renderAll()}
+function logout(){$("app").classList.add("hidden");$("login").classList.remove("hidden");$("pin").value="";$("pinConfirm").value="";paintLoginMode();$("pin").focus();window.scrollTo(0,0)}
+function showChangePin(){if(!readPinRecord()){toast("Hãy thiết lập PIN trước.","danger");return}$("modalTitle").textContent="Đổi mã PIN";$("modalBody").innerHTML='<form id="changePinForm" class="pin-change-grid" novalidate><label for="oldPin">PIN hiện tại</label><input id="oldPin" type="password" inputmode="numeric" maxlength="12" autocomplete="current-password" required><label for="newPin">PIN mới (4–12 chữ số)</label><input id="newPin" type="password" inputmode="numeric" maxlength="12" autocomplete="new-password" required><label for="newPinConfirm">Nhập lại PIN mới</label><input id="newPinConfirm" type="password" inputmode="numeric" maxlength="12" autocomplete="new-password" required><p id="pinChangeMsg" class="danger-text" aria-live="polite"></p><button class="btn success" type="submit">Lưu PIN mới</button></form><p class="footer-note">PIN lưu dưới dạng mã băm ở trình duyệt; việc này không biến ứng dụng tĩnh thành cơ chế bảo mật dữ liệu.</p>';$(("modal")).classList.remove("hidden")}
+async function changePin(event){event.preventDefault();const oldPin=$("oldPin").value,newPin=$("newPin").value,confirmPin=$("newPinConfirm").value,msg=$("pinChangeMsg");const record=readPinRecord();if(!record){msg.textContent="Không tìm thấy cấu hình PIN.";return}if(await hashPin(oldPin,record.salt)!==record.hash){msg.textContent="PIN hiện tại không đúng.";return}if(!/^\d{4,12}$/.test(newPin)){msg.textContent="PIN mới phải gồm 4–12 chữ số.";return}if(newPin!==confirmPin){msg.textContent="Hai lần nhập PIN mới chưa khớp.";return}try{await setPin(newPin);closeModal();toast("Đã đổi PIN.")}catch(e){msg.textContent="Không thể lưu PIN mới vào trình duyệt."}}
 
-  document.getElementById("weekSearch").addEventListener("input", e => filterTable("weekTable", e.target.value));
-  document.getElementById("exportWeekBtn").addEventListener("click", () => exportRanking("week"));
-  document.querySelectorAll("[data-history]").forEach(b => b.addEventListener("click", () => openModal(b.dataset.history)));
+function handleClick(event){
+  const sectionButton=event.target.closest("[data-section]");if(sectionButton){showSection(sectionButton.dataset.section);return}
+  const button=event.target.closest("[data-action]");if(!button||button.disabled)return;const action=button.dataset.action;
+  if(action==="logout")logout();else if(action==="close-modal")closeModal();else if(action==="open-tools")showSection("tools");else if(action==="reset-score"){renderScore();toast("Đã làm mới phiếu chấm.")}else if(action==="save-session")saveSession();else if(action==="close-week")closeWeek();else if(action==="open-history")openModal(button.dataset.class);else if(action==="history-tab"){currentHistoryTab=button.dataset.tab;currentHistoryDetail=null;renderHistory()}else if(action==="session-detail")showSessionDetail(button.dataset.id);else if(action==="week-detail")showWeekDetail(button.dataset.id);else if(action==="history-back")renderHistory();else if(action==="export-week")exportRanking("week");else if(action==="export-month")exportRanking("month");else if(action==="export-year")exportRanking("year");else if(action==="backup-json")backupJSON();else if(action==="choose-restore")$("restoreFile").click();else if(action==="export-all")exportAllCSV();else if(action==="reset-all")resetAll();else if(action==="integrity")runIntegrityCheck();else if(action==="change-pin")showChangePin();else if(action==="download-raw")downloadRaw();
 }
+function handleInput(event){const target=event.target;if(target.matches("#weekSearch")){filterTable("weekTable",target.value);return}if(target.matches("#pin")){ $("loginMsg").textContent="";return}if(target.matches("#pinConfirm")){return}if(target.closest("#scoreForm")){if(target.id.startsWith("sl")||target.id.startsWith("ten")){const dirty=$("draftIndicator");if(dirty)dirty.textContent="Phiếu có thay đổi chưa lưu";calc()}}}
+function handleChange(event){const target=event.target;if(target.matches("#lopSelect")){selectedScoreClass=LOPS.includes(target.value)?target.value:LOPS[0];renderScore();return}if(target.matches("#restoreFile")){restoreJSON(event)}}
+function filterTable(id,query){const table=$(id);if(!table)return;const term=String(query||"").toLocaleLowerCase("vi");table.querySelectorAll("tbody tr").forEach(row=>row.style.display=row.textContent.toLocaleLowerCase("vi").includes(term)?"":"none")}
 
-function renderMonthRank() {
-  const arr = [...LOPS].sort((a, b) => (DB[b].monthPoint || 0) - (DB[a].monthPoint || 0));
-  let html = `<div class="rank-title">📆 BẢNG XẾP HẠNG THÁNG</div>
-  <div class="toolbar"><button id="exportMonthBtn" class="btn secondary">⬇ Xuất BXH tháng</button></div>
-  <div class="table-wrap"><table><thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm tháng</th><th>Số tháng đã tích lũy</th></tr></thead><tbody>`;
-  arr.forEach((l, i) => html += `<tr><td>${i + 1}</td><td><b>${l}</b></td><td><b>${DB[l].monthPoint || 0}</b></td><td>${DB[l].months.length}/12</td></tr>`);
-  html += `</tbody></table></div>`;
-  document.getElementById("month").innerHTML = html;
-  document.getElementById("exportMonthBtn").addEventListener("click", () => exportRanking("month"));
-}
-
-function renderYearRank() {
-  const arr = [...LOPS].sort((a, b) => (DB[b].yearPoint || 0) - (DB[a].yearPoint || 0));
-  let html = `<div class="rank-title">🏆 BẢNG XẾP HẠNG NĂM</div>
-  <div class="toolbar"><button id="exportYearBtn" class="btn secondary">⬇ Xuất BXH năm</button></div>
-  <div class="table-wrap"><table><thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm năm</th><th>Số năm tích lũy</th></tr></thead><tbody>`;
-  arr.forEach((l, i) => html += `<tr><td>${i + 1}</td><td><b>${l}</b></td><td><b>${DB[l].yearPoint || 0}</b></td><td>${DB[l].years.length}</td></tr>`);
-  html += `</tbody></table></div>`;
-  document.getElementById("year").innerHTML = html;
-  document.getElementById("exportYearBtn").addEventListener("click", () => exportRanking("year"));
-}
-
-function openModal(lop) {
-  currentClass = lop; currentHistoryTab = "week";
-  document.getElementById("modal").classList.remove("hidden");
-  document.getElementById("modalTitle").textContent = "Lịch sử chấm điểm: Lớp " + lop;
-  renderHistory();
-}
-
-function closeModal() { document.getElementById("modal").classList.add("hidden"); }
-
-function renderHistory() {
-  const d = DB[currentClass];
-  let tabs = `<div class="tabs">
-    <button id="tabWeek" class="btn ${currentHistoryTab === 'week' ? 'success' : 'secondary'}">📅 Theo Tuần</button>
-    <button id="tabMonth" class="btn ${currentHistoryTab === 'month' ? 'success' : 'secondary'}">📆 Theo Tháng</button>
-    <button id="tabYear" class="btn ${currentHistoryTab === 'year' ? 'success' : 'secondary'}">🏆 Theo Năm</button>
-  </div>`;
-  let body = "";
-  if (currentHistoryTab === "week") {
-    body = d.weeks.length ? `<div class="table-wrap"><table><tr><th>STT</th><th>Thời gian</th><th>Điểm phiên</th><th>Thao tác</th></tr>${
-      d.weeks.map((w, i) => `<tr><td>${i + 1}</td><td>${escapeHTML(w.date)}</td><td><b class="${w.score>=0?'plus':'minus'}">${w.score>=0?'+':''}${w.score}</b></td><td><button class="btn secondary" data-week-detail="${i}">Chi tiết</button></td></tr>`).join("")
-    }</table></div>` : `<div class="empty">Chưa có lịch sử chấm điểm cho lớp này.</div>`;
-  } else if (currentHistoryTab === "month") {
-    body = d.months.length ? `<div class="table-wrap"><table><tr><th>STT</th><th>Ngày chốt</th><th>Điểm tháng</th></tr>${
-      d.months.map((m, i) => `<tr><td>${i + 1}</td><td>${escapeHTML(m.date)}</td><td><b>${m.score}</b></td></tr>`).join("")
-    }</table></div>` : `<div class="empty">Chưa chốt dữ liệu tháng.</div>`;
-  } else {
-    body = d.years.length ? `<div class="table-wrap"><table><tr><th>STT</th><th>Ngày chốt</th><th>Điểm năm</th></tr>${
-      d.years.map((y, i) => `<tr><td>${i + 1}</td><td>${escapeHTML(y.date)}</td><td><b>${y.score}</b></td></tr>`).join("")
-    }</table></div>` : `<div class="empty">Chưa chốt dữ liệu năm.</div>`;
-  }
-
-  document.getElementById("modalBody").innerHTML = tabs + body;
-  document.getElementById("tabWeek").addEventListener("click", () => { currentHistoryTab = "week"; renderHistory(); });
-  document.getElementById("tabMonth").addEventListener("click", () => { currentHistoryTab = "month"; renderHistory(); });
-  document.getElementById("tabYear").addEventListener("click", () => { currentHistoryTab = "year"; renderHistory(); });
-  document.querySelectorAll("[data-week-detail]").forEach(b => b.addEventListener("click", () => showWeekDetail(Number(b.dataset.weekDetail))));
-}
-
-function showWeekDetail(i) {
-  const w = DB[currentClass]?.weeks?.[i];
-  if (!w) return;
-  const details = Array.isArray(w.details) ? w.details : [];
-  let h = `<h3>Chi tiết buổi chấm: Lớp ${escapeHTML(currentClass)} (${escapeHTML(w.date)})</h3>`;
-  if (!details.length) {
-    h += `<div class="notice">Phiếu chấm này không ghi nhận lỗi vi phạm hoặc điểm cộng nào.</div>`;
-  } else {
-    h += `<div class="table-wrap"><table><tr><th>Nội dung</th><th>Học sinh</th><th>Số lần</th><th>Điểm tổng</th></tr>`;
-    details.forEach(x => {
-      h += `<tr><td style="text-align:left">${escapeHTML(x.rule)}</td><td>${escapeHTML(x.student || "—")}</td><td>${Number(x.count) || 0}</td><td><b class="${x.point>=0?'plus':'minus'}">${x.point>=0?'+':''}${Number(x.point)||0}</b></td></tr>`;
-    });
-    h += `</table></div>`;
-  }
-  h += `<br><button id="backHistoryBtn" class="btn secondary">← Quay lại danh sách</button>`;
-  document.getElementById("modalBody").innerHTML = h;
-  document.getElementById("backHistoryBtn").addEventListener("click", renderHistory);
-}
-
-function renderTools() {
-  document.getElementById("tools").innerHTML = `
-    <div class="rank-title">🧰 Trung tâm quản trị & Tiện ích</div>
-    <div class="grid">
-      <div class="stat"><b>💾 Sao lưu dữ liệu</b><p class="muted">Tải file lưu trữ JSON về máy để phòng ngừa sự cố.</p><button id="backupBtn" class="btn success">Tải file sao lưu (.JSON)</button></div>
-      <div class="stat"><b>📥 Khôi phục dữ liệu</b><p class="muted">Tải lên file JSON đã sao lưu để phục hồi.</p><input id="restoreFile" type="file" accept=".json"></div>
-      <div class="stat"><b>📊 Xuất báo cáo Excel</b><p class="muted">Xuất toàn bộ bảng điểm ra file CSV mở bằng Excel.</p><button id="exportAllBtn" class="btn">Xuất CSV toàn bộ</button></div>
-      <div class="stat"><b>🧹 Reset hệ thống</b><p class="muted">Xóa toàn bộ điểm số để bắt đầu năm học mới.</p><button id="resetAllBtn" class="btn danger">Xóa tất cả dữ liệu</button></div>
-    </div>
-    <div class="card" style="background:#0f172a;margin-top:15px">
-      <h3>🔎 Kiểm tra cấu trúc dữ liệu</h3>
-      <p>Tổng số lớp: <b>${LOPS.length}</b> | Tổng lượt chấm tuần: <b>${LOPS.reduce((s, l) => s + DB[l].weeks.length, 0)}</b></p>
-      <button id="integrityBtn" class="btn secondary">Đồng bộ & Sửa lỗi dữ liệu</button>
-    </div>`;
-  document.getElementById("backupBtn").addEventListener("click", backupJSON);
-  document.getElementById("restoreFile").addEventListener("change", restoreJSON);
-  document.getElementById("exportAllBtn").addEventListener("click", exportAllCSV);
-  document.getElementById("resetAllBtn").addEventListener("click", resetAll);
-  document.getElementById("integrityBtn").addEventListener("click", runIntegrityCheck);
-}
-
-function exportAllCSV() {
-  const rows = [["Lớp", "Điểm hiện tại", "Số tuần đã lưu", "Điểm tháng", "Điểm năm"]];
-  LOPS.forEach(l => rows.push([l, DB[l].total, DB[l].weeks.length, DB[l].monthPoint, DB[l].yearPoint]));
-  downloadBlob(new Blob(["\uFEFF" + rows.map(r => r.map(csvCell).join(",")).join("\n")], { type: "text/csv;charset=utf-8" }), "SAODO_PHUOCAN_TongHop.csv");
-}
-
-function exportRanking(type) {
-  let arr = [...LOPS], header, rows;
-  if (type === "week") {
-    arr.sort((a, b) => DB[b].total - DB[a].total);
-    header = ["Hạng", "Lớp", "Điểm Tuần", "Số Lượt Chấm"];
-    rows = arr.map((l, i) => [i + 1, l, DB[l].total, DB[l].weeks.length]);
-  } else if (type === "month") {
-    arr.sort((a, b) => (DB[b].monthPoint || 0) - (DB[a].monthPoint || 0));
-    header = ["Hạng", "Lớp", "Điểm Tháng", "Số Tháng Tích Lũy"];
-    rows = arr.map((l, i) => [i + 1, l, DB[l].monthPoint || 0, DB[l].months.length]);
-  } else {
-    arr.sort((a, b) => (DB[b].yearPoint || 0) - (DB[a].yearPoint || 0));
-    header = ["Hạng", "Lớp", "Điểm Năm", "Số Năm Tích Lũy"];
-    rows = arr.map((l, i) => [i + 1, l, DB[l].yearPoint || 0, DB[l].years.length]);
-  }
-  downloadBlob(new Blob(["\uFEFF" + [header, ...rows].map(r => r.map(csvCell).join(",")).join("\n")], { type: "text/csv;charset=utf-8" }), "BXH_" + type + "_" + dateStamp() + ".csv");
-}
-
-function backupJSON() {
-  downloadBlob(new Blob([JSON.stringify(DB, null, 2)], { type: "application/json" }), "SAODO_PHUOCAN_Backup_" + dateStamp() + ".json");
-}
-
-function restoreJSON(ev) {
-  const file = ev.target.files?.[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      const incoming = JSON.parse(reader.result);
-      if (!incoming || typeof incoming !== "object") throw new Error();
-      if (!confirm("Khôi phục dữ liệu sẽ ghi đè lên toàn bộ dữ liệu hiện tại. Tiếp tục?")) return;
-      const newDB = defaultDB();
-      LOPS.forEach(l => newDB[l] = migrateClass(incoming[l]));
-      DB = newDB;
-      if (saveAndRender()) alert("Khôi phục dữ liệu thành công!");
-    } catch (e) {
-      alert("Tệp JSON không đúng định dạng!");
-    } finally {
-      ev.target.value = "";
-    }
-  };
-  reader.readAsText(file);
-}
-
-function runIntegrityCheck() {
-  LOPS.forEach(l => {
-    DB[l] = migrateClass(DB[l]);
-    while (DB[l].weeks.length > 35) DB[l].weeks.shift();
-    if (!Array.isArray(DB[l].months)) DB[l].months = [];
-    if (!Array.isArray(DB[l].years)) DB[l].years = [];
-  });
-  if (saveAndRender()) alert("Đã hoàn tất đồng bộ và chuẩn hóa bộ nhớ!");
-}
-
-function resetAll() {
-  if (!confirm("CẢNH BÁO: Hành động này sẽ XÓA HẲN toàn bộ điểm số của tất cả các lớp!")) return;
-  if (!confirm("Xác nhận lần 2: Bạn có chắc chắn muốn xóa không?")) return;
-  DB = defaultDB();
-  if (saveAndRender()) alert("Hệ thống đã được đặt lại về trạng thái ban đầu.");
-}
-
-function downloadBlob(blob, name) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url; a.download = name;
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-function csvCell(v) { return `"${String(v ?? "").replaceAll('"', '""')}"`; }
-function dateStamp() { return new Date().toISOString().slice(0, 10); }
-function filterTable(id, q) {
-  const term = (q || "").toLowerCase();
-  document.querySelectorAll("#" + id + " tbody tr").forEach(tr => tr.style.display = tr.innerText.toLowerCase().includes(term) ? "" : "none");
-}
-
-function showSection(id) {
-  document.querySelectorAll(".section").forEach(x => x.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  if (id === "week") renderRank();
-  if (id === "month") renderMonthRank();
-  if (id === "year") renderYearRank();
-  if (id === "score") renderScore();
-  if (id === "tools") renderTools();
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function renderAll() {
-  renderStats();
-  renderRank();
-  renderMonthRank();
-  renderYearRank();
-  const active = document.querySelector(".section.active")?.id;
-  if (active === "score") renderScore();
-  if (active === "tools") renderTools();
-}
-
-function logout() {
-  sessionStorage.removeItem("SAODO_AUTH_STABLE");
-  document.getElementById("app").classList.add("hidden");
-  document.getElementById("login").classList.remove("hidden");
-  document.getElementById("pin").value = "";
-  document.getElementById("loginMsg").textContent = "";
-  window.scrollTo(0, 0);
-}
-
-function unlock() {
-  sessionStorage.setItem("SAODO_AUTH_STABLE", "1");
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  renderAll();
-}
-
-document.querySelectorAll("[data-section]").forEach(btn => btn.addEventListener("click", () => showSection(btn.dataset.section)));
-document.getElementById("logoutBtn").addEventListener("click", logout);
-document.getElementById("closeModalBtn").addEventListener("click", closeModal);
-document.getElementById("modal").addEventListener("click", e => { if (e.target.id === "modal") closeModal(); });
-
-const pinInput = document.getElementById("pin");
-function handlePinInput() {
-  const msg = document.getElementById("loginMsg");
-  if (this.value === PIN) {
-    pinInput.value = "";
-    unlock();
-  } else if (this.value.length >= 4) {
-    msg.textContent = "Mã PIN không đúng!";
-  } else {
-    msg.textContent = "";
-  }
-}
-pinInput.addEventListener("input", handlePinInput);
-
-if (sessionStorage.getItem("SAODO_AUTH_STABLE") === "1") unlock();
-else renderAll();
-
-window.addEventListener("storage", e => {
-  if (e.key === STORAGE_KEY) {
-    DB = loadDB();
-    renderAll();
-  }
+$("loginForm").addEventListener("submit",handleLogin);
+document.addEventListener("click",handleClick);
+document.addEventListener("input",handleInput);
+document.addEventListener("change",handleChange);
+document.addEventListener("submit",event=>{if(event.target.id==="changePinForm")changePin(event)});
+$("modal").addEventListener("click",event=>{if(event.target.id==="modal")closeModal()});
+document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!$("modal").classList.contains("hidden"))closeModal()});
+window.addEventListener("storage",event=>{
+  if(event.key===STORAGE_KEY){if(event.newValue===null){loadIssue={type:"conflict",message:"Dữ liệu đã bị xóa từ một thẻ khác. Thẻ hiện tại vẫn giữ bản trong bộ nhớ nhưng sẽ không ghi đè."};renderAll();return}try{const parsed=JSON.parse(event.newValue);validateDB(parsed);DB=parsed;lastPersistedRaw=event.newValue;loadIssue=null;renderAll();toast("Đã nhận dữ liệu mới từ thẻ trình duyệt khác.")}catch(e){loadIssue={type:"conflict",message:"Một thẻ khác đã ghi dữ liệu không hợp lệ. Thao tác ghi đã bị khóa."};renderAll()}}
+  else if(LEGACY_KEYS.includes(event.key)&&event.newValue!==null&&DB.legacy){toast("Dữ liệu của phiên bản cũ vừa thay đổi ở thẻ khác; bản ứng dụng hiện tại không tự trộn để tránh cộng trùng.","danger")}
 });
+paintLoginMode();renderAll();
 </script>
 </body>
 </html>
