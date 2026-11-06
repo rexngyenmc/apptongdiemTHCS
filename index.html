@@ -10,7 +10,204 @@
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;font-family:"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
 body{min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55;transform:none!important;filter:none!important}.hidden{display:none!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+:focus-visible{outline:3px soli-- SAO DO PHUOC AN: Supabase setup
+-- Run this whole script in Supabase Dashboard > SQL Editor.
+-- Roles: 'tong_phu_trach' and 'sao_do'.
+
+create extension if not exists pgcrypto;
+
+create table if not exists public.profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  display_name text not null default '',
+  role text not null default 'sao_do'
+    check (role in ('sao_do', 'tong_phu_trach')),
+  active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.app_state (
+  id integer primary key default 1 check (id = 1),
+  payload jsonb not null,
+  revision bigint not null default 1,
+  updated_at timestamptz not null default now(),
+  updated_by uuid references auth.users(id)
+);
+
+create table if not exists public.activity_log (
+  id bigint generated always as identity primary key,
+  actor_id uuid references auth.users(id),
+  action text not null,
+  details jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create or replace function public.current_app_role()
+returns text
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select role from public.profiles
+  where id = auth.uid() and active = true
+$$;
+
+create or replace function public.is_active_user()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.profiles
+    where id = auth.uid() and active = true
+  )
+$$;
+
+alter table public.profiles enable row level security;
+alter table public.app_state enable row level security;
+alter table public.activity_log enable row level security;
+
+drop policy if exists "read own profile" on public.profiles;
+create policy "read own profile"
+on public.profiles for select to authenticated
+using (id = auth.uid() or public.current_app_role() = 'tong_phu_trach');
+
+drop policy if exists "manager update profiles" on public.profiles;
+create policy "manager update profiles"
+on public.profiles for update to authenticated
+using (public.current_app_role() = 'tong_phu_trach')
+with check (public.current_app_role() = 'tong_phu_trach');
+
+drop policy if exists "active users read app state" on public.app_state;
+create policy "active users read app state"
+on public.app_state for select to authenticated
+using (public.is_active_user());
+
+-- No direct insert/update/delete policies for app_state.
+-- All writes must pass through the RPC below.
+
+drop policy if exists "active users read activity" on public.activity_log;
+create policy "active users read activity"
+on public.activity_log for select to authenticated
+using (public.current_app_role() = 'tong_phu_trach');
+
+create or replace function public.write_app_state(
+  p_payload jsonb,
+  p_expected_revision bigint,
+  p_action text default 'update_data',
+  p_details jsonb default '{}'::jsonb
+)
+returns table(new_revision bigint)
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_role text;
+  v_revision bigint;
+begin
+  select role into v_role
+  from public.profiles
+  where id = auth.uid() and active = true;
+
+  if v_role is null then
+    raise exception 'Tài khoản không hoạt động hoặc chưa được cấp quyền.';
+  end if;
+
+  if p_action in ('close_week', 'delete_week', 'restore_week', 'manage_accounts', 'restore_backup', 'reset_all')
+     and v_role <> 'tong_phu_trach' then
+    raise exception 'Chỉ Tổng phụ trách mới được thực hiện thao tác này.';
+  end if;
+
+  if jsonb_typeof(p_payload) <> 'object' then
+    raise exception 'Dữ liệu gửi lên không hợp lệ.';
+  end if;
+
+  select revision into v_revision
+  from public.app_state
+  where id = 1
+  for update;
+
+  if not found then
+    if p_expected_revision <> 0 then
+      raise exception 'Dữ liệu máy chủ đã thay đổi. Hãy tải lại trang.';
+    end if;
+    insert into public.app_state(id, payload, revision, updated_by)
+    values (1, p_payload, 1, auth.uid())
+    returning revision into v_revision;
+  else
+    if v_revision <> p_expected_revision then
+      raise exception 'CONFLICT: dữ liệu đã được thiết bị khác cập nhật. Hãy tải dữ liệu mới trước khi lưu.';
+    end if;
+
+    update public.app_state
+    set payload = p_payload,
+        revision = revision + 1,
+        updated_at = now(),
+        updated_by = auth.uid()
+    where id = 1
+    returning revision into v_revision;
+  end if;
+
+  insert into public.activity_log(actor_id, action, details)
+  values (auth.uid(), coalesce(p_action, 'update_data'), coalesce(p_details, '{}'::jsonb));
+
+  return query select v_revision;
+end;
+$$;
+
+revoke all on function public.write_app_state(jsonb, bigint, text, jsonb) from public;
+grant execute on function public.write_app_state(jsonb, bigint, text, jsonb) to authenticated;
+
+-- Automatically create every new account as Sao Do.
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.profiles(id, display_name, role, active)
+  values (
+    new.id,
+    coalesce(new.raw_user_meta_data->>'display_name', ''),
+    'sao_do',
+    true
+  );
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+after insert on auth.users
+for each row execute procedure public.handle_new_user();
+
+-- Enable Realtime notifications for app_state.
+do $$
+begin
+  alter publication supabase_realtime add table public.app_state;
+exception when duplicate_object then
+  null;
+when undefined_object then
+  raise notice 'Publication supabase_realtime was not found; enable Realtime for app_state in the Dashboard.';
+end $$;
+
+-- INITIALIZATION:
+-- 1) Create the first user in Authentication > Users.
+-- 2) Find that user's UUID.
+-- 3) Run this once, replacing UUID below:
+-- update public.profiles
+-- set role = 'tong_phu_trach', display_name = 'Tổng phụ trách'
+-- where id = 'PASTE-FIRST-USER-UUID-HERE';
+--
+-- Create all later Sao Do accounts in Authentication > Users.
+-- They are assigned role sao_do automatically.
+-- Never put the Supabase service_role key in index.html.
+d #93c5fd;outline-offset:2px}
 #login{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#2563eb,#0f172a 65%);padding:20px}
 .login-box{width:min(430px,100%);background:rgba(15,23,42,.94);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:30px;box-shadow:var(--shadow);text-align:center;backdrop-filter:blur(12px)}
 .logo{font-size:46px}.login-box h1{margin:8px 0;font-size:22px}.login-box p{color:#cbd5e1}.login-box label{display:block;text-align:left;margin-top:12px;color:#cbd5e1;font-size:14px}
