@@ -349,6 +349,20 @@ function renderTools(){
   $("tools").innerHTML='<div class="rank-title" id="toolsHeading">🧰 Trung tâm quản trị &amp; Tiện ích</div>'+accountWarning+'<div class="tool-grid">'+cards.join("")+'</div><div class="notice danger-notice"><b>Cảnh báo bảo mật quan trọng:</b> Đây là ứng dụng tĩnh, tài khoản và phân quyền chỉ ngăn thao tác nhầm trên giao diện. Người có quyền truy cập trình duyệt/DevTools vẫn có thể đọc hoặc sửa localStorage. Tài khoản chỉ có hiệu lực trên thiết bị/trình duyệt hiện tại; không có máy chủ, đồng bộ hoặc bảo mật thật sự. Hãy dùng HTTPS và không dùng mã PIN quan trọng ở nơi khác.</div><div class="notice"><b>Lưu trữ dữ liệu điểm:</b> Dữ liệu nằm trong localStorage của trình duyệt/thiết bị hiện tại. Sao lưu định kỳ. Reset chỉ xóa dữ liệu điểm, không xóa tài khoản.</div>';
 }
 
+function updateRoleUI(){
+  const scoreButton=$("scoreNavButton");
+  if(scoreButton){scoreButton.disabled=!can("scoring");scoreButton.title=can("scoring")?"Mở sổ chấm điểm":"Tài khoản này chỉ có quyền xem";}
+  const logoutButton=$("logoutBtn");if(logoutButton)logoutButton.hidden=!currentUser;
+}
+function showSection(section){
+  const allowed=["week","month","year","score","tools"];
+  if(!allowed.includes(section))section="week";
+  if(section==="score"&&!can("scoring")){deny();section="week";}
+  document.querySelectorAll("#app .section").forEach(node=>node.classList.toggle("active",node.id===section));
+  if(section==="score")renderScore();
+  if(section==="tools")renderTools();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
 function renderAll(){updateRoleUI();renderDataAlert();renderStats();renderRank();renderMonthRank();renderYearRank();if($("score").classList.contains("active"))renderScore();if($("tools").classList.contains("active"))renderTools()}
 
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1200)}
@@ -609,5 +623,4 @@ initializeAuth();
 </script>
 </body>
 </html>
-
 
