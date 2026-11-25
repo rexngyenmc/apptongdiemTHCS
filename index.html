@@ -273,6 +273,24 @@ function closeWeek(){
   const ok=saveAndRender(candidate);saveBusy=false;if(!ok)return false;let message="Đã chốt tuần "+weekNo+" cho toàn trường; điểm 13 lớp đã trở về 100.";if(createdMonth)message+=" Đã tạo "+createdMonth.label+".";if(createdYear)message+=" Đã tạo "+createdYear.label+".";toast(message);return true;
 }
 
+function deleteWeek(weekId){
+  if(!can("closeWeek")){deny();return false}
+  if(saveBusy)return false;if(!canWrite()){toast("Không thể thao tác khi dữ liệu chưa được đọc/lưu an toàn.","danger");return false}
+  const weekIndex=DB.weeks.findIndex(w=>w.id===weekId);if(weekIndex===-1){toast("Không tìm thấy dữ liệu tuần cần xóa.","danger");return false}
+  const targetWeek=DB.weeks[weekIndex];
+  const confirmed=window.confirm("XÁC NHẬN XÓA TUẦN ĐÃ CHỐT\n\nBạn có chắc chắn muốn xóa bản ghi: "+targetWeek.label+" ("+(targetWeek.weekKey||"mã tuần") +")?\n\nHành động này sẽ xóa vĩnh viễn dữ liệu điểm và các phiên chấm thuộc tuần này.");if(!confirmed)return false;
+  saveBusy=true;const candidate=cloneForUpdate();
+  candidate.weeks=candidate.weeks.filter(w=>w.id!==weekId);
+  const sessionIdsToRemove=new Set(targetWeek.sessionIds||[]);candidate.sessions=candidate.sessions.filter(s=>!sessionIdsToRemove.has(s.id)&&s.periodId!==targetWeek.activePeriodId);
+  candidate.months.forEach(m=>{m.weeks=(m.weeks||[]).filter(w=>w.id!==weekId);m.weekIds=(m.weekIds||[]).filter(id=>id!==weekId)});
+  candidate.meta.closedWeeksTotal=Math.max(0,candidate.weeks.length);
+  if(candidate.activeWeek.number>candidate.meta.closedWeeksTotal+1){candidate.activeWeek.number=candidate.meta.closedWeeksTotal+1}
+  const ok=saveAndRender(candidate);saveBusy=false;if(!ok)return false;
+  toast("Đã xóa vĩnh viễn "+targetWeek.label+".");
+  weeklyArchiveState={level:"weeks",weekId:null,className:null,ruleIndex:null,sessionId:null};
+  renderWeeklyArchive();return true;
+}
+
 function getLegacyRoot(){const original=DB.legacy?.original;if(!isObject(original))return null;return isObject(original.data)?original.data:original}
 function getLegacyClass(className){const root=getLegacyRoot();if(!root)return null;const classes=isObject(root.classes)?root.classes:root;return isObject(classes[className])?classes[className]:null}
 function legacySessionsForClass(className){const c=getLegacyClass(className);if(!c)return[];const weeks=Array.isArray(c.weeks)?c.weeks:[];const oldDetails=Array.isArray(c.weekDetails)?c.weekDetails:[];return weeks.map((w,i)=>{const details=Array.isArray(w?.details)?w.details:(Array.isArray(oldDetails[i]?.details)?oldDetails[i].details:[]);const delta=safeNumber(w?.score,0);return {id:"legacy|"+className+"|"+String(w?.id||i),className,periodId:"legacy",savedAt:w?.date||"",delta,before:null,after:null,details:details.map(d=>({rule:String(d?.rule??"Nội dung cũ"),count:safeNumber(d?.count,0),student:String(d?.student??""),point:safeNumber(d?.point,0)})),legacy:true}})}
@@ -316,7 +334,7 @@ function renderWeeklyArchive(){
   const state=weeklyArchiveState;let html="";const week=state.weekId?DB.weeks.find(w=>w.id===state.weekId):null;
   if(state.level==="weeks"){
     $("modalTitle").textContent="Lịch sử tuần đã chốt";const weeks=[...DB.weeks].sort((a,b)=>b.number-a.number);html='<h3>Cấp 1 · Danh sách tuần đã chốt</h3><div class="notice">Danh sách có tối đa 35 ảnh chụp tuần gần nhất; hiện giữ '+weeks.length+' ảnh trong tổng số '+DB.meta.closedWeeksTotal+' tuần đã chốt. Phiên chấm gốc không bị xóa và vẫn có trong bản sao lưu JSON. Ảnh chụp cũ hơn phạm vi giữ có thể không còn trong danh sách BXH tuần.</div>';
-    html+=weeks.length?'<div class="table-wrap"><table><thead><tr><th>Tuần</th><th>Tuần lịch</th><th>Ngày chốt</th><th>Người chốt</th><th>Trạng thái</th><th>Lớp trong ảnh</th><th></th></tr></thead><tbody>'+weeks.map(w=>'<tr><td><b>'+escapeHTML(w.label)+'</b></td><td>'+escapeHTML(w.weekKey||"—")+'</td><td>'+escapeHTML(displayDate(w.closedAt))+'</td><td>'+escapeHTML(w.closedBy?.displayName||"Không rõ")+'</td><td><span class="success-text">Đã lưu · Đã chốt</span></td><td>'+LOPS.length+'</td><td><button class="btn secondary small" data-action="archive-open-week" data-id="'+escapeHTML(w.id)+'">Mở BXH tuần</button></td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Chưa có tuần nào được chốt.</div>';
+    html+=weeks.length?'<div class="table-wrap"><table><thead><tr><th>Tuần</th><th>Tuần lịch</th><th>Ngày chốt</th><th>Người chốt</th><th>Trạng thái</th><th>Lớp trong ảnh</th><th>Thao tác</th></tr></thead><tbody>'+weeks.map(w=>'<tr><td><b>'+escapeHTML(w.label)+'</b></td><td>'+escapeHTML(w.weekKey||"—")+'</td><td>'+escapeHTML(displayDate(w.closedAt))+'</td><td>'+escapeHTML(w.closedBy?.displayName||"Không rõ")+'</td><td><span class="success-text">Đã lưu · Đã chốt</span></td><td>'+LOPS.length+'</td><td><button class="btn secondary small" data-action="archive-open-week" data-id="'+escapeHTML(w.id)+'">Mở BXH tuần</button> '+(can("closeWeek")?'<button class="btn danger small" data-action="delete-week" data-id="'+escapeHTML(w.id)+'">Xóa</button>':'')+'</td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Chưa có tuần nào được chốt.</div>';
   }else if(!week){
     $("modalTitle").textContent="Lịch sử tuần đã chốt";html='<div class="notice danger-notice">Không tìm thấy ảnh chụp tuần trong phạm vi lịch sử hiện đang giữ.</div><button class="btn secondary" data-action="archive-back-weeks">← Danh sách tuần</button>';
   }else if(state.level==="ranking"){
@@ -585,6 +603,7 @@ function handleClick(event){
   else if(action==="close-modal")closeModal();else if(action==="open-tools")showSection("tools");
   else if(action==="reset-score"){if(!can("scoring")){deny();return}renderScore();toast("Đã làm mới phiếu chấm.")}
   else if(action==="save-session")saveSession();else if(action==="close-week")closeWeek();
+  else if(action==="delete-week")deleteWeek(button.dataset.id);
   else if(action==="open-history")openModal(button.dataset.class);else if(action==="open-weekly-archive")openWeeklyArchive();
   else if(action==="archive-open-week"){weeklyArchiveState={level:"ranking",weekId:button.dataset.id,className:null,ruleIndex:null,sessionId:null};renderWeeklyArchive()}
   else if(action==="archive-open-class"){weeklyArchiveState={level:"class",weekId:button.dataset.id,className:button.dataset.class,ruleIndex:null,sessionId:null};renderWeeklyArchive()}
@@ -623,4 +642,3 @@ initializeAuth();
 </script>
 </body>
 </html>
-
