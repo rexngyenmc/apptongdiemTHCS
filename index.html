@@ -13,7 +13,7 @@ body{min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:po
 :focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
 #login{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#2563eb,#0f172a 65%);padding:20px}
 .login-box{width:min(430px,100%);background:rgba(15,23,42,.94);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:30px;box-shadow:var(--shadow);text-align:center;backdrop-filter:blur(12px)}
-.logo{font-size:46px}.login-box h1{margin:8px 0;font-size:22px}.login-box p{color:#cbd5e1}.login-box label{display:block;text-align:left;margin-top:12px;color:#cbd5e1;font-size:14px}.login-box input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:#0f172a;color:#fff;margin-top:6px}.password-control{display:flex;gap:7px;align-items:end}.password-control input{flex:1;min-width:0}.password-control button{margin-top:6px;white-space:nowrap}.login-actions{display:grid;gap:9px;margin-top:14px}#loginMsg{min-height:24px;margin:10px 0 0}.user-badge{color:#cbd5e1;font-size:13px;padding:6px 8px}.account-create-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px;background:#0f172a;border:1px solid var(--border);border-radius:12px;margin-bottom:14px}.account-create-form h3,.account-create-form p{grid-column:1/-1;margin:4px 0}.account-create-form label{display:grid;gap:4px}.account-actions{min-width:260px}.account-actions .btn{margin:2px}.login-help{font-size:12px;color:var(--muted);line-height:1.45}
+.logo{font-size:46px}.login-box h1{margin:8px 0;font-size:22px}.login-box p{color:#cbd5e1}.login-box label{display:block;text-align:left;margin-top:12px;color:#cbd5e1;font-size:14px}.login-box input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:#0f172a;color:#fff;margin-top:6px}.pin-control{display:flex;gap:7px;align-items:end}.pin-control input{flex:1;min-width:0}.pin-control button{margin-top:6px;white-space:nowrap}.login-actions{display:grid;gap:9px;margin-top:14px}#loginMsg{min-height:24px;margin:10px 0 0}.user-badge{color:#cbd5e1;font-size:13px;padding:6px 8px}.account-create-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px;background:#0f172a;border:1px solid var(--border);border-radius:12px;margin-bottom:14px}.account-create-form h3,.account-create-form p{grid-column:1/-1;margin:4px 0}.account-create-form label{display:grid;gap:4px}.account-actions{min-width:260px}.account-actions .btn{margin:2px}.login-help{font-size:12px;color:var(--muted);line-height:1.45}
 #app{max-width:1500px;margin:auto;padding:16px}.topbar{display:flex;gap:15px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}.brand h2{margin:0}.brand small{color:var(--muted)}.menu{display:flex;gap:7px;flex-wrap:wrap}
 .btn{border:0;border-radius:10px;padding:10px 13px;color:#fff;background:var(--primary);font-weight:700;transition:filter .15s,transform .15s,box-shadow .15s}.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.btn:active{transform:translateY(1px);filter:brightness(.94)}.btn.secondary{background:#475569}.btn.success{background:var(--success);color:#052e16}.btn.danger{background:var(--danger)}.btn.warning{background:var(--warning);color:#111827}.btn.ghost{background:transparent;border:1px solid var(--border)}.btn.small{padding:7px 10px;font-size:13px}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}.stat{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:16px;box-shadow:var(--shadow);min-width:0}.stat b{display:block;font-size:25px;margin-top:5px;overflow-wrap:anywhere}.muted{color:var(--muted)}
@@ -36,21 +36,19 @@ body{min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:po
     <div class="logo" aria-hidden="true">⭐</div>
     <h1 id="loginTitle">SAO ĐỎ PHƯỚC AN</h1>
     <p id="loginSubtitle">Đăng nhập tài khoản của bạn</p>
-    <p id="pinMigrationNote" class="notice hidden">PIN cũ không còn được dùng. Hãy thiết lập tài khoản Tổng phụ trách mới.</p>
+    <p id="pinMigrationNote" class="notice hidden">Thiết lập mã PIN Tổng phụ trách mặc định 12345.</p>
     <p id="cryptoWarning" class="notice danger-notice hidden">Web Crypto không khả dụng. Hãy mở trang qua HTTPS hoặc trình duyệt hiện đại.</p>
     <form id="loginForm" novalidate>
-      <div id="loginUsernameField"><label for="loginUsername">Tên đăng nhập</label><input id="loginUsername" type="text" minlength="3" maxlength="30" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="vd: tongphutrach" required></div>
-      <div id="loginPasswordField"><label for="loginPassword">Mật khẩu</label><div class="password-control"><input id="loginPassword" type="password" autocomplete="current-password" required><button class="btn secondary small" type="button" data-action="toggle-password" data-target="loginPassword">Hiện</button></div></div>
+      <div id="loginPinField"><label for="loginPin">Mã PIN</label><input id="loginPin" type="password" inputmode="numeric" pattern="[0-9]{5,8}" minlength="5" maxlength="8" autocomplete="one-time-code" placeholder="Nhập mã PIN" required></div>
       <div id="firstAdminFields" class="hidden">
-        <label for="firstAdminName">Tên hiển thị</label><input id="firstAdminName" type="text" maxlength="80" autocomplete="name" placeholder="Tên Tổng phụ trách">
-        <label for="firstAdminPassword">Mật khẩu (ít nhất 6 ký tự)</label><div class="password-control"><input id="firstAdminPassword" type="password" autocomplete="new-password"><button class="btn secondary small" type="button" data-action="toggle-password" data-target="firstAdminPassword">Hiện</button></div>
-        <label for="firstAdminConfirm">Nhập lại mật khẩu</label><input id="firstAdminConfirm" type="password" autocomplete="new-password">
-        <p class="login-help">Tên đăng nhập: 3–30 ký tự, chỉ gồm a-z, 0-9, dấu chấm, gạch dưới hoặc gạch ngang.</p>
+        <label for="firstAdminName">Tên hiển thị</label><input id="firstAdminName" type="text" maxlength="80" autocomplete="name" placeholder="Tên Tổng phụ trách" required>
+        <label for="firstAdminPin">Mã PIN Tổng phụ trách</label><input id="firstAdminPin" type="password" inputmode="numeric" value="12345" readonly>
+        <p class="login-help">Mã PIN quản trị mặc định là 12345. Bạn có thể đổi mã PIN sau khi đăng nhập.</p>
       </div>
       <div id="mustChangeFields" class="hidden">
         <p id="mustChangeWho" class="notice"></p>
-        <label for="requiredNewPassword">Mật khẩu mới (ít nhất 6 ký tự)</label><div class="password-control"><input id="requiredNewPassword" type="password" autocomplete="new-password"><button class="btn secondary small" type="button" data-action="toggle-password" data-target="requiredNewPassword">Hiện</button></div>
-        <label for="requiredNewPasswordConfirm">Nhập lại mật khẩu mới</label><input id="requiredNewPasswordConfirm" type="password" autocomplete="new-password">
+        <label for="requiredNewPin">Mã PIN mới (5–8 chữ số)</label><input id="requiredNewPin" type="password" inputmode="numeric" maxlength="8" minlength="5" autocomplete="new-password">
+        <label for="requiredNewPinConfirm">Nhập lại mã PIN mới</label><input id="requiredNewPinConfirm" type="password" inputmode="numeric" maxlength="8" minlength="5" autocomplete="new-password">
       </div>
       <div class="login-actions"><button id="loginSubmit" class="btn success" type="submit">Đăng nhập</button></div>
     </form>
@@ -118,6 +116,7 @@ let authBusy = false;
 let sessionLastActivity = 0;
 let lastSessionWrite = 0;
 let legacyPinExists = false;
+let accountMigrationNotice = "";
 
 function isObject(v){return !!v && typeof v === "object" && !Array.isArray(v)}
 function deepClone(value){return typeof structuredClone === "function" ? structuredClone(value) : JSON.parse(JSON.stringify(value))}
@@ -339,19 +338,18 @@ function renderWeeklyArchive(){
 }
 function renderTools(){
   const count=DB.sessions.length;const state=loadIssue?'<span class="danger-text">Chưa xác nhận an toàn</span>':'<span class="success-text">Đang hoạt động</span>';const cards=[];
-  if(can("backup"))cards.push('<div class="stat tool-card"><b>💾 Sao lưu dữ liệu</b><p class="muted">Tải JSON dữ liệu điểm; tệp không chứa mật khẩu hoặc hash tài khoản.</p><button class="btn success" data-action="backup-json" '+(!canWrite()?'disabled':'')+'>Tải file sao lưu (.JSON)</button></div>');
+  if(can("backup"))cards.push('<div class="stat tool-card"><b>💾 Sao lưu dữ liệu</b><p class="muted">Tải JSON dữ liệu điểm; tệp không chứa mã PIN hoặc hash tài khoản.</p><button class="btn success" data-action="backup-json" '+(!canWrite()?'disabled':'')+'>Tải file sao lưu (.JSON)</button></div>');
   if(can("restore"))cards.push('<div class="stat tool-card"><b>📥 Khôi phục dữ liệu</b><p class="muted">Kiểm tra cấu trúc trước khi ghi đè dữ liệu điểm; tài khoản không bị thay đổi.</p><button class="btn secondary" data-action="choose-restore">Chọn tệp JSON</button><p class="footer-note">Hỗ trợ tệp sao lưu phiên bản này và cấu trúc cũ TH &amp; THCS PHƯỚC AN.</p></div>');
   if(can("exportCSV"))cards.push('<div class="stat tool-card"><b>📊 Xuất báo cáo Excel</b><p class="muted">Xuất bảng tổng hợp, phiên chấm và các kỳ đã chốt ra CSV UTF‑8.</p><button class="btn" data-action="export-all">Xuất CSV toàn bộ</button></div>');
-  if(can("changeOwnPassword"))cards.push('<div class="stat tool-card"><b>👤 Tài khoản của tôi</b><p class="muted">Đổi mật khẩu của tài khoản đang đăng nhập.</p><button class="btn secondary" data-action="own-password">Đổi mật khẩu</button></div>');
-  if(can("manageAccounts"))cards.push('<div class="stat tool-card"><b>👥 Quản lý tài khoản</b><p class="muted">Tạo, sửa vai trò, khóa, đặt lại mật khẩu hoặc xóa tài khoản.</p><button class="btn secondary" data-action="manage-accounts">Mở quản lý tài khoản</button></div>');
+  if(can("changeOwnPIN"))cards.push('<div class="stat tool-card"><b>👤 Tài khoản của tôi</b><p class="muted">Đổi mã PIN của tài khoản đang đăng nhập.</p><button class="btn secondary" data-action="own-pin">Đổi mã PIN</button></div>');
+  if(can("manageAccounts"))cards.push('<div class="stat tool-card"><b>👥 Quản lý tài khoản</b><p class="muted">Tạo, sửa vai trò, khóa, đặt lại mã PIN hoặc xóa tài khoản.</p><button class="btn secondary" data-action="manage-accounts">Mở quản lý tài khoản</button></div>');
   if(can("reset"))cards.push('<div class="stat tool-card"><b>🧹 Reset hệ thống</b><p class="muted">Chỉ xóa dữ liệu điểm trên trình duyệt này; không xóa tài khoản.</p><button class="btn danger" data-action="reset-all" '+(!canWrite()?'disabled':'')+'>Xóa tất cả dữ liệu điểm</button></div>');
   if(can("integrity"))cards.push('<div class="stat tool-card"><b>🔎 Kiểm tra cấu trúc dữ liệu</b><p class="muted">Lớp: '+LOPS.length+' · Phiên mới: '+count+' · Tuần đã chốt: '+DB.meta.closedWeeksTotal+' · Tháng: '+DB.meta.monthsCreatedTotal+' · Năm: '+DB.meta.yearsCreatedTotal+'</p><p class="muted">Trạng thái lưu trữ: '+state+'</p><button class="btn secondary" data-action="integrity">Kiểm tra toàn vẹn</button></div>');
   const accountWarning=accountIssue?'<div class="notice danger-notice">'+escapeHTML(accountIssue.message)+'</div>':'';
-  $("tools").innerHTML='<div class="rank-title" id="toolsHeading">🧰 Trung tâm quản trị &amp; Tiện ích</div>'+accountWarning+'<div class="tool-grid">'+cards.join("")+'</div><div class="notice danger-notice"><b>Cảnh báo bảo mật quan trọng:</b> Đây là ứng dụng tĩnh, tài khoản và phân quyền chỉ ngăn thao tác nhầm trên giao diện. Người có quyền truy cập trình duyệt/DevTools vẫn có thể đọc hoặc sửa localStorage. Tài khoản chỉ có hiệu lực trên thiết bị/trình duyệt hiện tại; không có máy chủ, đồng bộ hoặc bảo mật thật sự. Hãy dùng HTTPS và không dùng mật khẩu quan trọng ở nơi khác.</div><div class="notice"><b>Lưu trữ dữ liệu điểm:</b> Dữ liệu nằm trong localStorage của trình duyệt/thiết bị hiện tại. Sao lưu định kỳ. Reset chỉ xóa dữ liệu điểm, không xóa tài khoản.</div>';
+  $("tools").innerHTML='<div class="rank-title" id="toolsHeading">🧰 Trung tâm quản trị &amp; Tiện ích</div>'+accountWarning+'<div class="tool-grid">'+cards.join("")+'</div><div class="notice danger-notice"><b>Cảnh báo bảo mật quan trọng:</b> Đây là ứng dụng tĩnh, tài khoản và phân quyền chỉ ngăn thao tác nhầm trên giao diện. Người có quyền truy cập trình duyệt/DevTools vẫn có thể đọc hoặc sửa localStorage. Tài khoản chỉ có hiệu lực trên thiết bị/trình duyệt hiện tại; không có máy chủ, đồng bộ hoặc bảo mật thật sự. Hãy dùng HTTPS và không dùng mã PIN quan trọng ở nơi khác.</div><div class="notice"><b>Lưu trữ dữ liệu điểm:</b> Dữ liệu nằm trong localStorage của trình duyệt/thiết bị hiện tại. Sao lưu định kỳ. Reset chỉ xóa dữ liệu điểm, không xóa tài khoản.</div>';
 }
 
 function renderAll(){updateRoleUI();renderDataAlert();renderStats();renderRank();renderMonthRank();renderYearRank();if($("score").classList.contains("active"))renderScore();if($("tools").classList.contains("active"))renderTools()}
-function showSection(id){if(!["week","month","year","score","tools"].includes(id))return;if(!currentUser||!can("view")){deny();return}if(id==="score"&&!can("scoring")){deny();showSection("week");return}document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===id));document.querySelectorAll("[data-section]").forEach(b=>{const allowed=b.dataset.section!=="score"||can("scoring");b.classList.toggle("hidden",!allowed);b.setAttribute("aria-current",b.dataset.section===id?"page":"false")});if(id==="week")renderRank();if(id==="month")renderMonthRank();if(id==="year")renderYearRank();if(id==="score")renderScore();if(id==="tools")renderTools();window.scrollTo({top:0,behavior:"smooth"})}
 
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1200)}
 function csvDownload(rows,name){const csv="\uFEFF"+rows.map(r=>r.map(csvCell).join(",")).join("\r\n");downloadBlob(new Blob([csv],{type:"text/csv;charset=utf-8"}),name)}
@@ -363,27 +361,27 @@ function parseRestoreObject(value){if(!isObject(value))throw new Error("Tệp JS
 function restoreJSON(event){if(!can("restore")){deny();event.target.value="";return}const file=event.target.files?.[0];if(!file)return;if(file.size>10*1024*1024){toast("Tệp lớn hơn giới hạn 10 MB.","danger");event.target.value="";return}const reader=new FileReader();reader.onerror=()=>{toast("Không đọc được tệp JSON.","danger");event.target.value=""};reader.onload=()=>{try{const parsed=JSON.parse(String(reader.result||""));const restored=parseRestoreObject(parsed);const ok=window.confirm("Tệp JSON hợp lệ. Khôi phục sẽ thay thế toàn bộ dữ liệu hiện tại trên trình duyệt này. Tiếp tục?");if(!ok)return;restored.revision=(Number(DB.revision)||0)+1;restored.updatedAt=new Date().toISOString();if(saveAndRender(restored,{recovery:true})){toast("Đã khôi phục và lưu dữ liệu thành công.");showSection("week")}}catch(e){window.alert("Không thể khôi phục: "+(e.message||"Tệp JSON không hợp lệ."))}finally{event.target.value=""}};reader.readAsText(file)}
 function runIntegrityCheck(){if(!can("integrity")){deny();return}try{validateDB(DB);const ids=new Set();for(const s of DB.sessions){if(ids.has(s.id))throw new Error("Phát hiện ID phiên bị trùng: "+s.id);ids.add(s.id);const sum=s.details.reduce((n,d)=>n+safeNumber(d.point),0);if(sum!==safeNumber(s.delta))throw new Error("Tổng chi tiết không khớp điểm phiên "+s.id)}toast("Toàn vẹn dữ liệu đạt: "+LOPS.length+" lớp, "+DB.sessions.length+" phiên, "+DB.weeks.length+" tuần gần nhất.");window.alert("Kiểm tra hoàn tất. Không phát hiện lỗi cấu trúc hoặc tổng điểm phiên.")}catch(e){toast("Kiểm tra phát hiện lỗi: "+e.message,"danger");window.alert("Dữ liệu có vấn đề: "+e.message)}}
 function resetAll(){if(!can("reset")){deny();return}if(!canWrite()){toast("Không thể reset khi dữ liệu chưa được đọc an toàn.","danger");return}if(!window.confirm("CẢNH BÁO: Xóa toàn bộ phiên, điểm, tuần/tháng/năm và hồ sơ cũ trong ứng dụng này? Hãy chắc chắn đã tải bản sao lưu."))return;if(!window.confirm("Xác nhận lần cuối: dữ liệu đã xóa không thể phục hồi nếu không có file sao lưu. Tiếp tục?"))return;const fresh=defaultDB();fresh.revision=(Number(DB.revision)||0)+1;if(saveAndRender(fresh)){try{LEGACY_KEYS.forEach(k=>localStorage.removeItem(k))}catch(e){toast("Dữ liệu mới đã reset; không xóa được khóa dữ liệu cũ.","danger")}toast("Hệ thống đã được đặt lại.");showSection("week")}}
-const PASSWORD_ITERATIONS = 210000;
-const MIN_PASSWORD_ITERATIONS = 150000;
-const MAX_PASSWORD_ITERATIONS = 600000;
+const PIN_ITERATIONS = 210000;
+const MIN_PIN_ITERATIONS = 150000;
+const MAX_PIN_ITERATIONS = 600000;
 const USERNAME_RE = /^[a-z0-9._-]{3,30}$/;
 const VALID_ROLES = ["saodo","giaovien","tongphutrach"];
 const ROLE_LABELS = {saodo:"Sao Đỏ",giaovien:"Giáo viên",tongphutrach:"Tổng phụ trách"};
 const PERMISSIONS = {
-  saodo:{view:true,viewErrors:true,scoring:true,closeWeek:false,exportCSV:false,backup:false,restore:false,reset:false,integrity:false,manageAccounts:false,changeOwnPassword:true},
-  giaovien:{view:true,viewErrors:true,scoring:false,closeWeek:false,exportCSV:true,backup:false,restore:false,reset:false,integrity:false,manageAccounts:false,changeOwnPassword:true},
-  tongphutrach:{view:true,viewErrors:true,scoring:true,closeWeek:true,exportCSV:true,backup:true,restore:true,reset:true,integrity:true,manageAccounts:true,changeOwnPassword:true}
+  saodo:{view:true,viewErrors:true,scoring:true,closeWeek:false,exportCSV:false,backup:false,restore:false,reset:false,integrity:false,manageAccounts:false,changeOwnPIN:true},
+  giaovien:{view:true,viewErrors:true,scoring:false,closeWeek:false,exportCSV:true,backup:false,restore:false,reset:false,integrity:false,manageAccounts:false,changeOwnPIN:true},
+  tongphutrach:{view:true,viewErrors:true,scoring:true,closeWeek:true,exportCSV:true,backup:true,restore:true,reset:true,integrity:true,manageAccounts:true,changeOwnPIN:true}
 };
 function cryptoAvailable(){return !!(window.crypto?.subtle&&window.crypto?.getRandomValues&&window.TextEncoder)}
-function cryptoWarning(){return "Trình duyệt này không hỗ trợ Web Crypto an toàn. Hãy mở ứng dụng qua HTTPS hoặc trình duyệt hiện đại; không thể tạo, đổi hoặc xác minh mật khẩu an toàn."}
+function cryptoWarning(){return "Trình duyệt này không hỗ trợ Web Crypto an toàn. Hãy mở ứng dụng qua HTTPS hoặc trình duyệt hiện đại; không thể tạo, đổi hoặc xác minh mã PIN an toàn."}
 function bytesToHex(bytes){return Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}
 function hexToBytes(hex){if(typeof hex!=="string"||!/^(?:[0-9a-f]{2})+$/i.test(hex))throw new Error("Dữ liệu băm tài khoản không hợp lệ.");const out=new Uint8Array(hex.length/2);for(let i=0;i<out.length;i++)out[i]=parseInt(hex.slice(i*2,i*2+2),16);return out}
 function constantTimeEqual(a,b){if(typeof a!=="string"||typeof b!=="string")return false;let diff=a.length^b.length;const n=Math.max(a.length,b.length);for(let i=0;i<n;i++)diff|=(a.charCodeAt(i%Math.max(1,a.length))||0)^(b.charCodeAt(i%Math.max(1,b.length))||0);return diff===0}
 function randomSalt(){if(!cryptoAvailable())throw new Error(cryptoWarning());const bytes=new Uint8Array(16);window.crypto.getRandomValues(bytes);return bytesToHex(bytes)}
-async function derivePassword(password,saltHex,iterations=PASSWORD_ITERATIONS){
+async function derivePIN(pin,saltHex,iterations=PIN_ITERATIONS){
   if(!cryptoAvailable())throw new Error(cryptoWarning());
-  if(!Number.isInteger(iterations)||iterations<MIN_PASSWORD_ITERATIONS||iterations>MAX_PASSWORD_ITERATIONS)throw new Error("Số vòng băm mật khẩu không hợp lệ.");
-  const material=await window.crypto.subtle.importKey("raw",new TextEncoder().encode(String(password)),"PBKDF2",false,["deriveBits"]);
+  if(!Number.isInteger(iterations)||iterations<MIN_PIN_ITERATIONS||iterations>MAX_PIN_ITERATIONS)throw new Error("Số vòng băm mã PIN không hợp lệ.");
+  const material=await window.crypto.subtle.importKey("raw",new TextEncoder().encode(String(pin)),"PBKDF2",false,["deriveBits"]);
   const bits=await window.crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:hexToBytes(saltHex),iterations},material,256);
   return bytesToHex(new Uint8Array(bits));
 }
@@ -393,11 +391,11 @@ function validateAccountList(list,{allowEmpty=true}={}){
   const ids=new Set(),names=new Set();
   for(const a of list){
     if(!isObject(a)||typeof a.id!=="string"||!a.id||ids.has(a.id))throw new Error("ID tài khoản bị thiếu hoặc trùng.");ids.add(a.id);
-    if(typeof a.username!=="string"||a.username!==a.username.toLowerCase()||!USERNAME_RE.test(a.username)||names.has(a.username))throw new Error("Tên đăng nhập không hợp lệ hoặc bị trùng.");names.add(a.username);
+    if(typeof a.username!=="string"||a.username!==a.username.toLowerCase()||!USERNAME_RE.test(a.username)||names.has(a.username))throw new Error("Tài khoản không hợp lệ hoặc bị trùng.");names.add(a.username);
     if(typeof a.displayName!=="string"||!a.displayName.trim()||a.displayName.length>80)throw new Error("Tên hiển thị tài khoản không hợp lệ.");
-    if(!VALID_ROLES.includes(a.role)||typeof a.active!=="boolean"||typeof a.mustChangePassword!=="boolean")throw new Error("Vai trò hoặc trạng thái tài khoản không hợp lệ.");
+    if(!VALID_ROLES.includes(a.role)||typeof a.active!=="boolean"||typeof a.mustChangePIN!=="boolean")throw new Error("Vai trò hoặc trạng thái tài khoản không hợp lệ.");
     if(typeof a.salt!=="string"||!/^(?:[0-9a-f]{2}){16}$/i.test(a.salt)||typeof a.hash!=="string"||!/^(?:[0-9a-f]{2}){32}$/i.test(a.hash))throw new Error("Thông tin băm tài khoản không hợp lệ.");
-    if(!Number.isInteger(a.iterations)||a.iterations<MIN_PASSWORD_ITERATIONS||a.iterations>MAX_PASSWORD_ITERATIONS)throw new Error("Thông số mật khẩu tài khoản không hợp lệ.");
+    if(!Number.isInteger(a.iterations)||a.iterations<MIN_PIN_ITERATIONS||a.iterations>MAX_PIN_ITERATIONS)throw new Error("Thông số mã PIN tài khoản không hợp lệ.");
     if(!Number.isInteger(a.failedAttempts)||a.failedAttempts<0||!Number.isFinite(a.lockedUntil)||a.lockedUntil<0)throw new Error("Trạng thái khóa tài khoản không hợp lệ.");
     if(typeof a.createdAt!=="string"||typeof a.updatedAt!=="string"||!(a.lastLoginAt===null||typeof a.lastLoginAt==="string"))throw new Error("Thời gian tài khoản không hợp lệ.");
   }
@@ -421,36 +419,34 @@ function writeAccountStore(next){
   accountStore=deepClone(next);accountsRaw=raw;accountIssue=null;reconcileCurrentAccount();return true;
 }
 function refreshAccountStore(){const raw=window.localStorage.getItem(ACCOUNT_KEY);if(raw!==accountsRaw){accountStore=loadAccountStore()}if(accountIssue)throw new Error(accountIssue.message);return accountStore}
-function publicAccount(a){return a?{id:a.id,username:a.username,displayName:a.displayName,role:a.role,active:a.active,mustChangePassword:a.mustChangePassword}:null}
+function publicAccount(a){return a?{id:a.id,username:a.username,displayName:a.displayName,role:a.role,active:a.active,mustChangePIN:a.mustChangePIN}:null}
 function auditIdentity(){return currentUser?{id:currentUser.id,username:currentUser.username,displayName:currentUser.displayName,role:currentUser.role}:null}
 function roleLabel(role){return ROLE_LABELS[role]||"Không rõ"}
-function can(permission){return !!(currentUser&&currentUser.active&&!currentUser.mustChangePassword&&PERMISSIONS[currentUser.role]?.[permission]===true)}
+function can(permission){return !!(currentUser&&currentUser.active&&!currentUser.mustChangePIN&&PERMISSIONS[currentUser.role]?.[permission]===true)}
 function canWrite(){return !loadIssue&&can("scoring")}
 function accountById(id){return accountStore.find(a=>a.id===id)||null}
 function storeSession(){try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({userId:currentUser?.id||null,lastActivity:sessionLastActivity}))}catch(e){toast("Không lưu được phiên trong sessionStorage; phiên chỉ giữ đến khi đóng trang.","danger")}}
 function clearStoredSession(){try{sessionStorage.removeItem(SESSION_KEY)}catch(e){}}
 function startSession(account){currentUser=publicAccount(account);sessionLastActivity=Date.now();storeSession()}
 function updateUserBadge(){const badge=$("userBadge");if(badge)badge.textContent=currentUser?currentUser.displayName+" · "+roleLabel(currentUser.role):""}
-function updateRoleUI(){const scoreButton=$("scoreNavButton");if(scoreButton)scoreButton.classList.toggle("hidden",!can("scoring"));updateUserBadge()}
 function setLoginMessage(message,isError=true){const node=$("loginMsg");if(!node)return;node.textContent=message||"";node.className=isError?"danger-text":"success-text"}
 function setLoginMode(mode,message=""){
   loginMode=mode;
-  $("loginUsernameField")?.classList.toggle("hidden",mode==="must-change"||mode==="error");
-  $("loginPasswordField")?.classList.toggle("hidden",mode!=="login");
+  $("loginPinField")?.classList.toggle("hidden",mode==="setup"||mode==="must-change"||mode==="error");
   $("firstAdminFields")?.classList.toggle("hidden",mode!=="setup");
   $("mustChangeFields")?.classList.toggle("hidden",mode!=="must-change");
   $("cryptoWarning")?.classList.toggle("hidden",cryptoAvailable());
   $("loginSubmit").disabled=mode==="error";
-  if(mode==="setup"){$("loginTitle").textContent="Thiết lập tài khoản Tổng phụ trách đầu tiên";$("loginSubtitle").textContent="Tạo tài khoản quản trị cho thiết bị này";$("loginSubmit").textContent="Tạo Tổng phụ trách";$("pinMigrationNote").classList.toggle("hidden",!legacyPinExists)}
-  else if(mode==="must-change"){$("loginTitle").textContent="Đổi mật khẩu bắt buộc";$("loginSubtitle").textContent="Tài khoản phải đổi mật khẩu trước khi vào ứng dụng";$("loginSubmit").textContent="Lưu mật khẩu mới";$("mustChangeWho").textContent=currentUser?currentUser.displayName+" · "+currentUser.username:""}
+  if(mode==="setup"){$("loginTitle").textContent="Thiết lập Tổng phụ trách";$("loginSubtitle").textContent="Tạo tài khoản quản trị cho thiết bị này";$("loginSubmit").textContent="Tạo Tổng phụ trách";$("pinMigrationNote").classList.toggle("hidden",!legacyPinExists)}
+  else if(mode==="must-change"){$("loginTitle").textContent="Đổi mã PIN bắt buộc";$("loginSubtitle").textContent="Tài khoản phải đổi mã PIN trước khi vào ứng dụng";$("loginSubmit").textContent="Lưu mã PIN mới";$("mustChangeWho").textContent=currentUser?currentUser.displayName+" · "+currentUser.username:""}
   else if(mode==="error"){$("loginTitle").textContent="Không thể mở tài khoản";$("loginSubtitle").textContent="Hãy kiểm tra dữ liệu tài khoản trong trình duyệt";$("loginSubmit").textContent="Không khả dụng"}
-  else{$("loginTitle").textContent="SAO ĐỎ PHƯỚC AN";$("loginSubtitle").textContent=cryptoAvailable()?"Đăng nhập tài khoản của bạn":"Web Crypto không khả dụng; không thể xác minh mật khẩu an toàn";$("loginSubmit").textContent="Đăng nhập";$("pinMigrationNote").classList.add("hidden")}
+  else{$("loginTitle").textContent="SAO ĐỎ PHƯỚC AN";$("loginSubtitle").textContent=cryptoAvailable()?"Nhập mã PIN để tiếp tục":"Web Crypto không khả dụng; không thể xác minh mã PIN an toàn";$("loginSubmit").textContent="Đăng nhập";$("pinMigrationNote").classList.add("hidden")}
   if(message)setLoginMessage(message);else if($("loginMsg"))setLoginMessage("");
 }
 function paintLoginMode(){if(accountIssue){setLoginMode("error",accountIssue.message);return}setLoginMode(accountStore.length?"login":"setup");}
 function showLogin(){ $("app").classList.add("hidden");$("login").classList.remove("hidden");updateUserBadge(); }
-function enterApp(){if(!currentUser)return;if(currentUser.mustChangePassword){showLogin();setLoginMode("must-change","Bạn phải đổi mật khẩu trước khi tiếp tục.");return}$("login").classList.add("hidden");$("app").classList.remove("hidden");$("loginForm").reset();setLoginMode("login");updateUserBadge();renderAll()}
-function requirePasswordChange(){if(!currentUser)return;currentUser.mustChangePassword=true;storeSession();closeModal();showLogin();setLoginMode("must-change","Quản trị viên yêu cầu đổi mật khẩu trước khi tiếp tục.")}
+function enterApp(){if(!currentUser)return;if(currentUser.mustChangePIN){showLogin();setLoginMode("must-change","Bạn phải đổi mã PIN trước khi tiếp tục.");return}$("login").classList.add("hidden");$("app").classList.remove("hidden");$("loginForm").reset();setLoginMode("login");updateUserBadge();renderAll()}
+function requirePINChange(){if(!currentUser)return;currentUser.mustChangePIN=true;storeSession();closeModal();showLogin();setLoginMode("must-change","Quản trị viên yêu cầu đổi mã PIN trước khi tiếp tục.")}
 function logout(message=""){
   currentUser=null;sessionLastActivity=0;clearStoredSession();
   try{$("modal").classList.add("hidden");currentHistoryDetail=null}catch(e){}
@@ -461,7 +457,7 @@ function reconcileCurrentAccount(){
   const latest=accountById(currentUser.id);
   if(!latest||!latest.active){logout("Tài khoản đã bị khóa hoặc xóa. Hãy liên hệ Tổng phụ trách.");return}
   currentUser=publicAccount(latest);storeSession();updateUserBadge();
-  if(currentUser.mustChangePassword){requirePasswordChange();return}
+  if(currentUser.mustChangePIN){requirePINChange();return}
   if($("score").classList.contains("active")&&!can("scoring"))showSection("week");
   renderAll();
 }
@@ -470,26 +466,24 @@ function restoreSession(){
   if(!isObject(saved)||typeof saved.userId!=="string"||!Number.isFinite(saved.lastActivity)||Date.now()-saved.lastActivity>=SESSION_IDLE_MS)return false;
   const account=accountById(saved.userId);if(!account||!account.active)return false;
   startSession(account);sessionLastActivity=saved.lastActivity;storeSession();
-  if(account.mustChangePassword){showLogin();setLoginMode("must-change","Bạn phải đổi mật khẩu trước khi tiếp tục.")}else enterApp();
+  if(account.mustChangePIN){showLogin();setLoginMode("must-change","Bạn phải đổi mã PIN trước khi tiếp tục.")}else enterApp();
   return true;
 }
 function touchSession(){if(!currentUser)return;sessionLastActivity=Date.now();if(Date.now()-lastSessionWrite>15000){lastSessionWrite=Date.now();storeSession()}}
 function checkSessionTimeout(){if(currentUser&&Date.now()-sessionLastActivity>=SESSION_IDLE_MS)logout("Phiên đã tự khóa sau 30 phút không thao tác. Hãy đăng nhập lại.")}
-function accountRecord({username,displayName,role,password,mustChangePassword=false,active=true}){
-  const salt=randomSalt(),now=new Date().toISOString();return derivePassword(password,salt,PASSWORD_ITERATIONS).then(hash=>({id:newId("acct"),username,displayName:displayName.trim(),role,salt,hash,iterations:PASSWORD_ITERATIONS,active,mustChangePassword,failedAttempts:0,lockedUntil:0,createdAt:now,updatedAt:now,lastLoginAt:null}));
+function validatePIN(pin){return typeof pin==="string"&&/^[0-9]{5,8}$/.test(pin)?"":"Mã PIN phải gồm 5–8 chữ số."}
+function internalUsername(){return "user"+newId("x").replace(/[^a-z0-9]/gi,"").toLowerCase().slice(-12)}
+function accountRecord({username,displayName,role,pin,mustChangePIN=false,active=true}){
+  const salt=randomSalt(),now=new Date().toISOString();return derivePIN(pin,salt,PIN_ITERATIONS).then(hash=>({id:newId("acct"),username:username||internalUsername(),displayName:displayName.trim(),role,salt,hash,iterations:PIN_ITERATIONS,active,mustChangePIN,failedAttempts:0,lockedUntil:0,createdAt:now,updatedAt:now,lastLoginAt:null}));
 }
-function validateNewPassword(password){if(typeof password!=="string"||password.length<6)return "Mật khẩu phải có ít nhất 6 ký tự.";if(password.length>200)return "Mật khẩu quá dài.";return ""}
-function validateUsername(username){const normalized=String(username||"").trim().toLowerCase();return USERNAME_RE.test(normalized)?{ok:true,value:normalized}:{ok:false,error:"Tên đăng nhập phải có 3–30 ký tự a-z, 0-9, dấu chấm, gạch dưới hoặc gạch ngang."}}
 function setLoginBusy(busy){authBusy=busy;const button=$("loginSubmit");if(button)button.disabled=busy||loginMode==="error"}
 async function setupFirstAdmin(){
   if(accountStore.length||accountIssue)throw new Error("Kho tài khoản đã có dữ liệu hoặc đang lỗi. Không thể tạo quản trị viên mới.");
   if(!cryptoAvailable())throw new Error(cryptoWarning());
-  const user=validateUsername($("loginUsername").value);if(!user.ok)throw new Error(user.error);
   const displayName=$("firstAdminName").value.trim();if(!displayName||displayName.length>80)throw new Error("Nhập tên hiển thị từ 1 đến 80 ký tự.");
-  const password=$("firstAdminPassword").value,confirm=$("firstAdminConfirm").value,problem=validateNewPassword(password);if(problem)throw new Error(problem);if(password!==confirm)throw new Error("Hai mật khẩu chưa khớp.");
-  const record=await accountRecord({username:user.value,displayName,role:"tongphutrach",password,mustChangePassword:false,active:true});record.lastLoginAt=new Date().toISOString();
+  const record=await accountRecord({displayName,role:"tongphutrach",pin:"12345",mustChangePIN:false,active:true});record.lastLoginAt=new Date().toISOString();
   writeAccountStore([record]);try{window.localStorage.removeItem(PIN_RECORD_KEY);legacyPinExists=false}catch(e){}
-  startSession(record);enterApp();toast("Đã tạo tài khoản Tổng phụ trách đầu tiên.");
+  startSession(record);enterApp();toast("Đã tạo tài khoản Tổng phụ trách. PIN mặc định: 12345.");
 }
 async function handleLogin(event){
   event.preventDefault();if(authBusy)return;setLoginBusy(true);
@@ -498,63 +492,73 @@ async function handleLogin(event){
     if(loginMode==="must-change"){await completeRequiredPasswordChange();return}
     if(loginMode==="error")throw new Error(accountIssue?.message||"Kho tài khoản đang lỗi.");
     if(!cryptoAvailable())throw new Error(cryptoWarning());
-    refreshAccountStore();
-    const normalized=$("loginUsername").value.trim().toLowerCase(),password=$("loginPassword").value;
-    const account=accountStore.find(a=>a.username===normalized)||null;
-    const dummySalt="00112233445566778899aabbccddeeff",salt=account?.salt||dummySalt,iterations=account?.iterations||PASSWORD_ITERATIONS;
-    const computed=await derivePassword(password,salt,iterations);
-    const matches=account?constantTimeEqual(computed,account.hash):constantTimeEqual(computed,"0".repeat(64));
+    refreshAccountStore();const pin=$("loginPin").value;
+    const problem=validatePIN(pin);if(problem)throw new Error(problem);
+    let matched=null;
+    for(const a of accountStore){const computed=await derivePIN(pin,a.salt,a.iterations);if(constantTimeEqual(computed,a.hash)){matched=a;break}}
     const now=Date.now();
-    if(!account||!matches||!account.active||account.lockedUntil>now){
-      let retryMessage="Sai tên đăng nhập hoặc mật khẩu.";
-      if(account){
-        const next=deepClone(accountStore),target=next.find(a=>a.id===account.id);
-        if(target.lockedUntil<=now){target.failedAttempts=(target.failedAttempts||0)+1;if(target.failedAttempts>=5){target.lockedUntil=now+5*60*1000;target.failedAttempts=5}}
-        target.updatedAt=new Date().toISOString();writeAccountStore(next);
-        const remaining=Math.max(0,target.lockedUntil-now);if(remaining>0)retryMessage+=" Có thể thử lại sau "+Math.ceil(remaining/60000)+" phút.";
-      }
-      throw new Error(retryMessage);
+    if(!matched||!matched.active||matched.lockedUntil>now){
+      if(matched){const next=deepClone(accountStore),target=next.find(a=>a.id===matched.id);if(target.lockedUntil<=now){target.failedAttempts=(target.failedAttempts||0)+1;if(target.failedAttempts>=5){target.lockedUntil=now+5*60*1000;target.failedAttempts=5}}target.updatedAt=new Date().toISOString();writeAccountStore(next)}
+      throw new Error("Mã PIN không đúng hoặc tài khoản đã bị khóa.");
     }
-    const next=deepClone(accountStore),target=next.find(a=>a.id===account.id);target.failedAttempts=0;target.lockedUntil=0;target.lastLoginAt=new Date().toISOString();target.updatedAt=target.lastLoginAt;writeAccountStore(next);
-    startSession(accountById(account.id));
-    if(currentUser.mustChangePassword){showLogin();setLoginMode("must-change","Tài khoản này cần đổi mật khẩu trước khi sử dụng.")}else enterApp();
-  }catch(e){setLoginMessage(e?.message||"Sai tên đăng nhập hoặc mật khẩu.")}
+    const next=deepClone(accountStore),target=next.find(a=>a.id===matched.id);target.failedAttempts=0;target.lockedUntil=0;target.lastLoginAt=new Date().toISOString();target.updatedAt=target.lastLoginAt;writeAccountStore(next);
+    startSession(accountById(matched.id));if(currentUser.mustChangePIN){showLogin();setLoginMode("must-change","Tài khoản này cần đổi mã PIN trước khi sử dụng.")}else enterApp();
+  }catch(e){setLoginMessage(e?.message||"Mã PIN không đúng.")}
   finally{setLoginBusy(false)}
 }
 async function completeRequiredPasswordChange(){
-  if(!currentUser||!currentUser.mustChangePassword)throw new Error("Không có yêu cầu đổi mật khẩu đang chờ.");
+  if(!currentUser||!currentUser.mustChangePIN)throw new Error("Không có yêu cầu đổi mã PIN đang chờ.");
   if(!cryptoAvailable())throw new Error(cryptoWarning());
-  const password=$("requiredNewPassword").value,confirm=$("requiredNewPasswordConfirm").value,problem=validateNewPassword(password);if(problem)throw new Error(problem);if(password!==confirm)throw new Error("Hai mật khẩu mới chưa khớp.");
+  const pin=$("requiredNewPin").value,confirm=$("requiredNewPinConfirm").value,problem=validatePIN(pin);if(problem)throw new Error(problem);if(pin!==confirm)throw new Error("Hai mã PIN mới chưa khớp.");
+  for(const a of accountStore){if(a.id===currentUser.id)continue;const h=await derivePIN(pin,a.salt,a.iterations);if(constantTimeEqual(h,a.hash))throw new Error("Mã PIN này đã được tài khoản khác sử dụng.")}
   const next=deepClone(accountStore),target=next.find(a=>a.id===currentUser.id);if(!target||!target.active)throw new Error("Tài khoản không còn hoạt động.");
-  const salt=randomSalt(),hash=await derivePassword(password,salt,PASSWORD_ITERATIONS);Object.assign(target,{salt,hash,iterations:PASSWORD_ITERATIONS,mustChangePassword:false,failedAttempts:0,lockedUntil:0,updatedAt:new Date().toISOString()});
-  writeAccountStore(next);startSession(accountById(currentUser.id));enterApp();toast("Đã đổi mật khẩu. Bạn có thể sử dụng ứng dụng.");
+  const salt=randomSalt(),hash=await derivePIN(pin,salt,PIN_ITERATIONS);Object.assign(target,{salt,hash,iterations:PIN_ITERATIONS,mustChangePIN:false,failedAttempts:0,lockedUntil:0,updatedAt:new Date().toISOString()});
+  writeAccountStore(next);startSession(accountById(currentUser.id));enterApp();toast("Đã đổi mã PIN.");
 }
-function openOwnPassword(){if(!can("changeOwnPassword")){deny();return}$("modalTitle").textContent="Đổi mật khẩu của tôi";$("modalBody").innerHTML='<form id="ownPasswordForm" class="pin-change-grid" novalidate><label for="ownCurrentPassword">Mật khẩu hiện tại</label><input id="ownCurrentPassword" type="password" autocomplete="current-password" required><label for="ownNewPassword">Mật khẩu mới (ít nhất 6 ký tự)</label><input id="ownNewPassword" type="password" autocomplete="new-password" required><label for="ownNewPasswordConfirm">Nhập lại mật khẩu mới</label><input id="ownNewPasswordConfirm" type="password" autocomplete="new-password" required><p id="ownPasswordMsg" class="danger-text" aria-live="polite"></p><button class="btn success" type="submit">Lưu mật khẩu</button></form>';$("modal").classList.remove("hidden")}
-async function changeOwnPassword(event){event.preventDefault();if(!can("changeOwnPassword")){deny();return}if(!cryptoAvailable()){$("ownPasswordMsg").textContent=cryptoWarning();return}const target=accountById(currentUser.id);if(!target)return;const old=$("ownCurrentPassword").value,newPass=$("ownNewPassword").value,confirm=$("ownNewPasswordConfirm").value,msg=$("ownPasswordMsg");try{const oldHash=await derivePassword(old,target.salt,target.iterations);if(!constantTimeEqual(oldHash,target.hash))throw new Error("Mật khẩu hiện tại chưa đúng.");const err=validateNewPassword(newPass);if(err)throw new Error(err);if(newPass!==confirm)throw new Error("Hai mật khẩu mới chưa khớp.");const next=deepClone(accountStore),a=next.find(x=>x.id===target.id),salt=randomSalt();a.salt=salt;a.hash=await derivePassword(newPass,salt,PASSWORD_ITERATIONS);a.iterations=PASSWORD_ITERATIONS;a.mustChangePassword=false;a.failedAttempts=0;a.lockedUntil=0;a.updatedAt=new Date().toISOString();writeAccountStore(next);startSession(accountById(a.id));closeModal();if($("app").classList.contains("hidden"))enterApp();else toast("Đã đổi mật khẩu.")}catch(e){msg.textContent=e.message||"Không thể đổi mật khẩu."}}
+function openOwnPIN(){if(!can("changeOwnPIN")){deny();return}$("modalTitle").textContent="Đổi mã PIN của tôi";$("modalBody").innerHTML='<form id="ownPinForm" class="pin-change-grid" novalidate><label for="ownCurrentPin">Mã PIN hiện tại</label><input id="ownCurrentPin" type="password" inputmode="numeric" maxlength="8" required><label for="ownNewPin">Mã PIN mới (5–8 chữ số)</label><input id="ownNewPin" type="password" inputmode="numeric" maxlength="8" required><label for="ownNewPinConfirm">Nhập lại mã PIN mới</label><input id="ownNewPinConfirm" type="password" inputmode="numeric" maxlength="8" required><p id="ownPinMsg" class="danger-text" aria-live="polite"></p><button class="btn success" type="submit">Lưu mã PIN</button></form>';$('modal').classList.remove('hidden')}
+async function changeOwnPIN(event){event.preventDefault();if(!can("changeOwnPIN")){deny();return}if(!cryptoAvailable()){$("ownPinMsg").textContent=cryptoWarning();return}const target=accountById(currentUser.id);if(!target)return;const old=$("ownCurrentPin").value,pin=$("ownNewPin").value,confirm=$("ownNewPinConfirm").value,msg=$("ownPinMsg");try{const oldHash=await derivePIN(old,target.salt,target.iterations);if(!constantTimeEqual(oldHash,target.hash))throw new Error("Mã PIN hiện tại chưa đúng.");const err=validatePIN(pin);if(err)throw new Error(err);if(pin!==confirm)throw new Error("Hai mã PIN mới chưa khớp.");for(const other of accountStore){if(other.id===target.id)continue;const h=await derivePIN(pin,other.salt,other.iterations);if(constantTimeEqual(h,other.hash))throw new Error("Mã PIN này đã được tài khoản khác sử dụng.")}const next=deepClone(accountStore),a=next.find(x=>x.id===target.id),salt=randomSalt();a.salt=salt;a.hash=await derivePIN(pin,salt,PIN_ITERATIONS);a.iterations=PIN_ITERATIONS;a.mustChangePIN=false;a.failedAttempts=0;a.lockedUntil=0;a.updatedAt=new Date().toISOString();writeAccountStore(next);startSession(accountById(a.id));closeModal();if($("app").classList.contains("hidden"))enterApp();else toast("Đã đổi mã PIN.")}catch(e){msg.textContent=e.message||"Không thể đổi mã PIN."}}
 function deny(){toast("Bạn không có quyền thực hiện thao tác này.","danger");return false}
 function openAccountManager(){if(!can("manageAccounts")){deny();return}$("modalTitle").textContent="Quản lý tài khoản";$("modal").classList.remove("hidden");renderAccountManager()}
 function renderAccountManager(){
   if(!can("manageAccounts")){deny();closeModal();return}
-  const rows=[...accountStore].sort((a,b)=>a.username.localeCompare(b.username)).map(a=>'<tr><td>'+escapeHTML(a.username)+'</td><td><input class="form-control" id="acct-name-'+escapeHTML(a.id)+'" maxlength="80" value="'+escapeHTML(a.displayName)+'" aria-label="Tên hiển thị"></td><td><select class="form-control" id="acct-role-'+escapeHTML(a.id)+'" aria-label="Vai trò">'+VALID_ROLES.map(r=>'<option value="'+r+'" '+(r===a.role?'selected':'')+'>'+roleLabel(r)+'</option>').join("")+'</select></td><td>'+(a.active?'<span class="success-text">Đang bật</span>':'<span class="danger-text">Đã khóa</span>')+(a.mustChangePassword?'<br><small class="muted">Cần đổi mật khẩu</small>':'')+'</td><td>'+escapeHTML(a.lastLoginAt?displayDate(a.lastLoginAt):"Chưa đăng nhập")+'</td><td class="account-actions"><button class="btn small" data-action="save-account-profile" data-id="'+escapeHTML(a.id)+'">Lưu</button> <button class="btn secondary small" data-action="toggle-account" data-id="'+escapeHTML(a.id)+'">'+(a.active?'Khóa':'Bật')+'</button> <button class="btn warning small" data-action="reset-account-password" data-id="'+escapeHTML(a.id)+'">Đặt lại mật khẩu</button> <button class="btn danger small" data-action="delete-account" data-id="'+escapeHTML(a.id)+'">Xóa</button></td></tr>').join("");
-  $("modalBody").innerHTML='<div class="notice">Tạo tài khoản mới sẽ yêu cầu người dùng đổi mật khẩu tạm ở lần đăng nhập đầu tiên.</div><form id="createAccountForm" class="account-create-form" novalidate><h3>Tạo tài khoản</h3><label>Tên đăng nhập<input id="newAccountUsername" class="form-control" maxlength="30" autocomplete="off" required></label><label>Tên hiển thị<input id="newAccountDisplay" class="form-control" maxlength="80" required></label><label>Vai trò<select id="newAccountRole" class="form-control"><option value="saodo">Sao Đỏ</option><option value="giaovien">Giáo viên</option><option value="tongphutrach">Tổng phụ trách</option></select></label><label>Mật khẩu tạm<input id="newAccountPassword" class="form-control" type="password" autocomplete="new-password" required></label><button class="btn success" type="submit">Tạo tài khoản</button><p id="createAccountMsg" class="danger-text" aria-live="polite"></p></form><div class="toolbar"><button class="btn secondary" data-action="export-accounts">Xuất danh sách tài khoản (không gồm mật khẩu)</button></div><div class="table-wrap"><table><thead><tr><th>Tên đăng nhập</th><th>Tên hiển thị</th><th>Vai trò</th><th>Trạng thái</th><th>Lần đăng nhập cuối</th><th>Thao tác</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  const rows=[...accountStore].sort((a,b)=>a.displayName.localeCompare(b.displayName)).map(a=>'<tr><td>'+escapeHTML(a.displayName)+'</td><td><select class="form-control" id="acct-role-'+escapeHTML(a.id)+'" aria-label="Vai trò">'+VALID_ROLES.map(r=>'<option value="'+r+'" '+(r===a.role?'selected':'')+'>'+roleLabel(r)+'</option>').join("")+'</select></td><td>'+(a.active?'<span class="success-text">Đang bật</span>':'<span class="danger-text">Đã khóa</span>')+'</td><td>'+escapeHTML(a.lastLoginAt?displayDate(a.lastLoginAt):"Chưa đăng nhập")+'</td><td class="account-actions"><button class="btn small" data-action="save-account-profile" data-id="'+escapeHTML(a.id)+'">Lưu</button> <button class="btn secondary small" data-action="toggle-account" data-id="'+escapeHTML(a.id)+'">'+(a.active?'Khóa':'Bật')+'</button> <button class="btn warning small" data-action="reset-account-pin" data-id="'+escapeHTML(a.id)+'">Đặt lại PIN</button> <button class="btn danger small" data-action="delete-account" data-id="'+escapeHTML(a.id)+'">Xóa</button></td></tr>').join("");
+  $("modalBody").innerHTML='<div class="notice">Mỗi tài khoản có một mã PIN riêng gồm 5–8 chữ số. Không dùng trùng mã PIN giữa các tài khoản. Tài khoản đang khóa: đặt lại PIN trước, sau đó nhấn Bật.</div><form id="createAccountForm" class="account-create-form" novalidate><h3>Tạo tài khoản</h3><label>Tên hiển thị<input id="newAccountDisplay" class="form-control" maxlength="80" required></label><label>Vai trò<select id="newAccountRole" class="form-control"><option value="saodo">Sao Đỏ</option><option value="giaovien">Giáo viên</option><option value="tongphutrach">Tổng phụ trách</option></select></label><label>Mã PIN (5–8 chữ số)<input id="newAccountPin" class="form-control" type="password" inputmode="numeric" maxlength="8" required></label><button class="btn success" type="submit">Tạo tài khoản</button><p id="createAccountMsg" class="danger-text" aria-live="polite"></p></form><div class="toolbar"><button class="btn secondary" data-action="export-accounts">Xuất danh sách tài khoản (không gồm PIN)</button></div><div class="table-wrap"><table><thead><tr><th>Tên hiển thị</th><th>Vai trò</th><th>Trạng thái</th><th>Lần đăng nhập cuối</th><th>Thao tác</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
 }
-async function createManagedAccount(event){event.preventDefault();if(!can("manageAccounts")){deny();return}const msg=$("createAccountMsg");try{if(!cryptoAvailable())throw new Error(cryptoWarning());const u=validateUsername($("newAccountUsername").value);if(!u.ok)throw new Error(u.error);if(accountStore.some(a=>a.username===u.value))throw new Error("Tên đăng nhập đã được sử dụng.");const displayName=$("newAccountDisplay").value.trim(),role=$("newAccountRole").value,password=$("newAccountPassword").value,problem=validateNewPassword(password);if(problem)throw new Error(problem);if(!displayName||displayName.length>80||!VALID_ROLES.includes(role))throw new Error("Vui lòng kiểm tra tên hiển thị và vai trò.");const a=await accountRecord({username:u.value,displayName,role,password,mustChangePassword:true,active:true});writeAccountStore([...accountStore,a]);toast("Đã tạo tài khoản "+a.username+". Hãy cung cấp mật khẩu tạm cho người dùng an toàn.");renderAccountManager()}catch(e){if(msg)msg.textContent=e.message||"Không thể tạo tài khoản."}}
-function saveAccountProfile(id){if(!can("manageAccounts")){deny();return}const next=deepClone(accountStore),a=next.find(x=>x.id===id);if(!a)return;const name=$("acct-name-"+id)?.value.trim(),role=$("acct-role-"+id)?.value;if(!name||name.length>80||!VALID_ROLES.includes(role)){toast("Tên hiển thị hoặc vai trò không hợp lệ.","danger");return}a.displayName=name;a.role=role;a.updatedAt=new Date().toISOString();try{writeAccountStore(next);renderAccountManager();toast("Đã cập nhật tài khoản.")}catch(e){toast(e.message,"danger")}}
-function toggleAccount(id){if(!can("manageAccounts")){deny();return}const a=accountById(id);if(!a)return;if(a.active&&!window.confirm("Khóa tài khoản "+a.username+"? Phiên đang đăng nhập ở thẻ khác sẽ bị đăng xuất."))return;const next=deepClone(accountStore),target=next.find(x=>x.id===id);target.active=!target.active;target.updatedAt=new Date().toISOString();try{writeAccountStore(next);renderAccountManager();toast(target.active?"Đã bật tài khoản.":"Đã khóa tài khoản.")}catch(e){toast(e.message,"danger")}}
-function deleteAccount(id){if(!can("manageAccounts")){deny();return}const a=accountById(id);if(!a)return;if(!window.confirm("Xóa tài khoản "+a.username+"? Hành động này không thể hoàn tác."))return;try{writeAccountStore(accountStore.filter(x=>x.id!==id));renderAccountManager();toast("Đã xóa tài khoản.")}catch(e){toast(e.message,"danger")}}
-function openResetAccountPassword(id){if(!can("manageAccounts")){deny();return}if(!accountById(id))return;$("modalTitle").textContent="Đặt lại mật khẩu";$("modalBody").innerHTML='<div class="notice">Người dùng sẽ phải đổi mật khẩu này ngay ở lần đăng nhập kế tiếp.</div><form id="resetAccountPasswordForm" novalidate><input id="resetAccountId" type="hidden" value="'+escapeHTML(id)+'"><label>Mật khẩu tạm mới<input id="resetAccountPassword" class="form-control" type="password" autocomplete="new-password" required></label><p id="resetAccountMsg" class="danger-text" aria-live="polite"></p><button class="btn success" type="submit">Đặt lại mật khẩu</button></form>'}
-async function resetManagedPassword(event){event.preventDefault();if(!can("manageAccounts")){deny();return}const msg=$("resetAccountMsg");try{if(!cryptoAvailable())throw new Error(cryptoWarning());const id=$("resetAccountId").value,password=$("resetAccountPassword").value,problem=validateNewPassword(password);if(problem)throw new Error(problem);const next=deepClone(accountStore),a=next.find(x=>x.id===id);if(!a)throw new Error("Không tìm thấy tài khoản.");const salt=randomSalt();a.salt=salt;a.hash=await derivePassword(password,salt,PASSWORD_ITERATIONS);a.iterations=PASSWORD_ITERATIONS;a.mustChangePassword=true;a.failedAttempts=0;a.lockedUntil=0;a.updatedAt=new Date().toISOString();writeAccountStore(next);closeModal();toast("Đã đặt lại mật khẩu. Người dùng phải đổi mật khẩu khi đăng nhập.")}catch(e){if(msg)msg.textContent=e.message||"Không thể đặt lại mật khẩu."}}
-function exportAccounts(){if(!can("manageAccounts")){deny();return}const rows=[["Tên đăng nhập","Tên hiển thị","Vai trò","Trạng thái"]];accountStore.forEach(a=>rows.push([a.username,a.displayName,roleLabel(a.role),a.active?"Đang bật":"Đã khóa"]));csvDownload(rows,"SAODO_DanhSachTaiKhoan_"+dateStamp()+".csv")}
+async function createManagedAccount(event){event.preventDefault();if(!can("manageAccounts")){deny();return}const msg=$("createAccountMsg");try{if(!cryptoAvailable())throw new Error(cryptoWarning());const displayName=$("newAccountDisplay").value.trim(),role=$("newAccountRole").value,pin=$("newAccountPin").value,problem=validatePIN(pin);if(problem)throw new Error(problem);if(!displayName||displayName.length>80||!VALID_ROLES.includes(role))throw new Error("Vui lòng kiểm tra tên hiển thị và vai trò.");for(const a of accountStore){const h=await derivePIN(pin,a.salt,a.iterations);if(constantTimeEqual(h,a.hash))throw new Error("Mã PIN này đã được tài khoản khác sử dụng.")}const a=await accountRecord({displayName,role,pin,mustChangePIN:false,active:true});writeAccountStore([...accountStore,a]);toast("Đã tạo tài khoản cho "+a.displayName+".");renderAccountManager()}catch(e){if(msg)msg.textContent=e.message||"Không thể tạo tài khoản."}}
+function saveAccountProfile(id){if(!can("manageAccounts")){deny();return}const next=deepClone(accountStore),a=next.find(x=>x.id===id);if(!a)return;const role=$("acct-role-"+id)?.value;if(!VALID_ROLES.includes(role)){toast("Vai trò không hợp lệ.","danger");return}a.role=role;a.updatedAt=new Date().toISOString();try{writeAccountStore(next);renderAccountManager();toast("Đã cập nhật tài khoản.")}catch(e){toast(e.message,"danger")}}
+function toggleAccount(id){if(!can("manageAccounts")){deny();return}const a=accountById(id);if(!a)return;if(a.active&&!window.confirm("Khóa tài khoản "+a.displayName+"? Phiên đang đăng nhập ở thẻ khác sẽ bị đăng xuất."))return;const next=deepClone(accountStore),target=next.find(x=>x.id===id);target.active=!target.active;target.updatedAt=new Date().toISOString();try{writeAccountStore(next);renderAccountManager();toast(target.active?"Đã bật tài khoản.":"Đã khóa tài khoản.")}catch(e){toast(e.message,"danger")}}
+function deleteAccount(id){if(!can("manageAccounts")){deny();return}const a=accountById(id);if(!a)return;if(!window.confirm("Xóa tài khoản "+a.displayName+"? Hành động này không thể hoàn tác."))return;try{writeAccountStore(accountStore.filter(x=>x.id!==id));renderAccountManager();toast("Đã xóa tài khoản.")}catch(e){toast(e.message,"danger")}}
+function openResetAccountPIN(id){if(!can("manageAccounts")){deny();return}if(!accountById(id))return;$("modalTitle").textContent="Đặt lại mã PIN";$("modalBody").innerHTML='<div class="notice">Đặt mã PIN mới cho tài khoản đã chọn.</div><form id="resetAccountPinForm" novalidate><input id="resetAccountId" type="hidden" value="'+escapeHTML(id)+'"><label>Mã PIN mới (5–8 chữ số)<input id="resetAccountPin" class="form-control" type="password" inputmode="numeric" maxlength="8" required></label><p id="resetAccountMsg" class="danger-text" aria-live="polite"></p><button class="btn success" type="submit">Lưu PIN mới</button></form>'}
+async function resetManagedPIN(event){event.preventDefault();if(!can("manageAccounts")){deny();return}const msg=$("resetAccountMsg");try{if(!cryptoAvailable())throw new Error(cryptoWarning());const id=$("resetAccountId").value,pin=$("resetAccountPin").value,problem=validatePIN(pin);if(problem)throw new Error(problem);for(const other of accountStore){if(other.id===id)continue;const h=await derivePIN(pin,other.salt,other.iterations);if(constantTimeEqual(h,other.hash))throw new Error("Mã PIN này đã được tài khoản khác sử dụng.")}const next=deepClone(accountStore),a=next.find(x=>x.id===id);if(!a)throw new Error("Không tìm thấy tài khoản.");const salt=randomSalt();a.salt=salt;a.hash=await derivePIN(pin,salt,PIN_ITERATIONS);a.iterations=PIN_ITERATIONS;a.mustChangePIN=false;a.failedAttempts=0;a.lockedUntil=0;a.updatedAt=new Date().toISOString();writeAccountStore(next);closeModal();toast("Đã đặt lại mã PIN.")}catch(e){if(msg)msg.textContent=e.message||"Không thể đặt lại mã PIN."}}
+function exportAccounts(){if(!can("manageAccounts")){deny();return}const rows=[["Tài khoản","Tên hiển thị","Vai trò","Trạng thái"]];accountStore.forEach(a=>rows.push([a.username,a.displayName,roleLabel(a.role),a.active?"Đang bật":"Đã khóa"]));csvDownload(rows,"SAODO_DanhSachTaiKhoan_"+dateStamp()+".csv")}
 function handleAccountStorage(event){
   try{if(event.newValue===null){accountStore=[];accountsRaw=null;accountIssue=null}else{const parsed=JSON.parse(event.newValue);validateAccountList(parsed);accountStore=parsed;accountsRaw=event.newValue;accountIssue=null}}
   catch(e){accountIssue={message:"Kho tài khoản thay đổi thành dữ liệu không hợp lệ. Đã khóa phiên để tránh dùng quyền cũ."};if(currentUser)logout(accountIssue.message);else setLoginMode("error",accountIssue.message);return}
   if(currentUser)reconcileCurrentAccount();else paintLoginMode();
 }
-function initializeAuth(){
-  try{legacyPinExists=window.localStorage.getItem(PIN_RECORD_KEY)!==null}catch(e){legacyPinExists=false}
+async function migrateLegacyPasswordAccounts(){
+  const raw=window.localStorage.getItem(ACCOUNT_KEY);if(!raw)return;
+  let old;try{old=JSON.parse(raw)}catch(e){return}
+  if(!Array.isArray(old)||!old.length||old.some(a=>!isObject(a)||typeof a.mustChangePassword!=="boolean")||old.some(a=>Object.prototype.hasOwnProperty.call(a,"mustChangePIN")))return;
+  if(!cryptoAvailable())throw new Error(cryptoWarning());
+  const admin=old.find(a=>a.role==="tongphutrach"&&a.active)||old.find(a=>a.role==="tongphutrach");
+  if(!admin)throw new Error("Tài khoản cũ không có Tổng phụ trách. Hãy kiểm tra dữ liệu tài khoản trước khi chuyển sang PIN.");
+  const migrated=[];
+  for(const oldAccount of old){
+    const pin=oldAccount.id===admin.id?"12345":String(10000000+Math.floor(Math.random()*90000000));
+    const salt=randomSalt(),hash=await derivePIN(pin,salt,PIN_ITERATIONS);
+    migrated.push({...oldAccount,salt,hash,iterations:PIN_ITERATIONS,active:oldAccount.id===admin.id,mustChangePIN:false,failedAttempts:0,lockedUntil:0,updatedAt:new Date().toISOString()});
+  }
+  const nextRaw=JSON.stringify(migrated);window.localStorage.setItem(ACCOUNT_KEY,nextRaw);
+  if(window.localStorage.getItem(ACCOUNT_KEY)!==nextRaw)throw new Error("Không xác nhận được quá trình chuyển tài khoản sang PIN.");
+  accountMigrationNotice="Đã chuyển tài khoản cũ sang đăng nhập PIN. Tổng phụ trách dùng PIN 12345; các tài khoản cũ khác đang khóa để quản trị viên đặt PIN mới và bật lại trong Quản lý tài khoản.";
+}
+async function initializeAuth(){
+  try{legacyPinExists=window.localStorage.getItem(PIN_RECORD_KEY)!==null;await migrateLegacyPasswordAccounts()}catch(e){accountIssue={message:e.message||"Không thể chuyển tài khoản sang PIN an toàn."}}
   accountStore=loadAccountStore();
   if(accountIssue){setLoginMode("error",accountIssue.message);renderAll();return}
   paintLoginMode();const restored=restoreSession();if(!restored){clearStoredSession();showLogin()}
+  if(accountMigrationNotice)setLoginMessage(accountMigrationNotice,false);
   if(!cryptoAvailable())setLoginMessage(cryptoWarning());
   renderAll();
 }
@@ -563,7 +567,7 @@ function handleClick(event){
   const sectionButton=event.target.closest("[data-section]");if(sectionButton){showSection(sectionButton.dataset.section);return}
   const button=event.target.closest("[data-action]");if(!button||button.disabled)return;const action=button.dataset.action;
   if(action==="logout")logout();
-  else if(action==="toggle-password"){const field=$(button.dataset.target);if(field){field.type=field.type==="password"?"text":"password";button.textContent=field.type==="password"?"Hiện":"Ẩn"}}
+  else if(action==="toggle-pin"){const field=$(button.dataset.target);if(field){field.type=field.type==="pin"?"text":"pin";button.textContent=field.type==="pin"?"Hiện":"Ẩn"}}
   else if(action==="close-modal")closeModal();else if(action==="open-tools")showSection("tools");
   else if(action==="reset-score"){if(!can("scoring")){deny();return}renderScore();toast("Đã làm mới phiếu chấm.")}
   else if(action==="save-session")saveSession();else if(action==="close-week")closeWeek();
@@ -579,11 +583,11 @@ function handleClick(event){
   else if(action==="export-week")exportRanking("week");else if(action==="export-month")exportRanking("month");else if(action==="export-year")exportRanking("year");
   else if(action==="backup-json")backupJSON();else if(action==="choose-restore"){if(!can("restore")){deny();return}$("restoreFile").click()}
   else if(action==="export-all")exportAllCSV();else if(action==="reset-all")resetAll();else if(action==="integrity")runIntegrityCheck();else if(action==="download-raw")downloadRaw();
-  else if(action==="own-password")openOwnPassword();else if(action==="manage-accounts")openAccountManager();else if(action==="export-accounts")exportAccounts();
-  else if(action==="save-account-profile")saveAccountProfile(button.dataset.id);else if(action==="toggle-account")toggleAccount(button.dataset.id);else if(action==="delete-account")deleteAccount(button.dataset.id);else if(action==="reset-account-password")openResetAccountPassword(button.dataset.id);
+  else if(action==="own-pin")openOwnPIN();else if(action==="manage-accounts")openAccountManager();else if(action==="export-accounts")exportAccounts();
+  else if(action==="save-account-profile")saveAccountProfile(button.dataset.id);else if(action==="toggle-account")toggleAccount(button.dataset.id);else if(action==="delete-account")deleteAccount(button.dataset.id);else if(action==="reset-account-pin")openResetAccountPIN(button.dataset.id);
 }
 
-function handleInput(event){const target=event.target;if(target.matches("#weekSearch")){filterTable("weekTable",target.value);return}if(target.matches("#archiveClassSearch")){filterTable("archiveRankTable",target.value);return}if(target.matches("#loginUsername,#loginPassword,#firstAdminName,#firstAdminPassword,#firstAdminConfirm,#requiredNewPassword,#requiredNewPasswordConfirm")){if($("loginMsg"))setLoginMessage("");return}if(target.closest("#scoreForm")&&target.matches(".student-count,.student-name")){const dirty=$("draftIndicator");if(dirty)dirty.textContent="Phiếu có thay đổi chưa lưu";calc()}}
+function handleInput(event){const target=event.target;if(target.matches("#weekSearch")){filterTable("weekTable",target.value);return}if(target.matches("#archiveClassSearch")){filterTable("archiveRankTable",target.value);return}if(target.matches("#loginPin,#firstAdminName,#firstAdminPin,#requiredNewPin,#requiredNewPinConfirm")){if($("loginMsg"))setLoginMessage("");return}if(target.closest("#scoreForm")&&target.matches(".student-count,.student-name")){const dirty=$("draftIndicator");if(dirty)dirty.textContent="Phiếu có thay đổi chưa lưu";calc()}}
 
 function handleChange(event){const target=event.target;if(target.matches("#lopSelect")){selectedScoreClass=LOPS.includes(target.value)?target.value:LOPS[0];renderScore();return}if(target.matches("#restoreFile")){restoreJSON(event)}}
 function filterTable(id,query){const table=$(id);if(!table)return;const term=String(query||"").toLocaleLowerCase("vi");table.querySelectorAll("tbody tr").forEach(row=>row.style.display=row.textContent.toLocaleLowerCase("vi").includes(term)?"":"none")}
@@ -591,7 +595,7 @@ function filterTable(id,query){const table=$(id);if(!table)return;const term=Str
 document.addEventListener("click",handleClick);
 document.addEventListener("input",handleInput);
 document.addEventListener("change",handleChange);
-document.addEventListener("submit",event=>{if(event.target.id==="loginForm")handleLogin(event);else if(event.target.id==="createAccountForm")createManagedAccount(event);else if(event.target.id==="resetAccountPasswordForm")resetManagedPassword(event);else if(event.target.id==="ownPasswordForm")changeOwnPassword(event)});
+document.addEventListener("submit",event=>{if(event.target.id==="loginForm")handleLogin(event);else if(event.target.id==="createAccountForm")createManagedAccount(event);else if(event.target.id==="resetAccountPinForm")resetManagedPIN(event);else if(event.target.id==="ownPinForm")changeOwnPIN(event)});
 $("modal").addEventListener("click",event=>{if(event.target.id==="modal")closeModal()});
 document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!$("modal").classList.contains("hidden"))closeModal()});
 window.addEventListener("storage",event=>{
@@ -605,3 +609,5 @@ initializeAuth();
 </script>
 </body>
 </html>
+
+
