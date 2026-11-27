@@ -92,9 +92,16 @@ const APP_FORMAT = "PHUOCAN_SAODO_BACKUP";
 const SCHEMA_VERSION = 2;
 const LOPS = ["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
 const LOIS = [
-  {n:"Khăn quàng/Huy hiệu",d:-5},{n:"Đồng phục/Bỏ áo vào quần",d:-5},{n:"Đi trễ",d:-2},{n:"Vắng không phép",d:-5},
-  {n:"Nói tục/Chửi thề",d:-10},{n:"Đánh nhau",d:-50},{n:"Xả rác/Vệ sinh",d:-20},{n:"Trực nhật bẩn",d:-10},
-  {n:"Không thuộc bài",d:-10},{n:"Điểm 7",d:5},{n:"Điểm 8-9",d:7},{n:"Điểm 10",d:10},{n:"Phong trào",d:10}
+  {n:"Khăn quàng/Huy hiệu",d:-5},
+  {n:"Đồng phục/Bỏ áo vào quần",d:-5},
+  {n:"Đi trễ",d:-2},{n:"Vắng không phép",d:-5},
+  {n:"Nói tục/Chửi thề",d:-10},{n:"Đánh nhau",d:-50},
+  {n:"Xả rác/Vệ sinh",d:-20},{n:"Trực nhật bẩn",d:-10},
+  {n:"Không thuộc bài",d:-10},
+  {n:"Điểm 7",d:5},
+  {n:"Điểm 8-9",d:7},
+  {n:"Điểm 10",d:10},
+  {n:"Phong trào",d:10}
 ];
 const $ = id => document.getElementById(id);
 let loadIssue = null;
@@ -210,10 +217,11 @@ function renderStats(){
   $("stats").innerHTML='<div class="stat"><span class="muted">🥇 Dẫn đầu tuần</span><b>'+escapedName(top)+'</b><small>'+safeNumber(DB.classes[top].total)+' điểm</small></div><div class="stat"><span class="muted">📝 Phiên kỳ hiện tại</span><b>'+activeSessions+'</b><small>Tuần '+DB.activeWeek.number+'</small></div><div class="stat"><span class="muted">📆 Tiến độ tháng</span><b>'+monthProgress+'/4 tuần</b><small>'+DB.meta.monthsCreatedTotal+' kỳ tháng đã chốt</small></div><div class="stat"><span class="muted">🏆 Lớp quản lý</span><b>'+LOPS.length+'</b><small>Điểm mới: 100 điểm/lớp</small></div>';
 }
 function renderRank(){
-  const rows=rankClasses(Object.fromEntries(LOPS.map(l=>[l,DB.classes[l].total])));const alreadyClosed=DB.weeks.some(w=>w.weekKey===currentWeekKey());
-  let html='<div class="rank-title" id="weekHeading">📊 BẢNG XẾP HẠNG TUẦN</div><div class="notice">Kỳ tuần đang mở: <b>Tuần '+DB.activeWeek.number+'</b> · '+DB.sessions.filter(s=>s.periodId===DB.activeWeek.id).length+' phiên đã lưu. Mỗi tuần lịch chỉ chốt một lần; chốt tuần lưu điểm đủ 13 lớp rồi đặt kỳ mới về 100.</div>';
-  if(alreadyClosed)html+='<div class="notice success-notice">Tuần lịch '+escapeHTML(currentWeekKey())+' đã được chốt. Kỳ tuần tiếp theo có thể chốt từ tuần lịch kế tiếp.</div>';
-  html+='<div class="toolbar"><input id="weekSearch" type="search" placeholder="Tìm kiếm lớp..." aria-label="Tìm kiếm lớp">'+(can("exportCSV")?'<button class="btn secondary" data-action="export-week">⬇ Xuất BXH CSV</button>':'')+'<button class="btn secondary" data-action="open-weekly-archive">🗂 Lịch sử tuần đã chốt</button><span class="toolbar-spacer"></span>'+(can("closeWeek")&&!alreadyClosed?'<button class="btn warning" data-action="close-week">XÁC NHẬN CHỐT TUẦN</button>':'')+'</div><div class="table-wrap"><table id="weekTable"><thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm BXH</th><th>Phiên kỳ này</th><th>Lịch sử</th></tr></thead><tbody>';
+  const rows=rankClasses(Object.fromEntries(LOPS.map(l=>[l,DB.classes[l].total])));
+  const alreadyClosed=DB.weeks.some(w=>w.activePeriodId===DB.activeWeek.id);
+  let html='<div class="rank-title" id="weekHeading">📊 BẢNG XẾP HẠNG TUẦN</div><div class="notice">Kỳ tuần đang mở: <b>Tuần '+DB.activeWeek.number+'</b> · '+DB.sessions.filter(s=>s.periodId===DB.activeWeek.id).length+' phiên đã lưu. Mỗi kỳ tuần của ứng dụng chỉ chốt một lần; sau khi chốt, hệ thống tự mở kỳ tuần mới và đặt điểm các lớp về 100.</div>';
+  if(alreadyClosed)html+='<div class="notice success-notice">Kỳ tuần này đã được chốt. Hệ thống đã chuyển sang kỳ tuần tiếp theo.</div>';
+  html+='<div class="toolbar"><input id="weekSearch" type="search" placeholder="Tìm kiếm lớp..." aria-label="Tìm kiếm lớp">'+(can("exportCSV")?'<button class="btn secondary" data-action="export-week">⬇ Xuất BXH CSV</button>':'')+'<button class="btn secondary" data-action="open-weekly-archive">🗂 Lịch sử tuần đã chốt</button><span class="toolbar-spacer"></span>'+(can("closeWeek")&&!alreadyClosed?'<button class="btn warning" data-action="close-week">CHỐT TUẦN MỚI</button>':'')+'</div><div class="table-wrap"><table id="weekTable"><thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm BXH</th><th>Phiên kỳ này</th><th>Lịch sử</th></tr></thead><tbody>';
   rows.forEach((l,i)=>{const medal=medals(i);const count=DB.sessions.filter(s=>s.periodId===DB.activeWeek.id&&s.className===l).length;html+='<tr><td class="'+(i===0?'rank-1':'')+'">'+(medal?'<span class="medal">'+medal+'</span> ':'')+(i+1)+'</td><td><b>'+escapedName(l)+'</b></td><td><b class="'+(DB.classes[l].total>0?'':'minus')+'">'+safeNumber(DB.classes[l].total)+'</b></td><td>'+count+'</td><td><button class="btn secondary small" data-action="open-history" data-class="'+l+'">Xem chi tiết</button></td></tr>'});
   html+='</tbody></table></div><p class="footer-note">Số phiên chấm không làm tăng số tuần. Việc chốt tuần là thao tác riêng và có xác nhận.</p>';$(("week")).innerHTML=html;
 }
@@ -262,9 +270,14 @@ function saveSession(){
 function closeWeek(){
   if(!can("closeWeek")){deny();return false}
   if(saveBusy)return false;if(!canWrite()){toast("Không thể chốt tuần khi dữ liệu chưa được đọc/lưu an toàn.","danger");return false}
-  const key=currentWeekKey();if(DB.weeks.some(w=>w.weekKey===key)){toast("Tuần lịch "+key+" đã được chốt; không thể chốt trùng.","danger");renderAll();return false}
+  const key=currentWeekKey();
+  if(DB.weeks.some(w=>w.activePeriodId===DB.activeWeek.id)){
+    toast("Kỳ tuần "+DB.activeWeek.number+" đã được chốt; không thể chốt trùng.","danger");
+    renderAll();
+    return false;
+  }
   const scores=Object.fromEntries(LOPS.map(l=>[l,DB.classes[l].total]));const periodSessions=DB.sessions.filter(s=>s.periodId===DB.activeWeek.id);const weekNo=DB.meta.closedWeeksTotal+1;
-  const confirmed=window.confirm("XÁC NHẬN CHỐT TUẦN TOÀN TRƯỜNG\n\nKỳ: Tuần "+weekNo+" ("+key+")\nLưu điểm cuối của đủ "+LOPS.length+" lớp, sau đó khởi tạo điểm tuần mới về 100 cho mọi lớp.\n\nThao tác này chỉ có thể chốt một lần trong tuần lịch hiện tại.");if(!confirmed)return false;
+  const confirmed=window.confirm("XÁC NHẬN CHỐT TUẦN TOÀN TRƯỜNG\n\nKỳ: Tuần "+weekNo+" ("+key+")\nLưu điểm cuối của đủ "+LOPS.length+" lớp, sau đó khởi tạo điểm tuần mới về 100 cho mọi lớp.\n\nThao tác này chỉ có thể chốt một lần cho kỳ tuần đang mở.");if(!confirmed)return false;
   saveBusy=true;const candidate=cloneForUpdate();const snapshot={id:newId("week"),activePeriodId:candidate.activeWeek.id,number:weekNo,weekKey:key,label:"Tuần "+weekNo,closedAt:new Date().toISOString(),scores,sessionIds:periodSessions.map(s=>s.id),closedBy:auditIdentity()};candidate.weeks.push(snapshot);candidate.meta.closedWeeksTotal=weekNo;
   let createdMonth=null,createdYear=null;
   if(weekNo%4===0){const lastFour=candidate.weeks.slice(-4);if(lastFour.length!==4){saveBusy=false;toast("Không đủ bốn ảnh chụp tuần để tạo kỳ tháng.","danger");return false}const monthNo=candidate.meta.monthsCreatedTotal+1;createdMonth={id:newId("month"),number:monthNo,label:"Kỳ tháng "+String(monthNo).padStart(2,"0"),createdAt:new Date().toISOString(),weekIds:lastFour.map(w=>w.id),weeks:deepClone(lastFour),scores:Object.fromEntries(LOPS.map(l=>[l,sumWeekScores(lastFour,l)]))};candidate.months.push(createdMonth);candidate.meta.monthsCreatedTotal=monthNo;while(candidate.months.length>12)candidate.months.shift();}
