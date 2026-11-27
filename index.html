@@ -1,1 +1,661 @@
-PLACEHOLDER
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>TH &amp; THCS PHƯỚC AN – SAO ĐỎ</title>
+<style>
+:root{--bg:#0b1220;--card:#162033;--card2:#1e293b;--text:#f8fafc;--muted:#94a3b8;--primary:#3b82f6;--primary2:#2563eb;--success:#22c55e;--danger:#ef4444;--warning:#f59e0b;--border:#334155;--shadow:0 12px 35px rgba(0,0,0,.25)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55;transform:none!important;filter:none!important}.hidden{display:none!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}
+#login{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#2563eb,#0f172a 65%);padding:20px}
+.login-box{width:min(430px,100%);background:rgba(15,23,42,.94);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:30px;box-shadow:var(--shadow);text-align:center;backdrop-filter:blur(12px)}
+.logo{font-size:46px}.login-box h1{margin:8px 0;font-size:22px}.login-box p{color:#cbd5e1}.login-box label{display:block;text-align:left;margin-top:12px;color:#cbd5e1;font-size:14px}.login-box input{width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:#0f172a;color:#fff;margin-top:6px}.pin-control{display:flex;gap:7px;align-items:end}.pin-control input{flex:1;min-width:0}.pin-control button{margin-top:6px;white-space:nowrap}.login-actions{display:grid;gap:9px;margin-top:14px}#loginMsg{min-height:24px;margin:10px 0 0}.user-badge{color:#cbd5e1;font-size:13px;padding:6px 8px}.account-create-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px;background:#0f172a;border:1px solid var(--border);border-radius:12px;margin-bottom:14px}.account-create-form h3,.account-create-form p{grid-column:1/-1;margin:4px 0}.account-create-form label{display:grid;gap:4px}.account-actions{min-width:260px}.account-actions .btn{margin:2px}.login-help{font-size:12px;color:var(--muted);line-height:1.45}
+#app{max-width:1500px;margin:auto;padding:16px}.topbar{display:flex;gap:15px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}.brand h2{margin:0}.brand small{color:var(--muted)}.menu{display:flex;gap:7px;flex-wrap:wrap}
+.btn{border:0;border-radius:10px;padding:10px 13px;color:#fff;background:var(--primary);font-weight:700;transition:filter .15s,transform .15s,box-shadow .15s}.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}.btn:active{transform:translateY(1px);filter:brightness(.94)}.btn.secondary{background:#475569}.btn.success{background:var(--success);color:#052e16}.btn.danger{background:var(--danger)}.btn.warning{background:var(--warning);color:#111827}.btn.ghost{background:transparent;border:1px solid var(--border)}.btn.small{padding:7px 10px;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}.stat{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:16px;box-shadow:var(--shadow);min-width:0}.stat b{display:block;font-size:25px;margin-top:5px;overflow-wrap:anywhere}.muted{color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:15px;box-shadow:var(--shadow);animation:fade .18s ease-out}.card .card{box-shadow:none}.section{display:none}.section.active{display:block}.rank-title{font-size:22px;font-weight:800;color:#60a5fa;margin-bottom:12px}.rank-1{font-weight:800;color:#f59e0b}.plus{color:var(--success);font-weight:700}.minus{color:var(--danger);font-weight:700}
+@keyframes fade{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.toolbar input,.toolbar select,.form-control,textarea.form-control{background:#0f172a;color:#fff;border:1px solid var(--border);border-radius:9px;padding:10px}.toolbar input::placeholder,.rule input::placeholder{color:#94a3b8}.table-wrap{overflow:auto;max-width:100%;border-radius:9px}table{width:100%;border-collapse:collapse;min-width:650px}th,td{border:1px solid var(--border);padding:9px;text-align:center}th{background:#0f172a;position:sticky;top:0;z-index:1}tbody tr:hover td{background:rgba(255,255,255,.035)}td.text-left{text-align:left}.medal{font-size:18px;white-space:nowrap}
+.notice{padding:11px 12px;border-radius:10px;background:#0f172a;border:1px solid var(--border);margin:8px 0}.notice.danger-notice{border-color:#7f1d1d;background:#2a121a;color:#fecaca}.notice.success-notice{border-color:#14532d;color:#bbf7d0}.danger-text{color:#fca5a5}.success-text{color:#86efac}.empty{text-align:center;padding:22px;color:var(--muted)}.toolbar-spacer{flex:1}
+.score-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:15px;align-items:start}.rule-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.rule{background:#0f172a;border:1px solid var(--border);border-radius:10px;padding:10px;min-width:0}.rule strong{display:block;margin-bottom:7px;line-height:1.4}.rule .row{display:grid;grid-template-columns:minmax(0,1fr) 82px 34px;gap:7px;align-items:center}.student-entries{display:grid;gap:7px}.student-entry .remove-student{width:34px;height:34px;padding:0}.add-student{margin-top:7px;padding:6px 9px;font-size:12px}.rule input{width:100%;min-width:0;padding:8px;background:#162033;color:#fff;border:1px solid var(--border);border-radius:7px}.rule input[type=number]{text-align:center}.rule .muted{font-size:13px;margin-top:7px}.total-box{position:sticky;top:12px;height:max-content}.big-score{font-size:42px;font-weight:900;margin:8px 0;line-height:1.1}.score-total-card{padding:18px}.score-total-card hr{border:0;border-top:1px solid var(--border);margin:14px 0}.score-note{font-size:13px;line-height:1.5}.draft-indicator{font-size:13px;color:#fde68a;min-height:20px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:5000;overflow:auto;padding:18px}.modal-content{max-width:1100px;margin:24px auto;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;position:relative;min-height:160px}.close{position:absolute;right:14px;top:8px;font-size:28px;background:none;border:0;color:#fff}.modal-content h2{padding-right:38px}.toast{position:fixed;right:18px;bottom:18px;z-index:10000;max-width:min(420px,calc(100vw - 36px))}.toast-item{margin-top:8px;background:#0f172a;border:1px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow)}
+.tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.tool-card p{line-height:1.5}.inline-form{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pin-change-grid{display:grid;gap:10px;max-width:440px}.pin-change-grid input{background:#0f172a;color:#fff;border:1px solid var(--border);border-radius:9px;padding:11px}.footer-note{font-size:12px;color:var(--muted);margin-top:12px}.data-banner{margin:0 0 12px}.data-banner .btn{margin-top:8px}
+@media(max-width:1000px){.score-layout{grid-template-columns:1fr}.total-box{position:static}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){#app{padding:10px}.topbar{align-items:stretch}.brand{width:100%}.menu .btn{flex:1 1 30%;padding:9px 8px;font-size:13px}.rule-list{grid-template-columns:1fr}.tool-grid{grid-template-columns:1fr}.card{padding:13px}.modal{padding:9px}.modal-content{margin:12px auto;padding:16px}.rank-title{font-size:19px}.toolbar input{flex:1 1 190px}}
+@media(max-width:420px){.grid{gap:8px}.stat{padding:11px}.stat b{font-size:20px}.menu .btn{flex:1 1 44%}.rule .row{grid-template-columns:minmax(0,1fr) 66px 30px}.rule .remove-student{width:30px;height:32px;padding:0}.big-score{font-size:36px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div id="login" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+  <div class="login-box">
+    <div class="logo" aria-hidden="true">⭐</div>
+    <h1 id="loginTitle">SAO ĐỎ PHƯỚC AN</h1>
+    <p id="loginSubtitle">Đăng nhập tài khoản của bạn</p>
+    <p id="pinMigrationNote" class="notice hidden">Thiết lập mã PIN Tổng phụ trách mặc định 12345.</p>
+    <p id="cryptoWarning" class="notice danger-notice hidden">Web Crypto không khả dụng. Hãy mở trang qua HTTPS hoặc trình duyệt hiện đại.</p>
+    <form id="loginForm" novalidate>
+      <div id="loginPinField"><label for="loginPin">Mã PIN</label><input id="loginPin" type="password" inputmode="numeric" pattern="[0-9]{5,8}" minlength="5" maxlength="8" autocomplete="one-time-code" placeholder="Nhập mã PIN" required></div>
+      <div id="firstAdminFields" class="hidden">
+        <label for="firstAdminName">Tên hiển thị</label><input id="firstAdminName" type="text" maxlength="80" autocomplete="name" placeholder="Tên Tổng phụ trách" required>
+        <label for="firstAdminPin">Mã PIN Tổng phụ trách</label><input id="firstAdminPin" type="password" inputmode="numeric" value="12345" readonly>
+        <p class="login-help">Mã PIN quản trị mặc định là 12345. Bạn có thể đổi mã PIN sau khi đăng nhập.</p>
+      </div>
+      <div id="mustChangeFields" class="hidden">
+        <p id="mustChangeWho" class="notice"></p>
+        <label for="requiredNewPin">Mã PIN mới (5–8 chữ số)</label><input id="requiredNewPin" type="password" inputmode="numeric" maxlength="8" minlength="5" autocomplete="new-password">
+        <label for="requiredNewPinConfirm">Nhập lại mã PIN mới</label><input id="requiredNewPinConfirm" type="password" inputmode="numeric" maxlength="8" minlength="5" autocomplete="new-password">
+      </div>
+      <div class="login-actions"><button id="loginSubmit" class="btn success" type="submit">Đăng nhập</button></div>
+    </form>
+    <p id="loginMsg" class="danger-text" aria-live="polite"></p>
+    <p class="footer-note">Tài khoản chỉ áp dụng trên trình duyệt/thiết bị này; xem cảnh báo bảo mật trong mục Tiện ích.</p>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header class="topbar">
+    <div class="brand"><h2>TH &amp; THCS PHƯỚC AN</h2><small>ĐỘI SAO ĐỎ • Quản lý nề nếp học sinh</small></div>
+    <nav class="menu" aria-label="Điều hướng chính">
+      <button class="btn" data-section="week">BXH Tuần</button><button class="btn" data-section="month">BXH Tháng</button><button class="btn" data-section="year">BXH Năm</button><button id="scoreNavButton" class="btn success" data-section="score">Chấm điểm</button><button class="btn secondary" data-section="tools">Tiện ích</button><span id="userBadge" class="user-badge"></span><button id="logoutBtn" class="btn secondary" data-action="logout">Đăng xuất</button>
+    </nav>
+  </header>
+  <div id="dataAlert" class="data-banner" aria-live="polite"></div>
+  <div id="stats" class="grid" aria-live="polite"></div>
+  <section id="week" class="section active card" aria-labelledby="weekHeading"></section>
+  <section id="month" class="section card" aria-labelledby="monthHeading"></section>
+  <section id="year" class="section card" aria-labelledby="yearHeading"></section>
+  <section id="score" class="section card" aria-labelledby="scoreHeading"></section>
+  <section id="tools" class="section card" aria-labelledby="toolsHeading"></section>
+</div>
+
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-content"><button id="closeModalBtn" class="close" type="button" data-action="close-modal" aria-label="Đóng">&times;</button><h2 id="modalTitle"></h2><div id="modalBody"></div></div>
+</div>
+<div id="toast" class="toast" aria-live="polite" aria-atomic="true"></div>
+<input id="restoreFile" class="hidden" type="file" accept=".json,application/json" aria-label="Chọn tệp sao lưu JSON">
+
+<script>
+"use strict";
+
+const PIN_RECORD_KEY = "PHUOCAN_SAODO_PIN_V2";
+const ACCOUNT_KEY = "PHUOCAN_SAODO_ACCOUNTS_V1";
+const SESSION_KEY = "PHUOCAN_SAODO_SESSION_V1";
+const SESSION_IDLE_MS = 30 * 60 * 1000;
+const STORAGE_KEY = "PHUOCAN_SAODO_DATA_V2";
+const LEGACY_KEYS = ["PHUOCAN_SAODO_STABLE_V1", "PHUOCAN_DB"];
+const APP_FORMAT = "PHUOCAN_SAODO_BACKUP";
+const SCHEMA_VERSION = 2;
+const LOPS = ["6A","6B","6C","6D","7A","7B","7C","7D","8A","8B","8C","9A","9B"];
+const LOIS = [
+  {n:"Khăn quàng/Huy hiệu",d:-5},
+  {n:"Đồng phục/Bỏ áo vào quần",d:-5},
+  {n:"Đi trễ",d:-2},{n:"Vắng không phép",d:-5},
+  {n:"Nói tục/Chửi thề",d:-10},{n:"Đánh nhau",d:-50},
+  {n:"Xả rác/Vệ sinh",d:-20},{n:"Trực nhật bẩn",d:-10},
+  {n:"Không thuộc bài",d:-10},
+  {n:"Điểm 7",d:5},
+  {n:"Điểm 8-9",d:7},
+  {n:"Điểm 10",d:10},
+  {n:"Phong trào",d:10}
+];
+const $ = id => document.getElementById(id);
+let loadIssue = null;
+let lastPersistedRaw = null;
+let sourceLegacyKey = null;
+let DB = loadDB();
+let selectedScoreClass = LOPS[0];
+let currentClass = "";
+let currentHistoryTab = "sessions";
+let currentHistoryDetail = null;
+let weeklyArchiveState = {level:"weeks",weekId:null,className:null,ruleIndex:null,sessionId:null};
+let saveBusy = false;
+let accountStore = [];
+let accountsRaw = null;
+let accountIssue = null;
+let currentUser = null;
+let loginMode = "login";
+let authBusy = false;
+let sessionLastActivity = 0;
+let lastSessionWrite = 0;
+let legacyPinExists = false;
+let accountMigrationNotice = "";
+
+function isObject(v){return !!v && typeof v === "object" && !Array.isArray(v)}
+function deepClone(value){return typeof structuredClone === "function" ? structuredClone(value) : JSON.parse(JSON.stringify(value))}
+function safeNumber(value,fallback=0){if(value===null||value===undefined||value==="")return fallback;const n=Number(value);return Number.isFinite(n)?n:fallback}
+function newId(prefix="id"){const c=window.crypto;const u=c&&typeof c.randomUUID==="function"?c.randomUUID():Date.now().toString(36)+"_"+Math.random().toString(36).slice(2)+"_"+Math.random().toString(36).slice(2);return prefix+"_"+u}
+function localDateTime(date=new Date()){return new Intl.DateTimeFormat("vi-VN",{dateStyle:"short",timeStyle:"short"}).format(date)}
+function localDate(date=new Date()){return new Intl.DateTimeFormat("sv-SE").format(date)}
+function dateStamp(){return localDate().replaceAll("-","")}
+function displayDate(value){if(!value)return "—";const d=new Date(value);return Number.isNaN(d.getTime())?String(value):localDateTime(d)}
+function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[ch]))}
+function csvCell(value){let s=String(value??"");if(typeof value==="string"&&/^[\s]*[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replaceAll('"','""')+'"'}
+function newClass(total=100){return {total}}
+function defaultDB(){const classes={};LOPS.forEach(l=>classes[l]=newClass());return {schemaVersion:SCHEMA_VERSION,revision:0,updatedAt:null,meta:{closedWeeksTotal:0,monthsCreatedTotal:0,yearsCreatedTotal:0},activeWeek:{id:"week_1",number:1,startedAt:new Date().toISOString()},classes,sessions:[],weeks:[],months:[],years:[],legacy:null}}
+
+function migrateClass(raw){const c=isObject(raw)?raw:{};const score=safeNumber(c.total,100);return newClass(score)}
+function migrateLegacy(parsed,sourceKey){
+  if(!isObject(parsed))throw new Error("Cấu trúc dữ liệu cũ không phải một đối tượng JSON.");
+  const root=isObject(parsed.data)?parsed.data:parsed;
+  const oldClasses=isObject(root.classes)?root.classes:root;
+  const out=defaultDB();
+  for(const l of LOPS)out.classes[l]=migrateClass(oldClasses[l]);
+  out.legacy={sourceKey:sourceKey||"tệp JSON",importedAt:new Date().toISOString(),original:deepClone(parsed)};
+  return out;
+}
+function validateScoreMap(map,label){if(!isObject(map))throw new Error(label+": thiếu bảng điểm.");for(const l of LOPS){if(!Object.prototype.hasOwnProperty.call(map,l)||!Number.isFinite(Number(map[l])))throw new Error(label+": điểm lớp "+l+" không hợp lệ.")}}
+function validateDB(candidate){
+  if(!isObject(candidate)||candidate.schemaVersion!==SCHEMA_VERSION)throw new Error("Phiên bản cấu trúc dữ liệu không được hỗ trợ.");
+  if(!isObject(candidate.meta)||!Number.isInteger(candidate.meta.closedWeeksTotal)||candidate.meta.closedWeeksTotal<0||!Number.isInteger(candidate.meta.monthsCreatedTotal)||candidate.meta.monthsCreatedTotal<0||!Number.isInteger(candidate.meta.yearsCreatedTotal)||candidate.meta.yearsCreatedTotal<0)throw new Error("Bộ đếm kỳ không hợp lệ.");
+  if(!isObject(candidate.activeWeek)||typeof candidate.activeWeek.id!=="string"||!candidate.activeWeek.id||candidate.activeWeek.number!==candidate.meta.closedWeeksTotal+1)throw new Error("Kỳ tuần hiện tại không hợp lệ.");
+  if(!isObject(candidate.classes))throw new Error("Thiếu dữ liệu các lớp.");
+  for(const l of LOPS){if(!isObject(candidate.classes[l])||!Number.isFinite(Number(candidate.classes[l].total)))throw new Error("Điểm lớp "+l+" không hợp lệ.")}
+  for(const key of ["sessions","weeks","months","years"]){if(!Array.isArray(candidate[key]))throw new Error("Danh sách "+key+" không hợp lệ.")}
+  const ids=new Set(),sessionById=new Map();
+  for(const session of candidate.sessions){if(!isObject(session)||typeof session.id!=="string"||!session.id||ids.has("s:"+session.id))throw new Error("ID phiên chấm bị thiếu hoặc trùng.");ids.add("s:"+session.id);if(!LOPS.includes(session.className)||typeof session.periodId!=="string"||!session.periodId||!Number.isFinite(Number(session.delta))||!Array.isArray(session.details))throw new Error("Phiên chấm có dữ liệu không hợp lệ.");for(const detail of session.details){if(!isObject(detail)||!Number.isInteger(Number(detail.count))||Number(detail.count)<0||!Number.isFinite(Number(detail.point)))throw new Error("Chi tiết phiên chấm không hợp lệ.")}sessionById.set(session.id,session)}
+  const snapshotPeriods=new Set(),linkedSessions=new Set();
+  for(const week of candidate.weeks){
+    if(!isObject(week)||typeof week.id!=="string"||!week.id||ids.has("w:"+week.id))throw new Error("ID tuần bị thiếu hoặc trùng.");ids.add("w:"+week.id);validateScoreMap(week.scores,"Tuần");
+    if(typeof week.activePeriodId!=="string"||!week.activePeriodId||snapshotPeriods.has(week.activePeriodId)||!Array.isArray(week.sessionIds))throw new Error("Liên kết kỳ hoặc danh sách phiên của tuần không hợp lệ.");snapshotPeriods.add(week.activePeriodId);
+    const refs=new Set();for(const sessionId of week.sessionIds){if(typeof sessionId!=="string"||!sessionId||refs.has(sessionId))throw new Error("Tuần chứa ID phiên trùng hoặc không hợp lệ.");const session=sessionById.get(sessionId);if(!session||session.periodId!==week.activePeriodId||linkedSessions.has(sessionId))throw new Error("ID phiên không tồn tại hoặc thuộc kỳ tuần khác.");refs.add(sessionId);linkedSessions.add(sessionId)}
+    const periodSessions=candidate.sessions.filter(session=>session.periodId===week.activePeriodId);if(periodSessions.length!==refs.size||periodSessions.some(session=>!refs.has(session.id)))throw new Error("Ảnh chụp tuần chưa tham chiếu đầy đủ mọi phiên thuộc kỳ.");
+  }
+  for(const month of candidate.months){if(!isObject(month)||typeof month.id!=="string"||!month.id||ids.has("m:"+month.id)||!Array.isArray(month.weeks)||month.weeks.length!==4)throw new Error("Kỳ tháng không hợp lệ.");ids.add("m:"+month.id);validateScoreMap(month.scores,"Tháng")}
+  for(const year of candidate.years){if(!isObject(year)||typeof year.id!=="string"||!year.id||ids.has("y:"+year.id)||!Array.isArray(year.months)||year.months.length!==12)throw new Error("Kỳ năm không hợp lệ.");ids.add("y:"+year.id);validateScoreMap(year.scores,"Năm")}
+  return true;
+}
+function loadDB(){
+  let storage;
+  try{storage=window.localStorage}catch(e){loadIssue={type:"storage",message:"Trình duyệt không cho phép truy cập localStorage. Dữ liệu chưa được đọc hoặc lưu."};return defaultDB()}
+  try{
+    const current=storage.getItem(STORAGE_KEY);lastPersistedRaw=current;
+    if(current!==null){try{const parsed=JSON.parse(current);validateDB(parsed);return parsed}catch(e){loadIssue={type:"corrupt",message:"Dữ liệu phiên bản mới bị lỗi hoặc không hợp lệ. Bản lưu hiện tại chưa bị ghi đè.",raw:current};return defaultDB()}}
+    for(const key of LEGACY_KEYS){const raw=storage.getItem(key);if(raw===null)continue;sourceLegacyKey=key;try{return migrateLegacy(JSON.parse(raw),key)}catch(e){loadIssue={type:"corrupt",message:"Không thể đọc dữ liệu cũ trong “"+key+"”. Bản gốc vẫn còn nguyên; hãy khôi phục từ tệp sao lưu JSON.",raw};return defaultDB()}}
+    return defaultDB();
+  }catch(e){loadIssue={type:"storage",message:"Không thể đọc dữ liệu trình duyệt. Hãy kiểm tra quyền lưu trữ trước khi tiếp tục."};return defaultDB()}
+}
+function persist(candidate,{recovery=false}={}){
+  try{
+    if(loadIssue&&!recovery)throw new Error("Đang khóa ghi dữ liệu để tránh ghi đè bản lỗi. Hãy khôi phục JSON hợp lệ trước.");
+    const storage=window.localStorage;
+    const now=storage.getItem(STORAGE_KEY);
+    if(now!==lastPersistedRaw)throw new Error("Dữ liệu đã thay đổi trong một thẻ khác. Không ghi đè để tránh mất dữ liệu; hãy tải lại trang và kiểm tra bản mới nhất.");
+    validateDB(candidate);
+    const raw=JSON.stringify(candidate);
+    storage.setItem(STORAGE_KEY,raw);
+    if(storage.getItem(STORAGE_KEY)!==raw)throw new Error("Không xác nhận được dữ liệu sau khi ghi.");
+    lastPersistedRaw=raw;return true;
+  }catch(e){if(String(e.message).includes("thẻ khác"))loadIssue={type:"conflict",message:e.message};toast(e.message||"Không thể lưu dữ liệu vào trình duyệt.","danger");return false}
+}
+function saveAndRender(candidate=DB,options={}){if(!persist(candidate,options))return false;DB=candidate;loadIssue=null;renderAll();return true}
+function cloneForUpdate(){const next=deepClone(DB);next.revision=(Number(DB.revision)||0)+1;next.updatedAt=new Date().toISOString();return next}
+function toast(message,type="ok"){const box=document.createElement("div");box.className="toast-item "+(type==="danger"?"danger-text":"success-text");box.textContent=String(message);$("toast").appendChild(box);window.setTimeout(()=>box.remove(),3600)}
+function canWrite(){return !loadIssue&&can("scoring")}
+
+function rankClasses(scoreMap){return [...LOPS].sort((a,b)=>safeNumber(scoreMap[b],0)-safeNumber(scoreMap[a],0)||LOPS.indexOf(a)-LOPS.indexOf(b))}
+function medals(index){return index===0?"🥇":index===1?"🥈":index===2?"🥉":""}
+function currentWeekKey(date=new Date()){
+  const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));const day=d.getUTCDay()||7;d.setUTCDate(d.getUTCDate()+4-day);const yearStart=new Date(Date.UTC(d.getUTCFullYear(),0,1));const week=Math.ceil((((d-yearStart)/86400000)+1)/7);return d.getUTCFullYear()+"-W"+String(week).padStart(2,"0");
+}
+function sumWeekScores(weeks,className){return weeks.reduce((sum,w)=>sum+safeNumber(w.scores?.[className],0),0)}
+function currentMonth(){return DB.months.length?DB.months[DB.months.length-1]:null}
+function currentYear(){return DB.years.length?DB.years[DB.years.length-1]:null}
+function escapedName(className){return escapeHTML(className)}
+
+function renderDataAlert(){
+  const host=$("dataAlert");if(!loadIssue){host.innerHTML="";return}
+  const rawButton=loadIssue.raw?'<button class="btn secondary small" data-action="download-raw">Tải dữ liệu lỗi nguyên gốc</button> ':"";
+  host.innerHTML='<div class="notice danger-notice"><b>Không thể xác nhận dữ liệu an toàn.</b><br>'+escapeHTML(loadIssue.message)+'<br>Hệ thống đang chặn thao tác ghi để tránh làm mất dữ liệu. Hãy khôi phục một tệp JSON hợp lệ trong mục Tiện ích. '+rawButton+'<button class="btn warning small" data-action="open-tools">Mở Tiện ích</button></div>';
+}
+function renderStats(){
+  const scores={};LOPS.forEach(l=>scores[l]=DB.classes[l].total);const ordered=rankClasses(scores);const activeSessions=DB.sessions.filter(s=>s.periodId===DB.activeWeek.id).length;const monthProgress=DB.meta.closedWeeksTotal%4;const top=ordered[0];
+  $("stats").innerHTML='<div class="stat"><span class="muted">🥇 Dẫn đầu tuần</span><b>'+escapedName(top)+'</b><small>'+safeNumber(DB.classes[top].total)+' điểm</small></div><div class="stat"><span class="muted">📝 Phiên kỳ hiện tại</span><b>'+activeSessions+'</b><small>Tuần '+DB.activeWeek.number+'</small></div><div class="stat"><span class="muted">📆 Tiến độ tháng</span><b>'+monthProgress+'/4 tuần</b><small>'+DB.meta.monthsCreatedTotal+' kỳ tháng đã chốt</small></div><div class="stat"><span class="muted">🏆 Lớp quản lý</span><b>'+LOPS.length+'</b><small>Điểm mới: 100 điểm/lớp</small></div>';
+}
+function renderRank(){
+  const rows=rankClasses(Object.fromEntries(LOPS.map(l=>[l,DB.classes[l].total])));
+  const alreadyClosed=DB.weeks.some(w=>w.activePeriodId===DB.activeWeek.id);
+  let html='<div class="rank-title" id="weekHeading">📊 BẢNG XẾP HẠNG TUẦN</div><div class="notice">Kỳ tuần đang mở: <b>Tuần '+DB.activeWeek.number+'</b> · '+DB.sessions.filter(s=>s.periodId===DB.activeWeek.id).length+' phiên đã lưu. Mỗi kỳ tuần của ứng dụng chỉ chốt một lần; sau khi chốt, hệ thống tự mở kỳ tuần mới và đặt điểm các lớp về 100.</div>';
+  if(alreadyClosed)html+='<div class="notice success-notice">Kỳ tuần này đã được chốt. Hệ thống đã chuyển sang kỳ tuần tiếp theo.</div>';
+  html+='<div class="toolbar"><input id="weekSearch" type="search" placeholder="Tìm kiếm lớp..." aria-label="Tìm kiếm lớp">'+(can("exportCSV")?'<button class="btn secondary" data-action="export-week">⬇ Xuất BXH CSV</button>':'')+'<button class="btn secondary" data-action="open-weekly-archive">🗂 Lịch sử tuần đã chốt</button><span class="toolbar-spacer"></span>'+(can("closeWeek")&&!alreadyClosed?'<button class="btn warning" data-action="close-week">CHỐT TUẦN MỚI</button>':'')+'</div><div class="table-wrap"><table id="weekTable"><thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm BXH</th><th>Phiên kỳ này</th><th>Lịch sử</th></tr></thead><tbody>';
+  rows.forEach((l,i)=>{const medal=medals(i);const count=DB.sessions.filter(s=>s.periodId===DB.activeWeek.id&&s.className===l).length;html+='<tr><td class="'+(i===0?'rank-1':'')+'">'+(medal?'<span class="medal">'+medal+'</span> ':'')+(i+1)+'</td><td><b>'+escapedName(l)+'</b></td><td><b class="'+(DB.classes[l].total>0?'':'minus')+'">'+safeNumber(DB.classes[l].total)+'</b></td><td>'+count+'</td><td><button class="btn secondary small" data-action="open-history" data-class="'+l+'">Xem chi tiết</button></td></tr>'});
+  html+='</tbody></table></div><p class="footer-note">Số phiên chấm không làm tăng số tuần. Việc chốt tuần là thao tác riêng và có xác nhận.</p>';$(("week")).innerHTML=html;
+}
+function renderPeriodRank(type){
+  const isMonth=type==="month";const period=isMonth?currentMonth():currentYear();const list=isMonth?DB.months:DB.years;const label=period?period.label:(isMonth?"Chưa có kỳ tháng":"Chưa có kỳ năm");const scoreMap=period?period.scores:Object.fromEntries(LOPS.map(l=>[l,0]));const rows=rankClasses(scoreMap);const title=isMonth?"📆 BẢNG XẾP HẠNG THÁNG":"🏆 BẢNG XẾP HẠNG NĂM";const id=isMonth?"month":"year";const heading=isMonth?"monthHeading":"yearHeading";const exp=isMonth?"export-month":"export-year";
+  let html='<div class="rank-title" id="'+heading+'">'+title+'</div><div class="notice">Đang hiển thị: <b>'+escapeHTML(label)+'</b> · '+list.length+' kỳ được lưu. '+(isMonth?'Một kỳ tháng được tạo sau 4 tuần toàn trường đã chốt.':'Một kỳ năm được tạo sau 12 kỳ tháng toàn trường.')+'</div><div class="toolbar">'+(can("exportCSV")?'<button class="btn secondary" data-action="'+exp+'">⬇ Xuất BXH '+(isMonth?'tháng':'năm')+'</button>':'')+'</div>';
+  if(!period)html+='<div class="empty">Chưa có dữ liệu kỳ '+(isMonth?'tháng':'năm')+' mới. Dữ liệu tháng/năm của phiên bản cũ vẫn nằm trong lịch sử lưu trữ.</div>';
+  html+='<div class="table-wrap"><table><thead><tr><th>Hạng</th><th>Lớp</th><th>Điểm '+(isMonth?'tháng':'năm')+'</th><th>Số kỳ đã lưu</th></tr></thead><tbody>';
+  rows.forEach((l,i)=>{html+='<tr><td>'+(medals(i)?'<span class="medal">'+medals(i)+'</span> ':'')+(i+1)+'</td><td><b>'+escapedName(l)+'</b></td><td><b>'+ (period?safeNumber(period.scores[l]):"—")+'</b></td><td>'+ (isMonth?DB.meta.monthsCreatedTotal:DB.meta.yearsCreatedTotal)+'</td></tr>'});
+  html+='</tbody></table></div>';
+  if(period){html+='<div class="notice">'+(isMonth?'Tuần thuộc kỳ tháng này':'Các tháng thuộc kỳ năm này')+': '+(isMonth?period.weeks.map(w=>escapeHTML(w.label)).join(' · '):period.months.map(m=>escapeHTML(m.label)).join(' · '))+'</div>'}
+  html+='<p class="footer-note">Điểm tháng là tổng điểm 4 tuần đã chốt; điểm năm là tổng điểm 12 kỳ tháng. Các kỳ cũ được giữ tối đa '+(isMonth?'12 tháng':'5 năm')+' gần nhất.</p>';$(id).innerHTML=html;
+}
+function renderMonthRank(){renderPeriodRank("month")}
+function renderYearRank(){renderPeriodRank("year")}
+
+function renderScore(){
+  const lop=selectedScoreClass;const score=DB.classes[lop]?.total??100;let html='<div class="rank-title" id="scoreHeading">📝 SỔ CHẤM ĐIỂM</div><div class="toolbar"><label for="lopSelect"><b>Chọn lớp:</b></label><select id="lopSelect" class="form-control" data-role="score-class">'+LOPS.map(l=>'<option value="'+l+'" '+(l===lop?'selected':'')+'>'+l+'</option>').join("")+'</select><button class="btn ghost" data-action="reset-score">Làm mới phiếu</button><span class="toolbar-spacer"></span><span id="draftIndicator" class="draft-indicator" aria-live="polite"></span></div><div class="score-layout"><div><div class="notice">Điểm nền mỗi lớp đầu kỳ là <b>100</b>. Nhập số lần vi phạm hoặc thành tích. Mỗi tiêu chí có thể ghi nhận riêng nhiều học sinh.</div><form id="scoreForm" novalidate><div class="rule-list">';
+  LOIS.forEach((rule,i)=>{const nameId='student-'+i+'-0-name',countId='student-'+i+'-0-count';html+='<div class="rule" data-rule-card data-rule-index="'+i+'"><strong>'+escapeHTML(rule.n)+' <span class="'+(rule.d>=0?'plus':'minus')+'">('+(rule.d>0?'+':'')+rule.d+')</span></strong><div class="student-entries" id="entries'+i+'"><div class="row student-entry" data-student-entry><label class="sr-only" for="'+nameId+'">Tên học sinh – '+escapeHTML(rule.n)+'</label><input id="'+nameId+'" class="student-name" type="text" maxlength="120" autocomplete="off" placeholder="Tên HS (nếu có)" aria-label="Tên học sinh – '+escapeHTML(rule.n)+'"><label class="sr-only" for="'+countId+'">Số lần – '+escapeHTML(rule.n)+'</label><input id="'+countId+'" class="student-count" type="number" min="0" step="1" inputmode="numeric" value="0" aria-label="Số lần – '+escapeHTML(rule.n)+'"><button type="button" class="btn ghost small remove-student" data-action="remove-student-row" data-rule-index="'+i+'" aria-label="Xóa dòng học sinh" hidden>×</button></div></div><button type="button" class="btn ghost small add-student" data-action="add-student-row" data-rule-index="'+i+'" '+(!canWrite()?'disabled':'')+'>＋ Thêm học sinh</button><div class="muted" id="diemHint'+i+'">Tổng điểm tiêu chí: <span id="diem'+i+'">0</span></div></div>'});
+  html+='</div><p id="scoreError" class="danger-text" aria-live="polite"></p></form></div><aside class="total-box"><div class="stat score-total-card"><span class="muted">Lớp đang chọn</span><b>'+lop+'</b><div class="muted">Điểm hiện tại: <span id="currentScore">'+score+'</span></div><hr><span class="muted">Điểm phiên chấm</span><div id="tongPhien" class="big-score">0</div><div class="muted">Điểm dự kiến sau khi lưu: <b id="afterScore">'+score+'</b></div><button id="saveSessionBtn" class="btn success" data-action="save-session" style="width:100%;margin-top:12px;padding:12px" '+(!canWrite()?'disabled':'')+'>XÁC NHẬN LƯU PHIÊN</button><p class="score-note muted">Mỗi học sinh được lưu thành dòng riêng. Phiếu trống không tạo phiên. Lưu phiên không đồng nghĩa chốt tuần; BXH tuần cập nhật ngay sau khi lưu.</p></div></aside></div>';
+  $("score").innerHTML=html;updateStudentRemoveButtons();calc();
+}
+function updateStudentRemoveButtons(ruleIndex){const host=$("entries"+ruleIndex);if(!host)return;const rows=[...host.querySelectorAll("[data-student-entry]")];rows.forEach(row=>{const btn=row.querySelector("[data-action=remove-student-row]");if(btn)btn.hidden=rows.length<=1})}
+function addStudentRow(ruleIndex){if(!can("scoring")){deny();return}const i=Number(ruleIndex),rule=LOIS[i],host=$("entries"+i);if(!rule||!host)return;let rowNo=host.querySelectorAll("[data-student-entry]").length;while(document.getElementById("student-"+i+"-"+rowNo+"-name"))rowNo++;const nameId="student-"+i+"-"+rowNo+"-name",countId="student-"+i+"-"+rowNo+"-count",row=document.createElement("div");row.className="row student-entry";row.dataset.studentEntry="";const nameLabel=document.createElement("label");nameLabel.className="sr-only";nameLabel.htmlFor=nameId;nameLabel.textContent="Tên học sinh – "+rule.n;const name=document.createElement("input");name.id=nameId;name.className="student-name";name.type="text";name.maxLength=120;name.autocomplete="off";name.placeholder="Tên HS (nếu có)";name.setAttribute("aria-label","Tên học sinh – "+rule.n);const countLabel=document.createElement("label");countLabel.className="sr-only";countLabel.htmlFor=countId;countLabel.textContent="Số lần – "+rule.n;const count=document.createElement("input");count.id=countId;count.className="student-count";count.type="number";count.min="0";count.step="1";count.inputMode="numeric";count.value="0";count.setAttribute("aria-label","Số lần – "+rule.n);const remove=document.createElement("button");remove.type="button";remove.className="btn ghost small remove-student";remove.dataset.action="remove-student-row";remove.dataset.ruleIndex=String(i);remove.setAttribute("aria-label","Xóa dòng học sinh");remove.textContent="×";row.append(nameLabel,name,countLabel,count,remove);host.appendChild(row);updateStudentRemoveButtons(i);const draft=$("draftIndicator");if(draft)draft.textContent="Phiếu có thay đổi chưa lưu";calc();name.focus()}
+function removeStudentRow(button){if(!can("scoring")){deny();return}const i=Number(button.dataset.ruleIndex),host=$("entries"+i);if(!host||host.querySelectorAll("[data-student-entry]").length<=1)return;button.closest("[data-student-entry]")?.remove();updateStudentRemoveButtons(i);const draft=$("draftIndicator");if(draft)draft.textContent="Phiếu có thay đổi chưa lưu";calc()}
+function scoreFromForm(){
+  let total=0,valid=true;const details=[];
+  document.querySelectorAll("#scoreForm [data-rule-card]").forEach(card=>{const i=Number(card.dataset.ruleIndex),rule=LOIS[i];if(!rule)return;let ruleTotal=0,ruleValid=true;card.querySelectorAll("[data-student-entry]").forEach(row=>{const input=row.querySelector(".student-count"),raw=(input?.value??"0").trim(),count=raw===""?0:Number(raw),isValid=/^\d+$/.test(raw||"0")&&Number.isSafeInteger(count)&&count>=0&&Number.isSafeInteger(count*rule.d);if(!isValid){valid=false;ruleValid=false;return}const student=(row.querySelector(".student-name")?.value||"").trim(),point=count*rule.d;ruleTotal+=point;total+=point;if(!Number.isSafeInteger(ruleTotal)||!Number.isSafeInteger(total)){valid=false;ruleValid=false;return}if(count>0)details.push({rule:rule.n,count,student,point})});const line=$("diem"+i);if(line)line.textContent=ruleValid?String(ruleTotal):"—"});
+  const current=DB.classes[selectedScoreClass]?.total??100;const after=current+total;if(!Number.isSafeInteger(after))valid=false;return {total,details,valid,after};
+}
+function calc(){
+  const result=scoreFromForm();const total=$("tongPhien"),after=$("afterScore"),current=$("currentScore"),save=$("saveSessionBtn"),error=$("scoreError");const score=DB.classes[selectedScoreClass]?.total??100;
+  if(total)total.textContent=result.valid?String(result.total):"—";if(after)after.textContent=result.valid?String(result.after):"—";if(current)current.textContent=String(score);if(save)save.disabled=!result.valid||!result.details.length||!canWrite()||saveBusy;
+  if(error)error.textContent=result.valid?"":"Số lần phải là số nguyên không âm và điểm phải nằm trong giới hạn an toàn.";return result;
+}
+
+function saveWeek(){return closeWeek()}
+function saveSession(){
+  if(!can("scoring")){deny();return}
+  if(saveBusy)return;const result=calc();if(!result.valid){toast("Vui lòng sửa số lần không hợp lệ trước khi lưu.","danger");return}if(!result.details.length){toast("Phiếu chưa có tiêu chí nào; không tạo phiên rỗng.","danger");return}if(!canWrite()){toast("Dữ liệu đang được bảo vệ; hãy khôi phục JSON hợp lệ trước.","danger");return}
+  const className=selectedScoreClass;const current=DB.classes[className].total;const nextScore=current+result.total;const confirmed=window.confirm("XÁC NHẬN LƯU PHIÊN CHẤM\n\nLớp: "+className+"\nĐiểm phiên: "+(result.total>=0?"+":"")+result.total+"\nĐiểm hiện tại: "+current+" → "+nextScore+"\n\nPhiên này không chốt tuần.");if(!confirmed)return;
+  saveBusy=true;const candidate=cloneForUpdate();const session={id:newId("session"),periodId:candidate.activeWeek.id,className,savedAt:new Date().toISOString(),delta:result.total,before:current,after:nextScore,details:result.details.map(x=>({...x})),savedBy:auditIdentity()};candidate.classes[className].total=nextScore;candidate.sessions.push(session);
+  saveBusy=false;const ok=saveAndRender(candidate);if(!ok){if($("score").classList.contains("active"))renderScore();return}
+  toast("Đã lưu phiên chấm lớp "+className+": "+current+" → "+nextScore+" điểm.");
+}
+function closeWeek(){
+  if(!can("closeWeek")){deny();return false}
+  if(saveBusy)return false;if(!canWrite()){toast("Không thể chốt tuần khi dữ liệu chưa được đọc/lưu an toàn.","danger");return false}
+  const key=currentWeekKey();
+  if(DB.weeks.some(w=>w.activePeriodId===DB.activeWeek.id)){
+    toast("Kỳ tuần "+DB.activeWeek.number+" đã được chốt; không thể chốt trùng.","danger");
+    renderAll();
+    return false;
+  }
+  const scores=Object.fromEntries(LOPS.map(l=>[l,DB.classes[l].total]));const periodSessions=DB.sessions.filter(s=>s.periodId===DB.activeWeek.id);const weekNo=DB.meta.closedWeeksTotal+1;
+  const confirmed=window.confirm("XÁC NHẬN CHỐT TUẦN TOÀN TRƯỜNG\n\nKỳ: Tuần "+weekNo+" ("+key+")\nLưu điểm cuối của đủ "+LOPS.length+" lớp, sau đó khởi tạo điểm tuần mới về 100 cho mọi lớp.\n\nThao tác này chỉ có thể chốt một lần cho kỳ tuần đang mở.");if(!confirmed)return false;
+  saveBusy=true;const candidate=cloneForUpdate();const snapshot={id:newId("week"),activePeriodId:candidate.activeWeek.id,number:weekNo,weekKey:key,label:"Tuần "+weekNo,closedAt:new Date().toISOString(),scores,sessionIds:periodSessions.map(s=>s.id),closedBy:auditIdentity()};candidate.weeks.push(snapshot);candidate.meta.closedWeeksTotal=weekNo;
+  let createdMonth=null,createdYear=null;
+  if(weekNo%4===0){const lastFour=candidate.weeks.slice(-4);if(lastFour.length!==4){saveBusy=false;toast("Không đủ bốn ảnh chụp tuần để tạo kỳ tháng.","danger");return false}const monthNo=candidate.meta.monthsCreatedTotal+1;createdMonth={id:newId("month"),number:monthNo,label:"Kỳ tháng "+String(monthNo).padStart(2,"0"),createdAt:new Date().toISOString(),weekIds:lastFour.map(w=>w.id),weeks:deepClone(lastFour),scores:Object.fromEntries(LOPS.map(l=>[l,sumWeekScores(lastFour,l)]))};candidate.months.push(createdMonth);candidate.meta.monthsCreatedTotal=monthNo;while(candidate.months.length>12)candidate.months.shift();}
+  if(createdMonth&&candidate.meta.monthsCreatedTotal%12===0){const lastTwelve=candidate.months.slice(-12);if(lastTwelve.length===12){const yearNo=candidate.meta.yearsCreatedTotal+1;createdYear={id:newId("year"),number:yearNo,label:"Kỳ năm "+String(yearNo).padStart(2,"0"),createdAt:new Date().toISOString(),monthIds:lastTwelve.map(m=>m.id),months:deepClone(lastTwelve),scores:Object.fromEntries(LOPS.map(l=>[l,lastTwelve.reduce((sum,m)=>sum+safeNumber(m.scores[l]),0)]))};candidate.years.push(createdYear);candidate.meta.yearsCreatedTotal=yearNo;while(candidate.years.length>5)candidate.years.shift();}}
+  while(candidate.weeks.length>35)candidate.weeks.shift();LOPS.forEach(l=>candidate.classes[l].total=100);candidate.activeWeek={id:newId("week_live"),number:weekNo+1,startedAt:new Date().toISOString()};
+  const ok=saveAndRender(candidate);saveBusy=false;if(!ok)return false;let message="Đã chốt tuần "+weekNo+" cho toàn trường; điểm 13 lớp đã trở về 100.";if(createdMonth)message+=" Đã tạo "+createdMonth.label+".";if(createdYear)message+=" Đã tạo "+createdYear.label+".";toast(message);return true;
+}
+
+function getLegacyRoot(){const original=DB.legacy?.original;if(!isObject(original))return null;return isObject(original.data)?original.data:original}
+function getLegacyClass(className){const root=getLegacyRoot();if(!root)return null;const classes=isObject(root.classes)?root.classes:root;return isObject(classes[className])?classes[className]:null}
+function legacySessionsForClass(className){const c=getLegacyClass(className);if(!c)return[];const weeks=Array.isArray(c.weeks)?c.weeks:[];const oldDetails=Array.isArray(c.weekDetails)?c.weekDetails:[];return weeks.map((w,i)=>{const details=Array.isArray(w?.details)?w.details:(Array.isArray(oldDetails[i]?.details)?oldDetails[i].details:[]);const delta=safeNumber(w?.score,0);return {id:"legacy|"+className+"|"+String(w?.id||i),className,periodId:"legacy",savedAt:w?.date||"",delta,before:null,after:null,details:details.map(d=>({rule:String(d?.rule??"Nội dung cũ"),count:safeNumber(d?.count,0),student:String(d?.student??""),point:safeNumber(d?.point,0)})),legacy:true}})}
+function sessionsForClass(className){return [...DB.sessions.filter(s=>s.className===className).map(s=>({...s,legacy:false})),...legacySessionsForClass(className)].sort((a,b)=>String(b.savedAt).localeCompare(String(a.savedAt)))}
+function openModal(className){if(!can("viewErrors")){deny();return}if(!LOPS.includes(className))return;currentClass=className;currentHistoryTab="sessions";currentHistoryDetail=null;$("modal").classList.remove("hidden");$("modalTitle").textContent="Lịch sử chấm điểm: Lớp "+className;renderHistory()}
+function closeModal(){$("modal").classList.add("hidden");currentHistoryDetail=null}
+function historyTabs(){const items=[["sessions","Phiên chấm"],["week","Tuần"],["month","Tháng"],["year","Năm"],["legacy","Dữ liệu cũ"]];return '<div class="tabs">'+items.map(([key,label])=>'<button class="btn '+(currentHistoryTab===key?'success':'secondary')+' small" data-action="history-tab" data-tab="'+key+'">'+label+'</button>').join("")+'</div>'}
+function renderHistory(){
+  if(!LOPS.includes(currentClass))return;const c=DB.classes[currentClass];let body=historyTabs();
+  if(currentHistoryTab==="sessions"){
+    const list=sessionsForClass(currentClass);body+=list.length?'<div class="table-wrap"><table><thead><tr><th>Thời gian</th><th>Người chấm</th><th>Kỳ</th><th>Điểm trước → sau</th><th>Điểm phiên</th><th>Chi tiết</th></tr></thead><tbody>'+list.map(s=>'<tr><td>'+escapeHTML(s.legacy?String(s.savedAt||"Ngày cũ không rõ"):displayDate(s.savedAt))+'</td><td>'+escapeHTML(s.savedBy?.displayName||"Không rõ")+'</td><td>'+(s.legacy?'Dữ liệu cũ':escapeHTML(s.periodId===DB.activeWeek.id?'Tuần đang mở':periodLabelForSession(s.periodId)))+'</td><td>'+(s.before===null||s.before===undefined?'—':escapeHTML(String(s.before))+" → "+escapeHTML(String(s.after)))+'</td><td class="'+(s.delta>=0?'plus':'minus')+'">'+(s.delta>=0?'+':'')+safeNumber(s.delta)+'</td><td><button class="btn secondary small" data-action="session-detail" data-id="'+escapeHTML(s.id)+'">Xem</button></td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Chưa có phiên chấm được lưu.</div>';
+  }else if(currentHistoryTab==="week"){
+    const weeks=[...DB.weeks].reverse();body+=weeks.length?'<div class="table-wrap"><table><thead><tr><th>Tuần</th><th>Ngày chốt</th><th>Người chốt</th><th>Điểm cuối</th><th>Phiên</th><th>Chi tiết</th></tr></thead><tbody>'+weeks.map(w=>'<tr><td>'+escapeHTML(w.label)+' ('+escapeHTML(w.weekKey)+')</td><td>'+escapeHTML(displayDate(w.closedAt))+'</td><td>'+escapeHTML(w.closedBy?.displayName||"Không rõ")+'</td><td><b>'+safeNumber(w.scores[currentClass])+'</b></td><td>'+w.sessionIds.filter(id=>DB.sessions.some(s=>s.id===id&&s.className===currentClass)).length+'</td><td><button class="btn secondary small" data-action="week-detail" data-id="'+escapeHTML(w.id)+'">Xem</button></td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Chưa có tuần toàn trường nào được chốt.</div>';
+  }else if(currentHistoryTab==="month"){
+    const months=[...DB.months].reverse();body+=months.length?'<div class="table-wrap"><table><thead><tr><th>Kỳ</th><th>Ngày tạo</th><th>Điểm tháng</th><th>Tuần thuộc kỳ</th></tr></thead><tbody>'+months.map(m=>'<tr><td>'+escapeHTML(m.label)+'</td><td>'+escapeHTML(displayDate(m.createdAt))+'</td><td><b>'+safeNumber(m.scores[currentClass])+'</b></td><td>'+m.weeks.map(w=>escapeHTML(w.label)+": "+safeNumber(w.scores?.[currentClass])).join(" · ")+'</td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Chưa chốt đủ 4 tuần để tạo kỳ tháng.</div>';
+  }else if(currentHistoryTab==="year"){
+    const years=[...DB.years].reverse();body+=years.length?'<div class="table-wrap"><table><thead><tr><th>Kỳ</th><th>Ngày tạo</th><th>Điểm năm</th><th>Điểm các kỳ tháng</th></tr></thead><tbody>'+years.map(y=>'<tr><td>'+escapeHTML(y.label)+'</td><td>'+escapeHTML(displayDate(y.createdAt))+'</td><td><b>'+safeNumber(y.scores[currentClass])+'</b></td><td>'+y.months.length+' · '+y.months.map(m=>escapeHTML(m.label)+': '+safeNumber(m.scores?.[currentClass])).join(' · ')+'</td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Chưa chốt đủ 12 kỳ tháng để tạo kỳ năm.</div>';
+  }else{
+    const old=getLegacyClass(currentClass);const oldMonths=Array.isArray(old?.months)?old.months:[];const oldYears=Array.isArray(old?.years)?old.years:[];body+='<div class="notice">Đây là dữ liệu được giữ nguyên từ phiên bản cũ. Các giá trị này không được cộng vào bộ đếm tuần/tháng/năm mới vì phiên bản cũ có thể tính lượt chấm như kỳ tuần.</div>';
+    body+=old?'<h3>Tháng cũ</h3>'+(oldMonths.length?'<div class="table-wrap"><table><thead><tr><th>Ngày/nhãn cũ</th><th>Điểm</th></tr></thead><tbody>'+oldMonths.map(m=>'<tr><td>'+escapeHTML(m?.date||"—")+'</td><td>'+safeNumber(m?.score)+'</td></tr>').join("")+'</tbody></table></div>':'<p class="muted">Không có bản ghi tháng chi tiết.</p>')+'<h3>Năm cũ</h3>'+(oldYears.length?'<div class="table-wrap"><table><thead><tr><th>Ngày/nhãn cũ</th><th>Điểm</th></tr></thead><tbody>'+oldYears.map(y=>'<tr><td>'+escapeHTML(y?.date||"—")+'</td><td>'+safeNumber(y?.score)+'</td></tr>').join("")+'</tbody></table></div>':'<p class="muted">Không có bản ghi năm chi tiết.</p>')+'<p class="muted">Điểm tháng/năm cũ gần nhất: '+safeNumber(old.monthPoint)+' / '+safeNumber(old.yearPoint)+' (chỉ lưu trữ).</p>':'<div class="empty">Không có dữ liệu cũ cho lớp này.</div>';
+  }
+  $("modalBody").innerHTML=body;
+}
+function periodLabelForSession(periodId){const w=DB.weeks.find(x=>x.activePeriodId===periodId);if(w)return w.label;return "Kỳ "+String(periodId||"").replace(/^week_live_/,"")}
+function showSessionDetail(id){
+  const record=sessionsForClass(currentClass).find(s=>s.id===id);if(!record)return;currentHistoryDetail={type:"session",id};const savedWeek=record.legacy?null:DB.weeks.find(w=>w.activePeriodId===record.periodId);const weekLabel=record.legacy?"Dữ liệu cũ":(savedWeek?.label||"Tuần chưa có ảnh chụp trong phạm vi giữ");let html='<h3>Chi tiết phiên chấm · '+escapeHTML(currentClass)+'</h3><div class="notice">Lớp: <b>'+escapeHTML(currentClass)+'</b><br>Tuần: <b>'+escapeHTML(weekLabel)+'</b><br>Thời gian: <b>'+escapeHTML(record.legacy?String(record.savedAt||"Ngày cũ không rõ"):displayDate(record.savedAt))+'</b><br>Điểm phiên: <b class="'+(record.delta>=0?'plus':'minus')+'">'+(record.delta>=0?'+':'')+safeNumber(record.delta)+'</b><br>Người chấm: <b>'+escapeHTML(record.savedBy?.displayName||"Không rõ")+'</b><br>Điểm trước/sau: <b>'+(record.before===null||record.before===undefined?'Không có trong dữ liệu cũ':escapeHTML(String(record.before))+" → "+escapeHTML(String(record.after)))+'</b></div>';
+  html+=record.details.length?'<div class="table-wrap"><table><thead><tr><th>Nội dung</th><th>Học sinh</th><th>Số lần</th><th>Điểm</th></tr></thead><tbody>'+record.details.map(d=>'<tr><td class="text-left">'+escapeHTML(d.rule)+'</td><td>'+escapeHTML(d.student||"Không ghi tên")+'</td><td>'+safeNumber(d.count)+'</td><td class="'+(safeNumber(d.point)>=0?'plus':'minus')+'">'+(safeNumber(d.point)>=0?'+':'')+safeNumber(d.point)+'</td></tr>').join("")+'</tbody></table></div>':'<div class="notice">Phiên không có chi tiết tiêu chí.</div>';
+  html+='<br><button class="btn secondary" data-action="history-back">← Quay lại danh sách</button>';$("modalBody").innerHTML=html;
+}
+function showWeekDetail(id){const w=DB.weeks.find(x=>x.id===id);if(!w)return;currentHistoryDetail={type:"week",id};const matching=DB.sessions.filter(s=>s.className===currentClass&&w.sessionIds.includes(s.id));let html='<h3>'+escapeHTML(w.label)+' · Lớp '+escapeHTML(currentClass)+'</h3><div class="notice">Tuần lịch '+escapeHTML(w.weekKey)+' · Chốt '+escapeHTML(displayDate(w.closedAt))+' · Người chốt: <b>'+escapeHTML(w.closedBy?.displayName||"Không rõ")+'</b> · Điểm cuối: <b>'+safeNumber(w.scores[currentClass])+'</b></div>';
+  html+=matching.length?'<div class="table-wrap"><table><thead><tr><th>Thời gian</th><th>Điểm phiên</th><th>Điểm trước → sau</th><th>Chi tiết</th></tr></thead><tbody>'+matching.map(s=>'<tr><td>'+escapeHTML(displayDate(s.savedAt))+'</td><td class="'+(s.delta>=0?'plus':'minus')+'">'+(s.delta>=0?'+':'')+safeNumber(s.delta)+'</td><td>'+safeNumber(s.before)+' → '+safeNumber(s.after)+'</td><td><button class="btn secondary small" data-action="session-detail" data-id="'+escapeHTML(s.id)+'">Xem</button></td></tr>').join("")+'</tbody></table></div>':'<div class="notice">Không có phiên chấm mới trong tuần đã chốt; điểm cuối của lớp vẫn được lưu.</div>';
+  html+='<br><button class="btn secondary" data-action="history-back">← Quay lại danh sách</button>';$("modalBody").innerHTML=html;
+}
+
+function weekArchiveSessions(week,className=null){
+  if(!week||!Array.isArray(week.sessionIds))return[];const byId=new Map(DB.sessions.map(session=>[session.id,session]));return week.sessionIds.map(id=>byId.get(id)).filter(session=>session&&session.periodId===week.activePeriodId&&(!className||session.className===className)).sort((a,b)=>new Date(a.savedAt)-new Date(b.savedAt));
+}
+function openWeeklyArchive(){if(!can("viewErrors")){deny();return}weeklyArchiveState={level:"weeks",weekId:null,className:null,ruleIndex:null,sessionId:null};$("modalTitle").textContent="Lịch sử tuần đã chốt";$("modal").classList.remove("hidden");renderWeeklyArchive()}
+function archiveBack(level){weeklyArchiveState.level=level;weeklyArchiveState.ruleIndex=null;weeklyArchiveState.sessionId=null;renderWeeklyArchive()}
+function deleteClosedWeek(id){
+  if(!can("closeWeek")){deny();return false}
+  if(!canWrite()){toast("Không thể xóa tuần khi dữ liệu chưa được đọc/lưu an toàn.","danger");return false}
+  const week=DB.weeks.find(w=>w.id===id);if(!week){toast("Không tìm thấy tuần cần xóa.","danger");return false}
+  const linkedSessionIds=new Set(week.sessionIds);
+  const affectedMonths=DB.months.filter(month=>(month.weekIds||[]).includes(week.id)||(month.weeks||[]).some(w=>w.id===week.id));
+  const affectedMonthIds=new Set(affectedMonths.map(month=>month.id));
+  const affectedYears=DB.years.filter(year=>(year.monthIds||[]).some(monthId=>affectedMonthIds.has(monthId))||(year.months||[]).some(month=>affectedMonthIds.has(month.id)));
+  const confirmed=window.confirm("XÓA TUẦN ĐÃ CHỐT\n\n"+week.label+" ("+(week.weekKey||"không rõ tuần lịch")+")\n\nThao tác sẽ xóa ảnh chụp tuần và các phiên chấm thuộc tuần này. "+(affectedMonths.length?"Các kỳ tháng được tạo từ tuần này ("+affectedMonths.map(m=>m.label).join(", ")+")":"")+(affectedYears.length?" và kỳ năm liên quan ("+affectedYears.map(y=>y.label).join(", ")+")":"")+" cũng sẽ bị xóa để tránh giữ tổng điểm không còn khớp.\n\nĐiểm hiện tại của tuần đang mở và bộ đếm kỳ không bị thay đổi. Không thể hoàn tác nếu không có bản sao lưu.");
+  if(!confirmed)return false;
+  const candidate=cloneForUpdate();
+  candidate.weeks=candidate.weeks.filter(w=>w.id!==week.id);
+  candidate.sessions=candidate.sessions.filter(s=>!linkedSessionIds.has(s.id));
+  candidate.months=candidate.months.filter(m=>!affectedMonthIds.has(m.id));
+  candidate.years=candidate.years.filter(y=>!affectedYears.some(deleted=>deleted.id===y.id));
+  if(!saveAndRender(candidate))return false;
+  weeklyArchiveState={level:"weeks",weekId:null,className:null,ruleIndex:null,sessionId:null};
+  renderWeeklyArchive();
+  toast("Đã xóa "+week.label+" cùng "+linkedSessionIds.size+" phiên chấm"+(affectedMonths.length?", "+affectedMonths.length+" kỳ tháng":"")+(affectedYears.length?", "+affectedYears.length+" kỳ năm":"")+".");
+  return true;
+}
+function renderWeeklyArchive(){
+  const state=weeklyArchiveState;let html="";const week=state.weekId?DB.weeks.find(w=>w.id===state.weekId):null;
+  if(state.level==="weeks"){
+    $("modalTitle").textContent="Lịch sử tuần đã chốt";const weeks=[...DB.weeks].sort((a,b)=>b.number-a.number);html='<h3>Cấp 1 · Danh sách tuần đã chốt</h3><div class="notice">Danh sách có tối đa 35 ảnh chụp tuần gần nhất; hiện giữ '+weeks.length+' ảnh trong tổng số '+DB.meta.closedWeeksTotal+' tuần đã chốt. Phiên chấm gốc không bị xóa và vẫn có trong bản sao lưu JSON. Ảnh chụp cũ hơn phạm vi giữ có thể không còn trong danh sách BXH tuần.</div>';
+    html+=weeks.length?'<div class="table-wrap"><table><thead><tr><th>Tuần</th><th>Tuần lịch</th><th>Ngày chốt</th><th>Người chốt</th><th>Trạng thái</th><th>Lớp trong ảnh</th><th></th></tr></thead><tbody>'+weeks.map(w=>'<tr><td><b>'+escapeHTML(w.label)+'</b></td><td>'+escapeHTML(w.weekKey||"—")+'</td><td>'+escapeHTML(displayDate(w.closedAt))+'</td><td>'+escapeHTML(w.closedBy?.displayName||"Không rõ")+'</td><td><span class="success-text">Đã lưu · Đã chốt</span></td><td>'+LOPS.length+'</td><td><button class="btn secondary small" data-action="archive-open-week" data-id="'+escapeHTML(w.id)+'">Mở BXH tuần</button>'+(can("closeWeek")?'<button class="btn danger small" data-action="delete-closed-week" data-id="'+escapeHTML(w.id)+'">Xóa tuần</button>':'')+'</td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Chưa có tuần nào được chốt.</div>';
+  }else if(!week){
+    $("modalTitle").textContent="Lịch sử tuần đã chốt";html='<div class="notice danger-notice">Không tìm thấy ảnh chụp tuần trong phạm vi lịch sử hiện đang giữ.</div><button class="btn secondary" data-action="archive-back-weeks">← Danh sách tuần</button>';
+  }else if(state.level==="ranking"){
+    $("modalTitle").textContent="Lịch sử tuần · "+week.label;const ordered=rankClasses(week.scores);html='<h3>Cấp 2 · BXH đã lưu · '+escapeHTML(week.label)+'</h3><div class="notice">Tuần lịch '+escapeHTML(week.weekKey)+' · Chốt '+escapeHTML(displayDate(week.closedAt))+' · Người chốt '+escapeHTML(week.closedBy?.displayName||"Không rõ")+' · Ảnh chụp read-only của đủ '+LOPS.length+' lớp.</div><div class="toolbar"><button class="btn secondary" data-action="archive-back-weeks">← Danh sách tuần</button><input id="archiveClassSearch" type="search" placeholder="Tìm lớp trong BXH tuần này" aria-label="Tìm kiếm lớp trong tuần"></div><div class="table-wrap"><table id="archiveRankTable"><thead><tr><th>Hạng</th><th>Lớp</th><th>Tổng điểm tuần</th><th>Phiên trong tuần</th><th></th></tr></thead><tbody>';
+    ordered.forEach((cls,i)=>{const count=weekArchiveSessions(week,cls).length;html+='<tr><td>'+(medals(i)?'<span class="medal">'+medals(i)+'</span> ':'')+(i+1)+'</td><td><b>'+escapeHTML(cls)+'</b></td><td><b class="'+(safeNumber(week.scores[cls])<0?'minus':'')+'">'+safeNumber(week.scores[cls])+'</b></td><td>'+count+'</td><td><button class="btn secondary small" data-action="archive-open-class" data-id="'+escapeHTML(week.id)+'" data-class="'+escapeHTML(cls)+'">Xem chi tiết</button></td></tr>'});html+='</tbody></table></div>';
+  }else if(state.level==="class"&&LOPS.includes(state.className)){
+    const cls=state.className,sessions=weekArchiveSessions(week,cls),end=safeNumber(week.scores[cls],100),start=sessions.length?safeNumber(sessions[0].before,100):100,added=sessions.reduce((sum,x)=>sum+x.details.reduce((n,d)=>n+Math.max(0,safeNumber(d.point)),0),0),deducted=sessions.reduce((sum,x)=>sum+x.details.reduce((n,d)=>n+Math.min(0,safeNumber(d.point)),0),0);$("modalTitle").textContent="Lịch sử tuần · "+week.label+" · Lớp "+cls;
+    html='<h3>Cấp 3 · Tổng hợp lớp '+escapeHTML(cls)+' · '+escapeHTML(week.label)+'</h3><div class="notice">Tuần lịch '+escapeHTML(week.weekKey)+' · Ngày chốt '+escapeHTML(displayDate(week.closedAt))+' · Dữ liệu chỉ đọc, lấy từ các phiên được tuần này tham chiếu.</div><button class="btn secondary" data-action="archive-back-ranking">← BXH tuần</button><div class="grid archive-stats"><div class="stat"><span class="muted">Điểm đầu tuần</span><b>'+start+'</b></div><div class="stat"><span class="muted">Tổng điểm cộng</span><b class="plus">+'+added+'</b></div><div class="stat"><span class="muted">Tổng điểm trừ</span><b class="minus">'+deducted+'</b></div><div class="stat"><span class="muted">Điểm cuối tuần</span><b>'+end+'</b></div></div><h4>Tổng hợp theo tiêu chí · mọi phiên trong tuần</h4><div class="table-wrap"><table><thead><tr><th>Vi phạm/thành tích</th><th>Tổng số lần</th><th>Tổng điểm</th><th>Số phiên ghi nhận</th><th></th></tr></thead><tbody>';
+    LOIS.forEach((rule,i)=>{const matches=sessions.flatMap(session=>session.details.filter(d=>d.rule===rule.n).map(detail=>({session,detail}))),count=matches.reduce((n,x)=>n+safeNumber(x.detail.count),0),points=matches.reduce((n,x)=>n+safeNumber(x.detail.point),0),sessionCount=new Set(matches.map(x=>x.session.id)).size;html+='<tr><td class="text-left">'+escapeHTML(rule.n)+'</td><td>'+count+'</td><td class="'+(points>0?'plus':points<0?'minus':'')+'">'+(points>0?'+':'')+points+'</td><td>'+sessionCount+'</td><td><button class="btn secondary small" data-action="archive-open-criterion" data-rule-index="'+i+'">Xem lần ghi nhận</button></td></tr>'});html+='</tbody></table></div><h4>Các phiên chấm của lớp trong tuần</h4>';
+    html+=sessions.length?'<div class="table-wrap"><table><thead><tr><th>Ngày và giờ</th><th>Điểm phiên</th><th>Điểm trước → sau</th><th>Số dòng ghi nhận</th><th></th></tr></thead><tbody>'+sessions.map(session=>'<tr><td>'+escapeHTML(displayDate(session.savedAt))+'</td><td class="'+(session.delta>=0?'plus':'minus')+'">'+(session.delta>=0?'+':'')+safeNumber(session.delta)+'</td><td>'+safeNumber(session.before)+' → '+safeNumber(session.after)+'</td><td>'+session.details.length+'</td><td><button class="btn secondary small" data-action="archive-open-session" data-id="'+escapeHTML(session.id)+'">Xem phiên</button></td></tr>').join("")+'</tbody></table></div>':'<div class="notice">Tuần này không có phiên chấm của lớp. Điểm cuối tuần vẫn lấy từ ảnh chụp đã lưu.</div>';
+  }else if(state.level==="detail"&&LOPS.includes(state.className)){
+    const cls=state.className,sessions=weekArchiveSessions(week,cls);$("modalTitle").textContent="Lịch sử tuần · "+week.label+" · Lớp "+cls+" · Chi tiết";html='<button class="btn secondary" data-action="archive-back-class">← Tổng hợp lớp '+escapeHTML(cls)+'</button>';
+    if(state.sessionId){const session=sessions.find(x=>x.id===state.sessionId);if(!session){html+='<div class="notice danger-notice">Không tìm thấy phiên được liên kết với tuần này.</div>'}else{html+='<h3>Cấp 4 · Chi tiết phiên chấm</h3><div class="notice">Lớp: <b>'+escapeHTML(cls)+'</b><br>Tuần: <b>'+escapeHTML(week.label)+' ('+escapeHTML(week.weekKey)+')</b><br>Ngày và giờ chấm: <b>'+escapeHTML(displayDate(session.savedAt))+'</b><br>Người chấm: <b>'+escapeHTML(session.savedBy?.displayName||"Không rõ")+'</b><br>Điểm trước/sau phiên: <b>'+safeNumber(session.before)+' → '+safeNumber(session.after)+'</b><br>Điểm phiên: <b class="'+(session.delta>=0?'plus':'minus')+'">'+(session.delta>=0?'+':'')+safeNumber(session.delta)+'</b></div><div class="table-wrap"><table><thead><tr><th>Lớp</th><th>Tuần</th><th>Ngày và giờ</th><th>Học sinh</th><th>Vi phạm/thành tích</th><th>Số lần</th><th>Điểm</th><th>Điểm trước → sau</th></tr></thead><tbody>'+session.details.map(d=>'<tr><td>'+escapeHTML(cls)+'</td><td>'+escapeHTML(week.label)+' ('+escapeHTML(week.weekKey)+')</td><td>'+escapeHTML(displayDate(session.savedAt))+'</td><td>'+escapeHTML(d.student||"Không ghi tên")+'</td><td class="text-left">'+escapeHTML(d.rule)+'</td><td>'+safeNumber(d.count)+'</td><td class="'+(safeNumber(d.point)>=0?'plus':'minus')+'">'+(safeNumber(d.point)>=0?'+':'')+safeNumber(d.point)+'</td><td>'+safeNumber(session.before)+' → '+safeNumber(session.after)+'</td></tr>').join("")+'</tbody></table></div>'}}
+    else{const rule=LOIS[state.ruleIndex];if(!rule){html+='<div class="notice danger-notice">Không tìm thấy tiêu chí.</div>'}else{const matches=sessions.flatMap(session=>session.details.filter(d=>d.rule===rule.n).map(detail=>({session,detail})));html+='<h3>Cấp 4 · '+escapeHTML(rule.n)+' · '+escapeHTML(cls)+' · '+escapeHTML(week.label)+'</h3><div class="notice">Tất cả lần ghi nhận của tiêu chí trong tuần; mỗi dòng học sinh được giữ riêng.</div>';html+=matches.length?'<div class="table-wrap"><table><thead><tr><th>Lớp</th><th>Tuần</th><th>Ngày và giờ</th><th>Học sinh</th><th>Nội dung</th><th>Số lần</th><th>Điểm</th><th>Điểm trước → sau</th></tr></thead><tbody>'+matches.map(x=>'<tr><td>'+escapeHTML(cls)+'</td><td>'+escapeHTML(week.label)+' ('+escapeHTML(week.weekKey)+')</td><td>'+escapeHTML(displayDate(x.session.savedAt))+'</td><td>'+escapeHTML(x.detail.student||"Không ghi tên")+'</td><td class="text-left">'+escapeHTML(x.detail.rule)+'</td><td>'+safeNumber(x.detail.count)+'</td><td class="'+(safeNumber(x.detail.point)>=0?'plus':'minus')+'">'+(safeNumber(x.detail.point)>=0?'+':'')+safeNumber(x.detail.point)+'</td><td>'+safeNumber(x.session.before)+' → '+safeNumber(x.session.after)+'</td></tr>').join("")+'</tbody></table></div>':'<div class="empty">Không có học sinh/phiên ghi nhận tiêu chí này trong tuần.</div>'}}
+  }else{
+    archiveBack("weeks");return;
+  }
+  $("modalBody").innerHTML=html;
+}
+function renderTools(){
+  const count=DB.sessions.length;const state=loadIssue?'<span class="danger-text">Chưa xác nhận an toàn</span>':'<span class="success-text">Đang hoạt động</span>';const cards=[];
+  if(can("backup"))cards.push('<div class="stat tool-card"><b>💾 Sao lưu dữ liệu</b><p class="muted">Tải JSON dữ liệu điểm; tệp không chứa mã PIN hoặc hash tài khoản.</p><button class="btn success" data-action="backup-json" '+(!canWrite()?'disabled':'')+'>Tải file sao lưu (.JSON)</button></div>');
+  if(can("restore"))cards.push('<div class="stat tool-card"><b>📥 Khôi phục dữ liệu</b><p class="muted">Kiểm tra cấu trúc trước khi ghi đè dữ liệu điểm; tài khoản không bị thay đổi.</p><button class="btn secondary" data-action="choose-restore">Chọn tệp JSON</button><p class="footer-note">Hỗ trợ tệp sao lưu phiên bản này và cấu trúc cũ TH &amp; THCS PHƯỚC AN.</p></div>');
+  if(can("exportCSV"))cards.push('<div class="stat tool-card"><b>📊 Xuất báo cáo Excel</b><p class="muted">Xuất bảng tổng hợp, phiên chấm và các kỳ đã chốt ra CSV UTF‑8.</p><button class="btn" data-action="export-all">Xuất CSV toàn bộ</button></div>');
+  if(can("changeOwnPIN"))cards.push('<div class="stat tool-card"><b>👤 Tài khoản của tôi</b><p class="muted">Đổi mã PIN của tài khoản đang đăng nhập.</p><button class="btn secondary" data-action="own-pin">Đổi mã PIN</button></div>');
+  if(can("manageAccounts"))cards.push('<div class="stat tool-card"><b>👥 Quản lý tài khoản</b><p class="muted">Tạo, sửa vai trò, khóa, đặt lại mã PIN hoặc xóa tài khoản.</p><button class="btn secondary" data-action="manage-accounts">Mở quản lý tài khoản</button></div>');
+  if(can("reset"))cards.push('<div class="stat tool-card"><b>🧹 Reset hệ thống</b><p class="muted">Chỉ xóa dữ liệu điểm trên trình duyệt này; không xóa tài khoản.</p><button class="btn danger" data-action="reset-all" '+(!canWrite()?'disabled':'')+'>Xóa tất cả dữ liệu điểm</button></div>');
+  if(can("integrity"))cards.push('<div class="stat tool-card"><b>🔎 Kiểm tra cấu trúc dữ liệu</b><p class="muted">Lớp: '+LOPS.length+' · Phiên mới: '+count+' · Tuần đã chốt: '+DB.meta.closedWeeksTotal+' · Tháng: '+DB.meta.monthsCreatedTotal+' · Năm: '+DB.meta.yearsCreatedTotal+'</p><p class="muted">Trạng thái lưu trữ: '+state+'</p><button class="btn secondary" data-action="integrity">Kiểm tra toàn vẹn</button></div>');
+  const accountWarning=accountIssue?'<div class="notice danger-notice">'+escapeHTML(accountIssue.message)+'</div>':'';
+  $("tools").innerHTML='<div class="rank-title" id="toolsHeading">🧰 Trung tâm quản trị &amp; Tiện ích</div>'+accountWarning+'<div class="tool-grid">'+cards.join("")+'</div><div class="notice danger-notice"><b>Cảnh báo bảo mật quan trọng:</b> Đây là ứng dụng tĩnh, tài khoản và phân quyền chỉ ngăn thao tác nhầm trên giao diện. Người có quyền truy cập trình duyệt/DevTools vẫn có thể đọc hoặc sửa localStorage. Tài khoản chỉ có hiệu lực trên thiết bị/trình duyệt hiện tại; không có máy chủ, đồng bộ hoặc bảo mật thật sự. Hãy dùng HTTPS và không dùng mã PIN quan trọng ở nơi khác.</div><div class="notice"><b>Lưu trữ dữ liệu điểm:</b> Dữ liệu nằm trong localStorage của trình duyệt/thiết bị hiện tại. Sao lưu định kỳ. Reset chỉ xóa dữ liệu điểm, không xóa tài khoản.</div>';
+}
+
+function updateRoleUI(){
+  const scoreButton=$("scoreNavButton");
+  if(scoreButton){scoreButton.disabled=!can("scoring");scoreButton.title=can("scoring")?"Mở sổ chấm điểm":"Tài khoản này chỉ có quyền xem";}
+  const logoutButton=$("logoutBtn");if(logoutButton)logoutButton.hidden=!currentUser;
+}
+function showSection(section){
+  const allowed=["week","month","year","score","tools"];
+  if(!allowed.includes(section))section="week";
+  if(section==="score"&&!can("scoring")){deny();section="week";}
+  document.querySelectorAll("#app .section").forEach(node=>node.classList.toggle("active",node.id===section));
+  if(section==="score")renderScore();
+  if(section==="tools")renderTools();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function renderAll(){updateRoleUI();renderDataAlert();renderStats();renderRank();renderMonthRank();renderYearRank();if($("score").classList.contains("active"))renderScore();if($("tools").classList.contains("active"))renderTools()}
+
+function downloadBlob(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();window.setTimeout(()=>URL.revokeObjectURL(url),1200)}
+function csvDownload(rows,name){const csv="\uFEFF"+rows.map(r=>r.map(csvCell).join(",")).join("\r\n");downloadBlob(new Blob([csv],{type:"text/csv;charset=utf-8"}),name)}
+function exportRanking(type){if(!can("exportCSV")){deny();return}const source=type==="week"?Object.fromEntries(LOPS.map(l=>[l,DB.classes[l].total])):type==="month"?(currentMonth()?.scores||Object.fromEntries(LOPS.map(l=>[l,0]))):(currentYear()?.scores||Object.fromEntries(LOPS.map(l=>[l,0])));const rows=[["Hạng","Lớp","Điểm "+(type==="week"?"tuần":type==="month"?"tháng":"năm")]];rankClasses(source).forEach((l,i)=>rows.push([i+1,l,safeNumber(source[l])]));csvDownload(rows,"BXH_"+type+"_"+dateStamp()+".csv")}
+function exportAllCSV(){if(!can("exportCSV")){deny();return}const rows=[["TỔNG HỢP LỚP"],["Lớp","Điểm tuần hiện tại","Phiên kỳ hiện tại","Kỳ tuần","Điểm tháng gần nhất","Điểm năm gần nhất"]];LOPS.forEach(l=>rows.push([l,DB.classes[l].total,DB.sessions.filter(s=>s.className===l&&s.periodId===DB.activeWeek.id).length,DB.activeWeek.number,currentMonth()?.scores[l]??"",currentYear()?.scores[l]??""]));rows.push([], ["PHIÊN CHẤM"],["ID","Thời gian","Lớp","Kỳ","Điểm trước","Điểm sau","Điểm phiên","Chi tiết","Người chấm"]);DB.sessions.forEach(s=>rows.push([s.id,displayDate(s.savedAt),s.className,s.periodId,s.before,s.after,s.delta,s.details.map(d=>d.rule+" x"+d.count+(d.student?" ("+d.student+")":"")).join("; "),s.savedBy?.displayName||"Không rõ"]));rows.push([], ["TUẦN ĐÃ CHỐT"],["ID","Tuần","Tuần lịch","Ngày chốt",...LOPS]);DB.weeks.forEach(w=>rows.push([w.id,w.label,w.weekKey,displayDate(w.closedAt),...LOPS.map(l=>w.scores[l])]));rows.push([], ["THÁNG ĐÃ CHỐT"],["ID","Kỳ","Ngày tạo",...LOPS]);DB.months.forEach(m=>rows.push([m.id,m.label,displayDate(m.createdAt),...LOPS.map(l=>m.scores[l])]));rows.push([], ["NĂM ĐÃ CHỐT"],["ID","Kỳ","Ngày tạo",...LOPS]);DB.years.forEach(y=>rows.push([y.id,y.label,displayDate(y.createdAt),...LOPS.map(l=>y.scores[l])]));csvDownload(rows,"SAODO_PHUOCAN_BaoCao_"+dateStamp()+".csv")}
+function backupJSON(){if(!can("backup")){deny();return}if(!canWrite()){toast("Không thể tạo bản sao hợp lệ khi dữ liệu hiện tại chưa đọc an toàn.","danger");return}const envelope={format:APP_FORMAT,schemaVersion:SCHEMA_VERSION,exportedAt:new Date().toISOString(),data:DB};downloadBlob(new Blob([JSON.stringify(envelope,null,2)],{type:"application/json;charset=utf-8"}),"SAODO_PHUOCAN_Backup_"+dateStamp()+".json")}
+function downloadRaw(){if(!can("backup")){deny();return}if(!loadIssue?.raw){toast("Không có dữ liệu gốc để tải.","danger");return}downloadBlob(new Blob([loadIssue.raw],{type:"application/json;charset=utf-8"}),"SAODO_PHUOCAN_DataRaw_"+dateStamp()+".json")}
+function parseRestoreObject(value){if(!isObject(value))throw new Error("Tệp JSON phải chứa một đối tượng.");if(value.format===APP_FORMAT){if(value.schemaVersion!==SCHEMA_VERSION)throw new Error("Phiên bản tệp sao lưu không được hỗ trợ.");validateDB(value.data);return deepClone(value.data)}if(value.schemaVersion===SCHEMA_VERSION){validateDB(value);return deepClone(value)}if(Number.isInteger(value.schemaVersion)&&value.schemaVersion>SCHEMA_VERSION)throw new Error("Tệp được tạo bởi phiên bản mới hơn.");return migrateLegacy(value,"tệp JSON đã khôi phục")}
+function restoreJSON(event){if(!can("restore")){deny();event.target.value="";return}const file=event.target.files?.[0];if(!file)return;if(file.size>10*1024*1024){toast("Tệp lớn hơn giới hạn 10 MB.","danger");event.target.value="";return}const reader=new FileReader();reader.onerror=()=>{toast("Không đọc được tệp JSON.","danger");event.target.value=""};reader.onload=()=>{try{const parsed=JSON.parse(String(reader.result||""));const restored=parseRestoreObject(parsed);const ok=window.confirm("Tệp JSON hợp lệ. Khôi phục sẽ thay thế toàn bộ dữ liệu hiện tại trên trình duyệt này. Tiếp tục?");if(!ok)return;restored.revision=(Number(DB.revision)||0)+1;restored.updatedAt=new Date().toISOString();if(saveAndRender(restored,{recovery:true})){toast("Đã khôi phục và lưu dữ liệu thành công.");showSection("week")}}catch(e){window.alert("Không thể khôi phục: "+(e.message||"Tệp JSON không hợp lệ."))}finally{event.target.value=""}};reader.readAsText(file)}
+function runIntegrityCheck(){if(!can("integrity")){deny();return}try{validateDB(DB);const ids=new Set();for(const s of DB.sessions){if(ids.has(s.id))throw new Error("Phát hiện ID phiên bị trùng: "+s.id);ids.add(s.id);const sum=s.details.reduce((n,d)=>n+safeNumber(d.point),0);if(sum!==safeNumber(s.delta))throw new Error("Tổng chi tiết không khớp điểm phiên "+s.id)}toast("Toàn vẹn dữ liệu đạt: "+LOPS.length+" lớp, "+DB.sessions.length+" phiên, "+DB.weeks.length+" tuần gần nhất.");window.alert("Kiểm tra hoàn tất. Không phát hiện lỗi cấu trúc hoặc tổng điểm phiên.")}catch(e){toast("Kiểm tra phát hiện lỗi: "+e.message,"danger");window.alert("Dữ liệu có vấn đề: "+e.message)}}
+function resetAll(){if(!can("reset")){deny();return}if(!canWrite()){toast("Không thể reset khi dữ liệu chưa được đọc an toàn.","danger");return}if(!window.confirm("CẢNH BÁO: Xóa toàn bộ phiên, điểm, tuần/tháng/năm và hồ sơ cũ trong ứng dụng này? Hãy chắc chắn đã tải bản sao lưu."))return;if(!window.confirm("Xác nhận lần cuối: dữ liệu đã xóa không thể phục hồi nếu không có file sao lưu. Tiếp tục?"))return;const fresh=defaultDB();fresh.revision=(Number(DB.revision)||0)+1;if(saveAndRender(fresh)){try{LEGACY_KEYS.forEach(k=>localStorage.removeItem(k))}catch(e){toast("Dữ liệu mới đã reset; không xóa được khóa dữ liệu cũ.","danger")}toast("Hệ thống đã được đặt lại.");showSection("week")}}
+const PIN_ITERATIONS = 210000;
+const MIN_PIN_ITERATIONS = 150000;
+const MAX_PIN_ITERATIONS = 600000;
+const USERNAME_RE = /^[a-z0-9._-]{3,30}$/;
+const VALID_ROLES = ["saodo","giaovien","tongphutrach"];
+const ROLE_LABELS = {saodo:"Sao Đỏ",giaovien:"Giáo viên",tongphutrach:"Tổng phụ trách"};
+const PERMISSIONS = {
+  saodo:{view:true,viewErrors:true,scoring:true,closeWeek:false,exportCSV:false,backup:false,restore:false,reset:false,integrity:false,manageAccounts:false,changeOwnPIN:true},
+  giaovien:{view:true,viewErrors:true,scoring:false,closeWeek:false,exportCSV:true,backup:false,restore:false,reset:false,integrity:false,manageAccounts:false,changeOwnPIN:true},
+  tongphutrach:{view:true,viewErrors:true,scoring:true,closeWeek:true,exportCSV:true,backup:true,restore:true,reset:true,integrity:true,manageAccounts:true,changeOwnPIN:true}
+};
+function cryptoAvailable(){return !!(window.crypto?.subtle&&window.crypto?.getRandomValues&&window.TextEncoder)}
+function cryptoWarning(){return "Trình duyệt này không hỗ trợ Web Crypto an toàn. Hãy mở ứng dụng qua HTTPS hoặc trình duyệt hiện đại; không thể tạo, đổi hoặc xác minh mã PIN an toàn."}
+function bytesToHex(bytes){return Array.from(bytes,b=>b.toString(16).padStart(2,"0")).join("")}
+function hexToBytes(hex){if(typeof hex!=="string"||!/^(?:[0-9a-f]{2})+$/i.test(hex))throw new Error("Dữ liệu băm tài khoản không hợp lệ.");const out=new Uint8Array(hex.length/2);for(let i=0;i<out.length;i++)out[i]=parseInt(hex.slice(i*2,i*2+2),16);return out}
+function constantTimeEqual(a,b){if(typeof a!=="string"||typeof b!=="string")return false;let diff=a.length^b.length;const n=Math.max(a.length,b.length);for(let i=0;i<n;i++)diff|=(a.charCodeAt(i%Math.max(1,a.length))||0)^(b.charCodeAt(i%Math.max(1,b.length))||0);return diff===0}
+function randomSalt(){if(!cryptoAvailable())throw new Error(cryptoWarning());const bytes=new Uint8Array(16);window.crypto.getRandomValues(bytes);return bytesToHex(bytes)}
+async function derivePIN(pin,saltHex,iterations=PIN_ITERATIONS){
+  if(!cryptoAvailable())throw new Error(cryptoWarning());
+  if(!Number.isInteger(iterations)||iterations<MIN_PIN_ITERATIONS||iterations>MAX_PIN_ITERATIONS)throw new Error("Số vòng băm mã PIN không hợp lệ.");
+  const material=await window.crypto.subtle.importKey("raw",new TextEncoder().encode(String(pin)),"PBKDF2",false,["deriveBits"]);
+  const bits=await window.crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:hexToBytes(saltHex),iterations},material,256);
+  return bytesToHex(new Uint8Array(bits));
+}
+function validateAccountList(list,{allowEmpty=true}={}){
+  if(!Array.isArray(list))throw new Error("Danh sách tài khoản không hợp lệ.");
+  if(!allowEmpty&&!list.length)throw new Error("Phải có ít nhất một tài khoản Tổng phụ trách.");
+  const ids=new Set(),names=new Set();
+  for(const a of list){
+    if(!isObject(a)||typeof a.id!=="string"||!a.id||ids.has(a.id))throw new Error("ID tài khoản bị thiếu hoặc trùng.");ids.add(a.id);
+    if(typeof a.username!=="string"||a.username!==a.username.toLowerCase()||!USERNAME_RE.test(a.username)||names.has(a.username))throw new Error("Tài khoản không hợp lệ hoặc bị trùng.");names.add(a.username);
+    if(typeof a.displayName!=="string"||!a.displayName.trim()||a.displayName.length>80)throw new Error("Tên hiển thị tài khoản không hợp lệ.");
+    if(!VALID_ROLES.includes(a.role)||typeof a.active!=="boolean"||typeof a.mustChangePIN!=="boolean")throw new Error("Vai trò hoặc trạng thái tài khoản không hợp lệ.");
+    if(typeof a.salt!=="string"||!/^(?:[0-9a-f]{2}){16}$/i.test(a.salt)||typeof a.hash!=="string"||!/^(?:[0-9a-f]{2}){32}$/i.test(a.hash))throw new Error("Thông tin băm tài khoản không hợp lệ.");
+    if(!Number.isInteger(a.iterations)||a.iterations<MIN_PIN_ITERATIONS||a.iterations>MAX_PIN_ITERATIONS)throw new Error("Thông số mã PIN tài khoản không hợp lệ.");
+    if(!Number.isInteger(a.failedAttempts)||a.failedAttempts<0||!Number.isFinite(a.lockedUntil)||a.lockedUntil<0)throw new Error("Trạng thái khóa tài khoản không hợp lệ.");
+    if(typeof a.createdAt!=="string"||typeof a.updatedAt!=="string"||!(a.lastLoginAt===null||typeof a.lastLoginAt==="string"))throw new Error("Thời gian tài khoản không hợp lệ.");
+  }
+  if(list.length&&!list.some(a=>a.role==="tongphutrach"&&a.active))throw new Error("Phải luôn còn ít nhất một Tổng phụ trách đang hoạt động.");
+  return true;
+}
+function loadAccountStore(){
+  try{
+    const raw=window.localStorage.getItem(ACCOUNT_KEY);accountsRaw=raw;
+    if(raw===null){accountIssue=null;return []}
+    const parsed=JSON.parse(raw);validateAccountList(parsed);accountIssue=null;return parsed;
+  }catch(e){accountIssue={message:"Không đọc được kho tài khoản an toàn. Không tạo đè tài khoản để tránh mất quyền quản trị."};return []}
+}
+function writeAccountStore(next){
+  if(accountIssue)throw new Error(accountIssue.message);
+  validateAccountList(next);
+  const storage=window.localStorage,now=storage.getItem(ACCOUNT_KEY);
+  if(now!==accountsRaw){accountStore=loadAccountStore();throw new Error("Danh sách tài khoản đã đổi ở thẻ khác. Hãy tải lại rồi thử lại.")}
+  const raw=JSON.stringify(next);storage.setItem(ACCOUNT_KEY,raw);
+  if(storage.getItem(ACCOUNT_KEY)!==raw)throw new Error("Không xác nhận được thay đổi tài khoản sau khi lưu.");
+  accountStore=deepClone(next);accountsRaw=raw;accountIssue=null;reconcileCurrentAccount();return true;
+}
+function refreshAccountStore(){const raw=window.localStorage.getItem(ACCOUNT_KEY);if(raw!==accountsRaw){accountStore=loadAccountStore()}if(accountIssue)throw new Error(accountIssue.message);return accountStore}
+function publicAccount(a){return a?{id:a.id,username:a.username,displayName:a.displayName,role:a.role,active:a.active,mustChangePIN:a.mustChangePIN}:null}
+function auditIdentity(){return currentUser?{id:currentUser.id,username:currentUser.username,displayName:currentUser.displayName,role:currentUser.role}:null}
+function roleLabel(role){return ROLE_LABELS[role]||"Không rõ"}
+function can(permission){return !!(currentUser&&currentUser.active&&!currentUser.mustChangePIN&&PERMISSIONS[currentUser.role]?.[permission]===true)}
+function canWrite(){return !loadIssue&&can("scoring")}
+function accountById(id){return accountStore.find(a=>a.id===id)||null}
+function storeSession(){try{sessionStorage.setItem(SESSION_KEY,JSON.stringify({userId:currentUser?.id||null,lastActivity:sessionLastActivity}))}catch(e){toast("Không lưu được phiên trong sessionStorage; phiên chỉ giữ đến khi đóng trang.","danger")}}
+function clearStoredSession(){try{sessionStorage.removeItem(SESSION_KEY)}catch(e){}}
+function startSession(account){currentUser=publicAccount(account);sessionLastActivity=Date.now();storeSession()}
+function updateUserBadge(){const badge=$("userBadge");if(badge)badge.textContent=currentUser?currentUser.displayName+" · "+roleLabel(currentUser.role):""}
+function setLoginMessage(message,isError=true){const node=$("loginMsg");if(!node)return;node.textContent=message||"";node.className=isError?"danger-text":"success-text"}
+function setLoginMode(mode,message=""){
+  loginMode=mode;
+  $("loginPinField")?.classList.toggle("hidden",mode==="setup"||mode==="must-change"||mode==="error");
+  $("firstAdminFields")?.classList.toggle("hidden",mode!=="setup");
+  $("mustChangeFields")?.classList.toggle("hidden",mode!=="must-change");
+  $("cryptoWarning")?.classList.toggle("hidden",cryptoAvailable());
+  $("loginSubmit").disabled=mode==="error";
+  if(mode==="setup"){$("loginTitle").textContent="Thiết lập Tổng phụ trách";$("loginSubtitle").textContent="Tạo tài khoản quản trị cho thiết bị này";$("loginSubmit").textContent="Tạo Tổng phụ trách";$("pinMigrationNote").classList.toggle("hidden",!legacyPinExists)}
+  else if(mode==="must-change"){$("loginTitle").textContent="Đổi mã PIN bắt buộc";$("loginSubtitle").textContent="Tài khoản phải đổi mã PIN trước khi vào ứng dụng";$("loginSubmit").textContent="Lưu mã PIN mới";$("mustChangeWho").textContent=currentUser?currentUser.displayName+" · "+currentUser.username:""}
+  else if(mode==="error"){$("loginTitle").textContent="Không thể mở tài khoản";$("loginSubtitle").textContent="Hãy kiểm tra dữ liệu tài khoản trong trình duyệt";$("loginSubmit").textContent="Không khả dụng"}
+  else{$("loginTitle").textContent="SAO ĐỎ PHƯỚC AN";$("loginSubtitle").textContent=cryptoAvailable()?"Nhập mã PIN để tiếp tục":"Web Crypto không khả dụng; không thể xác minh mã PIN an toàn";$("loginSubmit").textContent="Đăng nhập";$("pinMigrationNote").classList.add("hidden")}
+  if(message)setLoginMessage(message);else if($("loginMsg"))setLoginMessage("");
+}
+function paintLoginMode(){if(accountIssue){setLoginMode("error",accountIssue.message);return}setLoginMode(accountStore.length?"login":"setup");}
+function showLogin(){ $("app").classList.add("hidden");$("login").classList.remove("hidden");updateUserBadge(); }
+function enterApp(){if(!currentUser)return;if(currentUser.mustChangePIN){showLogin();setLoginMode("must-change","Bạn phải đổi mã PIN trước khi tiếp tục.");return}$("login").classList.add("hidden");$("app").classList.remove("hidden");$("loginForm").reset();setLoginMode("login");updateUserBadge();renderAll()}
+function requirePINChange(){if(!currentUser)return;currentUser.mustChangePIN=true;storeSession();closeModal();showLogin();setLoginMode("must-change","Quản trị viên yêu cầu đổi mã PIN trước khi tiếp tục.")}
+function logout(message=""){
+  currentUser=null;sessionLastActivity=0;clearStoredSession();
+  try{$("modal").classList.add("hidden");currentHistoryDetail=null}catch(e){}
+  $("app").classList.add("hidden");$("login").classList.remove("hidden");$("loginForm").reset();paintLoginMode();if(message)setLoginMessage(message);updateUserBadge();window.scrollTo(0,0);
+}
+function reconcileCurrentAccount(){
+  if(!currentUser)return;
+  const latest=accountById(currentUser.id);
+  if(!latest||!latest.active){logout("Tài khoản đã bị khóa hoặc xóa. Hãy liên hệ Tổng phụ trách.");return}
+  currentUser=publicAccount(latest);storeSession();updateUserBadge();
+  if(currentUser.mustChangePIN){requirePINChange();return}
+  if($("score").classList.contains("active")&&!can("scoring"))showSection("week");
+  renderAll();
+}
+function restoreSession(){
+  let saved=null;try{saved=JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null")}catch(e){}
+  if(!isObject(saved)||typeof saved.userId!=="string"||!Number.isFinite(saved.lastActivity)||Date.now()-saved.lastActivity>=SESSION_IDLE_MS)return false;
+  const account=accountById(saved.userId);if(!account||!account.active)return false;
+  startSession(account);sessionLastActivity=saved.lastActivity;storeSession();
+  if(account.mustChangePIN){showLogin();setLoginMode("must-change","Bạn phải đổi mã PIN trước khi tiếp tục.")}else enterApp();
+  return true;
+}
+function touchSession(){if(!currentUser)return;sessionLastActivity=Date.now();if(Date.now()-lastSessionWrite>15000){lastSessionWrite=Date.now();storeSession()}}
+function checkSessionTimeout(){if(currentUser&&Date.now()-sessionLastActivity>=SESSION_IDLE_MS)logout("Phiên đã tự khóa sau 30 phút không thao tác. Hãy đăng nhập lại.")}
+function validatePIN(pin){return typeof pin==="string"&&/^[0-9]{5,8}$/.test(pin)?"":"Mã PIN phải gồm 5–8 chữ số."}
+function internalUsername(){return "user"+newId("x").replace(/[^a-z0-9]/gi,"").toLowerCase().slice(-12)}
+function accountRecord({username,displayName,role,pin,mustChangePIN=false,active=true}){
+  const salt=randomSalt(),now=new Date().toISOString();return derivePIN(pin,salt,PIN_ITERATIONS).then(hash=>({id:newId("acct"),username:username||internalUsername(),displayName:displayName.trim(),role,salt,hash,iterations:PIN_ITERATIONS,active,mustChangePIN,failedAttempts:0,lockedUntil:0,createdAt:now,updatedAt:now,lastLoginAt:null}));
+}
+function setLoginBusy(busy){authBusy=busy;const button=$("loginSubmit");if(button)button.disabled=busy||loginMode==="error"}
+async function setupFirstAdmin(){
+  if(accountStore.length||accountIssue)throw new Error("Kho tài khoản đã có dữ liệu hoặc đang lỗi. Không thể tạo quản trị viên mới.");
+  if(!cryptoAvailable())throw new Error(cryptoWarning());
+  const displayName=$("firstAdminName").value.trim();if(!displayName||displayName.length>80)throw new Error("Nhập tên hiển thị từ 1 đến 80 ký tự.");
+  const record=await accountRecord({displayName,role:"tongphutrach",pin:"12345",mustChangePIN:false,active:true});record.lastLoginAt=new Date().toISOString();
+  writeAccountStore([record]);try{window.localStorage.removeItem(PIN_RECORD_KEY);legacyPinExists=false}catch(e){}
+  startSession(record);enterApp();toast("Đã tạo tài khoản Tổng phụ trách. PIN mặc định: 12345.");
+}
+async function handleLogin(event){
+  event.preventDefault();if(authBusy)return;setLoginBusy(true);
+  try{
+    if(loginMode==="setup"){await setupFirstAdmin();return}
+    if(loginMode==="must-change"){await completeRequiredPasswordChange();return}
+    if(loginMode==="error")throw new Error(accountIssue?.message||"Kho tài khoản đang lỗi.");
+    if(!cryptoAvailable())throw new Error(cryptoWarning());
+    refreshAccountStore();const pin=$("loginPin").value;
+    const problem=validatePIN(pin);if(problem)throw new Error(problem);
+    let matched=null;
+    for(const a of accountStore){const computed=await derivePIN(pin,a.salt,a.iterations);if(constantTimeEqual(computed,a.hash)){matched=a;break}}
+    const now=Date.now();
+    if(!matched||!matched.active||matched.lockedUntil>now){
+      if(matched){const next=deepClone(accountStore),target=next.find(a=>a.id===matched.id);if(target.lockedUntil<=now){target.failedAttempts=(target.failedAttempts||0)+1;if(target.failedAttempts>=5){target.lockedUntil=now+5*60*1000;target.failedAttempts=5}}target.updatedAt=new Date().toISOString();writeAccountStore(next)}
+      throw new Error("Mã PIN không đúng hoặc tài khoản đã bị khóa.");
+    }
+    const next=deepClone(accountStore),target=next.find(a=>a.id===matched.id);target.failedAttempts=0;target.lockedUntil=0;target.lastLoginAt=new Date().toISOString();target.updatedAt=target.lastLoginAt;writeAccountStore(next);
+    startSession(accountById(matched.id));if(currentUser.mustChangePIN){showLogin();setLoginMode("must-change","Tài khoản này cần đổi mã PIN trước khi sử dụng.")}else enterApp();
+  }catch(e){setLoginMessage(e?.message||"Mã PIN không đúng.")}
+  finally{setLoginBusy(false)}
+}
+async function completeRequiredPasswordChange(){
+  if(!currentUser||!currentUser.mustChangePIN)throw new Error("Không có yêu cầu đổi mã PIN đang chờ.");
+  if(!cryptoAvailable())throw new Error(cryptoWarning());
+  const pin=$("requiredNewPin").value,confirm=$("requiredNewPinConfirm").value,problem=validatePIN(pin);if(problem)throw new Error(problem);if(pin!==confirm)throw new Error("Hai mã PIN mới chưa khớp.");
+  for(const a of accountStore){if(a.id===currentUser.id)continue;const h=await derivePIN(pin,a.salt,a.iterations);if(constantTimeEqual(h,a.hash))throw new Error("Mã PIN này đã được tài khoản khác sử dụng.")}
+  const next=deepClone(accountStore),target=next.find(a=>a.id===currentUser.id);if(!target||!target.active)throw new Error("Tài khoản không còn hoạt động.");
+  const salt=randomSalt(),hash=await derivePIN(pin,salt,PIN_ITERATIONS);Object.assign(target,{salt,hash,iterations:PIN_ITERATIONS,mustChangePIN:false,failedAttempts:0,lockedUntil:0,updatedAt:new Date().toISOString()});
+  writeAccountStore(next);startSession(accountById(currentUser.id));enterApp();toast("Đã đổi mã PIN.");
+}
+function openOwnPIN(){if(!can("changeOwnPIN")){deny();return}$("modalTitle").textContent="Đổi mã PIN của tôi";$("modalBody").innerHTML='<form id="ownPinForm" class="pin-change-grid" novalidate><label for="ownCurrentPin">Mã PIN hiện tại</label><input id="ownCurrentPin" type="password" inputmode="numeric" maxlength="8" required><label for="ownNewPin">Mã PIN mới (5–8 chữ số)</label><input id="ownNewPin" type="password" inputmode="numeric" maxlength="8" required><label for="ownNewPinConfirm">Nhập lại mã PIN mới</label><input id="ownNewPinConfirm" type="password" inputmode="numeric" maxlength="8" required><p id="ownPinMsg" class="danger-text" aria-live="polite"></p><button class="btn success" type="submit">Lưu mã PIN</button></form>';$('modal').classList.remove('hidden')}
+async function changeOwnPIN(event){event.preventDefault();if(!can("changeOwnPIN")){deny();return}if(!cryptoAvailable()){$("ownPinMsg").textContent=cryptoWarning();return}const target=accountById(currentUser.id);if(!target)return;const old=$("ownCurrentPin").value,pin=$("ownNewPin").value,confirm=$("ownNewPinConfirm").value,msg=$("ownPinMsg");try{const oldHash=await derivePIN(old,target.salt,target.iterations);if(!constantTimeEqual(oldHash,target.hash))throw new Error("Mã PIN hiện tại chưa đúng.");const err=validatePIN(pin);if(err)throw new Error(err);if(pin!==confirm)throw new Error("Hai mã PIN mới chưa khớp.");for(const other of accountStore){if(other.id===target.id)continue;const h=await derivePIN(pin,other.salt,other.iterations);if(constantTimeEqual(h,other.hash))throw new Error("Mã PIN này đã được tài khoản khác sử dụng.")}const next=deepClone(accountStore),a=next.find(x=>x.id===target.id),salt=randomSalt();a.salt=salt;a.hash=await derivePIN(pin,salt,PIN_ITERATIONS);a.iterations=PIN_ITERATIONS;a.mustChangePIN=false;a.failedAttempts=0;a.lockedUntil=0;a.updatedAt=new Date().toISOString();writeAccountStore(next);startSession(accountById(a.id));closeModal();if($("app").classList.contains("hidden"))enterApp();else toast("Đã đổi mã PIN.")}catch(e){msg.textContent=e.message||"Không thể đổi mã PIN."}}
+function deny(){toast("Bạn không có quyền thực hiện thao tác này.","danger");return false}
+function openAccountManager(){if(!can("manageAccounts")){deny();return}$("modalTitle").textContent="Quản lý tài khoản";$("modal").classList.remove("hidden");renderAccountManager()}
+function renderAccountManager(){
+  if(!can("manageAccounts")){deny();closeModal();return}
+  const rows=[...accountStore].sort((a,b)=>a.displayName.localeCompare(b.displayName)).map(a=>'<tr><td>'+escapeHTML(a.displayName)+'</td><td><select class="form-control" id="acct-role-'+escapeHTML(a.id)+'" aria-label="Vai trò">'+VALID_ROLES.map(r=>'<option value="'+r+'" '+(r===a.role?'selected':'')+'>'+roleLabel(r)+'</option>').join("")+'</select></td><td>'+(a.active?'<span class="success-text">Đang bật</span>':'<span class="danger-text">Đã khóa</span>')+'</td><td>'+escapeHTML(a.lastLoginAt?displayDate(a.lastLoginAt):"Chưa đăng nhập")+'</td><td class="account-actions"><button class="btn small" data-action="save-account-profile" data-id="'+escapeHTML(a.id)+'">Lưu</button> <button class="btn secondary small" data-action="toggle-account" data-id="'+escapeHTML(a.id)+'">'+(a.active?'Khóa':'Bật')+'</button> <button class="btn warning small" data-action="reset-account-pin" data-id="'+escapeHTML(a.id)+'">Đặt lại PIN</button> <button class="btn danger small" data-action="delete-account" data-id="'+escapeHTML(a.id)+'">Xóa</button></td></tr>').join("");
+  $("modalBody").innerHTML='<div class="notice">Mỗi tài khoản có một mã PIN riêng gồm 5–8 chữ số. Không dùng trùng mã PIN giữa các tài khoản. Tài khoản đang khóa: đặt lại PIN trước, sau đó nhấn Bật.</div><form id="createAccountForm" class="account-create-form" novalidate><h3>Tạo tài khoản</h3><label>Tên hiển thị<input id="newAccountDisplay" class="form-control" maxlength="80" required></label><label>Vai trò<select id="newAccountRole" class="form-control"><option value="saodo">Sao Đỏ</option><option value="giaovien">Giáo viên</option><option value="tongphutrach">Tổng phụ trách</option></select></label><label>Mã PIN (5–8 chữ số)<input id="newAccountPin" class="form-control" type="password" inputmode="numeric" maxlength="8" required></label><button class="btn success" type="submit">Tạo tài khoản</button><p id="createAccountMsg" class="danger-text" aria-live="polite"></p></form><div class="toolbar"><button class="btn secondary" data-action="export-accounts">Xuất danh sách tài khoản (không gồm PIN)</button></div><div class="table-wrap"><table><thead><tr><th>Tên hiển thị</th><th>Vai trò</th><th>Trạng thái</th><th>Lần đăng nhập cuối</th><th>Thao tác</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+}
+async function createManagedAccount(event){event.preventDefault();if(!can("manageAccounts")){deny();return}const msg=$("createAccountMsg");try{if(!cryptoAvailable())throw new Error(cryptoWarning());const displayName=$("newAccountDisplay").value.trim(),role=$("newAccountRole").value,pin=$("newAccountPin").value,problem=validatePIN(pin);if(problem)throw new Error(problem);if(!displayName||displayName.length>80||!VALID_ROLES.includes(role))throw new Error("Vui lòng kiểm tra tên hiển thị và vai trò.");for(const a of accountStore){const h=await derivePIN(pin,a.salt,a.iterations);if(constantTimeEqual(h,a.hash))throw new Error("Mã PIN này đã được tài khoản khác sử dụng.")}const a=await accountRecord({displayName,role,pin,mustChangePIN:false,active:true});writeAccountStore([...accountStore,a]);toast("Đã tạo tài khoản cho "+a.displayName+".");renderAccountManager()}catch(e){if(msg)msg.textContent=e.message||"Không thể tạo tài khoản."}}
+function saveAccountProfile(id){if(!can("manageAccounts")){deny();return}const next=deepClone(accountStore),a=next.find(x=>x.id===id);if(!a)return;const role=$("acct-role-"+id)?.value;if(!VALID_ROLES.includes(role)){toast("Vai trò không hợp lệ.","danger");return}a.role=role;a.updatedAt=new Date().toISOString();try{writeAccountStore(next);renderAccountManager();toast("Đã cập nhật tài khoản.")}catch(e){toast(e.message,"danger")}}
+function toggleAccount(id){if(!can("manageAccounts")){deny();return}const a=accountById(id);if(!a)return;if(a.active&&!window.confirm("Khóa tài khoản "+a.displayName+"? Phiên đang đăng nhập ở thẻ khác sẽ bị đăng xuất."))return;const next=deepClone(accountStore),target=next.find(x=>x.id===id);target.active=!target.active;target.updatedAt=new Date().toISOString();try{writeAccountStore(next);renderAccountManager();toast(target.active?"Đã bật tài khoản.":"Đã khóa tài khoản.")}catch(e){toast(e.message,"danger")}}
+function deleteAccount(id){if(!can("manageAccounts")){deny();return}const a=accountById(id);if(!a)return;if(!window.confirm("Xóa tài khoản "+a.displayName+"? Hành động này không thể hoàn tác."))return;try{writeAccountStore(accountStore.filter(x=>x.id!==id));renderAccountManager();toast("Đã xóa tài khoản.")}catch(e){toast(e.message,"danger")}}
+function openResetAccountPIN(id){if(!can("manageAccounts")){deny();return}if(!accountById(id))return;$("modalTitle").textContent="Đặt lại mã PIN";$("modalBody").innerHTML='<div class="notice">Đặt mã PIN mới cho tài khoản đã chọn.</div><form id="resetAccountPinForm" novalidate><input id="resetAccountId" type="hidden" value="'+escapeHTML(id)+'"><label>Mã PIN mới (5–8 chữ số)<input id="resetAccountPin" class="form-control" type="password" inputmode="numeric" maxlength="8" required></label><p id="resetAccountMsg" class="danger-text" aria-live="polite"></p><button class="btn success" type="submit">Lưu PIN mới</button></form>'}
+async function resetManagedPIN(event){event.preventDefault();if(!can("manageAccounts")){deny();return}const msg=$("resetAccountMsg");try{if(!cryptoAvailable())throw new Error(cryptoWarning());const id=$("resetAccountId").value,pin=$("resetAccountPin").value,problem=validatePIN(pin);if(problem)throw new Error(problem);for(const other of accountStore){if(other.id===id)continue;const h=await derivePIN(pin,other.salt,other.iterations);if(constantTimeEqual(h,other.hash))throw new Error("Mã PIN này đã được tài khoản khác sử dụng.")}const next=deepClone(accountStore),a=next.find(x=>x.id===id);if(!a)throw new Error("Không tìm thấy tài khoản.");const salt=randomSalt();a.salt=salt;a.hash=await derivePIN(pin,salt,PIN_ITERATIONS);a.iterations=PIN_ITERATIONS;a.mustChangePIN=false;a.failedAttempts=0;a.lockedUntil=0;a.updatedAt=new Date().toISOString();writeAccountStore(next);closeModal();toast("Đã đặt lại mã PIN.")}catch(e){if(msg)msg.textContent=e.message||"Không thể đặt lại mã PIN."}}
+function exportAccounts(){if(!can("manageAccounts")){deny();return}const rows=[["Tài khoản","Tên hiển thị","Vai trò","Trạng thái"]];accountStore.forEach(a=>rows.push([a.username,a.displayName,roleLabel(a.role),a.active?"Đang bật":"Đã khóa"]));csvDownload(rows,"SAODO_DanhSachTaiKhoan_"+dateStamp()+".csv")}
+function handleAccountStorage(event){
+  try{if(event.newValue===null){accountStore=[];accountsRaw=null;accountIssue=null}else{const parsed=JSON.parse(event.newValue);validateAccountList(parsed);accountStore=parsed;accountsRaw=event.newValue;accountIssue=null}}
+  catch(e){accountIssue={message:"Kho tài khoản thay đổi thành dữ liệu không hợp lệ. Đã khóa phiên để tránh dùng quyền cũ."};if(currentUser)logout(accountIssue.message);else setLoginMode("error",accountIssue.message);return}
+  if(currentUser)reconcileCurrentAccount();else paintLoginMode();
+}
+async function migrateLegacyPasswordAccounts(){
+  const raw=window.localStorage.getItem(ACCOUNT_KEY);if(!raw)return;
+  let old;try{old=JSON.parse(raw)}catch(e){return}
+  if(!Array.isArray(old)||!old.length||old.some(a=>!isObject(a)||typeof a.mustChangePassword!=="boolean")||old.some(a=>Object.prototype.hasOwnProperty.call(a,"mustChangePIN")))return;
+  if(!cryptoAvailable())throw new Error(cryptoWarning());
+  const admin=old.find(a=>a.role==="tongphutrach"&&a.active)||old.find(a=>a.role==="tongphutrach");
+  if(!admin)throw new Error("Tài khoản cũ không có Tổng phụ trách. Hãy kiểm tra dữ liệu tài khoản trước khi chuyển sang PIN.");
+  const migrated=[];
+  for(const oldAccount of old){
+    const pin=oldAccount.id===admin.id?"12345":String(10000000+Math.floor(Math.random()*90000000));
+    const salt=randomSalt(),hash=await derivePIN(pin,salt,PIN_ITERATIONS);
+    migrated.push({...oldAccount,salt,hash,iterations:PIN_ITERATIONS,active:oldAccount.id===admin.id,mustChangePIN:false,failedAttempts:0,lockedUntil:0,updatedAt:new Date().toISOString()});
+  }
+  const nextRaw=JSON.stringify(migrated);window.localStorage.setItem(ACCOUNT_KEY,nextRaw);
+  if(window.localStorage.getItem(ACCOUNT_KEY)!==nextRaw)throw new Error("Không xác nhận được quá trình chuyển tài khoản sang PIN.");
+  accountMigrationNotice="Đã chuyển tài khoản cũ sang đăng nhập PIN. Tổng phụ trách dùng PIN 12345; các tài khoản cũ khác đang khóa để quản trị viên đặt PIN mới và bật lại trong Quản lý tài khoản.";
+}
+async function initializeAuth(){
+  try{legacyPinExists=window.localStorage.getItem(PIN_RECORD_KEY)!==null;await migrateLegacyPasswordAccounts()}catch(e){accountIssue={message:e.message||"Không thể chuyển tài khoản sang PIN an toàn."}}
+  accountStore=loadAccountStore();
+  if(accountIssue){setLoginMode("error",accountIssue.message);renderAll();return}
+  paintLoginMode();const restored=restoreSession();if(!restored){clearStoredSession();showLogin()}
+  if(accountMigrationNotice)setLoginMessage(accountMigrationNotice,false);
+  if(!cryptoAvailable())setLoginMessage(cryptoWarning());
+  renderAll();
+}
+
+function handleClick(event){
+  const sectionButton=event.target.closest("[data-section]");if(sectionButton){showSection(sectionButton.dataset.section);return}
+  const button=event.target.closest("[data-action]");if(!button||button.disabled)return;const action=button.dataset.action;
+  if(action==="logout")logout();
+  else if(action==="toggle-pin"){const field=$(button.dataset.target);if(field){field.type=field.type==="pin"?"text":"pin";button.textContent=field.type==="pin"?"Hiện":"Ẩn"}}
+  else if(action==="close-modal")closeModal();else if(action==="open-tools")showSection("tools");
+  else if(action==="reset-score"){if(!can("scoring")){deny();return}renderScore();toast("Đã làm mới phiếu chấm.")}
+  else if(action==="save-session")saveSession();else if(action==="close-week")closeWeek();
+  else if(action==="open-history")openModal(button.dataset.class);else if(action==="open-weekly-archive")openWeeklyArchive();
+  else if(action==="archive-open-week"){weeklyArchiveState={level:"ranking",weekId:button.dataset.id,className:null,ruleIndex:null,sessionId:null};renderWeeklyArchive()}
+  else if(action==="delete-closed-week")deleteClosedWeek(button.dataset.id);
+  else if(action==="archive-open-class"){weeklyArchiveState={level:"class",weekId:button.dataset.id,className:button.dataset.class,ruleIndex:null,sessionId:null};renderWeeklyArchive()}
+  else if(action==="archive-open-criterion"){weeklyArchiveState={...weeklyArchiveState,level:"detail",ruleIndex:Number(button.dataset.ruleIndex),sessionId:null};renderWeeklyArchive()}
+  else if(action==="archive-open-session"){weeklyArchiveState={...weeklyArchiveState,level:"detail",ruleIndex:null,sessionId:button.dataset.id};renderWeeklyArchive()}
+  else if(action==="archive-back-weeks")archiveBack("weeks");else if(action==="archive-back-ranking")archiveBack("ranking");else if(action==="archive-back-class")archiveBack("class");
+  else if(action==="add-student-row")addStudentRow(button.dataset.ruleIndex);else if(action==="remove-student-row")removeStudentRow(button);
+  else if(action==="history-tab"){if(!can("viewErrors")){deny();return}currentHistoryTab=button.dataset.tab;currentHistoryDetail=null;renderHistory()}
+  else if(action==="session-detail")showSessionDetail(button.dataset.id);else if(action==="week-detail")showWeekDetail(button.dataset.id);else if(action==="history-back")renderHistory();
+  else if(action==="export-week")exportRanking("week");else if(action==="export-month")exportRanking("month");else if(action==="export-year")exportRanking("year");
+  else if(action==="backup-json")backupJSON();else if(action==="choose-restore"){if(!can("restore")){deny();return}$("restoreFile").click()}
+  else if(action==="export-all")exportAllCSV();else if(action==="reset-all")resetAll();else if(action==="integrity")runIntegrityCheck();else if(action==="download-raw")downloadRaw();
+  else if(action==="own-pin")openOwnPIN();else if(action==="manage-accounts")openAccountManager();else if(action==="export-accounts")exportAccounts();
+  else if(action==="save-account-profile")saveAccountProfile(button.dataset.id);else if(action==="toggle-account")toggleAccount(button.dataset.id);else if(action==="delete-account")deleteAccount(button.dataset.id);else if(action==="reset-account-pin")openResetAccountPIN(button.dataset.id);
+}
+
+function handleInput(event){const target=event.target;if(target.matches("#weekSearch")){filterTable("weekTable",target.value);return}if(target.matches("#archiveClassSearch")){filterTable("archiveRankTable",target.value);return}if(target.matches("#loginPin,#firstAdminName,#firstAdminPin,#requiredNewPin,#requiredNewPinConfirm")){if($("loginMsg"))setLoginMessage("");return}if(target.closest("#scoreForm")&&target.matches(".student-count,.student-name")){const dirty=$("draftIndicator");if(dirty)dirty.textContent="Phiếu có thay đổi chưa lưu";calc()}}
+
+function handleChange(event){const target=event.target;if(target.matches("#lopSelect")){selectedScoreClass=LOPS.includes(target.value)?target.value:LOPS[0];renderScore();return}if(target.matches("#restoreFile")){restoreJSON(event)}}
+function filterTable(id,query){const table=$(id);if(!table)return;const term=String(query||"").toLocaleLowerCase("vi");table.querySelectorAll("tbody tr").forEach(row=>row.style.display=row.textContent.toLocaleLowerCase("vi").includes(term)?"":"none")}
+
+document.addEventListener("click",handleClick);
+document.addEventListener("input",handleInput);
+document.addEventListener("change",handleChange);
+document.addEventListener("submit",event=>{if(event.target.id==="loginForm")handleLogin(event);else if(event.target.id==="createAccountForm")createManagedAccount(event);else if(event.target.id==="resetAccountPinForm")resetManagedPIN(event);else if(event.target.id==="ownPinForm")changeOwnPIN(event)});
+$("modal").addEventListener("click",event=>{if(event.target.id==="modal")closeModal()});
+document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!$("modal").classList.contains("hidden"))closeModal()});
+window.addEventListener("storage",event=>{
+  if(event.key===ACCOUNT_KEY){handleAccountStorage(event);return}
+  if(event.key===STORAGE_KEY){if(event.newValue===null){loadIssue={type:"conflict",message:"Dữ liệu đã bị xóa từ một thẻ khác. Thẻ hiện tại vẫn giữ bản trong bộ nhớ nhưng sẽ không ghi đè."};renderAll();return}try{const parsed=JSON.parse(event.newValue);validateDB(parsed);DB=parsed;lastPersistedRaw=event.newValue;loadIssue=null;renderAll();toast("Đã nhận dữ liệu mới từ thẻ trình duyệt khác.")}catch(e){loadIssue={type:"conflict",message:"Một thẻ khác đã ghi dữ liệu không hợp lệ. Thao tác ghi đã bị khóa."};renderAll()}}
+  else if(LEGACY_KEYS.includes(event.key)&&event.newValue!==null&&DB.legacy){toast("Dữ liệu của phiên bản cũ vừa thay đổi ở thẻ khác; bản hiện tại không tự trộn để tránh cộng trùng.","danger")}
+});
+document.addEventListener("pointerdown",touchSession,{passive:true});document.addEventListener("pointermove",touchSession,{passive:true});document.addEventListener("keydown",touchSession);document.addEventListener("touchstart",touchSession,{passive:true});
+document.addEventListener("visibilitychange",checkSessionTimeout);window.setInterval(checkSessionTimeout,10000);
+initializeAuth();
+</script>
+</body>
+</html>
++
